@@ -1,8 +1,7 @@
 import { Picker } from '@react-native-picker/picker';
 import Checkbox from 'expo-checkbox';
-import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import Character from './js/Character.js';
 import characterMappingRaw from './static/characterdata.json';
@@ -58,17 +57,6 @@ export default class App extends Component {
         this.ascensionData = obj;
         this.setState((state) => { return {loadedDataElements: state.loadedDataElements + 1} });
       }); 
-  }
-
-  renderCharacterList = ({item}) => {
-    return (
-      <TouchableOpacity onPress={() => this.setState({
-        characterName: item,
-        character: new Character(item, this.characterMapping, this.characterData, this.characterLevelCurve, this.ascensionData),
-      })}>
-        <Text>{item}</Text>
-      </TouchableOpacity>
-    );
   }
 
   renderCharacterStats = () => {
@@ -130,27 +118,6 @@ export default class App extends Component {
           <Text>Loading...</Text>
         </View>
       )
-    }
-    if (this.state.ascensionData == undefined || this.state.characterLevelCurve == undefined || this.state.characterData == undefined) {
-      return (
-        <View style={styles.container}>
-          <Text>Loading...</Text>
-        </View>
-      )
-    } else {
-      let character = new Character('Kaeya', this.characterMapping, this.state.characterData, this.state.characterLevelCurve, this.state.ascensionData);
-      console.log(this.state.ascensionData == undefined || this.state.characterLevelCurve == undefined || this.state.characterData == undefined);
-      return (
-        <View style={styles.container}>
-          <View>
-            <FlatList data={this.characterMapping} renderItem={it => <Text>{it.id}{console.log("hi")}</Text>} extraData={this.state.ascensionData == undefined || this.state.characterLevelCurve == undefined || this.state.characterData == undefined} />
-          </View>
-
-          <View>
-            <Text>{character.getAtkAt(70, true)}</Text>
-          </View>
-        </View>
-      );
     }
   }
 }
