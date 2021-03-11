@@ -1,22 +1,22 @@
 {
   "files": {
-    "app.js": "/kaeyacalc/static/js/app.b0d5d19d.chunk.js",
-    "app.js.map": "/kaeyacalc/static/js/app.b0d5d19d.chunk.js.map",
-    "runtime~app.js": "/kaeyacalc/static/js/runtime~app.97310fac.js",
-    "runtime~app.js.map": "/kaeyacalc/static/js/runtime~app.97310fac.js.map",
-    "static/js/2.2bfaa6cb.chunk.js": "/kaeyacalc/static/js/2.2bfaa6cb.chunk.js",
-    "static/js/2.2bfaa6cb.chunk.js.map": "/kaeyacalc/static/js/2.2bfaa6cb.chunk.js.map",
-    "favicon-16.png": "/kaeyacalc/favicon-16.png",
-    "favicon-32.png": "/kaeyacalc/favicon-32.png",
-    "favicon.ico": "/kaeyacalc/favicon.ico",
-    "index.html": "/kaeyacalc/index.html",
-    "manifest.json": "/kaeyacalc/manifest.json",
-    "serve.json": "/kaeyacalc/serve.json",
-    "static/js/2.2bfaa6cb.chunk.js.LICENSE.txt": "/kaeyacalc/static/js/2.2bfaa6cb.chunk.js.LICENSE.txt"
+    "app.js": "/KaeyaCalc/static/js/app.b0d5d19d.chunk.js",
+    "app.js.map": "/KaeyaCalc/static/js/app.b0d5d19d.chunk.js.map",
+    "runtime~app.js": "/KaeyaCalc/static/js/runtime~app.c6158d76.js",
+    "runtime~app.js.map": "/KaeyaCalc/static/js/runtime~app.c6158d76.js.map",
+    "static/js/2.a559e271.chunk.js": "/KaeyaCalc/static/js/2.a559e271.chunk.js",
+    "static/js/2.a559e271.chunk.js.map": "/KaeyaCalc/static/js/2.a559e271.chunk.js.map",
+    "favicon-16.png": "/KaeyaCalc/favicon-16.png",
+    "favicon-32.png": "/KaeyaCalc/favicon-32.png",
+    "favicon.ico": "/KaeyaCalc/favicon.ico",
+    "index.html": "/KaeyaCalc/index.html",
+    "manifest.json": "/KaeyaCalc/manifest.json",
+    "serve.json": "/KaeyaCalc/serve.json",
+    "static/js/2.a559e271.chunk.js.LICENSE.txt": "/KaeyaCalc/static/js/2.a559e271.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime~app.97310fac.js",
-    "static/js/2.2bfaa6cb.chunk.js",
+    "static/js/runtime~app.c6158d76.js",
+    "static/js/2.a559e271.chunk.js",
     "static/js/app.b0d5d19d.chunk.js"
   ]
 }
