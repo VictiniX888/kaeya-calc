@@ -1,3 +1,4 @@
+import Checkbox from 'expo-checkbox';
 import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -98,10 +99,9 @@ export default class App extends Component {
                 }
               }}
             />
-            <Switch 
-              onValueChange={value => {
-                this.setState({isCharacterAscended: value});
-              }}
+
+            <Checkbox
+              onValueChange={value => this.setState({isCharacterAscended: value})}
               value={this.state.isCharacterAscended}
             />
           </View>
