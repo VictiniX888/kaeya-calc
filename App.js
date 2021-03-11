@@ -1,3 +1,4 @@
+import { Picker } from '@react-native-picker/picker';
 import Checkbox from 'expo-checkbox';
 import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
@@ -86,7 +87,20 @@ export default class App extends Component {
         <View style={styles.container}>
 
           <View>
-            <FlatList data={Object.keys(this.characterMapping)} renderItem={this.renderCharacterList} />
+            <Picker 
+              selectedValue={this.state.characterName}
+              onValueChange={(value, _) => {
+                if (value != "") {
+                  this.setState({
+                    characterName: value,
+                    character: new Character(value, this.characterMapping, this.characterData, this.characterLevelCurve, this.ascensionData),
+                  })
+                }
+              }}
+            >
+              <Picker.Item label="" value="" />
+              {Object.keys(this.characterMapping).map(name => <Picker.Item label={name} value={name} />)}
+            </Picker>
           </View>
 
           <View>
