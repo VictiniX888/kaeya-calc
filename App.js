@@ -59,6 +59,27 @@ export default class App extends Component {
       }); 
   }
 
+  renderCharacterList = () => {
+    let sortedChars = Object.entries(this.characterMapping).sort(([, char1], [, char2]) => char1.Name.localeCompare(char2.Name));
+    
+    return (
+      <Picker 
+        selectedValue={this.state.characterId}
+        onValueChange={(value, _) => {
+          if (value != 0) {
+            this.setState({
+              characterId: value,
+              character: new Character(value, this.characterMapping, this.characterData, this.characterLevelCurve, this.ascensionData),
+            })
+          }
+        }}
+      >
+        <Picker.Item label='' value={0} />
+        {sortedChars.map(([id, character]) => <Picker.Item label={character.Name} value={id} />)}
+      </Picker>
+    )
+  }
+
   renderCharacterStats = () => {
     let characterStats = this.state.character.getStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
     return (
@@ -76,25 +97,9 @@ export default class App extends Component {
     if (hasLoaded) {
       return (
         <View style={styles.container}>
-
           <View>
-            <Picker 
-              selectedValue={this.state.characterId}
-              onValueChange={(value, _) => {
-                if (value != "") {
-                  this.setState({
-                    characterId: value,
-                    character: new Character(value, this.characterMapping, this.characterData, this.characterLevelCurve, this.ascensionData),
-                  })
-                }
-              }}
-            >
-              <Picker.Item label="" value={undefined} />
-              {Object.entries(this.characterMapping).map(([id, character]) => <Picker.Item label={character.Name} value={id} />)}
-            </Picker>
-          </View>
+            {this.renderCharacterList()}
 
-          <View>
             <TextInput 
               defaultValue={this.state.characterLevel} 
               onChangeText={text => {
