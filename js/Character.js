@@ -1,7 +1,7 @@
 export default class Character {
     constructor(id, characterMapping, characterData, characterLevelCurve, ascensionData) {
         this.id = id;
-        this.name = characterMapping[this.id].name;
+        this.name = characterMapping[this.id].Name;
         this.characterData = characterData[this.id];
         this.characterLevelCurve = characterLevelCurve;
         this.ascensionData = ascensionData;

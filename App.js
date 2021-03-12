@@ -1,10 +1,12 @@
 import { Picker } from '@react-native-picker/picker';
 import Checkbox from 'expo-checkbox';
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 
 import Character from './js/Character.js';
 import characterMappingRaw from './static/characterdata.json';
+
+import styles from './js/Styles.js';
 
 export default class App extends Component {
   characterData;
@@ -13,6 +15,7 @@ export default class App extends Component {
 
   constructor() {
     super();
+
     this.state = {
       loadedDataElements: 0,
       characterId: undefined,
@@ -27,6 +30,7 @@ export default class App extends Component {
     }, {});
   }
 
+  // Called when component is mounted for the first time
   componentDidMount() {
     fetch('https://raw.githubusercontent.com/Dimbreath/GenshinData/main/Excel/AvatarExcelConfigData.json')
       .then(res => res.json())
@@ -63,31 +67,35 @@ export default class App extends Component {
     let sortedChars = Object.entries(this.characterMapping).sort(([, char1], [, char2]) => char1.Name.localeCompare(char2.Name));
     
     return (
-      <Picker 
-        selectedValue={this.state.characterId}
-        onValueChange={(value, _) => {
-          if (value != 0) {
-            this.setState({
-              characterId: value,
-              character: new Character(value, this.characterMapping, this.characterData, this.characterLevelCurve, this.ascensionData),
-            })
-          }
-        }}
-      >
-        <Picker.Item label='' value={0} />
-        {sortedChars.map(([id, character]) => <Picker.Item label={character.Name} value={id} />)}
-      </Picker>
+      <View style={styles.characterSelectRow}>
+        <Text>Character: </Text>
+        <Picker 
+          style={styles.characterSelect}
+          selectedValue={this.state.characterId}
+          onValueChange={(value, _) => {
+            if (value != 0) {
+              this.setState({
+                characterId: value,
+                character: new Character(value, this.characterMapping, this.characterData, this.characterLevelCurve, this.ascensionData),
+              })
+            }
+          }}
+        >
+          <Picker.Item label='' value={0} />
+          {sortedChars.map(([id, character]) => <Picker.Item label={character.Name} value={id} />)}
+        </Picker>
+      </View>
     )
   }
 
   renderCharacterStats = () => {
     let characterStats = this.state.character.getStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
     return (
-      <View>
-        <Text>Selected character: {this.state.character.name}</Text>
-        <Text>Character HP: {Math.round(characterStats.Hp)}</Text>
-        <Text>Character ATK: {Math.round(characterStats.Attack)}</Text>
-        <Text>Character DEF: {Math.round(characterStats.Defense)}</Text>
+      <View >
+        <Text style={styles.resultText}>Selected character: {this.state.character.name}</Text>
+        <Text style={styles.resultText}>Character HP: {Math.round(characterStats.Hp)}</Text>
+        <Text style={styles.resultText}>Character ATK: {Math.round(characterStats.Attack)}</Text>
+        <Text style={styles.resultText}>Character DEF: {Math.round(characterStats.Defense)}</Text>
       </View>
     )
   }
@@ -97,26 +105,36 @@ export default class App extends Component {
     if (hasLoaded) {
       return (
         <View style={styles.container}>
-          <View>
+          <View style={styles.inputColumn}>
             {this.renderCharacterList()}
 
-            <TextInput 
-              defaultValue={this.state.characterLevel} 
-              onChangeText={text => {
-                let textAsInt = parseInt(text);
-                if (textAsInt >= 1 && textAsInt <= 90) {
-                  this.setState({characterLevel: textAsInt});
-                }
-              }}
-            />
+            <View style={styles.levelInputRow}>
+              <Text>Level: </Text>
+              <TextInput 
+                style={styles.levelInput}
+                defaultValue={this.state.characterLevel} 
+                onChangeText={text => {
+                  let textAsInt = parseInt(text);
+                  if (textAsInt >= 1 && textAsInt <= 90) {
+                    this.setState({characterLevel: textAsInt});
+                  }
+                }}
+              />
+            </View>
 
-            <Checkbox
-              onValueChange={value => this.setState({isCharacterAscended: value})}
-              value={this.state.isCharacterAscended}
-            />
+            <View style={styles.ascensionCheckRow}>
+              <Text>Ascended? </Text>
+              <Checkbox
+                onValueChange={value => this.setState({isCharacterAscended: value})}
+                value={this.state.isCharacterAscended}
+              />
+            </View>
+
           </View>
 
-          {this.state.character ? this.renderCharacterStats() : null}
+          <View style={styles.resultColumn}>
+            {this.state.character ? this.renderCharacterStats() : null}
+          </View>
 
         </View>
       )
@@ -130,11 +148,4 @@ export default class App extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
