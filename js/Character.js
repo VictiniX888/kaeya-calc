@@ -1,16 +1,33 @@
 export default class Character {
-    constructor(name, characterMapping, characterData, characterLevelCurve, ascensionData) {
-        this.name = name;
-        this.id = characterMapping[this.name].Id;
+    constructor(id, characterMapping, characterData, characterLevelCurve, ascensionData) {
+        this.id = id;
+        this.name = characterMapping[this.id].name;
         this.characterData = characterData[this.id];
         this.characterLevelCurve = characterLevelCurve;
         this.ascensionData = ascensionData;
+
+        this.baseHp = this.characterData.HpBase;
+        this.baseAtk = this.characterData.AttackBase;
+        this.baseDef = this.characterData.DefenseBase;
+
+        this.characterData.PropGrowCurves.forEach(({Type, GrowCurve}) => {
+            if (Type == 'FIGHT_PROP_BASE_HP') {
+                this.hpGrowthCurve = GrowCurve;
+            } else if (Type == 'FIGHT_PROP_BASE_ATTACK') {
+                this.atkGrowthCurve = GrowCurve;
+            } else if (Type == 'FIGHT_PROP_BASE_DEFENSE') {
+                this.defGrowthCurve = GrowCurve;
+            }
+        });
+
+        this.ascensionId = this.characterData.AvatarPromoteId;
     }
 
-    getAtkAt(level, hasAscended) {
-        const baseAtk = this.characterData.AttackBase;
-        const growthCurve = this.characterData.PropGrowCurves.find(({Type}) => Type == 'FIGHT_PROP_BASE_ATTACK').GrowCurve;
-        const atkMultiplier = this.characterLevelCurve[level].find(({Type}) => Type == growthCurve).Value;
+    // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
+    getStatsAt(level, hasAscended) {
+        let hpMultiplier = this.characterLevelCurve[level].find(({Type}) => Type == this.hpGrowthCurve).Value;
+        let atkMultiplier = this.characterLevelCurve[level].find(({Type}) => Type == this.atkGrowthCurve).Value;
+        let defMultiplier = this.characterLevelCurve[level].find(({Type}) => Type == this.defGrowthCurve).Value;
 
         let ascensionLevel;
         if (level > 80 || (level == 80 && hasAscended)) {
@@ -28,12 +45,37 @@ export default class Character {
         } else {
             ascensionLevel = 0;
         }
-        const ascensionId = this.characterData.AvatarPromoteId;
 
-        const ascensionBonuses = (ascensionLevel > 0) ? this.ascensionData.find(({AvatarPromoteId, PromoteLevel}) => AvatarPromoteId == ascensionId && PromoteLevel == ascensionLevel).AddProps : undefined;
-        const ascensionAtk = ascensionBonuses ? ascensionBonuses.find(({PropType}) => PropType == 'FIGHT_PROP_BASE_ATTACK').Value : 0;
+        let ascensionBonuses;
+        if (ascensionLevel > 0) {
+            ascensionBonuses = this.ascensionData.find(({AvatarPromoteId, PromoteLevel}) => AvatarPromoteId == this.ascensionId && PromoteLevel == ascensionLevel).AddProps;
+        }
 
-        const totalAtk = baseAtk * atkMultiplier + ascensionAtk;
-        return totalAtk;
+        let ascensionHp, ascensionAtk, ascensionDef;
+        if (ascensionBonuses !== undefined) {
+            ascensionBonuses.forEach(({PropType, Value}) => {
+                if (PropType == 'FIGHT_PROP_BASE_HP') {
+                    ascensionHp = Value;
+                } else if (PropType == 'FIGHT_PROP_BASE_ATTACK') {
+                    ascensionAtk = Value;
+                } else if (PropType == 'FIGHT_PROP_BASE_DEFENSE') {
+                    ascensionDef = Value;
+                }
+            });
+        } else {
+            ascensionHp = 0;
+            ascensionAtk = 0;
+            ascensionDef = 0;
+        }
+
+        let totalHp = this.baseHp * hpMultiplier + ascensionHp;
+        let totalAtk = this.baseAtk * atkMultiplier + ascensionAtk;
+        let totalDef = this.baseDef * defMultiplier + ascensionDef;
+        
+        return {
+            Hp: totalHp,
+            Attack: totalAtk,
+            Defense: totalDef,
+        }
     }
 }

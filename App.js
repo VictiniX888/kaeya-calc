@@ -15,14 +15,14 @@ export default class App extends Component {
     super();
     this.state = {
       loadedDataElements: 0,
-      characterName: "",
+      characterId: undefined,
       character: undefined,
       characterLevel: 1,
       isCharacterAscended: false,
     }
 
     this.characterMapping = characterMappingRaw.reduce((map, obj) => {
-      map[obj.Name] = obj;
+      map[obj.Id] = obj;
       return map;
     }, {});
   }
@@ -60,10 +60,13 @@ export default class App extends Component {
   }
 
   renderCharacterStats = () => {
+    let characterStats = this.state.character.getStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
     return (
       <View>
-        <Text>Selected character: {this.state.characterName}</Text>
-        <Text>Character ATK: {this.state.character.getAtkAt(this.state.characterLevel, this.state.isCharacterAscended)}</Text>
+        <Text>Selected character: {this.state.character.name}</Text>
+        <Text>Character HP: {Math.round(characterStats.Hp)}</Text>
+        <Text>Character ATK: {Math.round(characterStats.Attack)}</Text>
+        <Text>Character DEF: {Math.round(characterStats.Defense)}</Text>
       </View>
     )
   }
@@ -76,18 +79,18 @@ export default class App extends Component {
 
           <View>
             <Picker 
-              selectedValue={this.state.characterName}
+              selectedValue={this.state.characterId}
               onValueChange={(value, _) => {
                 if (value != "") {
                   this.setState({
-                    characterName: value,
+                    characterId: value,
                     character: new Character(value, this.characterMapping, this.characterData, this.characterLevelCurve, this.ascensionData),
                   })
                 }
               }}
             >
-              <Picker.Item label="" value="" />
-              {Object.keys(this.characterMapping).map(name => <Picker.Item label={name} value={name} />)}
+              <Picker.Item label="" value={undefined} />
+              {Object.entries(this.characterMapping).map(([id, character]) => <Picker.Item label={character.Name} value={id} />)}
             </Picker>
           </View>
 
