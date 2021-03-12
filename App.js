@@ -1,7 +1,7 @@
 import { Picker } from '@react-native-picker/picker';
 import Checkbox from 'expo-checkbox';
 import React, { Component } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Image, Text, TextInput, View } from 'react-native';
 
 import Character from './js/Character.js';
 import characterMappingRaw from './static/characterdata.json';
@@ -88,10 +88,18 @@ export default class App extends Component {
     )
   }
 
+  renderCharacterImage = () => {
+    let imageUrl = `https://rerollcdn.com/GENSHIN/Characters/${this.state.character.name}.png`
+    return (
+      <Image style={styles.characterImage} source={{uri: imageUrl, width: 70, height: 70}} />
+    )
+  }
+
   renderCharacterStats = () => {
     let characterStats = this.state.character.getStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
     return (
-      <View >
+      <View>
+        {this.renderCharacterImage()}
         <Text style={styles.resultText}>Selected character: {this.state.character.name}</Text>
         <Text style={styles.resultText}>Character HP: {Math.round(characterStats.Hp)}</Text>
         <Text style={styles.resultText}>Character ATK: {Math.round(characterStats.Attack)}</Text>

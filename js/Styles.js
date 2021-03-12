@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
 
-        marginVertical: '2%',
+        marginVertical: '0.25em',
     },
 
     characterSelect: {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
 
-        marginVertical: '2%',
+        marginVertical: '0.25em',
     },
 
     levelInput: {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
 
-        marginVertical: '2%',
+        marginVertical: '0.25em',
     },
 
     resultColumn: {
@@ -65,8 +65,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
     },
 
+    characterImage: {
+        marginVertical: '0.25em',
+    },
+
     resultText: {
-        lineHeight: '180%',
+        marginVertical: '0.25em',
     }
 });
 
