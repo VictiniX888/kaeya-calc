@@ -1,0 +1,458 @@
+[
+    {
+        "Id": 11101,
+        "Name": "Dull Blade"
+    },
+    {
+        "Id": 11201,
+        "Name": "Silver Sword"
+    },
+    {
+        "Id": 11301,
+        "Name": "Cool Steel"
+    },
+    {
+        "Id": 11302,
+        "Name": "Harbinger of Dawn"
+    },
+    {
+        "Id": 11303,
+        "Name": "Traveler's Handy Sword"
+    },
+    {
+        "Id": 11304,
+        "Name": "Dark Iron Sword"
+    },
+    {
+        "Id": 11305,
+        "Name": "Fillet Blade"
+    },
+    {
+        "Id": 11306,
+        "Name": "Skyrider Sword"
+    },
+    {
+        "Id": 11401,
+        "Name": "Favonius Sword"
+    },
+    {
+        "Id": 11402,
+        "Name": "The Flute"
+    },
+    {
+        "Id": 11403,
+        "Name": "Sacrificial Sword"
+    },
+    {
+        "Id": 11404,
+        "Name": "Royal Longsword"
+    },
+    {
+        "Id": 11405,
+        "Name": "Lion's Roar"
+    },
+    {
+        "Id": 11406,
+        "Name": "Prototype Rancour"
+    },
+    {
+        "Id": 11407,
+        "Name": "Iron Sting"
+    },
+    {
+        "Id": 11408,
+        "Name": "Blackcliff Longsword"
+    },
+    {
+        "Id": 11409,
+        "Name": "The Black Sword"
+    },
+    {
+        "Id": 11412,
+        "Name": "Sword of Descension"
+    },
+    {
+        "Id": 11413,
+        "Name": "Festering Desire"
+    },
+    {
+        "Id": 11501,
+        "Name": "Aquila Favonia"
+    },
+    {
+        "Id": 11502,
+        "Name": "Skyward Blade"
+    },
+    {
+        "Id": 11503,
+        "Name": "Boreas Precocity"
+    },
+    {
+        "Id": 11504,
+        "Name": "Summit Shaper"
+    },
+    {
+        "Id": 11505,
+        "Name": "Primordial Jade Cutter"
+    },
+    {
+        "Id": 11506,
+        "Name": "Primordial Jade Cutter"
+    },
+    {
+        "Id": 11507,
+        "Name": "One Side"
+    },
+    {
+        "Id": 12101,
+        "Name": "Waster Greatsword"
+    },
+    {
+        "Id": 12201,
+        "Name": "Old Merc's Pal"
+    },
+    {
+        "Id": 12301,
+        "Name": "Ferrous Shadow"
+    },
+    {
+        "Id": 12302,
+        "Name": "Bloodtainted Greatsword"
+    },
+    {
+        "Id": 12303,
+        "Name": "White Iron Greatsword"
+    },
+    {
+        "Id": 12304,
+        "Name": "Quartz"
+    },
+    {
+        "Id": 12305,
+        "Name": "Debate Club"
+    },
+    {
+        "Id": 12306,
+        "Name": "Skyrider Greatsword"
+    },
+    {
+        "Id": 12401,
+        "Name": "Favonius Greatsword"
+    },
+    {
+        "Id": 12402,
+        "Name": "The Bell"
+    },
+    {
+        "Id": 12403,
+        "Name": "Sacrificial Greatsword"
+    },
+    {
+        "Id": 12404,
+        "Name": "Royal Greatsword"
+    },
+    {
+        "Id": 12405,
+        "Name": "Rainslasher"
+    },
+    {
+        "Id": 12406,
+        "Name": "Prototype Archaic"
+    },
+    {
+        "Id": 12407,
+        "Name": "Whiteblind"
+    },
+    {
+        "Id": 12408,
+        "Name": "Blackcliff Slasher"
+    },
+    {
+        "Id": 12409,
+        "Name": "Serpent Spine"
+    },
+    {
+        "Id": 12410,
+        "Name": "Lithic Blade"
+    },
+    {
+        "Id": 12411,
+        "Name": "Snow-Tombed Starsilver"
+    },
+    {
+        "Id": 12501,
+        "Name": "Skyward Pride"
+    },
+    {
+        "Id": 12502,
+        "Name": "Wolf's Gravestone"
+    },
+    {
+        "Id": 12503,
+        "Name": "Uprising Satire"
+    },
+    {
+        "Id": 12504,
+        "Name": "The Unforged"
+    },
+    {
+        "Id": 12506,
+        "Name": "The Other Side"
+    },
+    {
+        "Id": 13101,
+        "Name": "Beginner's Protector"
+    },
+    {
+        "Id": 13201,
+        "Name": "Iron Point"
+    },
+    {
+        "Id": 13301,
+        "Name": "White Tassel"
+    },
+    {
+        "Id": 13302,
+        "Name": "Halberd"
+    },
+    {
+        "Id": 13303,
+        "Name": "Black Tassel"
+    },
+    {
+        "Id": 13304,
+        "Name": "The Flagstaff"
+    },
+    {
+        "Id": 13401,
+        "Name": "Dragon's Bane"
+    },
+    {
+        "Id": 13402,
+        "Name": "Prototype Starglitter"
+    },
+    {
+        "Id": 13403,
+        "Name": "Crescent Pike"
+    },
+    {
+        "Id": 13404,
+        "Name": "Blackcliff Pole"
+    },
+    {
+        "Id": 13405,
+        "Name": "Deathmatch"
+    },
+    {
+        "Id": 13406,
+        "Name": "Lithic Spear"
+    },
+    {
+        "Id": 13407,
+        "Name": "Favonius Lance"
+    },
+    {
+        "Id": 13408,
+        "Name": "Royal Spear"
+    },
+    {
+        "Id": 13409,
+        "Name": "Dragonspine Spear"
+    },
+    {
+        "Id": 13501,
+        "Name": "Staff of Homa"
+    },
+    {
+        "Id": 13502,
+        "Name": "Skyward Spine"
+    },
+    {
+        "Id": 13504,
+        "Name": "Vortex Vanquisher"
+    },
+    {
+        "Id": 13505,
+        "Name": "Primordial Jade Winged-Spear"
+    },
+    {
+        "Id": 13506,
+        "Name": "Deicide"
+    },
+    {
+        "Id": 14101,
+        "Name": "Apprentice's Notes"
+    },
+    {
+        "Id": 14201,
+        "Name": "Pocket Grimoire"
+    },
+    {
+        "Id": 14301,
+        "Name": "Magic Guide"
+    },
+    {
+        "Id": 14302,
+        "Name": "Thrilling Tales of Dragon Slayers"
+    },
+    {
+        "Id": 14303,
+        "Name": "Otherworldly Story"
+    },
+    {
+        "Id": 14304,
+        "Name": "Emerald Orb"
+    },
+    {
+        "Id": 14305,
+        "Name": "Twin Nephrite"
+    },
+    {
+        "Id": 14306,
+        "Name": "Amber Bead"
+    },
+    {
+        "Id": 14401,
+        "Name": "Favonius Codex"
+    },
+    {
+        "Id": 14402,
+        "Name": "The Widsith"
+    },
+    {
+        "Id": 14403,
+        "Name": "Sacrificial Fragments"
+    },
+    {
+        "Id": 14404,
+        "Name": "Royal Grimoire"
+    },
+    {
+        "Id": 14405,
+        "Name": "Solar Pearl"
+    },
+    {
+        "Id": 14406,
+        "Name": "Prototype Amber"
+    },
+    {
+        "Id": 14407,
+        "Name": "Mappa Mare"
+    },
+    {
+        "Id": 14408,
+        "Name": "Blackcliff Agate"
+    },
+    {
+        "Id": 14409,
+        "Name": "Eye of Perception"
+    },
+    {
+        "Id": 14412,
+        "Name": "Frostbearer"
+    },
+    {
+        "Id": 14501,
+        "Name": "Skyward Atlas"
+    },
+    {
+        "Id": 14502,
+        "Name": "Lost Prayer to the Sacred Winds"
+    },
+    {
+        "Id": 14503,
+        "Name": "Lost Ballade"
+    },
+    {
+        "Id": 14504,
+        "Name": "Memory of Dust"
+    },
+    {
+        "Id": 14506,
+        "Name": "Diamond Visage"
+    },
+    {
+        "Id": 15101,
+        "Name": "Hunter's Bow"
+    },
+    {
+        "Id": 15201,
+        "Name": "Seasoned Hunter's Bow"
+    },
+    {
+        "Id": 15301,
+        "Name": "Raven Bow"
+    },
+    {
+        "Id": 15302,
+        "Name": "Sharpshooter's Oath"
+    },
+    {
+        "Id": 15303,
+        "Name": "Recurve Bow"
+    },
+    {
+        "Id": 15304,
+        "Name": "Slingshot"
+    },
+    {
+        "Id": 15305,
+        "Name": "Messenger"
+    },
+    {
+        "Id": 15306,
+        "Name": "Ebony Bow"
+    },
+    {
+        "Id": 15401,
+        "Name": "Favonius Warbow"
+    },
+    {
+        "Id": 15402,
+        "Name": "The Stringless"
+    },
+    {
+        "Id": 15403,
+        "Name": "Sacrificial Bow"
+    },
+    {
+        "Id": 15404,
+        "Name": "Royal Bow"
+    },
+    {
+        "Id": 15405,
+        "Name": "Rust"
+    },
+    {
+        "Id": 15406,
+        "Name": "Prototype Crescent"
+    },
+    {
+        "Id": 15407,
+        "Name": "Compound Bow"
+    },
+    {
+        "Id": 15408,
+        "Name": "Blackcliff Warbow"
+    },
+    {
+        "Id": 15409,
+        "Name": "The Viridescent Hunt"
+    },
+    {
+        "Id": 15501,
+        "Name": "Skyward Harp"
+    },
+    {
+        "Id": 15502,
+        "Name": "Amos' Bow"
+    },
+    {
+        "Id": 15503,
+        "Name": "Serene Requiem"
+    },
+    {
+        "Id": 15506,
+        "Name": "Mirror Breaker"
+    }
+]

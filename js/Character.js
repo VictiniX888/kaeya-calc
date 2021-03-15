@@ -1,3 +1,5 @@
+import Weapon from "./Weapon";
+
 export default class Character {
     constructor(id, characterMapping, characterData, characterLevelCurve, ascensionData) {
         this.id = id;
@@ -21,6 +23,30 @@ export default class Character {
         });
 
         this.ascensionId = this.characterData.AvatarPromoteId;
+    }
+
+    getStatsWithWeaponAt(weapon, weaponLevel, weaponHasAscended, characterLevel, characterHasAscended) {
+        let weaponStats;
+        if (weapon !== undefined) {
+            weaponStats = weapon.getStatsAt(weaponLevel, weaponHasAscended);
+        } else {
+            weaponStats = {
+                baseHp: 0,
+                baseAtk: 0,
+                baseDef: 0,
+            };
+        }
+
+        let characterStats = this.getStatsAt(characterLevel, characterHasAscended);
+        
+        return {
+            InnateHp: characterStats.Hp,
+            InnateAtk: characterStats.Attack,
+            InnateDef: characterStats.Defense,
+            WeaponHp: weaponStats.baseHp,
+            WeaponAtk: weaponStats.baseAtk,
+            WeaponDef: weaponStats.baseDef,
+        };
     }
 
     // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
