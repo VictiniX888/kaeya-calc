@@ -84,24 +84,12 @@
         "Name": "Skyward Blade"
     },
     {
-        "Id": 11503,
-        "Name": "Boreas Precocity"
-    },
-    {
         "Id": 11504,
         "Name": "Summit Shaper"
     },
     {
         "Id": 11505,
         "Name": "Primordial Jade Cutter"
-    },
-    {
-        "Id": 11506,
-        "Name": "Primordial Jade Cutter"
-    },
-    {
-        "Id": 11507,
-        "Name": "One Side"
     },
     {
         "Id": 12101,
@@ -188,16 +176,8 @@
         "Name": "Wolf's Gravestone"
     },
     {
-        "Id": 12503,
-        "Name": "Uprising Satire"
-    },
-    {
         "Id": 12504,
         "Name": "The Unforged"
-    },
-    {
-        "Id": 12506,
-        "Name": "The Other Side"
     },
     {
         "Id": 13101,
@@ -218,10 +198,6 @@
     {
         "Id": 13303,
         "Name": "Black Tassel"
-    },
-    {
-        "Id": 13304,
-        "Name": "The Flagstaff"
     },
     {
         "Id": 13401,
@@ -276,10 +252,6 @@
         "Name": "Primordial Jade Winged-Spear"
     },
     {
-        "Id": 13506,
-        "Name": "Deicide"
-    },
-    {
         "Id": 14101,
         "Name": "Apprentice's Notes"
     },
@@ -306,10 +278,6 @@
     {
         "Id": 14305,
         "Name": "Twin Nephrite"
-    },
-    {
-        "Id": 14306,
-        "Name": "Amber Bead"
     },
     {
         "Id": 14401,
@@ -360,16 +328,8 @@
         "Name": "Lost Prayer to the Sacred Winds"
     },
     {
-        "Id": 14503,
-        "Name": "Lost Ballade"
-    },
-    {
         "Id": 14504,
         "Name": "Memory of Dust"
-    },
-    {
-        "Id": 14506,
-        "Name": "Diamond Visage"
     },
     {
         "Id": 15101,
@@ -446,13 +406,5 @@
     {
         "Id": 15502,
         "Name": "Amos' Bow"
-    },
-    {
-        "Id": 15503,
-        "Name": "Serene Requiem"
-    },
-    {
-        "Id": 15506,
-        "Name": "Mirror Breaker"
     }
 ]
