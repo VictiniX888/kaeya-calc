@@ -180,10 +180,10 @@ export default class App extends Component {
         {
           this.state.weapon ? (
             <View>
-              <Text style={styles.resultText}>Selected weapon: {this.state.weapon ? this.state.weapon.name : ""}</Text>
-              <Text style={styles.resultText}>Weapon HP: {Math.round(stats.WeaponHp)}</Text>
-              <Text style={styles.resultText}>Weapon ATK: {Math.round(stats.WeaponAtk)}</Text>
-              <Text style={styles.resultText}>Weapon DEF: {Math.round(stats.WeaponDef)}</Text>
+              <Text style={styles.resultText}>Selected weapon: {this.state.weapon ? this.state.weapon.name : ''}</Text>
+              <Text style={styles.resultText}>Weapon HP: {(stats.WeaponHp != null) ? Math.round(stats.WeaponHp) : '-'}</Text>
+              <Text style={styles.resultText}>Weapon ATK: {(stats.WeaponAtk != null) ? Math.round(stats.WeaponAtk) : '-'}</Text>
+              <Text style={styles.resultText}>Weapon DEF: {(stats.WeaponDef != null) ? Math.round(stats.WeaponDef) : '-'}</Text>
             </View>
           ) : null
         }
@@ -231,10 +231,7 @@ export default class App extends Component {
                 style={styles.levelInput}
                 defaultValue={this.state.weaponLevel} 
                 onChangeText={text => {
-                  let textAsInt = parseInt(text);
-                  if (textAsInt >= 1 && textAsInt <= 90) {
-                    this.setState({weaponLevel: textAsInt});
-                  }
+                  this.setState({weaponLevel: parseInt(text)});
                 }}
               />
             </View>

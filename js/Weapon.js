@@ -9,13 +9,22 @@ export default class Weapon {
         this.weaponAscensionData = weaponAscensionData;
         this.weaponRefinementData = weaponRefinementData;
 
+        this.starRank = this.weaponData.RankLevel;
         this.ascensionId = this.weaponData.WeaponPromoteId;
     }
 
     // Returns an Object containing the weapons's total HP, Atk and Def, taking into account only its level and ascension
     getStatsAt(weaponLevel, hasAscended) {
+        if (isNaN(weaponLevel) || weaponLevel < 1 || (this.starRank <= 2 && weaponLevel > 70) || weaponLevel > 90) {
+            // Return NaNs if weapon level is invalid
+            return {
+                BaseHp: null,
+                BaseAtk: null,
+                BaseDef: null,
+            }
+        }
         // If getStatsAt has not been called before, this.level, this.hasAscended, and this.stats will be undefined
-        if (weaponLevel === this.weaponLevel && hasAscended === this.hasAscended) {
+        else if (weaponLevel === this.weaponLevel && hasAscended === this.hasAscended) {
             // Don't recalculate stats if it has been calculated with the same parameters before
             return this.stats;
         } else {
@@ -38,9 +47,9 @@ export default class Weapon {
 
             // Calculate stats from weapon ascension
             let ascensionLevel;
-            if (weaponLevel > 80 || (weaponLevel == 80 && hasAscended)) {
+            if (this.starRank > 2 && (weaponLevel > 80 || (weaponLevel == 80 && hasAscended))) {
                 ascensionLevel = 6;
-            } else if (weaponLevel > 70 || (weaponLevel == 70 && hasAscended)) {
+            } else if (this.starRank > 2 && (weaponLevel > 70 || (weaponLevel == 70 && hasAscended))) {
                 ascensionLevel = 5;
             } else if (weaponLevel > 60 || (weaponLevel == 60 && hasAscended)) {
                 ascensionLevel = 4;

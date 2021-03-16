@@ -1,5 +1,3 @@
-import Weapon from "./Weapon";
-
 export default class Character {
     constructor(id, characterMapping, characterData, characterLevelCurve, ascensionData) {
         this.id = id;
@@ -31,9 +29,9 @@ export default class Character {
             weaponStats = weapon.getStatsAt(weaponLevel, weaponHasAscended);
         } else {
             weaponStats = {
-                baseHp: 0,
-                baseAtk: 0,
-                baseDef: 0,
+                BaseHp: null,
+                BaseAtk: null,
+                BaseDef: null,
             };
         }
 
