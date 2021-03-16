@@ -1,4 +1,4 @@
-import props from './Props.js';
+import props from '../static/props.json';
 
 export default class Weapon {
     constructor(id, weaponMapping, weaponData, weaponLevelCurve, weaponAscensionData, weaponRefinementData) {
@@ -23,9 +23,9 @@ export default class Weapon {
             this.hasAscended = hasAscended;
 
             let weaponStats = {
-                baseHp: 0,
-                baseAtk: 0,
-                baseDef: 0,
+                BaseHp: 0,
+                BaseAtk: 0,
+                BaseDef: 0,
             };
 
             // Calculate stats from weapon level

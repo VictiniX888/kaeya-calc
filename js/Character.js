@@ -43,9 +43,9 @@ export default class Character {
             InnateHp: characterStats.Hp,
             InnateAtk: characterStats.Attack,
             InnateDef: characterStats.Defense,
-            WeaponHp: weaponStats.baseHp,
-            WeaponAtk: weaponStats.baseAtk,
-            WeaponDef: weaponStats.baseDef,
+            WeaponHp: weaponStats.BaseHp,
+            WeaponAtk: weaponStats.BaseAtk,
+            WeaponDef: weaponStats.BaseDef,
         };
     }
 
