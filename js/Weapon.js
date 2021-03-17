@@ -13,10 +13,10 @@ export default class Weapon {
         this.ascensionId = this.weaponData.WeaponPromoteId;
     }
 
-    // Returns an Object containing the weapons's total HP, Atk and Def, taking into account only its level and ascension
+    // Returns an Object containing the weapons's HP, Atk and Def, taking into account only its level and ascension
     getStatsAt(weaponLevel, hasAscended) {
         if (isNaN(weaponLevel) || weaponLevel < 1 || (this.starRank <= 2 && weaponLevel > 70) || weaponLevel > 90) {
-            // Return NaNs if weapon level is invalid
+            // Return nulls if weapon level is invalid
             return {
                 BaseHp: null,
                 BaseAtk: null,
@@ -38,15 +38,16 @@ export default class Weapon {
             };
 
             // Calculate stats from weapon level
-            this.weaponData.WeaponProp.forEach(({PropType, InitValue, Type:growthCurve}) => {
+            this.weaponData.WeaponProp.forEach(({PropType, InitValue, Type:GrowCurve}) => {
                 if (PropType !== undefined) {
-                    let multiplier = this.weaponLevelCurve[weaponLevel].find(({Type}) => Type == growthCurve).Value;
+                    let multiplier = this.weaponLevelCurve[weaponLevel].find(({Type}) => Type == GrowCurve).Value;
                     weaponStats[props[PropType]] += (InitValue * multiplier);
                 }
             });
 
             // Calculate stats from weapon ascension
             let ascensionLevel;
+            // Only 3-star and above weapons can be ascended beyond level 70
             if (this.starRank > 2 && (weaponLevel > 80 || (weaponLevel == 80 && hasAscended))) {
                 ascensionLevel = 6;
             } else if (this.starRank > 2 && (weaponLevel > 70 || (weaponLevel == 70 && hasAscended))) {
@@ -73,7 +74,7 @@ export default class Weapon {
                     if (Value !== undefined) {
                         weaponStats[props[PropType]] += Value;
                     }
-                })
+                });
             }
 
             this.stats = weaponStats;

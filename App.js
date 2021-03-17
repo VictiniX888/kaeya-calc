@@ -169,10 +169,10 @@ export default class App extends Component {
     return (
       <View>
         {this.renderCharacterImage()}
-        <Text style={styles.resultText}>Selected character: {this.state.character.name}</Text>
-        <Text style={styles.resultText}>Character HP: {Math.round(stats.InnateHp)}</Text>
-        <Text style={styles.resultText}>Character ATK: {Math.round(stats.InnateAtk)}</Text>
-        <Text style={styles.resultText}>Character DEF: {Math.round(stats.InnateDef)}</Text>
+        <Text style={styles.resultText}>Selected character: {this.state.character ? this.state.character.name : ''}</Text>
+        <Text style={styles.resultText}>Character HP: {(stats.InnateHp != null) ? Math.round(stats.InnateHp) : '-'}</Text>
+        <Text style={styles.resultText}>Character ATK: {(stats.InnateAtk != null) ? Math.round(stats.InnateAtk) : '-'}</Text>
+        <Text style={styles.resultText}>Character DEF: {(stats.InnateDef != null) ? Math.round(stats.InnateDef) : '-'}</Text>
 
         <br/>
 
@@ -205,10 +205,7 @@ export default class App extends Component {
                 style={styles.levelInput}
                 defaultValue={this.state.characterLevel} 
                 onChangeText={text => {
-                  let textAsInt = parseInt(text);
-                  if (textAsInt >= 1 && textAsInt <= 90) {
-                    this.setState({characterLevel: textAsInt});
-                  }
+                  this.setState({characterLevel: parseInt(text)});
                 }}
               />
             </View>

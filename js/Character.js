@@ -1,3 +1,5 @@
+import props from '../static/props.json';
+
 export default class Character {
     constructor(id, characterMapping, characterData, characterLevelCurve, ascensionData) {
         this.id = id;
@@ -9,16 +11,6 @@ export default class Character {
         this.baseHp = this.characterData.HpBase;
         this.baseAtk = this.characterData.AttackBase;
         this.baseDef = this.characterData.DefenseBase;
-
-        this.characterData.PropGrowCurves.forEach(({Type, GrowCurve}) => {
-            if (Type == 'FIGHT_PROP_BASE_HP') {
-                this.hpGrowthCurve = GrowCurve;
-            } else if (Type == 'FIGHT_PROP_BASE_ATTACK') {
-                this.atkGrowthCurve = GrowCurve;
-            } else if (Type == 'FIGHT_PROP_BASE_DEFENSE') {
-                this.defGrowthCurve = GrowCurve;
-            }
-        });
 
         this.ascensionId = this.characterData.AvatarPromoteId;
     }
@@ -35,12 +27,12 @@ export default class Character {
             };
         }
 
-        let characterStats = this.getStatsAt(characterLevel, characterHasAscended);
+        let innateStats = this.getStatsAt(characterLevel, characterHasAscended);
         
         return {
-            InnateHp: characterStats.Hp,
-            InnateAtk: characterStats.Attack,
-            InnateDef: characterStats.Defense,
+            InnateHp: innateStats.BaseHp,
+            InnateAtk: innateStats.BaseAtk,
+            InnateDef: innateStats.BaseDef,
             WeaponHp: weaponStats.BaseHp,
             WeaponAtk: weaponStats.BaseAtk,
             WeaponDef: weaponStats.BaseDef,
@@ -49,57 +41,69 @@ export default class Character {
 
     // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
     getStatsAt(level, hasAscended) {
-        let hpMultiplier = this.characterLevelCurve[level].find(({Type}) => Type == this.hpGrowthCurve).Value;
-        let atkMultiplier = this.characterLevelCurve[level].find(({Type}) => Type == this.atkGrowthCurve).Value;
-        let defMultiplier = this.characterLevelCurve[level].find(({Type}) => Type == this.defGrowthCurve).Value;
-
-        let ascensionLevel;
-        if (level > 80 || (level == 80 && hasAscended)) {
-            ascensionLevel = 6;
-        } else if (level > 70 || (level == 70 && hasAscended)) {
-            ascensionLevel = 5;
-        } else if (level > 60 || (level == 60 && hasAscended)) {
-            ascensionLevel = 4;
-        } else if (level > 50 || (level == 50 && hasAscended)) {
-            ascensionLevel = 3;
-        } else if (level > 40 || (level == 40 && hasAscended)) {
-            ascensionLevel = 2;
-        } else if (level > 20 || (level == 20 && hasAscended)) {
-            ascensionLevel = 1;
+        if (isNaN(level) || level < 1 || level > 90) {
+            // Return nulls if level is invalid
+            return {
+                BaseHp: null,
+                BaseAtk: null,
+                BaseDef: null,
+            }
+        } 
+        // If getStatsAt has not been called before, this.level, this.hasAscended, and this.stats will be undefined
+        else if (level === this.level && hasAscended === this.hasAscended) {
+            // Don't recalculate stats if it has been calculated with the same parameters before
+            return this.innateStats;
         } else {
-            ascensionLevel = 0;
-        }
+            this.level = level;
+            this.hasAscended = hasAscended;
 
-        let ascensionBonuses;
-        if (ascensionLevel > 0) {
-            ascensionBonuses = this.ascensionData.find(({AvatarPromoteId, PromoteLevel}) => AvatarPromoteId == this.ascensionId && PromoteLevel == ascensionLevel).AddProps;
-        }
+            // Initialize stats with character level 1 base stats
+            let innateStats = {
+                BaseHp: this.baseHp,
+                BaseAtk: this.baseAtk,
+                BaseDef: this.baseDef,
+            }
 
-        let ascensionHp, ascensionAtk, ascensionDef;
-        if (ascensionBonuses !== undefined) {
-            ascensionBonuses.forEach(({PropType, Value}) => {
-                if (PropType == 'FIGHT_PROP_BASE_HP') {
-                    ascensionHp = Value;
-                } else if (PropType == 'FIGHT_PROP_BASE_ATTACK') {
-                    ascensionAtk = Value;
-                } else if (PropType == 'FIGHT_PROP_BASE_DEFENSE') {
-                    ascensionDef = Value;
-                }
+            // Calculate stats from character level
+            this.characterData.PropGrowCurves.forEach(({Type:PropType, GrowCurve}) => {
+                let multiplier = this.characterLevelCurve[level].find(({Type}) => Type == GrowCurve).Value;
+                innateStats[props[PropType]] *= multiplier;
             });
-        } else {
-            ascensionHp = 0;
-            ascensionAtk = 0;
-            ascensionDef = 0;
-        }
 
-        let totalHp = this.baseHp * hpMultiplier + ascensionHp;
-        let totalAtk = this.baseAtk * atkMultiplier + ascensionAtk;
-        let totalDef = this.baseDef * defMultiplier + ascensionDef;
-        
-        return {
-            Hp: totalHp,
-            Attack: totalAtk,
-            Defense: totalDef,
+            // Calculate stats from character ascension
+            let ascensionLevel;
+            if (level > 80 || (level == 80 && hasAscended)) {
+                ascensionLevel = 6;
+            } else if (level > 70 || (level == 70 && hasAscended)) {
+                ascensionLevel = 5;
+            } else if (level > 60 || (level == 60 && hasAscended)) {
+                ascensionLevel = 4;
+            } else if (level > 50 || (level == 50 && hasAscended)) {
+                ascensionLevel = 3;
+            } else if (level > 40 || (level == 40 && hasAscended)) {
+                ascensionLevel = 2;
+            } else if (level > 20 || (level == 20 && hasAscended)) {
+                ascensionLevel = 1;
+            } else {
+                ascensionLevel = 0;
+            }
+
+            let ascensionBonuses;
+            if (ascensionLevel > 0) {
+                ascensionBonuses = this.ascensionData.find(({AvatarPromoteId, PromoteLevel}) => AvatarPromoteId == this.ascensionId && PromoteLevel == ascensionLevel).AddProps;
+            }
+
+            if (ascensionBonuses !== undefined) {
+                ascensionBonuses.forEach(({PropType, Value}) => {
+                    if (Value !== undefined) {
+                        innateStats[props[PropType]] += Value;
+                    }
+                });
+            }
+
+            this.innateStats = innateStats;
+
+            return innateStats;
         }
     }
 }
