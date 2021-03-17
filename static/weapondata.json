@@ -68,6 +68,10 @@
         "Name": "The Black Sword"
     },
     {
+        "Id": 11410,
+        "Name": "The Alley Flash"
+    },
+    {
         "Id": 11412,
         "Name": "Sword of Descension"
     },
@@ -316,6 +320,10 @@
         "Name": "Eye of Perception"
     },
     {
+        "Id": 14410,
+        "Name": "Wine and Song"
+    },
+    {
         "Id": 14412,
         "Name": "Frostbearer"
     },
@@ -400,11 +408,23 @@
         "Name": "The Viridescent Hunt"
     },
     {
+        "Id": 15410,
+        "Name": "Alley Hunter"
+    },
+    {
+        "Id": 15413,
+        "Name": "Windblume Ode"
+    },
+    {
         "Id": 15501,
         "Name": "Skyward Harp"
     },
     {
         "Id": 15502,
         "Name": "Amos' Bow"
+    },
+    {
+        "Id": 15503,
+        "Name": "Elegy for the End"
     }
 ]
