@@ -3,112 +3,77 @@ import Checkbox from 'expo-checkbox';
 import React, { Component } from 'react';
 import { Image, Text, TextInput, View } from 'react-native';
 
-import Character from './js/Character.js';
-import Weapon from './js/Weapon.js';
+import { characterConverter } from './js/Character.js';
+import { weaponConverter } from './js/Weapon.js';
 
-import characterMappingRaw from './static/characterdata.json';
-import weaponMappingRaw from './static/weapondata.json';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import { FIREBASE_APIKEY, FIREBASE_AUTHDOMAIN, FIREBASE_PROJECTID, FIREBASE_STORAGEBUCKET, FIREBASE_MESSAGINGSENDERID, FIREBASE_APPID } from '@env';
 
 import styles from './js/Styles.js';
 
+
 export default class App extends Component {
-  characterData;
-  characterLevelCurve;
-  characterAscensionData;
-  weaponData;
-  weaponLevelCurve;
-  weaponAscensionData;
-  weaponRefinementData;
 
   constructor() {
     super();
 
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: FIREBASE_APIKEY,
+      authDomain: FIREBASE_AUTHDOMAIN,
+      projectId: FIREBASE_PROJECTID,
+      storageBucket: FIREBASE_STORAGEBUCKET,
+      messagingSenderId: FIREBASE_MESSAGINGSENDERID,
+      appId: FIREBASE_APPID,
+    }
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+
+    // Initialize Firestore
+    this.db = firebase.firestore();
+
     this.state = {
-      loadedDataElements: 0,
+      hasLoaded: false,
+
       characterId: undefined,
       character: undefined,
+      characterHasInit: false,
       characterLevel: 1,
       isCharacterAscended: false,
+
       weaponId: undefined,
       weapon: undefined,
       weaponLevel: 1,
       isWeaponAscended: false,
+
+      characterStats: undefined,
     }
-
-    this.characterMapping = characterMappingRaw.reduce((map, obj) => {
-      map[obj.Id] = obj;
-      return map;
-    }, {});
-
-    this.weaponMapping = weaponMappingRaw.reduce((map, obj) => {
-      map[obj.Id] = obj;
-      return map;
-    }, {});
   }
 
   // Called when component is mounted for the first time
-  componentDidMount() {
-    fetch('https://raw.githubusercontent.com/Dimbreath/GenshinData/main/Excel/AvatarExcelConfigData.json')
-      .then(res => res.json())
-      .then(data => data.reduce((map, obj) => {
-        map[obj.Id] = obj;
-        return map;
-      }, {}))
-      .then(obj => {
-        this.characterData = obj;
-        this.setState((state) => { return {loadedDataElements: state.loadedDataElements + 1} });
-      });
-    
-    fetch('https://raw.githubusercontent.com/Dimbreath/GenshinData/main/Excel/AvatarCurveExcelConfigData.json')
-      .then(res => res.json())
-      .then(data => data.reduce((map, obj) => {
-        map[obj.Level] = obj.CurveInfos;
-        return map;
-      }, {}))
-      .then(obj => {
-        this.characterLevelCurve = obj;
-        this.setState((state) => { return {loadedDataElements: state.loadedDataElements + 1} });
-      });
+  async componentDidMount() {
+    // Get ref to stat curves
+    this.dbCharStatCurveColRef = this.db.collection('characterStatCurves');
+    this.dbWeaponStatCurveColRef = this.db.collection('weaponStatCurves');
 
-    fetch('https://raw.githubusercontent.com/Dimbreath/GenshinData/main/Excel/AvatarPromoteExcelConfigData.json')
-      .then(res => res.json())
-      .then(obj => {
-        this.characterAscensionData = obj;
-        this.setState((state) => { return {loadedDataElements: state.loadedDataElements + 1} });
-      }); 
-
-    fetch('https://raw.githubusercontent.com/Dimbreath/GenshinData/main/Excel/WeaponExcelConfigData.json')
-      .then(res => res.json())
-      .then(data => data.reduce((map, obj) => {
-        map[obj.Id] = obj;
-        return map;
-      }, {}))
-      .then(obj => {
-        this.weaponData = obj;
-        this.setState((state) => { return {loadedDataElements: state.loadedDataElements + 1} });
-      });
-    
-    fetch('https://raw.githubusercontent.com/Dimbreath/GenshinData/main/Excel/WeaponCurveExcelConfigData.json')
-      .then(res => res.json())
-      .then(data => data.reduce((map, obj) => {
-        map[obj.Level] = obj.CurveInfos;
-        return map;
-      }, {}))
-      .then(obj => {
-        this.weaponLevelCurve = obj;
-        this.setState((state) => { return {loadedDataElements: state.loadedDataElements + 1} });
-      });
-
-    fetch('https://raw.githubusercontent.com/Dimbreath/GenshinData/main/Excel/WeaponPromoteExcelConfigData.json')
-      .then(res => res.json())
-      .then(obj => {
-        this.weaponAscensionData = obj;
-        this.setState((state) => { return {loadedDataElements: state.loadedDataElements + 1} });
-      }); 
+    // Get inititialization data (e.g. character and weapon list)
+    let dbInitRef = this.db.collection('init').doc('lists');
+    let initSnapshot = await dbInitRef.get();
+    if (initSnapshot.exists) {
+      let doc = initSnapshot.data();
+      this.characters = doc.characters; // Array of character names
+      this.weapons = doc.weapons;   // Object where key: weapon name and value: weapon type
+      this.setState({ hasLoaded: true })
+    } else {
+      console.log('WARN: Initialization data not found. The page will not be able to load.');
+      return;
+    }
   }
 
   renderCharacterList = () => {
-    let sortedChars = Object.entries(this.characterMapping).sort(([, char1], [, char2]) => char1.Name.localeCompare(char2.Name));
+    let sortedChars = this.characters.sort((name1, name2) => name1.localeCompare(name2));
     
     return (
       <View style={styles.characterSelectRow}>
@@ -116,42 +81,58 @@ export default class App extends Component {
         <Picker 
           style={styles.characterSelect}
           selectedValue={this.state.characterId}
-          onValueChange={(value, _) => {
+          onValueChange={async (value, _) => {
             if (value != 0) {
-              this.setState({
-                characterId: value,
-                character: new Character(value, this.characterMapping, this.characterData, this.characterLevelCurve, this.characterAscensionData),
-              })
+              let doc = await this.db.collection('characters').doc(value)
+                .withConverter(characterConverter)
+                .get()
+
+              if (doc.exists) {
+                this.setState({
+                  characterId: value,
+                  character: await doc.data(),
+                  characterHasInit: true,
+                });
+              } else {
+                console.log(`WARN: Could not find data for character ${value}`);
+              }
             }
           }}
         >
           <Picker.Item label='' value={0} />
-          {sortedChars.map(([id, character]) => <Picker.Item label={character.Name} value={id} />)}
+          {sortedChars.map(name => <Picker.Item label={name} value={name} key={name} />)}
         </Picker>
       </View>
     )
   }
 
   renderWeaponList = () => {
-    let weapons = Object.entries(this.weaponMapping);
-
     return (
       <View style={styles.characterSelectRow}>
         <Text>Weapon: </Text>
         <Picker
           style={styles.characterSelect}
           selectedValue={this.state.weaponId}
-          onValueChange={(value, _) => {
+          onValueChange={async (value, _) => {
             if (value != 0) {
-              this.setState({
-                weaponId: value,
-                weapon: new Weapon(value, this.weaponMapping, this.weaponData, this.weaponLevelCurve, this.weaponAscensionData, this.weaponRefinementData),
-              })
+              let weaponType = this.weapons[value];
+              let weaponDoc = await this.db.collection('weapons').doc(weaponType).collection(weaponType + 's').doc(value)
+                .withConverter(weaponConverter)
+                .get();
+
+              if (weaponDoc.exists) {
+                this.setState({
+                  weaponId: value,
+                  weapon: await weaponDoc.data(),
+                });
+              } else {
+                console.log(`WARN: Could not find data for weapon ${value}`);
+              }
             }
           }}
         >
           <Picker.Item label='' value={0} />
-          {weapons.map(([id, weapon]) => <Picker.Item label={weapon.Name} value={id} />)}
+          {Object.keys(this.weapons).map(name => <Picker.Item label={name} value={name} key={name} />)}
         </Picker>
       </View>
     )
@@ -164,16 +145,46 @@ export default class App extends Component {
     )
   }
 
+  setCharacterStats = async () => {
+    let stats = await this.state.character.getStatsWithWeaponAt(this.state.weapon, this.state.weaponLevel, this.state.isWeaponAscended, this.dbWeaponStatCurveColRef, this.state.characterLevel, this.state.isCharacterAscended, this.dbCharStatCurveColRef);
+    this.setState({ characterStats: stats });
+  }
+
+
+  hasCharacterParamsChanged = () => {
+    let hasChanged = false;
+
+    if (this.state.character !== undefined) {
+      hasChanged = hasChanged || ((!isNaN(this.state.characterLevel) || !isNaN(this.state.character.level)) && this.state.characterLevel != this.state.character.level) || (this.state.isCharacterAscended != this.state.character.hasAscended);
+    }
+
+    if (this.state.weapon !== undefined) {
+      hasChanged = hasChanged || ((!isNaN(this.state.weaponLevel) || !isNaN(this.state.weapon.weaponLevel)) && this.state.weaponLevel != this.state.weapon.weaponLevel) || (this.state.isWeaponAscended != this.state.weapon.hasAscended);
+    }
+    
+    return hasChanged;
+  }
+
   renderCharacterStats = () => {
-    let stats = this.state.character.getStatsWithWeaponAt(this.state.weapon, this.state.weaponLevel, this.state.isWeaponAscended, this.state.characterLevel, this.state.isCharacterAscended);
+    if (this.hasCharacterParamsChanged()) {
+      this.setCharacterStats();
+    }
+
     return (
       <View>
-        {this.renderCharacterImage()}
-        <Text style={styles.resultText}>Selected character: {this.state.character ? this.state.character.name : ''}</Text>
-        <Text style={styles.resultText}>Character HP: {(stats.InnateHp != null) ? Math.round(stats.InnateHp) : '-'}</Text>
-        <Text style={styles.resultText}>Character ATK: {(stats.InnateAtk != null) ? Math.round(stats.InnateAtk) : '-'}</Text>
-        <Text style={styles.resultText}>Character DEF: {(stats.InnateDef != null) ? Math.round(stats.InnateDef) : '-'}</Text>
-
+        {/* Render character stats */ }
+        {
+          this.state.character ? (
+            <View>
+              {this.renderCharacterImage()}
+              <Text style={styles.resultText}>Selected character: {this.state.character ? this.state.character.name : ''}</Text>
+              <Text style={styles.resultText}>Character HP: {(this.state.characterStats && this.state.characterStats.InnateHp != null) ? Math.round(this.state.characterStats.InnateHp) : '-'}</Text>
+              <Text style={styles.resultText}>Character ATK: {(this.state.characterStats && this.state.characterStats.InnateAtk != null) ? Math.round(this.state.characterStats.InnateAtk) : '-'}</Text>
+              <Text style={styles.resultText}>Character DEF: {(this.state.characterStats && this.state.characterStats.InnateDef != null) ? Math.round(this.state.characterStats.InnateDef) : '-'}</Text>
+            </View>
+          ) : null
+        }
+        
         <br/>
 
         {/* Render weapon stats */}
@@ -181,9 +192,9 @@ export default class App extends Component {
           this.state.weapon ? (
             <View>
               <Text style={styles.resultText}>Selected weapon: {this.state.weapon ? this.state.weapon.name : ''}</Text>
-              <Text style={styles.resultText}>Weapon HP: {(stats.WeaponHp != null) ? Math.round(stats.WeaponHp) : '-'}</Text>
-              <Text style={styles.resultText}>Weapon ATK: {(stats.WeaponAtk != null) ? Math.round(stats.WeaponAtk) : '-'}</Text>
-              <Text style={styles.resultText}>Weapon DEF: {(stats.WeaponDef != null) ? Math.round(stats.WeaponDef) : '-'}</Text>
+              <Text style={styles.resultText}>Weapon HP: {(this.state.characterStats && this.state.characterStats.WeaponHp != null) ? Math.round(this.state.characterStats.WeaponHp) : '-'}</Text>
+              <Text style={styles.resultText}>Weapon ATK: {(this.state.characterStats && this.state.characterStats.WeaponAtk != null) ? Math.round(this.state.characterStats.WeaponAtk) : '-'}</Text>
+              <Text style={styles.resultText}>Weapon DEF: {(this.state.characterStats && this.state.characterStats.WeaponDef != null) ? Math.round(this.state.characterStats.WeaponDef) : '-'}</Text>
             </View>
           ) : null
         }
@@ -192,8 +203,7 @@ export default class App extends Component {
   }
 
   render() {
-    let hasLoaded = this.state.loadedDataElements == 6;
-    if (hasLoaded) {
+    if (this.state.hasLoaded) {
       return (
         <View style={styles.container}>
           <View style={styles.inputColumn}>
@@ -244,7 +254,7 @@ export default class App extends Component {
           </View>
 
           <View style={styles.resultColumn}>
-            {this.state.character ? this.renderCharacterStats() : null}
+            {this.renderCharacterStats()}
           </View>
 
         </View>

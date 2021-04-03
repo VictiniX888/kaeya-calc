@@ -1,73 +1,99 @@
-import props from '../static/props.json';
-
-export default class Character {
-    constructor(id, characterMapping, characterData, characterLevelCurve, ascensionData) {
-        this.id = id;
-        this.name = characterMapping[this.id].Name;
-        this.characterData = characterData[this.id];
-        this.characterLevelCurve = characterLevelCurve;
-        this.ascensionData = ascensionData;
-
-        this.baseHp = this.characterData.HpBase;
-        this.baseAtk = this.characterData.AttackBase;
-        this.baseDef = this.characterData.DefenseBase;
-
-        this.ascensionId = this.characterData.AvatarPromoteId;
+class Character {
+    constructor(name) {
+        this.name = name;
     }
 
-    getStatsWithWeaponAt(weapon, weaponLevel, weaponHasAscended, characterLevel, characterHasAscended) {
+    async setBaseStats(dbBaseStatRef) {
+        let doc = await dbBaseStatRef.get()
+        
+        if (doc.exists) {
+            this.baseStats = doc.data();
+        } else {
+            // doc.data() is undefined
+            console.log(`WARN: Base stats for ${this.name} not found!`);
+        }
+    }
+
+    async setStatCurveMapping(dbStatCurveRef) {
+        let doc = await dbStatCurveRef.get()
+
+        if (doc.exists) {
+            this.statCurveMapping = doc.data();
+        } else {
+            // doc.data() is undefined
+            console.log(`WARN: Stat curve mapping for ${this.name} not found!`);
+        }
+    }
+
+    async setAscensionBonuses(dbAscensionBonusRef) {
+        this.ascensionBonuses = {};
+        
+        let querySnapshot = await dbAscensionBonusRef.get()
+        querySnapshot.forEach(doc => {
+            // doc.data() is never undefined for query doc snapshots
+            this.ascensionBonuses[doc.id] = doc.data();
+        })
+    }
+
+    async getStatsWithWeaponAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef) {
+
         let weaponStats;
         if (weapon !== undefined) {
-            weaponStats = weapon.getStatsAt(weaponLevel, weaponHasAscended);
+            weaponStats = await weapon.getStatsAt(weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef);
         } else {
             weaponStats = {
-                BaseHp: null,
-                BaseAtk: null,
-                BaseDef: null,
+                baseHp: null,
+                baseAtk: null,
+                baseDef: null,
             };
         }
 
-        let innateStats = this.getStatsAt(characterLevel, characterHasAscended);
+        let innateStats = await this.getStatsAt(characterLevel, characterHasAscended, dbCharStatCurveColRef);
         
         return {
-            InnateHp: innateStats.BaseHp,
-            InnateAtk: innateStats.BaseAtk,
-            InnateDef: innateStats.BaseDef,
-            WeaponHp: weaponStats.BaseHp,
-            WeaponAtk: weaponStats.BaseAtk,
-            WeaponDef: weaponStats.BaseDef,
+            InnateHp: innateStats.baseHp,
+            InnateAtk: innateStats.baseAtk,
+            InnateDef: innateStats.baseDef,
+            WeaponHp: weaponStats.baseHp,
+            WeaponAtk: weaponStats.baseAtk,
+            WeaponDef: weaponStats.baseDef,
         };
     }
 
     // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
-    getStatsAt(level, hasAscended) {
+    async getStatsAt(level, hasAscended, dbStatCurveColRef) {
         if (isNaN(level) || level < 1 || level > 90) {
             // Return nulls if level is invalid
-            return {
-                BaseHp: null,
-                BaseAtk: null,
-                BaseDef: null,
+            let innateStats = {
+                baseHp: null,
+                baseAtk: null,
+                baseDef: null,
             }
+            this.innateStats = innateStats;
+            this.level = level;
+            this.hasAscended = hasAscended;
+            
+            return innateStats;
         } 
         // If getStatsAt has not been called before, this.level, this.hasAscended, and this.stats will be undefined
         else if (level === this.level && hasAscended === this.hasAscended) {
             // Don't recalculate stats if it has been calculated with the same parameters before
             return this.innateStats;
         } else {
-            this.level = level;
-            this.hasAscended = hasAscended;
 
             // Initialize stats with character level 1 base stats
             let innateStats = {
-                BaseHp: this.baseHp,
-                BaseAtk: this.baseAtk,
-                BaseDef: this.baseDef,
+                baseHp: this.baseStats.baseHp,
+                baseAtk: this.baseStats.baseAtk,
+                baseDef: this.baseStats.baseDef,
             }
 
+            let charStatCurves = await this.getStatCurvesAtLevel(level, dbStatCurveColRef);
+
             // Calculate stats from character level
-            this.characterData.PropGrowCurves.forEach(({Type:PropType, GrowCurve}) => {
-                let multiplier = this.characterLevelCurve[level].find(({Type}) => Type == GrowCurve).Value;
-                innateStats[props[PropType]] *= multiplier;
+            Object.entries(this.statCurveMapping).forEach(([stat, curve]) => {
+                let multiplier = charStatCurves[curve];
+                innateStats[stat] *= multiplier;
             });
 
             // Calculate stats from character ascension
@@ -87,23 +113,53 @@ export default class Character {
             } else {
                 ascensionLevel = 0;
             }
-
-            let ascensionBonuses;
-            if (ascensionLevel > 0) {
-                ascensionBonuses = this.ascensionData.find(({AvatarPromoteId, PromoteLevel}) => AvatarPromoteId == this.ascensionId && PromoteLevel == ascensionLevel).AddProps;
-            }
+            let ascensionBonuses = this.ascensionBonuses[ascensionLevel];
 
             if (ascensionBonuses !== undefined) {
-                ascensionBonuses.forEach(({PropType, Value}) => {
-                    if (Value !== undefined) {
-                        innateStats[props[PropType]] += Value;
-                    }
-                });
+                Object.entries(ascensionBonuses).forEach(([stat, bonus]) => {
+                    innateStats[stat] += bonus;
+                })
             }
 
             this.innateStats = innateStats;
+            this.level = level;
+            this.hasAscended = hasAscended;
 
             return innateStats;
         }
     }
+
+    async getStatCurvesAtLevel(level, dbStatCurveColRef) {
+        let doc = await dbStatCurveColRef.doc(level.toString()).get();
+        if (doc.exists) {
+            return doc.data();
+        } else {
+            console.log(`WARN: Stat curves for level ${level} not found`);
+            return {};
+        }
+    }
 }
+
+export const characterConverter = {
+    fromFirestore: async (snapshot, options) => {
+        const data = snapshot.data(options);
+        let chararcter = await createCharacter(
+            data.name,
+            snapshot.ref.collection('stats').doc('baseStats'),
+            snapshot.ref.collection('stats').doc('statCurves'), 
+            snapshot.ref.collection('ascensionBonuses'),
+        );
+
+        return chararcter;
+    }
+}
+
+async function createCharacter(name, dbBaseStatRef, dbStatCurveRef, dbAscensionBonusRef) {
+    let character = new Character(name);
+    await character.setBaseStats(dbBaseStatRef);
+    await character.setStatCurveMapping(dbStatCurveRef);
+    await character.setAscensionBonuses(dbAscensionBonusRef);
+
+    return character;
+}
+
