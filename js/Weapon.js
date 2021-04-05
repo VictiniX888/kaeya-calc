@@ -41,11 +41,17 @@ class Weapon {
     async getStatsAt(weaponLevel, hasAscended, dbStatCurveColRef) {
         if (isNaN(weaponLevel) || weaponLevel < 1 || (this.rank <= 2 && weaponLevel > 70) || weaponLevel > 90) {
             // Return nulls if weapon level is invalid
-            let weaponStats = {
-                baseHp: null,
-                baseAtk: null,
-                baseDef: null,
+            let weaponStats;
+            if (this.stats !== undefined) {
+                // Copy all of stats' properties to a new object and initialize them to null
+                weaponStats = Object.keys(this.stats).reduce((obj, stat) => {
+                    obj[stat] = null;
+                    return obj;
+                }, {});
+            } else {
+                weaponStats = {};
             }
+            
             this.stats = weaponStats;
             this.weaponLevel = weaponLevel;
             this.hasAscended = hasAscended;
@@ -59,11 +65,7 @@ class Weapon {
         } else {
 
             // Level 1 weapon stats
-            let weaponStats = {
-                baseHp: 0,
-                baseAtk: this.baseStats.baseAtk,
-                baseDef: 0,
-            };
+            let weaponStats = {...this.baseStats};
 
             let weaponStatCurves = await this.getStatCurvesAtLevel(weaponLevel, dbStatCurveColRef);
 
@@ -95,7 +97,11 @@ class Weapon {
             
             if (ascensionBonuses !== undefined) {
                 Object.entries(ascensionBonuses).forEach(([stat, bonus]) => {
-                    weaponStats[stat] += bonus;
+                    if (stat in weaponStats) {
+                        weaponStats[stat] += bonus;
+                    } else {
+                        weaponStats[stat] = bonus;
+                    }
                 })
             }
 

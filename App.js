@@ -49,6 +49,7 @@ export default class App extends Component {
       isWeaponAscended: false,
 
       characterStats: undefined,
+      weaponStats: undefined,
     }
   }
 
@@ -146,10 +147,14 @@ export default class App extends Component {
   }
 
   setCharacterStats = async () => {
-    let stats = await this.state.character.getStatsWithWeaponAt(this.state.weapon, this.state.weaponLevel, this.state.isWeaponAscended, this.dbWeaponStatCurveColRef, this.state.characterLevel, this.state.isCharacterAscended, this.dbCharStatCurveColRef);
+    let stats = await this.state.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended, this.dbCharStatCurveColRef);
     this.setState({ characterStats: stats });
   }
 
+  setWeaponStats = async () => {
+    let stats = await this.state.weapon.getStatsAt(this.state.weaponLevel, this.state.isWeaponAscended, this.dbWeaponStatCurveColRef);
+    this.setState({ weaponStats: stats });
+  }
 
   hasCharacterParamsChanged = () => {
     let hasChanged = false;
@@ -157,17 +162,27 @@ export default class App extends Component {
     if (this.state.character !== undefined) {
       hasChanged = hasChanged || ((!isNaN(this.state.characterLevel) || !isNaN(this.state.character.level)) && this.state.characterLevel != this.state.character.level) || (this.state.isCharacterAscended != this.state.character.hasAscended);
     }
+    
+    return hasChanged;
+  }
+
+  hasWeaponParamsChanged = () => {
+    let hasChanged = false;
 
     if (this.state.weapon !== undefined) {
       hasChanged = hasChanged || ((!isNaN(this.state.weaponLevel) || !isNaN(this.state.weapon.weaponLevel)) && this.state.weaponLevel != this.state.weapon.weaponLevel) || (this.state.isWeaponAscended != this.state.weapon.hasAscended);
     }
-    
+
     return hasChanged;
   }
 
   renderCharacterStats = () => {
     if (this.hasCharacterParamsChanged()) {
       this.setCharacterStats();
+    }
+
+    if(this.hasWeaponParamsChanged()) {
+      this.setWeaponStats();
     }
 
     return (
@@ -178,9 +193,14 @@ export default class App extends Component {
             <View>
               {this.renderCharacterImage()}
               <Text style={styles.resultText}>Selected character: {this.state.character ? this.state.character.name : ''}</Text>
-              <Text style={styles.resultText}>Character HP: {(this.state.characterStats && this.state.characterStats.InnateHp != null) ? Math.round(this.state.characterStats.InnateHp) : '-'}</Text>
-              <Text style={styles.resultText}>Character ATK: {(this.state.characterStats && this.state.characterStats.InnateAtk != null) ? Math.round(this.state.characterStats.InnateAtk) : '-'}</Text>
-              <Text style={styles.resultText}>Character DEF: {(this.state.characterStats && this.state.characterStats.InnateDef != null) ? Math.round(this.state.characterStats.InnateDef) : '-'}</Text>
+              {
+                this.state.characterStats ? (
+                  // TODO: Make sure the stats are displayed in a particular order
+                  Object.entries(this.state.characterStats).map(([stat, value]) => {
+                    return <Text style={styles.resultText}>{stat}: {value ? Math.round(value) : '-'}</Text>
+                  })
+                ) : null
+              }
             </View>
           ) : null
         }
@@ -192,9 +212,14 @@ export default class App extends Component {
           this.state.weapon ? (
             <View>
               <Text style={styles.resultText}>Selected weapon: {this.state.weapon ? this.state.weapon.name : ''}</Text>
-              <Text style={styles.resultText}>Weapon HP: {(this.state.characterStats && this.state.characterStats.WeaponHp != null) ? Math.round(this.state.characterStats.WeaponHp) : '-'}</Text>
-              <Text style={styles.resultText}>Weapon ATK: {(this.state.characterStats && this.state.characterStats.WeaponAtk != null) ? Math.round(this.state.characterStats.WeaponAtk) : '-'}</Text>
-              <Text style={styles.resultText}>Weapon DEF: {(this.state.characterStats && this.state.characterStats.WeaponDef != null) ? Math.round(this.state.characterStats.WeaponDef) : '-'}</Text>
+              {
+                this.state.weaponStats ? (
+                  // TODO: Make sure the stats are displayed in a particular order
+                  Object.entries(this.state.weaponStats).map(([stat, value]) => {
+                    return <Text style={styles.resultText}>{stat}: {value ? Math.round(value) : '-'}</Text>
+                  })
+                ) : null
+              }
             </View>
           ) : null
         }

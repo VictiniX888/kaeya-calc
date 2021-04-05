@@ -37,19 +37,11 @@ class Character {
 
     async getStatsWithWeaponAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef) {
 
-        let weaponStats;
-        if (weapon !== undefined) {
-            weaponStats = await weapon.getStatsAt(weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef);
-        } else {
-            weaponStats = {
-                baseHp: null,
-                baseAtk: null,
-                baseDef: null,
-            };
-        }
+        let weaponStats = await this.getWeaponStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef)
 
-        let innateStats = await this.getStatsAt(characterLevel, characterHasAscended, dbCharStatCurveColRef);
+        let innateStats = await this.getInnateStatsAt(characterLevel, characterHasAscended, dbCharStatCurveColRef);
         
+        // TODO: Change this to return total stats instead, and directly call getInnateStatsAt and getWeaponStatsAt if stats breakdown is needed
         return {
             InnateHp: innateStats.baseHp,
             InnateAtk: innateStats.baseAtk,
@@ -60,15 +52,32 @@ class Character {
         };
     }
 
+    async getWeaponStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef) {
+        let weaponStats;
+        if (weapon !== undefined) {
+            weaponStats = await weapon.getStatsAt(weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef);
+        } else {
+            weaponStats = {};
+        }
+
+        return weaponStats;
+    }
+
     // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
-    async getStatsAt(level, hasAscended, dbStatCurveColRef) {
+    async getInnateStatsAt(level, hasAscended, dbStatCurveColRef) {
         if (isNaN(level) || level < 1 || level > 90) {
             // Return nulls if level is invalid
-            let innateStats = {
-                baseHp: null,
-                baseAtk: null,
-                baseDef: null,
+            let innateStats;
+            if (this.innateStats !== undefined) {
+                // Copy all of innateStats' properties to a new object and initialize them to null
+                innateStats = Object.keys(this.innateStats).reduce((obj, stat) => {
+                    obj[stat] = null;
+                    return obj;
+                }, {});
+            } else {
+                innateStats = {};
             }
+            
             this.innateStats = innateStats;
             this.level = level;
             this.hasAscended = hasAscended;
@@ -82,11 +91,7 @@ class Character {
         } else {
 
             // Initialize stats with character level 1 base stats
-            let innateStats = {
-                baseHp: this.baseStats.baseHp,
-                baseAtk: this.baseStats.baseAtk,
-                baseDef: this.baseStats.baseDef,
-            }
+            let innateStats = {...this.baseStats};
 
             let charStatCurves = await this.getStatCurvesAtLevel(level, dbStatCurveColRef);
 
@@ -117,7 +122,11 @@ class Character {
 
             if (ascensionBonuses !== undefined) {
                 Object.entries(ascensionBonuses).forEach(([stat, bonus]) => {
-                    innateStats[stat] += bonus;
+                    if (stat in innateStats) {
+                        innateStats[stat] += bonus;
+                    } else {
+                        innateStats[stat] = bonus;
+                    }
                 })
             }
 
