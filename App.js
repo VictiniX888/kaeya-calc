@@ -66,6 +66,7 @@ export default class App extends Component {
       let doc = initSnapshot.data();
       this.characters = doc.characters; // Array of character names
       this.weapons = doc.weapons;   // Object where key: weapon name and value: weapon type
+      this.propMap = doc.props;   // Object where key: prop and value: object
       this.setState({ hasLoaded: true })
     } else {
       console.log('WARN: Initialization data not found. The page will not be able to load.');
@@ -197,7 +198,7 @@ export default class App extends Component {
                 this.state.characterStats ? (
                   // TODO: Make sure the stats are displayed in a particular order
                   Object.entries(this.state.characterStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{stat}: {value ? Math.round(value) : '-'}</Text>
+                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {value ? Math.round(value) : '-'}</Text>
                   })
                 ) : null
               }
@@ -216,7 +217,7 @@ export default class App extends Component {
                 this.state.weaponStats ? (
                   // TODO: Make sure the stats are displayed in a particular order
                   Object.entries(this.state.weaponStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{stat}: {value ? Math.round(value) : '-'}</Text>
+                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {value ? Math.round(value) : '-'}</Text>
                   })
                 ) : null
               }
