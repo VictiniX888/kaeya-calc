@@ -177,6 +177,19 @@ export default class App extends Component {
     return hasChanged;
   }
 
+  // Returns the string to display as the value of a stat
+  getStatDisplayValue = (value, isPercentage) => {
+      if (value != null) {
+        if (isPercentage) {
+          return (value * 100).toFixed(1) + '%';
+        } else {
+          return Math.round(value);
+        }
+      } else {
+        return '-';
+      }
+  }
+
   renderCharacterStats = () => {
     if (this.hasCharacterParamsChanged()) {
       this.setCharacterStats();
@@ -198,7 +211,7 @@ export default class App extends Component {
                 this.state.characterStats ? (
                   // TODO: Make sure the stats are displayed in a particular order
                   Object.entries(this.state.characterStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {value ? Math.round(value) : '-'}</Text>
+                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {this.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
                   })
                 ) : null
               }
@@ -217,7 +230,7 @@ export default class App extends Component {
                 this.state.weaponStats ? (
                   // TODO: Make sure the stats are displayed in a particular order
                   Object.entries(this.state.weaponStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {value ? Math.round(value) : '-'}</Text>
+                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {this.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
                   })
                 ) : null
               }
