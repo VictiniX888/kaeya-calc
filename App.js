@@ -5,6 +5,7 @@ import { Image, Text, TextInput, View } from 'react-native';
 
 import { characterConverter } from './js/Character.js';
 import { weaponConverter } from './js/Weapon.js';
+import Artifact, { mainStatProps } from './js/Artifact.js';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -50,6 +51,12 @@ export default class App extends Component {
 
       characterStats: undefined,
       weaponStats: undefined,
+
+      artifactFlower: new Artifact('Flower'),
+      artifactFeather: new Artifact('Feather'),
+      artifactSands: new Artifact('Sands'),
+      artifactGoblet: new Artifact('Goblet'),
+      artifactCirclet: new Artifact('Circlet'),
     }
   }
 
@@ -241,6 +248,68 @@ export default class App extends Component {
     )
   }
 
+  renderArtifactStat = (type) => {
+    return (
+      <View>
+        <Text>{type}</Text>
+
+        <Text style={{fontWeight: 'bold'}}>Main Stat</Text>
+        <View style={styles.levelInputRow}>
+          {
+            /* if */ type == 'Flower' ?
+              <View>
+                <Text>HP: </Text>
+              </View>
+            : /* else if */ type == 'Feather' ?
+              <View>
+                <Text>ATK: </Text>
+              </View>
+            : /* else */
+              <View>
+                <Picker
+                  selectedValue={this.state['artifact' + type].mainStat.stat}
+                  onValueChange={(value, _) => {
+                    if (value != 0) {
+                      this.state['artifact' + type].setMainStat(value, undefined);
+
+                      // Force refresh
+                      let artifact = this.state['artifact' + type];
+                      this.setState({['artifact' + type]: artifact});
+                    }
+                  }}
+                >
+                  <Picker.Item label='' value={0} />
+                  {mainStatProps[type].map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
+                </Picker>
+              </View>
+          }
+
+          <TextInput 
+            style={styles.levelInput} 
+            value={this.state['artifact'+type].mainStat.value}
+            onChangeText={text => {
+              this.state['artifact' + type].setMainStat(undefined, text);
+              let artifact = this.state['artifact' + type];
+              this.setState({['artifact' + type]: artifact});
+            }}
+          />
+        </View>
+      </View>
+    )
+  }
+
+  renderAllArtifactStats = () => {
+    return (
+      <View>
+        {this.renderArtifactStat('Flower')}
+        {this.renderArtifactStat('Feather')}
+        {this.renderArtifactStat('Sands')}
+        {this.renderArtifactStat('Goblet')}
+        {this.renderArtifactStat('Circlet')}
+      </View>
+    )
+  }
+
   render() {
     if (this.state.hasLoaded) {
       return (
@@ -294,6 +363,8 @@ export default class App extends Component {
 
           <View style={styles.resultColumn}>
             {this.renderCharacterStats()}
+            <br/>
+            {this.renderAllArtifactStats()}
           </View>
 
         </View>
