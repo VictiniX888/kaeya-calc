@@ -35,35 +35,7 @@ class Character {
         })
     }
 
-    // Returns object containing the total stats of the character, taking into account weapon and artifacts
-    async getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef, artifacts) {
-        
-        let baseStats = await this.getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef);
-        
-        // Merge artifact bonuses into separate object
-        let artifactStats = {};
-        artifacts.forEach(artifact => {
-            Object.entries(artifact.getStats()).forEach(([stat, value]) => {
-                if (artifactStats[stat] === undefined) {
-                    artifactStats[stat] = value;
-                } else {
-                    artifactStats[stat] += value;
-                }
-            });
-        });
 
-        // Merge base stats and artifact bonuses
-        let totalStats = {...baseStats};
-        Object.entries(artifactStats).forEach(([stat, value]) => {
-            if (totalStats[stat] === undefined) {
-                totalStats[stat] = value;
-            } else {
-                totalStats[stat] += value;
-            }
-        });
-
-        return totalStats;
-    }
 
     // Returns object containing base stats of character with the passed weapon
     // Base stats = character innate stats + weapon stats
@@ -204,4 +176,44 @@ async function createCharacter(name, dbBaseStatRef, dbStatCurveRef, dbAscensionB
     await character.setAscensionBonuses(dbAscensionBonusRef);
 
     return character;
+}
+
+// Returns object containing the total stats of the character, weapon and artifacts
+// Ignores any of [character, weapon] that are undefined
+export async function getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, character, characterLevel, characterHasAscended, dbCharStatCurveColRef, artifacts) {
+    
+    let baseStats;
+    if (character === undefined) {
+        if (weapon === undefined) {
+            baseStats = {};
+        } else {
+            baseStats = await weapon.getStatsAt(weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef);
+        }
+    } else {
+        baseStats = await character.getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef);
+    }
+    
+    // Merge artifact bonuses into separate object
+    let artifactStats = {};
+    artifacts.forEach(artifact => {
+        Object.entries(artifact.getStats()).forEach(([stat, value]) => {
+            if (artifactStats[stat] === undefined) {
+                artifactStats[stat] = value;
+            } else {
+                artifactStats[stat] += value;
+            }
+        });
+    });
+
+    // Merge base stats and artifact bonuses
+    let totalStats = {...baseStats};
+    Object.entries(artifactStats).forEach(([stat, value]) => {
+        if (totalStats[stat] === undefined) {
+            totalStats[stat] = value;
+        } else {
+            totalStats[stat] += value;
+        }
+    });
+
+    return totalStats;
 }

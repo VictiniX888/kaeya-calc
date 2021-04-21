@@ -3,7 +3,7 @@ import Checkbox from 'expo-checkbox';
 import React, { Component } from 'react';
 import { Image, Text, TextInput, View } from 'react-native';
 
-import { characterConverter } from './js/Character.js';
+import { characterConverter, getTotalStatsAt } from './js/Character.js';
 import { weaponConverter } from './js/Weapon.js';
 import Artifact, { mainStatProps } from './js/Artifact.js';
 
@@ -177,11 +177,12 @@ export default class App extends Component {
   setTotalStats = async () => {
     let artifacts = [this.state.artifactFlower, this.state.artifactFeather, this.state.artifactSands, this.state.artifactGoblet, this.state.artifactCirclet];
 
-    let stats = await this.state.character.getTotalStatsAt(
+    let stats = await getTotalStatsAt(
       this.state.weapon, 
       this.state.weaponLevel, 
       this.state.isWeaponAscended, 
       this.dbWeaponStatCurveColRef,
+      this.state.character,
       this.state.characterLevel,
       this.state.isCharacterAscended,
       this.dbCharStatCurveColRef,
