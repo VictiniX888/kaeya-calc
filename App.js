@@ -239,6 +239,17 @@ export default class App extends Component {
     }
   }
 
+  // Converts a stat value to/from percentage
+  convertStatValue = (value, isPercentage, prevIsPercentage) => {
+    if (prevIsPercentage && !isPercentage) {
+      return value * 100;
+    } else if (!prevIsPercentage && isPercentage) {
+      return value / 100;
+    } else {
+      return value;
+    }
+  }
+
   renderCharacterStats = () => {
     return (
       <View>
@@ -295,7 +306,9 @@ export default class App extends Component {
                 selectedValue={this.state['artifact' + type].mainStat.stat}
                 onValueChange={(value, _) => {
                   if (value != 0) {
-                    this.state['artifact' + type].setMainStat(value, undefined);
+                    let statValue = this.state['artifact'+type].mainStat.value;
+                    let prevIsPercentage = this.state['artifact'+type].mainStat.stat ? this.propMap[this.state['artifact'+type].mainStat.stat].isPercentage : false;
+                    this.state['artifact' + type].setMainStat(value, this.convertStatValue(statValue, this.propMap[value].isPercentage, prevIsPercentage));
 
                     // Force refresh
                     this.setArtifact(type);
@@ -312,9 +325,13 @@ export default class App extends Component {
             style={styles.levelInput} 
             //value={this.state['artifact'+type].mainStat.value}
             onChangeText={text => {
-              console.log(text === '');
               let stat = this.state['artifact'+type].mainStat.stat;
-              this.state['artifact' + type].setMainStat(undefined, this.parseStatValue(text, this.propMap[stat].isPercentage));
+              if (stat) {
+                this.state['artifact' + type].setMainStat(undefined, this.parseStatValue(text, this.propMap[stat].isPercentage));
+              } else {
+                // Stat type is not yet set
+                this.state['artifact' + type].setMainStat(undefined, this.parseStatValue(text, false));
+              }
 
               // Force refresh
               this.setArtifact(type);

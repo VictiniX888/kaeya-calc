@@ -31,10 +31,10 @@ export default class Artifact {
     setStat(statObj, stat, value) {
         if (stat == undefined && value != undefined) {
             statObj.value = value;
-        } else if (value == undefined && stat != undefined) {
+        } else if (stat != undefined && value == undefined) {
+            // Unused
             statObj.stat = stat;
-            //statObj.value = '';
-        } else if (value != undefined && stat != undefined) {
+        } else if (stat != undefined && value != undefined) {
             statObj.stat = stat;
             statObj.value = value;
         }
