@@ -1,22 +1,22 @@
 {
   "files": {
-    "app.js": "/KaeyaCalc/static/js/app.d2549ad7.chunk.js",
-    "app.js.map": "/KaeyaCalc/static/js/app.d2549ad7.chunk.js.map",
+    "app.js": "/KaeyaCalc/static/js/app.2be72037.chunk.js",
+    "app.js.map": "/KaeyaCalc/static/js/app.2be72037.chunk.js.map",
     "runtime~app.js": "/KaeyaCalc/static/js/runtime~app.c6158d76.js",
     "runtime~app.js.map": "/KaeyaCalc/static/js/runtime~app.c6158d76.js.map",
-    "static/js/2.358a53ec.chunk.js": "/KaeyaCalc/static/js/2.358a53ec.chunk.js",
-    "static/js/2.358a53ec.chunk.js.map": "/KaeyaCalc/static/js/2.358a53ec.chunk.js.map",
+    "static/js/2.075641b7.chunk.js": "/KaeyaCalc/static/js/2.075641b7.chunk.js",
+    "static/js/2.075641b7.chunk.js.map": "/KaeyaCalc/static/js/2.075641b7.chunk.js.map",
     "favicon-16.png": "/KaeyaCalc/favicon-16.png",
     "favicon-32.png": "/KaeyaCalc/favicon-32.png",
     "favicon.ico": "/KaeyaCalc/favicon.ico",
     "index.html": "/KaeyaCalc/index.html",
     "manifest.json": "/KaeyaCalc/manifest.json",
     "serve.json": "/KaeyaCalc/serve.json",
-    "static/js/2.358a53ec.chunk.js.LICENSE.txt": "/KaeyaCalc/static/js/2.358a53ec.chunk.js.LICENSE.txt"
+    "static/js/2.075641b7.chunk.js.LICENSE.txt": "/KaeyaCalc/static/js/2.075641b7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime~app.c6158d76.js",
-    "static/js/2.358a53ec.chunk.js",
-    "static/js/app.d2549ad7.chunk.js"
+    "static/js/2.075641b7.chunk.js",
+    "static/js/app.2be72037.chunk.js"
   ]
 }
