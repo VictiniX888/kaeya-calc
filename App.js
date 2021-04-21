@@ -40,7 +40,6 @@ export default class App extends Component {
 
       characterId: undefined,
       character: undefined,
-      characterHasInit: false,
       characterLevel: 1,
       isCharacterAscended: false,
 
@@ -101,7 +100,9 @@ export default class App extends Component {
                 this.setState({
                   characterId: value,
                   character: await doc.data(),
-                  characterHasInit: true,
+                }, () => {
+                  // callback function from setstate
+                  this.setCharacterStats();
                 });
               } else {
                 console.log(`WARN: Could not find data for character ${value}`);
@@ -134,6 +135,9 @@ export default class App extends Component {
                 this.setState({
                   weaponId: value,
                   weapon: await weaponDoc.data(),
+                }, () => {
+                  // callback function from setstate
+                  this.setWeaponStats();
                 });
               } else {
                 console.log(`WARN: Could not find data for weapon ${value}`);
@@ -165,6 +169,7 @@ export default class App extends Component {
     this.setState({ weaponStats: stats });
   }
 
+  /*
   hasCharacterParamsChanged = () => {
     let hasChanged = false;
 
@@ -184,6 +189,7 @@ export default class App extends Component {
 
     return hasChanged;
   }
+  */
 
   // Returns the string to display as the value of a stat
   getStatDisplayValue = (value, isPercentage) => {
@@ -199,14 +205,6 @@ export default class App extends Component {
   }
 
   renderCharacterStats = () => {
-    if (this.hasCharacterParamsChanged()) {
-      this.setCharacterStats();
-    }
-
-    if(this.hasWeaponParamsChanged()) {
-      this.setWeaponStats();
-    }
-
     return (
       <View>
         {/* Render character stats */ }
@@ -339,7 +337,7 @@ export default class App extends Component {
                 style={styles.levelInput}
                 defaultValue={this.state.characterLevel} 
                 onChangeText={text => {
-                  this.setState({characterLevel: parseInt(text)});
+                  this.setState({characterLevel: parseInt(text)}, () => { this.setCharacterStats() });
                 }}
               />
             </View>
@@ -347,7 +345,7 @@ export default class App extends Component {
             <View style={styles.ascensionCheckRow}>
               <Text>Ascended? </Text>
               <Checkbox
-                onValueChange={value => this.setState({isCharacterAscended: value})}
+                onValueChange={value => this.setState({isCharacterAscended: value}, () => { this.setCharacterStats() })}
                 value={this.state.isCharacterAscended}
               />
             </View>
@@ -362,7 +360,7 @@ export default class App extends Component {
                 style={styles.levelInput}
                 defaultValue={this.state.weaponLevel} 
                 onChangeText={text => {
-                  this.setState({weaponLevel: parseInt(text)});
+                  this.setState({weaponLevel: parseInt(text)}, () => { this.setWeaponStats() });
                 }}
               />
             </View>
@@ -370,7 +368,7 @@ export default class App extends Component {
             <View style={styles.ascensionCheckRow}>
               <Text>Ascended? </Text>
               <Checkbox
-                onValueChange={value => this.setState({isWeaponAscended: value})}
+                onValueChange={value => this.setState({isWeaponAscended: value}, () => { this.setWeaponStats() })}
                 value={this.state.isWeaponAscended}
               />
             </View>
