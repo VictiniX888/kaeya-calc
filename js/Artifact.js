@@ -1,25 +1,25 @@
 export default class Artifact {
     mainStat = {
         stat: 0,
-        value: '',
+        value: NaN,
     };
 
     subStats = [
         {
             stat: 0,
-            value: '',
+            value: NaN,
         }, 
         {
             stat: 0,
-            value: '',
+            value: NaN,
         }, 
         {
             stat: 0,
-            value: '',
+            value: NaN,
         }, 
         {
             stat: 0,
-            value: '',
+            value: NaN,
         }
     ];
 
@@ -32,13 +32,13 @@ export default class Artifact {
         }
     }
 
-    // Will normally only be called with one of the two of stat and value (the other will be undefined)
+    // Should normally only be called with one of the two of stat and value (the other will be undefined)
     setStat(statObj, stat, value) {
         if (stat == undefined && value != undefined) {
             statObj.value = value;
         } else if (value == undefined && stat != undefined) {
             statObj.stat = stat;
-            statObj.value = '';
+            //statObj.value = '';
         } else if (value != undefined && stat != undefined) {
             statObj.stat = stat;
             statObj.value = value;
@@ -58,15 +58,23 @@ export default class Artifact {
     getStats() {
         let stats = {};
 
-        if (this.mainStat.stat != 0 && !isNaN(parseInt(this.mainStat.value))) {
-            stats[this.mainStat.stat] = parseInt(this.mainStat.value);
+        if (this.mainStat.stat != 0) {
+            if (!isNaN(this.mainStat.value)) {
+                stats[this.mainStat.stat] = this.mainStat.value;
+            } else {
+                stats[this.mainStat.stat] = null;
+            }
         }
         
         this.subStats.forEach(subStat => {
-            if (subStat.stat != 0 && !isNaN(parseInt(subStat.value))) {
-                stats[subStat.stat] = parseInt(subStat.value);
+            if (subStat.stat != 0) {
+                if (!isNaN(subStat.value)) {
+                    stats[subStat.stat] = subStat.value;
+                } else {
+                    stats[subStat.stat] = null;
+                }
             }
-        })
+        });
 
         return stats;
     }

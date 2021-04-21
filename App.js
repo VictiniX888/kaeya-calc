@@ -188,8 +188,6 @@ export default class App extends Component {
       this.dbCharStatCurveColRef,
       artifacts,
     );
-
-    console.log(stats);
     
     this.setState({ totalStats: stats });
   }
@@ -227,6 +225,18 @@ export default class App extends Component {
       } else {
         return '-';
       }
+  }
+
+  // Returns a Number representing the inputed value of a stat
+  // Returns null if the input is not a valid stat value
+  parseStatValue = (text, isPercentage) => {
+    if (isPercentage) {
+      let value = parseFloat(text);
+      return value / 100;
+    } else {
+      let value = parseInt(text);
+      return value;
+    }
   }
 
   renderCharacterStats = () => {
@@ -309,9 +319,11 @@ export default class App extends Component {
 
           <TextInput 
             style={styles.levelInput} 
-            value={this.state['artifact'+type].mainStat.value}
+            //value={this.state['artifact'+type].mainStat.value}
             onChangeText={text => {
-              this.state['artifact' + type].setMainStat(undefined, text);
+              console.log(text === '');
+              let stat = this.state['artifact'+type].mainStat.stat;
+              this.state['artifact' + type].setMainStat(undefined, this.parseStatValue(text, this.propMap[stat].isPercentage));
 
               // Force refresh
               this.setArtifact(type);
