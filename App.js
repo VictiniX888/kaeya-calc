@@ -175,7 +175,7 @@ export default class App extends Component {
   }
 
   setTotalStats = async () => {
-    let artifacts = [this.state.artifactFlower, this.state.artifactFeather, this.state.artifactSands, this.state.artifactGoblet, this.state.artifactGoblet];
+    let artifacts = [this.state.artifactFlower, this.state.artifactFeather, this.state.artifactSands, this.state.artifactGoblet, this.state.artifactCirclet];
 
     let stats = await this.state.character.getTotalStatsAt(
       this.state.weapon, 

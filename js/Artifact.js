@@ -26,9 +26,9 @@ export default class Artifact {
     constructor(type) {
         this.type = type;
         if (type == 'Flower') {
-            this.mainStat.stat = 'flatAtk';
-        } else if (type == 'Feather') {
             this.mainStat.stat = 'flatHp';
+        } else if (type == 'Feather') {
+            this.mainStat.stat = 'flatAtk';
         }
     }
 
