@@ -290,31 +290,22 @@ export default class App extends Component {
         <Text style={{fontWeight: 'bold'}}>Main Stat</Text>
         <View style={styles.levelInputRow}>
           {
-            /* if */ type == 'Flower' ?
-              <View>
-                <Text>HP: </Text>
-              </View>
-            : /* else if */ type == 'Feather' ?
-              <View>
-                <Text>ATK: </Text>
-              </View>
-            : /* else */
-              <View>
-                <Picker
-                  selectedValue={this.state['artifact' + type].mainStat.stat}
-                  onValueChange={(value, _) => {
-                    if (value != 0) {
-                      this.state['artifact' + type].setMainStat(value, undefined);
+            <View>
+              <Picker
+                selectedValue={this.state['artifact' + type].mainStat.stat}
+                onValueChange={(value, _) => {
+                  if (value != 0) {
+                    this.state['artifact' + type].setMainStat(value, undefined);
 
-                      // Force refresh
-                      this.setArtifact(type);
-                    }
-                  }}
-                >
-                  <Picker.Item label='' value={0} />
-                  {mainStatProps[type].map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
-                </Picker>
-              </View>
+                    // Force refresh
+                    this.setArtifact(type);
+                  }
+                }}
+              >
+                <Picker.Item label='' value={0} />
+                {mainStatProps[type].map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
+              </Picker>
+            </View>
           }
 
           <TextInput 

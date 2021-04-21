@@ -25,11 +25,6 @@ export default class Artifact {
 
     constructor(type) {
         this.type = type;
-        if (type == 'Flower') {
-            this.mainStat.stat = 'flatHp';
-        } else if (type == 'Feather') {
-            this.mainStat.stat = 'flatAtk';
-        }
     }
 
     // Should normally only be called with one of the two of stat and value (the other will be undefined)
@@ -81,6 +76,14 @@ export default class Artifact {
 }
 
 export const mainStatProps = {
+    Flower: [
+        'flatHp',
+    ],
+
+    Feather: [
+        'flatAtk',
+    ],
+
     Sands: [
         'hpBonus',
         'atkBonus',
