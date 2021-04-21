@@ -161,12 +161,36 @@ export default class App extends Component {
 
   setCharacterStats = async () => {
     let stats = await this.state.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended, this.dbCharStatCurveColRef);
-    this.setState({ characterStats: stats });
+    this.setState({ characterStats: stats }, () => { this.setTotalStats() });
   }
 
   setWeaponStats = async () => {
     let stats = await this.state.weapon.getStatsAt(this.state.weaponLevel, this.state.isWeaponAscended, this.dbWeaponStatCurveColRef);
-    this.setState({ weaponStats: stats });
+    this.setState({ weaponStats: stats }, () => { this.setTotalStats() });
+  }
+
+  setArtifact = (type) => {
+    let artifact = this.state['artifact' + type];
+    this.setState({['artifact' + type]: artifact}, () => { this.setTotalStats() });
+  }
+
+  setTotalStats = async () => {
+    let artifacts = [this.state.artifactFlower, this.state.artifactFeather, this.state.artifactSands, this.state.artifactGoblet, this.state.artifactGoblet];
+
+    let stats = await this.state.character.getTotalStatsAt(
+      this.state.weapon, 
+      this.state.weaponLevel, 
+      this.state.isWeaponAscended, 
+      this.dbWeaponStatCurveColRef,
+      this.state.characterLevel,
+      this.state.isCharacterAscended,
+      this.dbCharStatCurveColRef,
+      artifacts,
+    );
+
+    console.log(stats);
+    
+    this.setState({ totalStats: stats });
   }
 
   /*
@@ -272,8 +296,7 @@ export default class App extends Component {
                       this.state['artifact' + type].setMainStat(value, undefined);
 
                       // Force refresh
-                      let artifact = this.state['artifact' + type];
-                      this.setState({['artifact' + type]: artifact});
+                      this.setArtifact(type);
                     }
                   }}
                 >
@@ -288,8 +311,9 @@ export default class App extends Component {
             value={this.state['artifact'+type].mainStat.value}
             onChangeText={text => {
               this.state['artifact' + type].setMainStat(undefined, text);
-              let artifact = this.state['artifact' + type];
-              this.setState({['artifact' + type]: artifact});
+
+              // Force refresh
+              this.setArtifact(type);
             }}
           />
         </View>
@@ -379,6 +403,8 @@ export default class App extends Component {
             {this.renderCharacterStats()}
             <br/>
             {this.renderAllArtifactStats()}
+            <br/>
+            {this.renderTotalStats()}
           </View>
 
         </View>

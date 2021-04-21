@@ -38,7 +38,7 @@ class Character {
     // Returns object containing the total stats of the character, taking into account weapon and artifacts
     async getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef, artifacts) {
         
-        let baseStats = this.getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef);
+        let baseStats = await this.getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef);
         
         // Merge artifact bonuses into separate object
         let artifactStats = {};
