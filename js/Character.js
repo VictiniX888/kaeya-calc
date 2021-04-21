@@ -35,21 +35,55 @@ class Character {
         })
     }
 
-    async getStatsWithWeaponAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef) {
+    // Returns object containing the total stats of the character, taking into account weapon and artifacts
+    async getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef, artifacts) {
+        
+        let baseStats = this.getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef);
+        
+        // Merge artifact bonuses into separate object
+        let artifactStats = {};
+        artifacts.forEach(artifact => {
+            Object.entries(artifact.getStats()).forEach(([stat, value]) => {
+                if (artifactStats[stat] === undefined) {
+                    artifactStats[stat] = value;
+                } else {
+                    artifactStats[stat] += value;
+                }
+            });
+        });
+
+        // Merge base stats and artifact bonuses
+        let totalStats = {...baseStats};
+        Object.entries(artifactStats).forEach(([stat, value]) => {
+            if (totalStats[stat] === undefined) {
+                totalStats[stat] = value;
+            } else {
+                totalStats[stat] += value;
+            }
+        });
+
+        return totalStats;
+    }
+
+    // Returns object containing base stats of character with the passed weapon
+    // Base stats = character innate stats + weapon stats
+    async getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef, characterLevel, characterHasAscended, dbCharStatCurveColRef) {
 
         let weaponStats = await this.getWeaponStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef)
 
         let innateStats = await this.getInnateStatsAt(characterLevel, characterHasAscended, dbCharStatCurveColRef);
         
-        // TODO: Change this to return total stats instead, and directly call getInnateStatsAt and getWeaponStatsAt if stats breakdown is needed
-        return {
-            InnateHp: innateStats.baseHp,
-            InnateAtk: innateStats.baseAtk,
-            InnateDef: innateStats.baseDef,
-            WeaponHp: weaponStats.baseHp,
-            WeaponAtk: weaponStats.baseAtk,
-            WeaponDef: weaponStats.baseDef,
-        };
+        // Merges weaponStats and innateStats into a new baseStats object
+        let baseStats = {...weaponStats};
+        Object.entries(innateStats).map(([stat, value]) => {
+            if (baseStats[stat] === undefined) {
+                baseStats[stat] = value;
+            } else {
+                baseStats[stat] += value;
+            }
+        });
+        
+        return baseStats;
     }
 
     async getWeaponStatsAt(weapon, weaponLevel, weaponHasAscended, dbWeaponStatCurveColRef) {
@@ -171,4 +205,3 @@ async function createCharacter(name, dbBaseStatRef, dbStatCurveRef, dbAscensionB
 
     return character;
 }
-

@@ -51,6 +51,7 @@ export default class App extends Component {
 
       characterStats: undefined,
       weaponStats: undefined,
+      totalStats: undefined,
 
       artifactFlower: new Artifact('Flower'),
       artifactFeather: new Artifact('Feather'),
@@ -306,6 +307,21 @@ export default class App extends Component {
         {this.renderArtifactStat('Sands')}
         {this.renderArtifactStat('Goblet')}
         {this.renderArtifactStat('Circlet')}
+      </View>
+    )
+  }
+
+  renderTotalStats = () => {
+    return (
+      <View>
+        {
+          this.state.totalStats ? (
+            // TODO: Make sure the stats are displayed in a particular order
+            Object.entries(this.state.totalStats).map(([stat, value]) => {
+              return <Text style={styles.resultText}>{this.propMap[stat].name}: {this.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
+            })
+          ) : null
+        }
       </View>
     )
   }
