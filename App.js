@@ -160,13 +160,17 @@ export default class App extends Component {
   }
 
   setCharacterStats = async () => {
-    let stats = await this.state.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended, this.dbCharStatCurveColRef);
-    this.setState({ characterStats: stats }, () => { this.setTotalStats() });
+    if (this.state.character !== undefined) {
+      let stats = await this.state.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended, this.dbCharStatCurveColRef);
+      this.setState({ characterStats: stats }, () => { this.setTotalStats() });
+    }
   }
 
   setWeaponStats = async () => {
-    let stats = await this.state.weapon.getStatsAt(this.state.weaponLevel, this.state.isWeaponAscended, this.dbWeaponStatCurveColRef);
-    this.setState({ weaponStats: stats }, () => { this.setTotalStats() });
+    if (this.state.weapon !== undefined) {
+      let stats = await this.state.weapon.getStatsAt(this.state.weaponLevel, this.state.isWeaponAscended, this.dbWeaponStatCurveColRef);
+      this.setState({ weaponStats: stats }, () => { this.setTotalStats() });
+    }
   }
 
   setArtifact = (type) => {
