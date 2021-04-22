@@ -6,6 +6,7 @@ import { Image, Text, TextInput, View } from 'react-native';
 import { characterConverter, getTotalStatsAt } from './js/Character.js';
 import { weaponConverter } from './js/Weapon.js';
 import Artifact, { mainStatProps } from './js/Artifact.js';
+import * as statUtils from './js/Stat.js';
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -218,42 +219,6 @@ export default class App extends Component {
   }
   */
 
-  // Returns the string to display as the value of a stat
-  getStatDisplayValue = (value, isPercentage) => {
-      if (value != null) {
-        if (isPercentage) {
-          return (value * 100).toFixed(1) + '%';
-        } else {
-          return Math.round(value);
-        }
-      } else {
-        return '-';
-      }
-  }
-
-  // Returns a Number representing the inputed value of a stat
-  // Returns null if the input is not a valid stat value
-  parseStatValue = (text, isPercentage) => {
-    if (isPercentage) {
-      let value = parseFloat(text);
-      return value / 100;
-    } else {
-      let value = parseInt(text);
-      return value;
-    }
-  }
-
-  // Converts a stat value to/from percentage
-  convertStatValue = (value, isPercentage, prevIsPercentage) => {
-    if (prevIsPercentage && !isPercentage) {
-      return value * 100;
-    } else if (!prevIsPercentage && isPercentage) {
-      return value / 100;
-    } else {
-      return value;
-    }
-  }
-
   renderCharacterStats = () => {
     return (
       <View>
@@ -267,7 +232,7 @@ export default class App extends Component {
                 this.state.characterStats ? (
                   // TODO: Make sure the stats are displayed in a particular order
                   Object.entries(this.state.characterStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {this.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
+                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
                   })
                 ) : null
               }
@@ -286,7 +251,7 @@ export default class App extends Component {
                 this.state.weaponStats ? (
                   // TODO: Make sure the stats are displayed in a particular order
                   Object.entries(this.state.weaponStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {this.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
+                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
                   })
                 ) : null
               }
@@ -308,11 +273,9 @@ export default class App extends Component {
             <View>
               <Picker
                 selectedValue={this.state['artifact' + type].mainStat.stat}
-                onValueChange={(value, _) => {
-                  if (value != 0) {
-                    let statValue = this.state['artifact'+type].mainStat.value;
-                    let prevIsPercentage = this.state['artifact'+type].mainStat.stat ? this.propMap[this.state['artifact'+type].mainStat.stat].isPercentage : false;
-                    this.state['artifact' + type].setMainStat(value, this.convertStatValue(statValue, this.propMap[value].isPercentage, prevIsPercentage));
+                onValueChange={(stat, _) => {
+                  if (stat != 0) {
+                    this.state['artifact' + type].setMainStat(stat, undefined, this.propMap[stat].isPercentage);
 
                     // Force refresh
                     this.setArtifact(type);
@@ -327,14 +290,13 @@ export default class App extends Component {
 
           <TextInput 
             style={styles.levelInput} 
-            //value={this.state['artifact'+type].mainStat.value}
             onChangeText={text => {
               let stat = this.state['artifact'+type].mainStat.stat;
               if (stat) {
-                this.state['artifact' + type].setMainStat(undefined, this.parseStatValue(text, this.propMap[stat].isPercentage));
+                this.state['artifact' + type].setMainStat(undefined, parseFloat(text), this.propMap[stat].isPercentage);
               } else {
-                // Stat type is not yet set
-                this.state['artifact' + type].setMainStat(undefined, this.parseStatValue(text, false));
+                // If stat type is not yet set
+                this.state['artifact' + type].setMainStat(undefined, parseFloat(text), false);
               }
 
               // Force refresh
@@ -365,7 +327,7 @@ export default class App extends Component {
           this.state.totalStats ? (
             // TODO: Make sure the stats are displayed in a particular order
             Object.entries(this.state.totalStats).map(([stat, value]) => {
-              return <Text style={styles.resultText}>{this.propMap[stat].name}: {this.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
+              return <Text style={styles.resultText}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
             })
           ) : null
         }
