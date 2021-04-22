@@ -5,7 +5,7 @@ import { Image, Text, TextInput, View } from 'react-native';
 
 import { characterConverter, getTotalStatsAt } from './js/Character.js';
 import { weaponConverter } from './js/Weapon.js';
-import Artifact, { mainStatProps } from './js/Artifact.js';
+import Artifact, { mainStatProps, subStatProps } from './js/Artifact.js';
 import * as statUtils from './js/Stat.js';
 
 import firebase from 'firebase/app';
@@ -262,48 +262,102 @@ export default class App extends Component {
     )
   }
 
+  renderArtifactMainStat = (type) => {
+    return (
+      <View style={styles.levelInputRow}>
+        {
+          <View>
+            <Picker
+              selectedValue={this.state['artifact' + type].mainStat.stat}
+              onValueChange={(stat, _) => {
+                if (stat != 0) {
+                  this.state['artifact' + type].setMainStat(stat, undefined, this.propMap[stat].isPercentage);
+
+                  // Force refresh
+                  this.setArtifact(type);
+                }
+              }}
+            >
+              <Picker.Item label='' value={0} />
+              {mainStatProps[type].map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
+            </Picker>
+          </View>
+        }
+
+        <TextInput 
+          style={styles.levelInput} 
+          onChangeText={text => {
+            let stat = this.state['artifact'+type].mainStat.stat;
+            if (stat) {
+              this.state['artifact' + type].setMainStat(undefined, parseFloat(text), this.propMap[stat].isPercentage);
+            } else {
+              // If stat type is not yet set
+              this.state['artifact' + type].setMainStat(undefined, parseFloat(text), false);
+            }
+
+            // Force refresh
+            this.setArtifact(type);
+          }}
+        />
+      </View>
+    )
+  }
+
+  renderArtifactSubStats = (type) => {
+    return (
+      <View>
+        {
+          this.state['artifact' + type].subStats.map((subStat, index) => {
+            return (
+              <View style={styles.levelInputRow}>
+                <Picker
+                  selectedValue={subStat.stat}
+                  onValueChange={(stat, _) => {
+                    if (stat != 0) {
+                      this.state['artifact' + type].setSubStat(index, stat, undefined, this.propMap[stat].isPercentage);
+      
+                      // Force refresh
+                      this.setArtifact(type);
+                    }
+                  }}
+                >
+                  <Picker.Item label='' value={0} />
+                  {subStatProps.map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
+                </Picker>
+
+                <TextInput 
+                  style={styles.levelInput} 
+                  onChangeText={text => {
+                    let stat = subStat.stat;
+                    if (stat) {
+                      this.state['artifact' + type].setSubStat(index, undefined, parseFloat(text), this.propMap[stat].isPercentage);
+                    } else {
+                      // If stat type is not yet set
+                      this.state['artifact' + type].setSubStat(index, undefined, parseFloat(text), false);
+                    }
+
+                    // Force refresh
+                    this.setArtifact(type);
+                  }}
+                />
+              </View>
+            )
+          })
+        }
+      </View>
+    )
+  }
+
   renderArtifactStat = (type) => {
     return (
       <View>
         <Text>{type}</Text>
 
         <Text style={{fontWeight: 'bold'}}>Main Stat</Text>
-        <View style={styles.levelInputRow}>
-          {
-            <View>
-              <Picker
-                selectedValue={this.state['artifact' + type].mainStat.stat}
-                onValueChange={(stat, _) => {
-                  if (stat != 0) {
-                    this.state['artifact' + type].setMainStat(stat, undefined, this.propMap[stat].isPercentage);
+        {this.renderArtifactMainStat(type)}
 
-                    // Force refresh
-                    this.setArtifact(type);
-                  }
-                }}
-              >
-                <Picker.Item label='' value={0} />
-                {mainStatProps[type].map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
-              </Picker>
-            </View>
-          }
-
-          <TextInput 
-            style={styles.levelInput} 
-            onChangeText={text => {
-              let stat = this.state['artifact'+type].mainStat.stat;
-              if (stat) {
-                this.state['artifact' + type].setMainStat(undefined, parseFloat(text), this.propMap[stat].isPercentage);
-              } else {
-                // If stat type is not yet set
-                this.state['artifact' + type].setMainStat(undefined, parseFloat(text), false);
-              }
-
-              // Force refresh
-              this.setArtifact(type);
-            }}
-          />
-        </View>
+        <Text style={{fontWeight: 'bold'}}>Substats</Text>
+        {this.renderArtifactSubStats(type)}
       </View>
     )
   }

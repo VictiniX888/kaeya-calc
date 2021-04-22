@@ -125,3 +125,16 @@ export const mainStatProps = {
         'healingBonus',
     ],
 }
+
+export const subStatProps = [
+    'flatHp',
+    'flatAtk',
+    'flatDef',
+    'hpBonus',
+    'atkBonus',
+    'defBonus',
+    'elementalMastery',
+    'energyRecharge',
+    'critRate',
+    'critDmg',
+]
