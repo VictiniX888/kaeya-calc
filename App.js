@@ -86,7 +86,7 @@ export default class App extends Component {
     let sortedChars = this.characters.sort((name1, name2) => name1.localeCompare(name2));
     
     return (
-      <View style={styles.characterSelectRow}>
+      <View style={styles.inputRow}>
         <Text>Character: </Text>
         <Picker 
           style={styles.characterSelect}
@@ -120,7 +120,7 @@ export default class App extends Component {
 
   renderWeaponList = () => {
     return (
-      <View style={styles.characterSelectRow}>
+      <View style={styles.inputRow}>
         <Text>Weapon: </Text>
         <Picker
           style={styles.characterSelect}
@@ -221,72 +221,66 @@ export default class App extends Component {
 
   renderCharacterStats = () => {
     return (
-      <View>
-        {/* Render character stats */ }
-        {
-          this.state.character ? (
-            <View>
-              {this.renderCharacterImage()}
-              <Text style={styles.resultText}>Selected character: {this.state.character ? this.state.character.name : ''}</Text>
-              {
-                this.state.characterStats ? (
-                  // TODO: Make sure the stats are displayed in a particular order
-                  Object.entries(this.state.characterStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
-                  })
-                ) : null
-              }
-            </View>
-          ) : null
-        }
-        
-        <br/>
+      this.state.character ? (
+        <View style={styles.resultBlock}>
+          <Text style={styles.titleText}>Character</Text>
+          {this.renderCharacterImage()}
+          <Text style={styles.resultText}>{this.state.character ? this.state.character.name : ''}</Text>
+          {
+            this.state.characterStats ? (
+              // TODO: Make sure the stats are displayed in a particular order
+              Object.entries(this.state.characterStats).map(([stat, value]) => {
+                return <Text style={styles.resultText} key={stat}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
+              })
+            ) : null
+          }
+        </View>
+      ) : null
+    )
+  }
 
-        {/* Render weapon stats */}
-        {
-          this.state.weapon ? (
-            <View>
-              <Text style={styles.resultText}>Selected weapon: {this.state.weapon ? this.state.weapon.name : ''}</Text>
-              {
-                this.state.weaponStats ? (
-                  // TODO: Make sure the stats are displayed in a particular order
-                  Object.entries(this.state.weaponStats).map(([stat, value]) => {
-                    return <Text style={styles.resultText}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
-                  })
-                ) : null
-              }
-            </View>
-          ) : null
-        }
-      </View>
+  renderWeaponStats = () => {
+    return (
+      this.state.weapon ? (
+        <View style={styles.resultBlock}>
+          <Text style={styles.titleText}>Weapon</Text>
+          <Text style={styles.resultText}>{this.state.weapon ? this.state.weapon.name : ''}</Text>
+          {
+            this.state.weaponStats ? (
+              // TODO: Make sure the stats are displayed in a particular order
+              Object.entries(this.state.weaponStats).map(([stat, value]) => {
+                return <Text style={styles.resultText} key={stat}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
+              })
+            ) : null
+          }
+        </View>
+      ) : null
     )
   }
 
   renderArtifactMainStat = (type) => {
     return (
-      <View style={styles.levelInputRow}>
-        {
-          <View>
-            <Picker
-              selectedValue={this.state['artifact' + type].mainStat.stat}
-              onValueChange={(stat, _) => {
-                if (stat != 0) {
-                  let mainStat = this.state['artifact'+type].mainStat;
-                  this.state['artifact' + type].setStat(mainStat, stat, undefined, this.propMap[stat].isPercentage);
+      <View style={styles.inputRow}>
+        <Picker
+          selectedValue={this.state['artifact' + type].mainStat.stat}
+          onValueChange={(stat, _) => {
+            if (stat != 0) {
+              let mainStat = this.state['artifact'+type].mainStat;
+              this.state['artifact' + type].setStat(mainStat, stat, undefined, this.propMap[stat].isPercentage);
 
-                  // Force refresh
-                  this.setArtifact(type);
-                }
-              }}
-            >
-              <Picker.Item label='' value={0} />
-              {mainStatProps[type].map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
-            </Picker>
-          </View>
-        }
+              // Force refresh
+              this.setArtifact(type);
+            }
+          }}
+        >
+          <Picker.Item label='' value={0} />
+          {mainStatProps[type].map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
+        </Picker>
+
+        <Text> : </Text>
 
         <TextInput 
-          style={styles.levelInput} 
+          style={styles.statInput} 
           onChangeText={text => {
             let mainStat = this.state['artifact'+type].mainStat;
             if (mainStat.stat) {
@@ -310,7 +304,7 @@ export default class App extends Component {
         {
           this.state['artifact' + type].subStats.map((subStat, index) => {
             return (
-              <View style={styles.levelInputRow} key={index}>
+              <View style={styles.inputRow} key={index}>
                 <Picker
                   selectedValue={subStat.stat}
                   onValueChange={(stat, _) => {
@@ -326,8 +320,10 @@ export default class App extends Component {
                   {subStatProps.map(prop => <Picker.Item label={this.propMap[prop].name} value={prop} key={prop} />)}
                 </Picker>
 
+                <Text> : </Text>
+
                 <TextInput 
-                  style={styles.levelInput} 
+                  style={styles.statInput} 
                   onChangeText={text => {
                     let stat = subStat.stat;
                     if (stat) {
@@ -349,15 +345,15 @@ export default class App extends Component {
     )
   }
 
-  renderArtifactStat = (type) => {
+  renderArtifactStat = (type, isLast = false) => {
     return (
-      <View>
-        <Text>{type}</Text>
+      <View style={isLast ? styles.artifactBlockNoBorder : styles.artifactBlock}>
+        <Text style={styles.artifactType}>{type}</Text>
 
-        <Text style={{fontWeight: 'bold'}}>Main Stat</Text>
+        <Text style={styles.artifactStatType}>Main Stat</Text>
         {this.renderArtifactMainStat(type)}
 
-        <Text style={{fontWeight: 'bold'}}>Substats</Text>
+        <Text style={styles.artifactStatType}>Substats</Text>
         {this.renderArtifactSubStats(type)}
       </View>
     )
@@ -365,19 +361,21 @@ export default class App extends Component {
 
   renderAllArtifactStats = () => {
     return (
-      <View>
+      <View style={styles.resultBlockNoBorder}>
+        <Text style={styles.titleText}>Artifacts</Text>
         {this.renderArtifactStat('Flower')}
         {this.renderArtifactStat('Feather')}
         {this.renderArtifactStat('Sands')}
         {this.renderArtifactStat('Goblet')}
-        {this.renderArtifactStat('Circlet')}
+        {this.renderArtifactStat('Circlet', true)}
       </View>
     )
   }
 
   renderTotalStats = () => {
     return (
-      <View>
+      <View style={styles.resultBlockNoBorder}>
+        <Text style={styles.titleText}>Stat Total</Text>
         {
           this.state.totalStats ? (
             // TODO: Make sure the stats are displayed in a particular order
@@ -397,7 +395,7 @@ export default class App extends Component {
           <View style={styles.inputColumn}>
             {this.renderCharacterList()}
 
-            <View style={styles.levelInputRow}>
+            <View style={styles.inputRow}>
               <Text>Level: </Text>
               <TextInput 
                 style={styles.levelInput}
@@ -408,7 +406,7 @@ export default class App extends Component {
               />
             </View>
 
-            <View style={styles.ascensionCheckRow}>
+            <View style={styles.inputRow}>
               <Text>Ascended? </Text>
               <Checkbox
                 onValueChange={value => this.setState({isCharacterAscended: value}, () => { this.setCharacterStats() })}
@@ -420,7 +418,7 @@ export default class App extends Component {
 
             {this.renderWeaponList()}
 
-            <View style={styles.levelInputRow}>
+            <View style={styles.inputRow}>
               <Text>Level: </Text>
               <TextInput 
                 style={styles.levelInput}
@@ -431,7 +429,7 @@ export default class App extends Component {
               />
             </View>
 
-            <View style={styles.ascensionCheckRow}>
+            <View style={styles.inputRow}>
               <Text>Ascended? </Text>
               <Checkbox
                 onValueChange={value => this.setState({isWeaponAscended: value}, () => { this.setWeaponStats() })}
@@ -443,10 +441,15 @@ export default class App extends Component {
 
           <View style={styles.resultColumn}>
             {this.renderCharacterStats()}
-            <br/>
+            {this.renderWeaponStats()}
             {this.renderAllArtifactStats()}
-            <br/>
+          </View>
+
+          <View style={styles.resultColumn}>
             {this.renderTotalStats()}
+          </View>
+
+          <View style={styles.fillerColumn}>
           </View>
 
         </View>

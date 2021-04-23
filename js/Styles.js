@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+export default StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'stretch',
+
+        fontSize: 14,
 
         height: '100%',
 
@@ -22,19 +24,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ccc',
     },
 
-    characterSelectRow: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-
-        marginVertical: '0.25em',
-    },
-
-    characterSelect: {
-
-    },
-
-    levelInputRow: {
+    inputRow: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -44,34 +34,83 @@ const styles = StyleSheet.create({
 
     levelInput: {
         width: '2em',
-
     },
 
-    ascensionCheckRow: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-
-        marginVertical: '0.25em',
+    statInput: {
+        width: '3em',
     },
 
     resultColumn: {
         display: 'flex',
         flexDirection: 'column',
-        flexGrow: 1,
 
-        padding: '1%',
+        borderRightWidth: 1,
 
         backgroundColor: '#eee',
+    },
+
+    resultBlockNoBorder: {
+        display: 'flex',
+        flexDirection: 'column',
+
+        padding: '0.8em',
+    },
+
+    resultBlock: {
+        display: 'flex',
+        flexDirection: 'column',
+
+        padding: '0.8em',
+        borderBottomWidth: 1,
+    },
+
+    artifactBlockNoBorder: {
+        display: 'flex',
+        flexDirection: 'column',
+        paddingTop: '0.5em',
+        paddingBottom: '0.7em',
+    },
+
+    artifactBlock: {
+        display: 'flex',
+        flexDirection: 'column',
+
+        paddingTop: '0.5em',
+        paddingBottom: '0.7em',
+
+        borderStyle: 'dashed',
+        borderBottomWidth: 1,  
     },
 
     characterImage: {
         marginVertical: '0.25em',
     },
 
+    titleText: {
+        fontSize: '1.5em',
+        fontWeight: '200',
+
+        marginVertical: '0.17em',
+    },
+
+    artifactType: {
+        fontSize: '1.2em',
+        fontWeight: '200',
+
+        marginVertical: '0.21em',
+    },
+
+    artifactStatType: {
+        marginVertical: '0.25',
+    },
+
     resultText: {
         marginVertical: '0.25em',
-    }
-});
+    },
 
-export default styles;
+    fillerColumn: {
+        flexGrow: 1,
+
+        backgroundColor: '#eee',
+    },
+});
