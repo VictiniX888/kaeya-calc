@@ -49,6 +49,7 @@ export default class Artifact {
         }
     }
 
+    /*
     setMainStat(stat, value, isPercentage = false) {
         this.setStat(this.mainStat, stat, value, isPercentage);
     }
@@ -57,6 +58,7 @@ export default class Artifact {
     setSubStat(pos, stat, value, isPercentage = false) {
         this.setStat(this.subStats[pos], stat, value, isPercentage);
     }
+    */
 
     // Returns object containing stat: value mapping, including both main stat and substats
     getStats() {

@@ -271,7 +271,8 @@ export default class App extends Component {
               selectedValue={this.state['artifact' + type].mainStat.stat}
               onValueChange={(stat, _) => {
                 if (stat != 0) {
-                  this.state['artifact' + type].setMainStat(stat, undefined, this.propMap[stat].isPercentage);
+                  let mainStat = this.state['artifact'+type].mainStat;
+                  this.state['artifact' + type].setStat(mainStat, stat, undefined, this.propMap[stat].isPercentage);
 
                   // Force refresh
                   this.setArtifact(type);
@@ -287,12 +288,12 @@ export default class App extends Component {
         <TextInput 
           style={styles.levelInput} 
           onChangeText={text => {
-            let stat = this.state['artifact'+type].mainStat.stat;
-            if (stat) {
-              this.state['artifact' + type].setMainStat(undefined, parseFloat(text), this.propMap[stat].isPercentage);
+            let mainStat = this.state['artifact'+type].mainStat;
+            if (mainStat.stat) {
+              this.state['artifact' + type].setStat(mainStat, undefined, parseFloat(text), this.propMap[mainStat.stat].isPercentage);
             } else {
               // If stat type is not yet set
-              this.state['artifact' + type].setMainStat(undefined, parseFloat(text), false);
+              this.state['artifact' + type].setStat(mainStat, undefined, parseFloat(text), false);
             }
 
             // Force refresh
@@ -309,12 +310,12 @@ export default class App extends Component {
         {
           this.state['artifact' + type].subStats.map((subStat, index) => {
             return (
-              <View style={styles.levelInputRow}>
+              <View style={styles.levelInputRow} key={index}>
                 <Picker
                   selectedValue={subStat.stat}
                   onValueChange={(stat, _) => {
                     if (stat != 0) {
-                      this.state['artifact' + type].setSubStat(index, stat, undefined, this.propMap[stat].isPercentage);
+                      this.state['artifact' + type].setStat(subStat, stat, undefined, this.propMap[stat].isPercentage);
       
                       // Force refresh
                       this.setArtifact(type);
@@ -330,10 +331,10 @@ export default class App extends Component {
                   onChangeText={text => {
                     let stat = subStat.stat;
                     if (stat) {
-                      this.state['artifact' + type].setSubStat(index, undefined, parseFloat(text), this.propMap[stat].isPercentage);
+                      this.state['artifact' + type].setStat(subStat, undefined, parseFloat(text), this.propMap[stat].isPercentage);
                     } else {
                       // If stat type is not yet set
-                      this.state['artifact' + type].setSubStat(index, undefined, parseFloat(text), false);
+                      this.state['artifact' + type].setStat(subStat, undefined, parseFloat(text), false);
                     }
 
                     // Force refresh
@@ -381,7 +382,7 @@ export default class App extends Component {
           this.state.totalStats ? (
             // TODO: Make sure the stats are displayed in a particular order
             Object.entries(this.state.totalStats).map(([stat, value]) => {
-              return <Text style={styles.resultText}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
+              return <Text style={styles.resultText} key={stat}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
             })
           ) : null
         }
