@@ -206,14 +206,48 @@ export async function getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, db
     });
 
     // Merge base stats and artifact bonuses
-    let totalStats = {...baseStats};
+    let combinedStats = {...baseStats};
     Object.entries(artifactStats).forEach(([stat, value]) => {
-        if (totalStats[stat] === undefined) {
-            totalStats[stat] = value;
+        if (combinedStats[stat] === undefined) {
+            combinedStats[stat] = value;
         } else {
-            totalStats[stat] += value;
+            combinedStats[stat] += value;
         }
     });
+
+    // Calculate total stats
+    let totalStats = {};
+    totalStats.flatAtk = (combinedStats.baseAtk ? combinedStats.baseAtk : 0) 
+        * (1 + (combinedStats.atkBonus ? combinedStats.atkBonus : 0))
+        + (combinedStats.flatAtk ? combinedStats.flatAtk : 0);
+    totalStats.flatDef = (combinedStats.baseDef ? combinedStats.baseDef : 0) 
+        * (1 + (combinedStats.defBonus ? combinedStats.defBonus : 0))
+        + (combinedStats.flatDef ? combinedStats.flatDef : 0);
+    totalStats.flatHp = (combinedStats.baseHp ? combinedStats.baseHp : 0) 
+        * (1 + (combinedStats.hpBonus ? combinedStats.hpBonus : 0))
+        + (combinedStats.flatHp ? combinedStats.flatHp : 0);
+    totalStats.critRate = combinedStats.critRate ? combinedStats.critRate : 0;
+    totalStats.critDmg = combinedStats.critDmg ? combinedStats.critDmg : 0;
+    totalStats.elementalMastery = combinedStats.elementalMastery ? combinedStats.elementalMastery : 0;
+    totalStats.energyRecharge = 1 + (combinedStats.energyRecharge ? combinedStats.energyRecharge : 0);
+    
+    combinedStats.anemoDmgBonus ? totalStats.anemoDmgBonus = combinedStats.anemoDmgBonus : null;
+    combinedStats.cryoDmgBonus ? totalStats.cryoDmgBonus = combinedStats.cryoDmgBonus : null;
+    combinedStats.electroDmgBonus ? totalStats.electroDmgBonus = combinedStats.electroDmgBonus : null;
+    combinedStats.geoDmgBonus ? totalStats.geoDmgBonus = combinedStats.geoDmgBonus : null;
+    combinedStats.hydroDmgBonus ? totalStats.hydroDmgBonus = combinedStats.hydroDmgBonus : null;
+    combinedStats.pyroDmgBonus ? totalStats.pyroDmgBonus = combinedStats.pyroDmgBonus : null;
+    combinedStats.physicalDmgBonus ? totalStats.physicalDmgBonus = combinedStats.physicalDmgBonus : null;
+
+    combinedStats.anemoRes ? totalStats.anemoRes = combinedStats.anemoRes : null;
+    combinedStats.cryoRes ? totalStats.cryoRes = combinedStats.cryoRes : null;
+    combinedStats.electroRes ? totalStats.electroRes = combinedStats.electroRes : null;
+    combinedStats.geoRes ? totalStats.geoRes = combinedStats.geoRes : null;
+    combinedStats.hydroRes ? totalStats.hydroRes = combinedStats.hydroRes : null;
+    combinedStats.pyroRes ? totalStats.pyroRes = combinedStats.pyroRes : null;
+    combinedStats.physicalRes ? totalStats.physicalRes = combinedStats.physicalRes : null;
+
+    combinedStats.healingBonus ? totalStats.healingBonus = combinedStats.healingBonus : null;
 
     return totalStats;
 }

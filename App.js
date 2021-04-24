@@ -228,7 +228,6 @@ export default class App extends Component {
           <Text style={styles.resultText}>{this.state.character ? this.state.character.name : ''}</Text>
           {
             this.state.characterStats ? (
-              // TODO: Make sure the stats are displayed in a particular order
               Object.entries(this.state.characterStats).map(([stat, value]) => {
                 return <Text style={styles.resultText} key={stat}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
               })
@@ -247,7 +246,6 @@ export default class App extends Component {
           <Text style={styles.resultText}>{this.state.weapon ? this.state.weapon.name : ''}</Text>
           {
             this.state.weaponStats ? (
-              // TODO: Make sure the stats are displayed in a particular order
               Object.entries(this.state.weaponStats).map(([stat, value]) => {
                 return <Text style={styles.resultText} key={stat}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
               })
@@ -378,7 +376,6 @@ export default class App extends Component {
         <Text style={styles.titleText}>Stat Total</Text>
         {
           this.state.totalStats ? (
-            // TODO: Make sure the stats are displayed in a particular order
             Object.entries(this.state.totalStats).map(([stat, value]) => {
               return <Text style={styles.resultText} key={stat}>{this.propMap[stat].name}: {statUtils.getStatDisplayValue(value, this.propMap[stat].isPercentage)}</Text>
             })
