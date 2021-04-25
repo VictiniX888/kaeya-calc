@@ -101,7 +101,7 @@ export default StyleSheet.create({
     },
 
     artifactStatType: {
-        marginVertical: '0.25',
+        marginVertical: '0.25em',
     },
 
     resultText: {
