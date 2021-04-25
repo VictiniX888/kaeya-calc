@@ -13,6 +13,15 @@ import styles from './js/Styles.js';
 
 export default class App extends Component {
 
+  // Class properties
+  character;
+  weapon;
+  artifactFlower;
+  artifactFeather;
+  artifactSands;
+  artifactGoblet;
+  artifactCirclet;
+
   constructor() {
     super();  
 
@@ -20,26 +29,24 @@ export default class App extends Component {
     this.characters = data.getSortedCharacterList();
     this.weapons = data.getSortedWeaponList();
 
+    this.artifactFlower = new Artifact('Flower');
+    this.artifactFeather = new Artifact('Feather');
+    this.artifactSands = new Artifact('Sands');
+    this.artifactGoblet = new Artifact('Goblet');
+    this.artifactCirclet = new Artifact('Circlet');
+
     this.state = {
       characterId: undefined,
-      character: undefined,
       characterLevel: 1,
       isCharacterAscended: false,
 
       weaponId: undefined,
-      weapon: undefined,
       weaponLevel: 1,
       isWeaponAscended: false,
 
       characterStats: undefined,
       weaponStats: undefined,
       totalStats: undefined,
-
-      artifactFlower: new Artifact('Flower'),
-      artifactFeather: new Artifact('Feather'),
-      artifactSands: new Artifact('Sands'),
-      artifactGoblet: new Artifact('Goblet'),
-      artifactCirclet: new Artifact('Circlet'),
     }
   }
 
@@ -52,17 +59,8 @@ export default class App extends Component {
           selectedValue={this.state.characterId}
           onValueChange={(value, _) => {
             if (value != 0) {
-              let character = new Character(value);
-              let stats = character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
-
-              this.setState({
-                characterId: value,
-                character: character,
-                characterStats: stats
-              }, () => {
-                // callback function from setstate
-                this.setTotalStats();
-              });
+              this.character = new Character(value);
+              this.setState({ characterId: value }, this.setCharacterState);
             }
           }}
         >
@@ -82,17 +80,8 @@ export default class App extends Component {
           selectedValue={this.state.weaponId}
           onValueChange={(value, _) => {
             if (value != 0) {
-              let weapon = new Weapon(value);
-              let stats = weapon.getStatsAt(this.state.weaponLevel, this.state.isWeaponAscended);
-
-              this.setState({
-                weaponId: value,
-                weapon: weapon,
-                weaponStats: stats,
-              }, () => {
-                // callback function from setstate
-                this.setTotalStats();
-              });
+              this.weapon = new Weapon(value);
+              this.setState({ weaponId: value }, this.setWeaponState);
             }
           }}
         >
@@ -104,54 +93,62 @@ export default class App extends Component {
   }
 
   renderCharacterImage = () => {
-    let imageUrl = `https://rerollcdn.com/GENSHIN/Characters/${this.state.character.name}.png`
+    let imageUrl = `https://rerollcdn.com/GENSHIN/Characters/${this.character.name}.png`
     return (
       <Image style={styles.characterImage} source={{uri: imageUrl, width: 70, height: 70}} />
     )
   }
 
-  setCharacterStats = () => {
-    if (this.state.character !== undefined) {
-      let stats = this.state.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
-      this.setState({ characterStats: stats }, this.setTotalStats)
+  setCharacterState = () => {
+    if (this.character !== undefined) {
+      let stats = this.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
+      let totalStats = this.getTotalStats();
+      this.setState({ 
+        characterStats: stats,
+        totalStats: totalStats,
+      });
     }
   }
 
-  setWeaponStats = () => {
-    if (this.state.weapon !== undefined) {
-      let stats = this.state.weapon.getStatsAt(this.state.weaponLevel, this.state.isWeaponAscended);
-      this.setState({ weaponStats: stats }, this.setTotalStats);
+  setWeaponState = () => {
+    if (this.weapon !== undefined) {
+      let stats = this.weapon.getStatsAt(this.state.weaponLevel, this.state.isweaponAscended);
+      let totalStats = this.getTotalStats();
+      this.setState({ 
+        weaponStats: stats,
+        totalStats: totalStats,
+      });
     }
   }
 
-  setArtifact = (type) => {
-    let artifact = this.state['artifact' + type];
-    this.setState({['artifact' + type]: artifact}, this.setTotalStats);
+  setArtifactState = (type) => {
+    let totalStats = this.getTotalStats();
+    this.setState({ totalStats: totalStats });
   }
 
-  setTotalStats = () => {
-    let artifacts = [this.state.artifactFlower, this.state.artifactFeather, this.state.artifactSands, this.state.artifactGoblet, this.state.artifactCirclet];
+  getTotalStats = () => {
+    let artifacts = [this.artifactFlower, this.artifactFeather, this.artifactSands, this.artifactGoblet, this.artifactCirclet];
 
     let stats = statUtils.getTotalStatsAt(
-      this.state.weapon, 
+      this.weapon, 
       this.state.weaponLevel, 
       this.state.isWeaponAscended, 
-      this.state.character,
+      this.character,
       this.state.characterLevel,
       this.state.isCharacterAscended,
       artifacts,
     );
-    
-    this.setState({ totalStats: stats });
+
+    return stats;
   }
 
   renderCharacterStats = () => {
     return (
-      this.state.character ? (
+      this.character ? (
         <View style={styles.resultBlock}>
           <Text style={styles.titleText}>Character</Text>
           {this.renderCharacterImage()}
-          <Text style={styles.resultText}>{this.state.character ? this.state.character.name : ''}</Text>
+          <Text style={styles.resultText}>{this.character ? this.character.name : ''}</Text>
           {
             this.state.characterStats ? (
               Object.entries(this.state.characterStats).map(([stat, value]) => {
@@ -166,10 +163,10 @@ export default class App extends Component {
 
   renderWeaponStats = () => {
     return (
-      this.state.weapon ? (
+      this.weapon ? (
         <View style={styles.resultBlock}>
           <Text style={styles.titleText}>Weapon</Text>
-          <Text style={styles.resultText}>{this.state.weapon ? this.state.weapon.name : ''}</Text>
+          <Text style={styles.resultText}>{this.weapon ? this.weapon.name : ''}</Text>
           {
             this.state.weaponStats ? (
               Object.entries(this.state.weaponStats).map(([stat, value]) => {
@@ -186,14 +183,13 @@ export default class App extends Component {
     return (
       <View style={styles.inputRow}>
         <Picker
-          selectedValue={this.state['artifact' + type].mainStat.stat}
+          selectedValue={this['artifact' + type].mainStat.stat}
           onValueChange={(stat, _) => {
             if (stat != 0) {
-              let mainStat = this.state['artifact'+type].mainStat;
-              this.state['artifact' + type].setStat(mainStat, stat, undefined, data.propMapping[stat].isPercentage);
-
-              // Force refresh
-              this.setArtifact(type);
+              let mainStat = this['artifact' + type].mainStat;
+              this['artifact' + type].setStat(mainStat, stat, undefined, data.propMapping[stat].isPercentage);
+              // Update total stats
+              this.setArtifactState(type);
             }
           }}
         >
@@ -206,16 +202,16 @@ export default class App extends Component {
         <TextInput 
           style={styles.statInput} 
           onChangeText={text => {
-            let mainStat = this.state['artifact'+type].mainStat;
+            let mainStat = this['artifact' + type].mainStat;
             if (mainStat.stat) {
-              this.state['artifact' + type].setStat(mainStat, undefined, parseFloat(text), data.propMapping[mainStat.stat].isPercentage);
+              this['artifact' + type].setStat(mainStat, undefined, parseFloat(text), data.propMapping[mainStat.stat].isPercentage);
             } else {
               // If stat type is not yet set
-              this.state['artifact' + type].setStat(mainStat, undefined, parseFloat(text), false);
+              this['artifact' + type].setStat(mainStat, undefined, parseFloat(text), false);
             }
 
-            // Force refresh
-            this.setArtifact(type);
+            // Update total stats
+            this.setArtifactState(type);
           }}
         />
       </View>
@@ -226,17 +222,16 @@ export default class App extends Component {
     return (
       <View>
         {
-          this.state['artifact' + type].subStats.map((subStat, index) => {
+          this['artifact' + type].subStats.map((subStat, index) => {
             return (
               <View style={styles.inputRow} key={index}>
                 <Picker
                   selectedValue={subStat.stat}
                   onValueChange={(stat, _) => {
                     if (stat != 0) {
-                      this.state['artifact' + type].setStat(subStat, stat, undefined, data.propMapping[stat].isPercentage);
-      
-                      // Force refresh
-                      this.setArtifact(type);
+                      this['artifact' + type].setStat(subStat, stat, undefined, data.propMapping[stat].isPercentage);     
+                      // Update total stats
+                      this.setArtifactState(type);
                     }
                   }}
                 >
@@ -251,14 +246,13 @@ export default class App extends Component {
                   onChangeText={text => {
                     let stat = subStat.stat;
                     if (stat) {
-                      this.state['artifact' + type].setStat(subStat, undefined, parseFloat(text), data.propMapping[stat].isPercentage);
+                      this['artifact' + type].setStat(subStat, undefined, parseFloat(text), data.propMapping[stat].isPercentage);
                     } else {
                       // If stat type is not yet set
-                      this.state['artifact' + type].setStat(subStat, undefined, parseFloat(text), false);
+                      this['artifact' + type].setStat(subStat, undefined, parseFloat(text), false);
                     }
-
-                    // Force refresh
-                    this.setArtifact(type);
+                    // Update total stats
+                    this.setArtifactState(type);
                   }}
                 />
               </View>
@@ -323,7 +317,7 @@ export default class App extends Component {
               style={styles.levelInput}
               defaultValue={this.state.characterLevel} 
               onChangeText={text => {
-                this.setState({characterLevel: parseInt(text)}, () => { this.setCharacterStats() });
+                this.setState({ characterLevel: parseInt(text) }, this.setCharacterState);
               }}
             />
           </View>
@@ -331,7 +325,7 @@ export default class App extends Component {
           <View style={styles.inputRow}>
             <Text>Ascended? </Text>
             <Checkbox
-              onValueChange={value => this.setState({isCharacterAscended: value}, () => { this.setCharacterStats() })}
+              onValueChange={value => this.setState({ isCharacterAscended: value }, this.setCharacterState)}
               value={this.state.isCharacterAscended}
             />
           </View>
@@ -346,7 +340,7 @@ export default class App extends Component {
               style={styles.levelInput}
               defaultValue={this.state.weaponLevel} 
               onChangeText={text => {
-                this.setState({weaponLevel: parseInt(text)}, () => { this.setWeaponStats() });
+                this.setState({ weaponLevel: parseInt(text) }, this.setWeaponState)
               }}
             />
           </View>
@@ -354,7 +348,7 @@ export default class App extends Component {
           <View style={styles.inputRow}>
             <Text>Ascended? </Text>
             <Checkbox
-              onValueChange={value => this.setState({isWeaponAscended: value}, () => { this.setWeaponStats() })}
+              onValueChange={value => this.setState({ isWeaponAscended: value }, this.setWeaponState)}
               value={this.state.isWeaponAscended}
             />
           </View>
