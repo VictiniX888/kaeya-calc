@@ -1,44 +1,20 @@
-class Weapon {
-    constructor(name, type, rank) {
-        this.name = name;
-        this.type = type;
-        this.rank = rank;
-    }
+import { getWeaponData as getData, getWeaponAscensionBonusData as getAscensionBonusData, getWeaponStatCurveAt as getStatCurveAt, getAscensionBonusAt } from './Data.js';
 
-    async setBaseStats(dbBaseStatRef) {
-        let doc = await dbBaseStatRef.get()
-        
-        if (doc.exists) {
-            this.baseStats = doc.data();
-        } else {
-            // doc.data() is undefined
-            console.log(`WARN: Base stats for ${this.name} not found!`);
-        }
-    }
+export default class Weapon {
+    constructor(id) {
+        this.id = id;
 
-    async setStatCurveMapping(dbStatCurveRef) {
-        let doc = await dbStatCurveRef.get()
-
-        if (doc.exists) {
-            this.statCurveMapping = doc.data();
-        } else {
-            // doc.data() is undefined
-            console.log(`WARN: Stat curve mapping for ${this.name} not found!`);
-        }
-    }
-
-    async setAscensionBonuses(dbAscensionBonusRef) {
-        this.ascensionBonuses = {};
-        
-        let querySnapshot = await dbAscensionBonusRef.get()
-        querySnapshot.forEach(doc => {
-            // doc.data() is never undefined for query doc snapshots
-            this.ascensionBonuses[doc.id] = doc.data();
-        })
+        const data = getData(id);
+        this.name = data.name;
+        this.type = data.type;
+        this.rank = data.rank;
+        this.baseStats = data.baseStats;
+        this.statCurveMapping = data.statCurves;
+        this.ascensionBonuses = getAscensionBonusData(id);
     }
 
     // Returns an Object containing the weapons's HP, Atk and Def, taking into account only its level and ascension
-    async getStatsAt(weaponLevel, hasAscended, dbStatCurveColRef) {
+    getStatsAt(weaponLevel, hasAscended) {
         if (isNaN(weaponLevel) || weaponLevel < 1 || (this.rank <= 2 && weaponLevel > 70) || weaponLevel > 90) {
             // Return nulls if weapon level is invalid
             let weaponStats;
@@ -67,7 +43,7 @@ class Weapon {
             // Level 1 weapon stats
             let weaponStats = {...this.baseStats};
 
-            let weaponStatCurves = await this.getStatCurvesAtLevel(weaponLevel, dbStatCurveColRef);
+            let weaponStatCurves = getStatCurveAt(weaponLevel);
 
             // Calculate stats from weapon level
             Object.entries(this.statCurveMapping).forEach(([stat, curve]) => {
@@ -93,7 +69,7 @@ class Weapon {
             } else {
                 ascensionLevel = 0;
             }
-            let ascensionBonuses = this.ascensionBonuses[ascensionLevel];
+            let ascensionBonuses = getAscensionBonusAt(ascensionLevel, this.ascensionBonuses);
             
             if (ascensionBonuses !== undefined) {
                 Object.entries(ascensionBonuses).forEach(([stat, bonus]) => {
@@ -112,39 +88,4 @@ class Weapon {
             return weaponStats;
         }
     }
-
-    async getStatCurvesAtLevel(level, dbStatCurveColRef) {
-        let doc = await dbStatCurveColRef.doc(level.toString()).get();
-        if (doc.exists) {
-            return doc.data();
-        } else {
-            console.log(`WARN: Stat curves for level ${level} not found`);
-            return {};
-        }
-    }
-}
-
-export const weaponConverter = {
-    fromFirestore: async (snapshot, options) => {
-        const data = snapshot.data(options);
-        let weapon = await createWeapon(
-            data.name,
-            data.type,
-            data.rank,
-            snapshot.ref.collection('stats').doc('baseStats'),
-            snapshot.ref.collection('stats').doc('statCurves'), 
-            snapshot.ref.collection('ascensionBonuses'),
-        );
-
-        return weapon;
-    }
-}
-
-async function createWeapon(name, type, rank, dbBaseStatRef, dbStatCurveRef, dbAscensionBonusRef) {
-    let weapon = new Weapon(name, type, rank);
-    await weapon.setBaseStats(dbBaseStatRef);
-    await weapon.setStatCurveMapping(dbStatCurveRef);
-    await weapon.setAscensionBonuses(dbAscensionBonusRef);
-
-    return weapon;
 }
