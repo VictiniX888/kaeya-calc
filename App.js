@@ -305,6 +305,32 @@ export default class App extends Component {
     )
   }
 
+  renderTalentDamage = (type, level, isLast = false) => {
+    return (
+      <View style={isLast ? styles.artifactBlockNoBorder : styles.artifactBlock}>
+        <Text style={styles.artifactType}>{type}</Text>
+        {
+          this.character ? (
+            this.character.getTalentDamageAt(type, level).map((damage, index) => <Text style={styles.resultText} key={index}>{damage}</Text>)
+          ) : null
+        }
+      </View>
+
+    )
+  }
+
+  renderAllTalentDamage = () => {
+    return (
+      <View style={styles.resultBlockNoBorder}>
+        <Text style={styles.titleText}>Talents</Text>
+
+        {this.renderTalentDamage('attack', 1)}
+        {this.renderTalentDamage('skill', 1)}
+        {this.renderTalentDamage('burst', 1, true)}
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -363,6 +389,10 @@ export default class App extends Component {
 
         <View style={styles.resultColumn}>
           {this.renderTotalStats()}
+        </View>
+
+        <View style={styles.resultColumn}>
+          {this.renderAllTalentDamage()}
         </View>
 
         <View style={styles.fillerColumn}>

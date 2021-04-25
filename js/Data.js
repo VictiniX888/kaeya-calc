@@ -6,6 +6,7 @@ import weaponAscensionBonusDataRaw from '../data/weaponascensionbonusdata.json';
 import weaponStatCurveDataRaw from '../data/weaponstatcurvedata.json';
 //import artifactSetDataRaw from '../data/artifactsetdata.json';
 //import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
+import talentDataRaw from '../data/talentdata.json';
 export { default as propMapping } from '../data/propmapping.json';
 
 // Pre-processed data, coverting from arrays to objects (map-like) for faster lookup
@@ -15,6 +16,7 @@ const characterStatCurveData = processCharacterStatCurveData(characterStatCurveD
 const weaponData = processWeaponData(weaponDataRaw);
 const weaponAscensionBonusData = processWeaponAscensionBonusData(weaponAscensionBonusDataRaw);
 const weaponStatCurveData = processWeaponStatCurveData(weaponStatCurveDataRaw);
+const talentData = processTalentData(talentDataRaw);
 
 // Pre-processed data, lists
 let sortedCharacterList;    // lazy loading implemented with getSortedCharacterList()
@@ -63,6 +65,28 @@ function processWeaponStatCurveData(rawData) {
     }, {});
 }
 
+function processTalentData(rawData) {
+    return rawData.reduce((acc, talentDataRaw) => {
+        let talentData = {...talentDataRaw.talents};
+
+        talentData.attack = talentData.attack.reduce((curveAcc, curveData) => {
+            curveAcc[curveData.level] = curveData.params;
+            return curveAcc;
+        }, {});
+        talentData.skill = talentData.skill.reduce((curveAcc, curveData) => {
+            curveAcc[curveData.level] = curveData.params;
+            return curveAcc;
+        }, {});
+        talentData.burst = talentData.burst.reduce((curveAcc, curveData) => {
+            curveAcc[curveData.level] = curveData.params;
+            return curveAcc;
+        }, {});
+
+        acc[talentDataRaw.characterId] = talentData;
+        return acc;
+    }, {});
+}
+
 // Helper functions for accessing data properties
 function getData(id, dataObj) {
     return dataObj[id];
@@ -103,6 +127,14 @@ export function getWeaponStatCurveAt(level) {
 
 export function getAscensionBonusAt(level, ascensionBonuses) {
     return ascensionBonuses[level];
+}
+
+export function getTalentData(id) {
+    return talentData[id];
+}
+
+export function getTalentStatsAt(type, level, talents) {
+    return talents[type][level];
 }
 
 // "Public" functions for getting data collections

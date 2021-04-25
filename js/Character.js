@@ -1,4 +1,11 @@
-import { getCharacterData as getData, getCharacterAscensionBonusData as getAscensionBonusData, getCharacterStatCurveAt as getStatCurveAt, getAscensionBonusAt } from './Data.js';
+import { 
+    getCharacterData as getData, 
+    getCharacterAscensionBonusData as getAscensionBonusData, 
+    getCharacterStatCurveAt as getStatCurveAt, 
+    getAscensionBonusAt,
+    getTalentData,
+    getTalentStatsAt,
+} from './Data.js';
 
 export default class Character {
     constructor(id) {
@@ -9,6 +16,8 @@ export default class Character {
         this.baseStats = data.baseStats;
         this.statCurveMapping = data.statCurves;
         this.ascensionBonuses = getAscensionBonusData(id);
+
+        this.talents = getTalentData(id);
     }
 
     // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
@@ -84,5 +93,11 @@ export default class Character {
 
             return innateStats;
         }
+    }
+
+    // Currently returns an Array of talent params
+    // TODO: Make the function return a Map of description to damage
+    getTalentDamageAt(type, level) {
+        return getTalentStatsAt(type, level, this.talents);
     }
 }
