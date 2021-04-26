@@ -58,6 +58,91 @@ export default class App extends Component {
     }
   }
 
+  renderInputColumn = () => {
+    return (
+      <View>
+        {this.renderCharacterList()}
+
+        <View style={styles.inputRow}>
+          <Text>Level: </Text>
+          <TextInput 
+            style={styles.levelInput}
+            defaultValue={this.state.characterLevel} 
+            onChangeText={text => {
+              this.setState({ characterLevel: parseInt(text) }, this.setCharacterState);
+            }}
+          />
+        </View>
+
+        <View style={styles.inputRow}>
+          <Text>Ascended? </Text>
+          <Checkbox
+            onValueChange={value => this.setState({ isCharacterAscended: value }, this.setCharacterState)}
+            value={this.state.isCharacterAscended}
+          />
+        </View>
+
+        <Text> </Text>
+
+        {this.renderWeaponList()}
+
+        <View style={styles.inputRow}>
+          <Text>Level: </Text>
+          <TextInput 
+            style={styles.levelInput}
+            defaultValue={this.state.weaponLevel} 
+            onChangeText={text => {
+              this.setState({ weaponLevel: parseInt(text) }, this.setWeaponState)
+            }}
+          />
+        </View>
+
+        <View style={styles.inputRow}>
+          <Text>Ascended? </Text>
+          <Checkbox
+            onValueChange={value => this.setState({ isWeaponAscended: value }, this.setWeaponState)}
+            value={this.state.isWeaponAscended}
+          />
+        </View>
+
+        <Text> </Text>
+
+        <View style={styles.inputRow}>
+          <Text>Attack Talent Level: </Text>
+          <TextInput 
+            style={styles.levelInput}
+            defaultValue={this.state.talentAttackLevel} 
+            onChangeText={text => {
+              this.setState({ talentAttackLevel: parseInt(text) }, () => this.setTalentState('Attack'));
+            }}
+          />
+        </View>
+
+        <View style={styles.inputRow}>
+          <Text>Skill Talent Level: </Text>
+          <TextInput 
+            style={styles.levelInput}
+            defaultValue={this.state.talentSkillLevel} 
+            onChangeText={text => {
+              this.setState({ talentSkillLevel: parseInt(text) }, () => this.setTalentState('Skill'));
+            }}
+          />
+        </View>
+
+        <View style={styles.inputRow}>
+          <Text>Burst Talent Level: </Text>
+          <TextInput 
+            style={styles.levelInput}
+            defaultValue={this.state.talentBurstLevel} 
+            onChangeText={text => {
+              this.setState({ talentBurstLevel: parseInt(text) }, () => this.setTalentState('Burst'));
+            }}
+          />
+        </View>
+      </View>
+    )
+  }
+
   renderCharacterList = () => {    
     return (
       <View style={styles.inputRow}>
@@ -164,6 +249,13 @@ export default class App extends Component {
       talentSkillDamage: talentSkillDamage,
       talentBurstDamage: talentBurstDamage,
     });
+  }
+
+  setTalentState = (type) => {
+    if (this.character !== undefined) {
+      let talentDmg = this.character.getTalentDamageAt(type, this.state[`talent${type}Level`], this.state.totalStats);
+      this.setState({ [`talent${type}Damage`]: talentDmg });
+    }
   }
 
   getTotalStats = () => {
@@ -379,50 +471,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.inputColumn}>
-          {this.renderCharacterList()}
-
-          <View style={styles.inputRow}>
-            <Text>Level: </Text>
-            <TextInput 
-              style={styles.levelInput}
-              defaultValue={this.state.characterLevel} 
-              onChangeText={text => {
-                this.setState({ characterLevel: parseInt(text) }, this.setCharacterState);
-              }}
-            />
-          </View>
-
-          <View style={styles.inputRow}>
-            <Text>Ascended? </Text>
-            <Checkbox
-              onValueChange={value => this.setState({ isCharacterAscended: value }, this.setCharacterState)}
-              value={this.state.isCharacterAscended}
-            />
-          </View>
-
-          <br/>
-
-          {this.renderWeaponList()}
-
-          <View style={styles.inputRow}>
-            <Text>Level: </Text>
-            <TextInput 
-              style={styles.levelInput}
-              defaultValue={this.state.weaponLevel} 
-              onChangeText={text => {
-                this.setState({ weaponLevel: parseInt(text) }, this.setWeaponState)
-              }}
-            />
-          </View>
-
-          <View style={styles.inputRow}>
-            <Text>Ascended? </Text>
-            <Checkbox
-              onValueChange={value => this.setState({ isWeaponAscended: value }, this.setWeaponState)}
-              value={this.state.isWeaponAscended}
-            />
-          </View>
-
+          {this.renderInputColumn()}
         </View>
 
         <View style={styles.resultColumn}>

@@ -8,6 +8,7 @@ import {
 } from './Data.js';
 
 import * as talents from './Talent.js';
+const emptyTalentParams = Array(19).fill(NaN);
 
 export default class Character {
     constructor(id) {
@@ -100,11 +101,16 @@ export default class Character {
     // Return an Object with description and damage properties
     getTalentDamageAt(type, level, totalStats) {
         const params = getTalentStatsAt(type.toLowerCase(), level, this.talents);
+
         let damageFn = talents[this.id + type];
         if (damageFn === undefined) {
             damageFn = talents['defaultTalent'];
         }
-        const damage = damageFn(params, totalStats);
+
+        let damage = damageFn(params ? params : emptyTalentParams, totalStats);
+
+        // Set damage values to null if they are NaN so that getStatDisplayValue can display them correctly
+        damage.forEach(idvDamage => isNaN(idvDamage.damage) ? idvDamage.damage = null : null);
 
         return damage;
     }
