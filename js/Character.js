@@ -97,7 +97,7 @@ export default class Character {
         }
     }
 
-    // TODO: Make the function return a Map of description to damage
+    // Return an Object with description and damage properties
     getTalentDamageAt(type, level, totalStats) {
         const params = getTalentStatsAt(type.toLowerCase(), level, this.talents);
         let damageFn = talents[this.id + type];
