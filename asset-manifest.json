@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/KaeyaCalc/static/js/app.7faf0b31.chunk.js",
-    "app.js.map": "/KaeyaCalc/static/js/app.7faf0b31.chunk.js.map",
+    "app.js": "/KaeyaCalc/static/js/app.95e64ce1.chunk.js",
+    "app.js.map": "/KaeyaCalc/static/js/app.95e64ce1.chunk.js.map",
     "runtime~app.js": "/KaeyaCalc/static/js/runtime~app.c6158d76.js",
     "runtime~app.js.map": "/KaeyaCalc/static/js/runtime~app.c6158d76.js.map",
     "static/js/2.4e7d34ce.chunk.js": "/KaeyaCalc/static/js/2.4e7d34ce.chunk.js",
@@ -17,6 +17,6 @@
   "entrypoints": [
     "static/js/runtime~app.c6158d76.js",
     "static/js/2.4e7d34ce.chunk.js",
-    "static/js/app.7faf0b31.chunk.js"
+    "static/js/app.95e64ce1.chunk.js"
   ]
 }
