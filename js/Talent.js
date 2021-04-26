@@ -49,7 +49,7 @@ function normalAttackDefault(params, stats, critType, hits) {
         let damage = calculateTotalDamage(stats, params[i], 'attack', 'physical', critType);
         talentValues.push({
             description: `${i+1}HitDmg`,
-            damage: damage,
+            damage: [damage],
         });
     }
 
@@ -61,7 +61,7 @@ function chargedAttackDefault(params, stats, critType) {
     let damage = calculateTotalDamage(stats, params[0], 'attack', 'physical', critType);
     return [{
         description: 'chargedDmg',
-        damage: damage,
+        damage: [damage],
     }];
 }
 
@@ -72,7 +72,7 @@ function chargedAttackMulti(params, stats, critType, hits) {
         let damage = calculateTotalDamage(stats, params[i], 'attack', 'physical', critType);
         talentValues.push({
             description: `charged${i+1}HitDmg`,
-            damage: damage,
+            damage: [damage],
         });
     }
 
@@ -86,7 +86,7 @@ function plungeAttackDefault(params, stats, critType) {
         let damage = calculateTotalDamage(stats, params[i], 'attack', 'physical', critType);
         return {
             description: description,
-            damage: damage,
+            damage: [damage],
         };
     });
 }
@@ -114,7 +114,7 @@ function skillDefault(params, stats, critType, element) {
 
     return [{
         description: 'dmg',
-        damage: damage,
+        damage: [damage],
     }];
 }
 

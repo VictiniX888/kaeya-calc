@@ -445,7 +445,7 @@ export default class App extends Component {
           this.state['talent' + type + 'Damage'] ? (
             this.state['talent' + type + 'Damage'].map(({description, damage}, index) => {
               return (
-                <Text style={styles.resultText} key={index}>{statUtils.getTalentDescription(description)}: {statUtils.getStatDisplayValue(damage)}</Text>
+                <Text style={styles.resultText} key={index}>{statUtils.getTalentDescription(description)}: {statUtils.getDamageDisplayValue(damage)}</Text>
               )
             })
           ) : null

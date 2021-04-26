@@ -109,9 +109,6 @@ export default class Character {
 
         let damage = damageFn(params ? params : emptyTalentParams, totalStats);
 
-        // Set damage values to null if they are NaN so that getStatDisplayValue can display them correctly
-        damage.forEach(idvDamage => isNaN(idvDamage.damage) ? idvDamage.damage = null : null);
-
         return damage;
     }
 }

@@ -13,6 +13,27 @@ export function getStatDisplayValue(value, isPercentage) {
     }
 };
 
+// Returns the string to display as the talent damage
+export function getDamageDisplayValue(values) {
+    let str = '';
+
+    if (isNaN(values[0])) {
+        return '-';
+    } else {
+        str += Math.round(values[0]);
+    }
+
+    values.slice(1).forEach(value => {
+        if (isNaN(value)) {
+            return '-';
+        } else {
+            str += ' + ' + Math.round(value);
+        }
+    });
+
+    return str;
+}
+
 // Returns a Number representing the inputed value of a stat
 // Returns null if the input is not a valid stat value
 export function convertStatValue(value, isPercentage) {
