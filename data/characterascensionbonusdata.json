@@ -1970,5 +1970,141 @@
                 }
             }
         ]
+    },
+    {
+        "characterId": "yanfei",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                    "baseHp": 0.0,
+                    "baseDef": 0.0,
+                    "baseAtk": 0.0,
+                    "pyroDmgBonus": 0.0
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseHp": 585.7929077148438,
+                    "baseDef": 36.76499938964844,
+                    "baseAtk": 15.033293724060059,
+                    "pyroDmgBonus": 0.0
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseHp": 1002.0142211914062,
+                    "baseDef": 62.88750076293945,
+                    "baseAtk": 25.714845657348633,
+                    "pyroDmgBonus": 0.05999999865889549
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseHp": 1556.9759521484375,
+                    "baseDef": 97.71749877929688,
+                    "baseAtk": 39.956912994384766,
+                    "pyroDmgBonus": 0.11999999731779099
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseHp": 1973.197265625,
+                    "baseDef": 123.83999633789062,
+                    "baseAtk": 50.638465881347656,
+                    "pyroDmgBonus": 0.11999999731779099
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseHp": 2389.41845703125,
+                    "baseDef": 149.96249389648438,
+                    "baseAtk": 61.32001495361328,
+                    "pyroDmgBonus": 0.18000000715255737
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseHp": 2805.639892578125,
+                    "baseDef": 176.0850067138672,
+                    "baseAtk": 72.0015640258789,
+                    "pyroDmgBonus": 0.23999999463558197
+                }
+            }
+        ]
+    },
+    {
+        "characterId": "eula",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                    "baseHp": 0.0,
+                    "baseDef": 0.0,
+                    "baseAtk": 0.0,
+                    "critDmg": 0.0
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseHp": 882.7765502929688,
+                    "baseDef": 50.12009811401367,
+                    "baseAtk": 22.82823371887207,
+                    "critDmg": 0.0
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseHp": 1510.0125732421875,
+                    "baseDef": 85.73175048828125,
+                    "baseAtk": 39.04829406738281,
+                    "critDmg": 0.09600000083446503
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseHp": 2346.3271484375,
+                    "baseDef": 133.2139434814453,
+                    "baseAtk": 60.67504119873047,
+                    "critDmg": 0.19200000166893005
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseHp": 2973.563232421875,
+                    "baseDef": 168.8256072998047,
+                    "baseAtk": 76.89510345458984,
+                    "critDmg": 0.19200000166893005
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseHp": 3600.799072265625,
+                    "baseDef": 204.437255859375,
+                    "baseAtk": 93.11516571044922,
+                    "critDmg": 0.2879999876022339
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseHp": 4228.03515625,
+                    "baseDef": 240.0489044189453,
+                    "baseAtk": 109.3352279663086,
+                    "critDmg": 0.3840000033378601
+                }
+            }
+        ]
     }
 ]

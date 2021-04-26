@@ -1289,5 +1289,95 @@
                 }
             }
         ]
+    },
+    {
+        "setId": "tenacityofthemillelith",
+        "setBonusSet": [
+            {
+                "bonusThreshold": 2,
+                "bonuses": [
+                    {
+                        "stat": "hpBonus",
+                        "value": 0.20000000298023224
+                    }
+                ],
+                "bonusExtra": {
+                    "type": "",
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            {
+                "bonusThreshold": 4,
+                "bonuses": [
+                ],
+                "bonusExtra": {
+                    "type": "Relic_ShieldCostUpWhenElementalArtHit",
+                    "params": [
+                        0.20000000298023224,
+                        0.30000001192092896,
+                        3.0,
+                        0.5,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "setId": "paleflame",
+        "setBonusSet": [
+            {
+                "bonusThreshold": 2,
+                "bonuses": [
+                    {
+                        "stat": "physicalDmgBonus",
+                        "value": 0.25
+                    }
+                ],
+                "bonusExtra": {
+                    "type": "",
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            {
+                "bonusThreshold": 4,
+                "bonuses": [
+                ],
+                "bonusExtra": {
+                    "type": "Relic_AttackUpWhenNormalAtkAndExtraAtkHit",
+                    "params": [
+                        0.09000000357627869,
+                        7.0,
+                        0.30000001192092896,
+                        0.25,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            }
+        ]
     }
 ]

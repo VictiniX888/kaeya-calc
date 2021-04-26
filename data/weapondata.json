@@ -608,6 +608,20 @@
         }
     },
     {
+        "id": "songofbrokenpines",
+        "name": "Song of Broken Pines",
+        "type": "claymore",
+        "rank": 5,
+        "baseStats": {
+            "baseAtk": 49.137699127197266,
+            "physicalDmgBonus": 0.04500000178813934
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk303",
+            "physicalDmgBonus": "growthCurveSub301"
+        }
+    },
+    {
         "id": "theunforged",
         "name": "The Unforged",
         "type": "claymore",

@@ -242,5 +242,21 @@
             2,
             4
         ]
+    },
+    {
+        "id": "tenacityofthemillelith",
+        "name": "Tenacity of the Millelith",
+        "bonusThresholds": [
+            2,
+            4
+        ]
+    },
+    {
+        "id": "paleflame",
+        "name": "Pale Flame",
+        "bonusThresholds": [
+            2,
+            4
+        ]
     }
 ]

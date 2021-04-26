@@ -462,5 +462,37 @@
             "baseAtk": "growthCurveAtk5Star",
             "baseDef": "growthCurveHp5Star"
         }
+    },
+    {
+        "id": "yanfei",
+        "name": "Yanfei",
+        "baseStats": {
+            "baseHp": 784.1402587890625,
+            "baseAtk": 20.12303924560547,
+            "baseDef": 49.2135009765625,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp4Star",
+            "baseAtk": "growthCurveAtk4Star",
+            "baseDef": "growthCurveHp4Star"
+        }
+    },
+    {
+        "id": "eula",
+        "name": "Eula",
+        "baseStats": {
+            "baseHp": 1029.5855712890625,
+            "baseAtk": 26.62660026550293,
+            "baseDef": 58.45391082763672,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
+        }
     }
 ]
