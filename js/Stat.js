@@ -23,15 +23,6 @@ export function convertStatValue(value, isPercentage) {
     }
 };
 
-export function getDamageBonus(element, stats) {
-    let dmgBonus = stats[`${element}DmgBonus`];
-    if (dmgBonus !== undefined) {
-        return 1 + dmgBonus;
-    } else {
-        return 1;
-    }
-}
-
 export function getTalentDescription(desc) {
     return talentDescMapping[desc];
 }
