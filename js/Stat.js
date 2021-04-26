@@ -1,3 +1,5 @@
+import { talentDescMapping } from './Data.js';
+
 // Returns the string to display as the value of a stat
 export function getStatDisplayValue(value, isPercentage) {
     if (value != null) {
@@ -20,6 +22,10 @@ export function convertStatValue(value, isPercentage) {
         return value;
     }
 };
+
+export function getTalentDescription(desc) {
+    return talentDescMapping[desc];
+}
 
 // Returns object containing base stats of character with the passed weapon
 // Base stats = character innate stats + weapon stats

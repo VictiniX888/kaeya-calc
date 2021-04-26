@@ -44,9 +44,17 @@ export default class App extends Component {
       weaponLevel: 1,
       isWeaponAscended: false,
 
+      talentAttackLevel: 1,
+      talentSkillLevel: 1,
+      talentBurstLevel: 1,
+
       characterStats: undefined,
       weaponStats: undefined,
       totalStats: undefined,
+
+      talentAttackDamage: undefined,
+      talentSkillDamage: undefined,
+      talentBurstDamage: undefined,
     }
   }
 
@@ -103,9 +111,17 @@ export default class App extends Component {
     if (this.character !== undefined) {
       let stats = this.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
       let totalStats = this.getTotalStats();
+
+      let talentAttackDamage = this.character.getTalentDamageAt('Attack', this.state.talentAttackLevel, totalStats);
+      let talentSkillDamage = this.character.getTalentDamageAt('Skill', this.state.talentSkillLevel, totalStats);
+      let talentBurstDamage = this.character.getTalentDamageAt('Burst', this.state.talentBurstLevel, totalStats);
+
       this.setState({ 
         characterStats: stats,
         totalStats: totalStats,
+        talentAttackDamage: talentAttackDamage,
+        talentSkillDamage: talentSkillDamage,
+        talentBurstDamage: talentBurstDamage,
       });
     }
   }
@@ -114,16 +130,40 @@ export default class App extends Component {
     if (this.weapon !== undefined) {
       let stats = this.weapon.getStatsAt(this.state.weaponLevel, this.state.isweaponAscended);
       let totalStats = this.getTotalStats();
+
+      let talentAttackDamage, talentSkillDamage, talentBurstDamage;
+      if (this.character !== undefined) {
+        talentAttackDamage = this.character.getTalentDamageAt('Attack', this.state.talentAttackLevel, totalStats);
+        talentSkillDamage = this.character.getTalentDamageAt('Skill', this.state.talentSkillLevel, totalStats);
+        talentBurstDamage = this.character.getTalentDamageAt('Burst', this.state.talentBurstLevel, totalStats);
+      }
+
       this.setState({ 
         weaponStats: stats,
         totalStats: totalStats,
+        talentAttackDamage: talentAttackDamage,
+        talentSkillDamage: talentSkillDamage,
+        talentBurstDamage: talentBurstDamage,
       });
     }
   }
 
   setArtifactState = (type) => {
     let totalStats = this.getTotalStats();
-    this.setState({ totalStats: totalStats });
+
+    let talentAttackDamage, talentSkillDamage, talentBurstDamage;
+    if (this.character !== undefined) {
+      talentAttackDamage = this.character.getTalentDamageAt('Attack', this.state.talentAttackLevel, totalStats);
+      talentSkillDamage = this.character.getTalentDamageAt('Skill', this.state.talentSkillLevel, totalStats);
+      talentBurstDamage = this.character.getTalentDamageAt('Burst', this.state.talentBurstLevel, totalStats);
+    }
+
+    this.setState({
+      totalStats: totalStats,
+      talentAttackDamage: talentAttackDamage,
+      talentSkillDamage: talentSkillDamage,
+      talentBurstDamage: talentBurstDamage,
+    });
   }
 
   getTotalStats = () => {
@@ -305,13 +345,17 @@ export default class App extends Component {
     )
   }
 
-  renderTalentDamage = (type, level, isLast = false) => {
+  renderTalentDamage = (type, isLast = false) => {
     return (
       <View style={isLast ? styles.artifactBlockNoBorder : styles.artifactBlock}>
         <Text style={styles.artifactType}>{type}</Text>
         {
-          this.character ? (
-            this.character.getTalentDamageAt(type, level).map((damage, index) => <Text style={styles.resultText} key={index}>{damage}</Text>)
+          this.state['talent' + type + 'Damage'] ? (
+            this.state['talent' + type + 'Damage'].map(({description, damage}, index) => {
+              return (
+                <Text style={styles.resultText} key={index}>{statUtils.getTalentDescription(description)}: {statUtils.getStatDisplayValue(damage)}</Text>
+              )
+            })
           ) : null
         }
       </View>
@@ -324,9 +368,9 @@ export default class App extends Component {
       <View style={styles.resultBlockNoBorder}>
         <Text style={styles.titleText}>Talents</Text>
 
-        {this.renderTalentDamage('attack', 1)}
-        {this.renderTalentDamage('skill', 1)}
-        {this.renderTalentDamage('burst', 1, true)}
+        {this.renderTalentDamage('Attack')}
+        {this.renderTalentDamage('Skill')}
+        {this.renderTalentDamage('Burst', true)}
       </View>
     )
   }

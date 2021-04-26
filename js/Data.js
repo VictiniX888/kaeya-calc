@@ -8,6 +8,7 @@ import weaponStatCurveDataRaw from '../data/weaponstatcurvedata.json';
 //import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
 import talentDataRaw from '../data/talentdata.json';
 export { default as propMapping } from '../data/propmapping.json';
+export { default as talentDescMapping } from '../data/talentdescmapping.json';
 
 // Pre-processed data, coverting from arrays to objects (map-like) for faster lookup
 const characterData = processCharacterData(characterDataRaw);

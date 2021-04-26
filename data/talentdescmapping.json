@@ -1,0 +1,16 @@
+{
+    "1HitDmg": "1-Hit DMG",
+    "2HitDmg": "2-Hit DMG",
+    "3HitDmg": "3-Hit DMG",
+    "4HitDmg": "4-Hit DMG",
+    "5HitDmg": "5-Hit DMG",
+    "6HitDmg": "6-Hit DMG",
+
+    "chargedDmg": "Charged Attack DMG",
+    "charged1HitDmg": "Charged 1-Hit DMG",
+    "charged2HitDmg": "Charged 2-Hit DMG",
+
+    "plungeDmg": "Plunge DMG",
+    "lowPlungeDmg": "Low Plunge DMG",
+    "highPlungeDmg": "High Plunge DMG"
+}

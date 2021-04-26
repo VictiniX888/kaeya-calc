@@ -7,6 +7,8 @@ import {
     getTalentStatsAt,
 } from './Data.js';
 
+import * as talents from './Talent.js';
+
 export default class Character {
     constructor(id) {
         this.id = id;
@@ -95,9 +97,15 @@ export default class Character {
         }
     }
 
-    // Currently returns an Array of talent params
     // TODO: Make the function return a Map of description to damage
-    getTalentDamageAt(type, level) {
-        return getTalentStatsAt(type, level, this.talents);
+    getTalentDamageAt(type, level, totalStats) {
+        const params = getTalentStatsAt(type.toLowerCase(), level, this.talents);
+        let damageFn = talents[this.id + type];
+        if (damageFn === undefined) {
+            damageFn = talents['defaultTalent'];
+        }
+        const damage = damageFn(params, totalStats);
+
+        return damage;
     }
 }
