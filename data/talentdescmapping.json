@@ -11,8 +11,17 @@
     "chargedDmg": "Charged Attack DMG",
     "charged1HitDmg": "Charged 1-Hit DMG",
     "charged2HitDmg": "Charged 2-Hit DMG",
+    "chargedSpinDmg": "Charged Attack Spinning DMG",
+    "chargedFinalDmg": "Charged Attack Final DMG",
 
     "plungeDmg": "Plunge DMG",
     "lowPlungeDmg": "Low Plunge DMG",
-    "highPlungeDmg": "High Plunge DMG"
+    "highPlungeDmg": "High Plunge DMG",
+
+    "pressDmg": "Press DMG",
+    "holdDmg": "Hold DMG",
+
+    "icewhirlBrandDmg": "Icewhirl Brand DMG",
+    "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
+    "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"
 }
