@@ -99,15 +99,23 @@ export default class Character {
     }
 
     // Return an Object with description and damage properties
-    getTalentDamageAt(type, level, totalStats) {
-        const params = getTalentStatsAt(type.toLowerCase(), level, this.talents);
+    getTalentDamageAt({ type, talentLevel, totalStats, characterLevel, enemyLevel = 1, enemyRes = {}, modifiers = {}, critType = 'none' }) {
+        const params = getTalentStatsAt(type.toLowerCase(), talentLevel, this.talents);
 
         let damageFn = talents[this.id + type];
         if (damageFn === undefined) {
             damageFn = talents['defaultTalent'];
         }
 
-        let damage = damageFn(params ? params : emptyTalentParams, totalStats);
+        let damage = damageFn({
+            params: params ? params : emptyTalentParams, 
+            stats: totalStats, 
+            characterLevel, 
+            enemyLevel, 
+            enemyRes, 
+            modifiers, 
+            critType,
+        });
 
         return damage;
     }

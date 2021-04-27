@@ -197,9 +197,26 @@ export default class App extends Component {
       let stats = this.character.getInnateStatsAt(this.state.characterLevel, this.state.isCharacterAscended);
       let totalStats = this.getTotalStats();
 
-      let talentAttackDamage = this.character.getTalentDamageAt('Attack', this.state.talentAttackLevel, totalStats);
-      let talentSkillDamage = this.character.getTalentDamageAt('Skill', this.state.talentSkillLevel, totalStats);
-      let talentBurstDamage = this.character.getTalentDamageAt('Burst', this.state.talentBurstLevel, totalStats);
+      let talentAttackDamage = this.character.getTalentDamageAt({
+        type: 'Attack', 
+        talentLevel: this.state.talentAttackLevel, 
+        totalStats,
+        characterLevel: this.state.characterLevel,
+      });
+
+      let talentSkillDamage = this.character.getTalentDamageAt({
+        type: 'Skill', 
+        talentLevel: this.state.talentSkillLevel, 
+        totalStats,
+        characterLevel: this.state.characterLevel,
+      });
+      
+      let talentBurstDamage = this.character.getTalentDamageAt({
+        type: 'Burst', 
+        talentLevel: this.state.talentBurstLevel, 
+        totalStats,
+        characterLevel: this.state.characterLevel,
+      });
 
       this.setState({ 
         characterStats: stats,
@@ -218,9 +235,26 @@ export default class App extends Component {
 
       let talentAttackDamage, talentSkillDamage, talentBurstDamage;
       if (this.character !== undefined) {
-        talentAttackDamage = this.character.getTalentDamageAt('Attack', this.state.talentAttackLevel, totalStats);
-        talentSkillDamage = this.character.getTalentDamageAt('Skill', this.state.talentSkillLevel, totalStats);
-        talentBurstDamage = this.character.getTalentDamageAt('Burst', this.state.talentBurstLevel, totalStats);
+        talentAttackDamage = this.character.getTalentDamageAt({
+          type: 'Attack', 
+          talentLevel: this.state.talentAttackLevel, 
+          totalStats,
+          characterLevel: this.state.characterLevel,
+        });
+  
+        talentSkillDamage = this.character.getTalentDamageAt({
+          type: 'Skill', 
+          talentLevel: this.state.talentSkillLevel, 
+          totalStats,
+          characterLevel: this.state.characterLevel,
+        });
+        
+        talentBurstDamage = this.character.getTalentDamageAt({
+          type: 'Burst', 
+          talentLevel: this.state.talentBurstLevel, 
+          totalStats,
+          characterLevel: this.state.characterLevel,
+        });
       }
 
       this.setState({ 
@@ -238,9 +272,26 @@ export default class App extends Component {
 
     let talentAttackDamage, talentSkillDamage, talentBurstDamage;
     if (this.character !== undefined) {
-      talentAttackDamage = this.character.getTalentDamageAt('Attack', this.state.talentAttackLevel, totalStats);
-      talentSkillDamage = this.character.getTalentDamageAt('Skill', this.state.talentSkillLevel, totalStats);
-      talentBurstDamage = this.character.getTalentDamageAt('Burst', this.state.talentBurstLevel, totalStats);
+      talentAttackDamage = this.character.getTalentDamageAt({
+        type: 'Attack', 
+        talentLevel: this.state.talentAttackLevel, 
+        totalStats,
+        characterLevel: this.state.characterLevel,
+      });
+
+      talentSkillDamage = this.character.getTalentDamageAt({
+        type: 'Skill', 
+        talentLevel: this.state.talentSkillLevel, 
+        totalStats,
+        characterLevel: this.state.characterLevel,
+      });
+      
+      talentBurstDamage = this.character.getTalentDamageAt({
+        type: 'Burst', 
+        talentLevel: this.state.talentBurstLevel, 
+        totalStats,
+        characterLevel: this.state.characterLevel,
+      });
     }
 
     this.setState({
@@ -253,7 +304,13 @@ export default class App extends Component {
 
   setTalentState = (type) => {
     if (this.character !== undefined) {
-      let talentDmg = this.character.getTalentDamageAt(type, this.state[`talent${type}Level`], this.state.totalStats);
+      let talentDmg = this.character.getTalentDamageAt({
+        type, 
+        talentLevel: this.state[`talent${type}Level`], 
+        totalStats: this.state.totalStats,
+        characterLevel: this.state.characterLevel,
+      });
+
       this.setState({ [`talent${type}Damage`]: talentDmg });
     }
   }

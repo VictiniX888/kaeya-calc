@@ -5,7 +5,7 @@ export function defaultTalent() {
 
 // Internal functions
 
-function getDamageBonus(stats, element) {
+function getDamageBonus({ stats, element }) {
     let dmgBonus = stats[`${element}DmgBonus`];
     if (dmgBonus !== undefined) {
         return 1 + dmgBonus;
@@ -14,7 +14,7 @@ function getDamageBonus(stats, element) {
     }
 }
 
-function calculateBaseDamage(stats, multiplier, scalingType, flatDmg = 0) {
+function calculateBaseDamage({ stats, multiplier, scalingType, flatDmg = 0 }) {
     if (scalingType == 'attack') {
         return stats.flatAtk * multiplier + flatDmg;
     } else if (scalingType == 'defense') {
@@ -24,9 +24,9 @@ function calculateBaseDamage(stats, multiplier, scalingType, flatDmg = 0) {
     }
 }
 
-function calculateTotalDamage(stats, multiplier, scalingType, element, critType = 'none', flatDmg = 0) {
-    let baseDmg = calculateBaseDamage(stats, multiplier, scalingType, flatDmg);
-    let dmgBonus = getDamageBonus(stats, element);
+function calculateTotalDamage({ stats, multiplier, element, characterLevel, enemyLevel, enemyRes, modifiers, scalingType = 'attack', critType = 'none', flatDmg = 0, reaction = 'none' }) {
+    let baseDmg = calculateBaseDamage({ stats, multiplier, scalingType, flatDmg });
+    let dmgBonus = getDamageBonus({ stats, element });
 
     let crit = 1;
     if (critType === 'crit') {
@@ -43,10 +43,20 @@ function calculateTotalDamage(stats, multiplier, scalingType, element, critType 
 }
 
 // Used for all default normal attacks
-function normalAttackDefault(params, stats, critType, hits) {
+function normalAttackDefault({ hits, params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
     let talentValues = [];
     for (let i = 0; i < hits; i++) {
-        let damage = calculateTotalDamage(stats, params[i], 'attack', 'physical', critType);
+        let damage = calculateTotalDamage({ 
+            stats, 
+            multiplier: params[i], 
+            element: 'physical', 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
+        });
+        
         talentValues.push({
             description: `${i+1}HitDmg`,
             damage: [damage],
@@ -57,8 +67,18 @@ function normalAttackDefault(params, stats, critType, hits) {
 }
 
 // Used for all 1-hit charged attacks
-function chargedAttackDefault(params, stats, critType) {
-    let damage = calculateTotalDamage(stats, params[0], 'attack', 'physical', critType);
+function chargedAttackDefault({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
+    let damage = calculateTotalDamage({ 
+        stats, 
+        multiplier: params[0], 
+        element: 'physical', 
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    });
+
     return [{
         description: 'chargedDmg',
         damage: [damage],
@@ -66,24 +86,44 @@ function chargedAttackDefault(params, stats, critType) {
 }
 
 // Used for multi-hit charged attacks
-function chargedAttackMulti(params, stats, critType, hits) {
-    let talentValues = [];
+function chargedAttackMulti({ hits, params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
+    let damages = [];
     for (let i = 0; i < hits; i++) {
-        let damage = calculateTotalDamage(stats, params[i], 'attack', 'physical', critType);
-        talentValues.push({
-            description: `charged${i+1}HitDmg`,
-            damage: [damage],
+        let damage = calculateTotalDamage({ 
+            stats, 
+            multiplier: params[i], 
+            element: 'physical', 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
         });
+
+        damages.push(damage);
     }
 
-    return talentValues;
+    return [{
+        description: `chargedDmg`,
+        damage: damages,
+    }];
 }
 
 // Used for all default plunge attacks
-function plungeAttackDefault(params, stats, critType) {
+function plungeAttackDefault({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
     let descriptions = ['plungeDmg', 'lowPlungeDmg', 'highPlungeDmg'];
     return descriptions.map((description, i) => {
-        let damage = calculateTotalDamage(stats, params[i], 'attack', 'physical', critType);
+        let damage = calculateTotalDamage({ 
+            stats, 
+            multiplier: params[i], 
+            element: 'physical', 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
+        });
+
         return {
             description: description,
             damage: [damage],
@@ -92,25 +132,68 @@ function plungeAttackDefault(params, stats, critType) {
 }
 
 // Used for all default sword/polearm/catalyst attacks
-function attackLightDefault(params, stats, critType, normalHits, chargedHits) {
+function attackLightDefault({ normalHits, chargedHits = 1, params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
     let talentValues = [];
 
-    talentValues.push(...normalAttackDefault(params.slice(0, normalHits), stats, critType, normalHits));
+    talentValues.push(...normalAttackDefault({
+        hits: normalHits,
+        params: params.slice(0, normalHits), 
+        stats, 
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    }));
 
     if (chargedHits === 1) {
-        talentValues.push(...chargedAttackDefault(params.slice(normalHits, normalHits + 1), stats, critType));
+        talentValues.push(...chargedAttackDefault({
+            params: params.slice(normalHits, normalHits + 1), 
+            stats, 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
+        }));
     } else {
-        talentValues.push(...chargedAttackMulti(params.slice(normalHits, normalHits + chargedHits), stats, critType, chargedHits));
+        talentValues.push(...chargedAttackMulti({
+            hits: chargedHits,
+            params: params.slice(normalHits, normalHits + chargedHits), 
+            stats, 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
+        }));
     }
 
-    talentValues.push(...plungeAttackDefault(params.slice(normalHits + chargedHits + 1), stats, critType));
+    talentValues.push(...plungeAttackDefault({
+        params: params.slice(normalHits + chargedHits + 1), 
+        stats, 
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    }));
 
     return talentValues;
 }
 
 // Used for all default skill/burst that only does 1-hit elemental dmg
-function skillDefault(params, stats, critType, element) {
-    let damage = calculateTotalDamage(stats, params[0], 'attack', element, critType);
+function skillDefault({ element, params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
+    let damage = calculateTotalDamage({
+        element,
+        multiplier: params[0],
+        stats, 
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    });
 
     return [{
         description: 'dmg',
@@ -118,18 +201,20 @@ function skillDefault(params, stats, critType, element) {
     }];
 }
 
+// TODO?: Replace { stats, characterLevel, enemyLevel, enemyRes, modifiers, critType } with a single un-destructured object/class
+
 // Public functions
 // Access using talent[characterId + type]
 
 // Kaeya
-export function kaeyaAttack(params, stats, critType) {
-    return attackLightDefault(params, stats, critType, 5, 2);
+export function kaeyaAttack({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
+    return attackLightDefault({ normalHits: 5, chargedHits: 2, params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType });
 }
 
-export function kaeyaSkill(params, stats, critType) {
-    return skillDefault(params, stats, critType, 'cryo');
+export function kaeyaSkill({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
+    return skillDefault({ element: 'cryo', params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType });
 }
 
-export function kaeyaBurst(params, stats, critType) {
-    return skillDefault(params, stats, critType, 'cryo');
+export function kaeyaBurst({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
+    return skillDefault({ element: 'cryo', params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType });
 }
