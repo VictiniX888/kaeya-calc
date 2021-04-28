@@ -110,14 +110,23 @@ function chargedAttackMulti({ hits, params, stats, characterLevel, enemyLevel, e
 }
 
 // Used for all default claymore charged attacks
-function chargedAttackHeavy(params, stats) {
+function chargedAttackHeavy({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
     let descriptions = ['chargedSpinDmg', 'chargedFinalDmg'];
-    let dmgBonus = getDamageBonus('physical', stats);
     return descriptions.map((description, i) => {
-        let damage = stats.flatAtk * params[i] * dmgBonus;
+        let damage = calculateTotalDamage({ 
+            stats, 
+            multiplier: params[i], 
+            element: 'physical', 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
+        });
+
         return {
             description: description,
-            damage: damage,
+            damage: [damage],
         };
     });
 }
@@ -196,11 +205,40 @@ function attackLightDefault({ normalHits, chargedHits = 1, params, stats, charac
 }
 
 // Used for all default claymore attacks
-function attackHeavyDefault(normalHits, params, stats) {
+function attackHeavyDefault({ normalHits, params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
     let talentValues = [];
-    talentValues.push(...normalAttackDefault(normalHits, params.slice(0, normalHits), stats));
-    talentValues.push(...chargedAttackHeavy(params.slice(normalHits, normalHits + 2), stats));
-    talentValues.push(...plungeAttackDefault(params.slice(normalHits + 2 + 2), stats));
+
+    talentValues.push(...normalAttackDefault({
+        hits: normalHits, 
+        params: params.slice(0, normalHits), 
+        stats,
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    }));
+
+    talentValues.push(...chargedAttackHeavy({
+        params: params.slice(normalHits, normalHits + 2), 
+        stats,
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    }));
+
+    talentValues.push(...plungeAttackDefault({
+        params: params.slice(normalHits + 2 + 2), 
+        stats,
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    }));
+
     return talentValues;
 }
 
@@ -242,34 +280,60 @@ export function kaeyaBurst({ params, stats, characterLevel, enemyLevel, enemyRes
 }
 
 // Eula
-export function eulaAttack(params, stats) {
-    return attackHeavyDefault(5, params, stats);
+export function eulaAttack({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
+    return attackHeavyDefault({ normalHits: 5, params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType });
 }
 
-export function eulaSkill(params, stats) {
+export function eulaSkill({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
     let descriptions = ['pressDmg', 'holdDmg', 'icewhirlBrandDmg'];
-    let dmgBonus = getDamageBonus('cryo', stats);
     return descriptions.map((description, i) => {
-        let damage = stats.flatAtk * params[i] * dmgBonus;
+        let damage = calculateTotalDamage({
+            element: 'cryo',
+            multiplier: params[i],
+            stats, 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
+        });
+
         return {
             description: description,
-            damage: damage,
+            damage: [damage],
         };
     });
 }
 
-export function eulaBurst(params, stats) {
+export function eulaBurst({ params, stats, characterLevel, enemyLevel, enemyRes, modifiers, critType }) {
     let talentDmg = [];
-    talentDmg.push(...skillDefault('cryo', params, stats));
+    talentDmg.push(...skillDefault({
+        element: 'cryo', 
+        params, 
+        stats,
+        characterLevel,
+        enemyLevel,
+        enemyRes,
+        modifiers,
+        critType,
+    }));
     
     let descriptions = ['lightfallSwordBaseDmg', 'lightfallSwordStackDmg'];
     let lightfallSwordParams = params.slice(1, 3);
-    let dmgBonus = getDamageBonus('physical', stats);
     let lightfallSwordTalent = descriptions.map((description, i) => {
-        let damage = stats.flatAtk * lightfallSwordParams[i] * dmgBonus;
+        let damage = calculateTotalDamage({
+            element: 'physical',
+            multiplier: lightfallSwordParams[i],
+            stats, 
+            characterLevel,
+            enemyLevel,
+            enemyRes,
+            modifiers,
+            critType,
+        });
         return {
             description: description,
-            damage: damage,
+            damage: [damage],
         };
     });
 
