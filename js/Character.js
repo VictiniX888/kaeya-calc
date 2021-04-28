@@ -99,7 +99,7 @@ export default class Character {
     }
 
     // Return an Object with description and damage properties
-    getTalentDamageAt({ type, talentLevel, totalStats, characterLevel, enemyLevel = 1, enemyRes = {}, modifiers = {}, critType = 'none' }) {
+    getTalentDamageAt({ type, talentLevel, totalStats, modifier }) {
         const params = getTalentStatsAt(type.toLowerCase(), talentLevel, this.talents);
 
         let damageFn = talents[this.id + type];
@@ -110,11 +110,7 @@ export default class Character {
         let damage = damageFn({
             params: params ? params : emptyTalentParams, 
             stats: totalStats, 
-            characterLevel, 
-            enemyLevel, 
-            enemyRes, 
-            modifiers, 
-            critType,
+            modifier,
         });
 
         return damage;

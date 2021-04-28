@@ -1,5 +1,6 @@
 {
     "dmg": "DMG",
+    "skillDmg": "DMG",
     
     "1HitDmg": "1-Hit DMG",
     "2HitDmg": "2-Hit DMG",
