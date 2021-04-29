@@ -22,6 +22,11 @@
     "pressDmg": "Press DMG",
     "holdDmg": "Hold DMG",
 
+    "holdDmgStack0": "Hold DMG (0 Stacks)",
+    "holdDmgStack1": "Hold DMG (1 Stack)",
+    "holdDmgStack2": "Hold DMG (2 Stacks)",
+    "holdDmgStack3": "Hold DMG (3 Stacks)",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"

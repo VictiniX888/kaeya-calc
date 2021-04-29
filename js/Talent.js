@@ -43,13 +43,13 @@ function calculateTotalDamage({ stats, multiplier, element, scalingType = 'attac
 } 
 
 // Used for all default normal attacks
-function normalAttackDefault({ hits, params, stats, modifier }) {
+function normalAttackDefault({ hits, element, params, stats, modifier }) {
     let talentValues = [];
     for (let i = 0; i < hits; i++) {
         let damage = calculateTotalDamage({ 
             stats, 
             multiplier: params[i], 
-            element: 'physical', 
+            element, 
             modifier,
         });
         
@@ -64,13 +64,13 @@ function normalAttackDefault({ hits, params, stats, modifier }) {
 
 // Used for all normal attacks with multiple damage instances in 1 hit e.g. polearms
 // doubledHits is an array containing all n where n-hit is 2 identical damage instances
-function normalAttackMulti({ hits, doubledHits, params, stats, modifier }) {
+function normalAttackMulti({ hits, doubledHits, element, params, stats, modifier }) {
     let talentValues = [];
     for (let i = 0; i < hits; i++) {
         let damage = calculateTotalDamage({ 
             stats, 
             multiplier: params[i], 
-            element: 'physical', 
+            element,
             modifier,
         });
 
@@ -86,12 +86,12 @@ function normalAttackMulti({ hits, doubledHits, params, stats, modifier }) {
 }
 
 // Used for all 1-hit charged attacks
-function chargedAttackDefault({ params, stats, modifier }) {
+function chargedAttackDefault({ element, params, stats, modifier }) {
     let damage = calculateTotalDamage({ 
         stats, 
         multiplier: params[0], 
-        element: 'physical', 
-        modifier
+        element, 
+        modifier,
      });
 
     return [{
@@ -101,14 +101,14 @@ function chargedAttackDefault({ params, stats, modifier }) {
 }
 
 // Used for multi-hit charged attacks
-function chargedAttackMulti({ hits, params, stats, modifier }) {
+function chargedAttackMulti({ hits, element, params, stats, modifier }) {
     let damages = [];
     for (let i = 0; i < hits; i++) {
         let damage = calculateTotalDamage({ 
             stats, 
             multiplier: params[i], 
-            element: 'physical', 
-            modifier 
+            element, 
+            modifier,
         });
         damages.push(damage);
     }
@@ -127,7 +127,7 @@ function chargedAttackHeavy({ params, stats, modifier }) {
             stats, 
             multiplier: params[i], 
             element: 'physical', 
-            modifier 
+            modifier,
         });
 
         return {
@@ -138,13 +138,13 @@ function chargedAttackHeavy({ params, stats, modifier }) {
 }
 
 // Used for all default plunge attacks
-function plungeAttackDefault({ params, stats, modifier }) {
+function plungeAttackDefault({ element, params, stats, modifier }) {
     let descriptions = ['plungeDmg', 'lowPlungeDmg', 'highPlungeDmg'];
     return descriptions.map((description, i) => {
         let damage = calculateTotalDamage({ 
             stats,
             multiplier: params[i], 
-            element: 'physical', 
+            element,
             modifier 
         });
 
@@ -156,23 +156,66 @@ function plungeAttackDefault({ params, stats, modifier }) {
 }
 
 // Used for all default sword/polearm/catalyst attacks
-function attackLightDefault({ normalHits, params, stats, modifier }) {
+function attackLightDefault({ normalHits, element, params, stats, modifier }) {
     let talentValues = [];
 
     talentValues.push(...normalAttackDefault({ 
         hits: normalHits, 
+        element,
         params: params.slice(0, normalHits), 
         stats, 
         modifier 
     }));
 
     talentValues.push(...chargedAttackDefault({
+        element,
         params: params.slice(normalHits, normalHits + 1), 
         stats, 
         modifier,
     }));
 
     talentValues.push(...plungeAttackDefault({
+        element,
+        params: params.slice(normalHits + 1 + 1), 
+        stats, 
+        modifier,
+    }));
+
+    return talentValues;
+}
+
+// Used for all default sword/polearm attacks with multi damage instances
+function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, element, params, stats, modifier }) {
+    let talentValues = [];
+
+    talentValues.push(...normalAttackMulti({ 
+        hits: normalHits, 
+        doubledHits,
+        element,
+        params: params.slice(0, normalHits), 
+        stats, 
+        modifier 
+    }));
+
+    if (chargedHits === 1) {
+        talentValues.push(...chargedAttackDefault({
+            element,
+            params: params.slice(normalHits, normalHits + 1), 
+            stats, 
+            modifier,
+        }));
+    } else {
+        talentValues.push(...chargedAttackMulti({
+            hits: chargedHits,
+            element,
+            params: params.slice(normalHits, normalHits + chargedHits), 
+            stats, 
+            modifier,
+        }));
+    }
+
+    talentValues.push(...plungeAttackDefault({
+        element,
         params: params.slice(normalHits + chargedHits + 1), 
         stats, 
         modifier,
@@ -181,40 +224,39 @@ function attackLightDefault({ normalHits, params, stats, modifier }) {
     return talentValues;
 }
 
-// Used for all default sword/polearm/catalyst attacks with multi damage instances
-function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, params, stats, modifier }) {
-    let talentValues = [];
-
-    talentValues.push(...normalAttackMulti({ 
-        hits: normalHits, 
-        doubledHits,
-        params: params.slice(0, normalHits), 
-        stats, 
-        modifier 
-    }));
-
-    if (chargedHits === 1) {
-        talentValues.push(...chargedAttackDefault({
-            params: params.slice(normalHits, normalHits + 1), 
-            stats, 
-            modifier,
-        }));
-    } else {
-        talentValues.push(...chargedAttackMulti({
-            hits: chargedHits,
-            params: params.slice(normalHits, normalHits + chargedHits), 
-            stats, 
-            modifier,
-        }));
-    }
-
-    talentValues.push(...plungeAttackDefault({
-        params: params.slice(normalHits + chargedHits + 1), 
-        stats, 
+// Used for all default physical sword/polearm attacks
+function attackLightPhysical({ normalHits, params, stats, modifier }) {
+    return attackLightDefault({
+        normalHits,
+        element: 'physical',
+        params,
+        stats,
         modifier,
-    }));
+    });
+}
 
-    return talentValues;
+// Used for all physical sword/polearm attacks with multi damage instances
+function attackLightMultiPhysical({ normalHits, doubledHits = [], chargedHits = 1, params, stats, modifier }) {
+    return attackLightMulti({
+        normalHits,
+        doubledHits,
+        chargedHits,
+        element: 'physical',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+// Used for all catalyst/infused attacks
+function attackMagic({ normalHits, element, params, stats, modifier }) {
+    return attackLightDefault({
+        normalHits,
+        element,
+        params,
+        stats,
+        modifier,
+    });
 }
 
 // Used for all default claymore attacks
@@ -223,6 +265,7 @@ function attackHeavyDefault({ normalHits, params, stats, modifier }) {
 
     talentValues.push(...normalAttackDefault({
         hits: normalHits, 
+        element: 'physical',
         params: params.slice(0, normalHits), 
         stats,
         modifier,
@@ -235,6 +278,7 @@ function attackHeavyDefault({ normalHits, params, stats, modifier }) {
     }));
 
     talentValues.push(...plungeAttackDefault({
+        element: 'physical',
         params: params.slice(normalHits + 2 + 2), 
         stats,
         modifier,
@@ -250,6 +294,7 @@ function attackHeavyMulti({ normalHits, doubledHits, params, stats, modifier }) 
     talentValues.push(...normalAttackMulti({
         hits: normalHits, 
         doubledHits,
+        element: 'physical',
         params: params.slice(0, normalHits), 
         stats,
         modifier,
@@ -262,6 +307,7 @@ function attackHeavyMulti({ normalHits, doubledHits, params, stats, modifier }) 
     }));
 
     talentValues.push(...plungeAttackDefault({
+        element: 'physical',
         params: params.slice(normalHits + 2 + 2), 
         stats,
         modifier,
@@ -300,9 +346,53 @@ function skillDefault({ element, params, stats, modifier }) {
 // Public functions
 // Access using talent[characterId + type]
 
+// Lisa
+export function lisaAttack({ params, stats, modifier }) {
+    return attackMagic({
+        normalHits: 4,
+        element: 'electro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function lisaSkill({ params, stats, modifier }) {
+    let talentDmg = [];
+
+    talentDmg.push(skillBase({
+        description: 'pressDmg',
+        element: 'electro',
+        multiplier: params[5],
+        stats,
+        modifier,
+    }));
+
+    for (let i = 0; i <= 3; i++) {
+        talentDmg.push(skillBase({
+            description: `holdDmgStack${i}`,
+            element: 'electro',
+            multiplier: params[i],
+            stats, 
+            modifier,
+        }));
+    }
+
+    return talentDmg;
+}
+
+export function lisaBurst({ params, stats, modifier }) {
+    return skillDefault({
+        element: 'electro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
 // Kaeya
 export function kaeyaAttack({ params, stats, modifier }) {
-    return attackLightMulti({ 
+    return attackLightMultiPhysical({ 
         normalHits: 5, 
         chargedHits: 2, 
         params, 
