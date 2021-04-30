@@ -19,6 +19,8 @@ function calculateBaseDamage({ stats, multiplier, scalingType, flatDmg = 0 }) {
         return stats.flatAtk * multiplier + flatDmg;
     } else if (scalingType == 'defense') {
         return stats.flatDef * multiplier + flatDmg;
+    } else if (scalingType == 'hp') {
+        return stats.flatHp * multiplier + flatDmg;
     } else {
         return NaN;
     }
@@ -41,6 +43,11 @@ function calculateTotalDamage({ stats, multiplier, element, scalingType = 'attac
 
     return baseDmg * dmgBonus * crit;
 } 
+
+function calculateHealing({ stats, multiplier, flatHealing, scalingType = 'hp' }) {
+    // TODO: Add healing bonus
+    return calculateBaseDamage({ stats, multiplier, scalingType, flatDmg: flatHealing });
+}
 
 // Used for all default normal attacks
 function normalAttackDefault({ hits, element, params, stats, modifier }) {
@@ -316,7 +323,7 @@ function attackHeavyMulti({ normalHits, doubledHits, params, stats, modifier }) 
     return talentValues;
 }
 
-// Base function for all skills. Returns an object representing a single line to be displayed.
+// Base function for all damage skills. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
 function skillBase({ description, element, multiplier, stats, modifier }) {
     let damage = calculateTotalDamage({
@@ -341,6 +348,21 @@ function skillDefault({ element, params, stats, modifier }) {
         stats,
         modifier,
     })];
+}
+
+// Base function for all healing skills. Returns an object representing a single line to be displayed.
+// The returned object should always be added into an array to construct the list of talent damage.
+function healingSkillBase({ description, params, stats, modifier }) {
+    let damage = calculateHealing({
+        stats,
+        multiplier: params[0],
+        flatHealing: params[1],
+    });
+
+    return {
+        description,
+        damage: [damage],
+    };
 }
 
 // Public functions
@@ -388,6 +410,56 @@ export function lisaBurst({ params, stats, modifier }) {
         stats,
         modifier,
     });
+}
+
+// Barbara
+export function barbaraAttack({ params, stats, modifier }) {
+    return attackMagic({
+        normalHits: 4,
+        element: 'hydro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function barbaraSkill({ params, stats, modifier }) {
+    let talentDmg = [
+        healingSkillBase({
+            description: 'hpRegenContinuous',
+            params: params.slice(0, 2),
+            stats,
+            modifier,
+        }),
+
+        healingSkillBase({
+            description: 'hpRegenOnHit',
+            params: params.slice(2, 4),
+            stats,
+            modifier,
+        }),
+
+        skillBase({
+            description: 'dropletDmg',
+            element: 'hydro',
+            multiplier: params[4],
+            stats,
+            modifier,
+        }),
+    ];
+
+    return talentDmg;
+}
+
+export function barbaraBurst({ params, stats, modifier }) {
+    return [
+        healingSkillBase({
+            description: 'hpRegen',
+            params,
+            stats,
+            modifier,
+        }),
+    ];
 }
 
 // Kaeya

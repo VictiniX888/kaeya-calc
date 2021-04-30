@@ -27,6 +27,12 @@
     "holdDmgStack2": "Hold DMG (2 Stacks)",
     "holdDmgStack3": "Hold DMG (3 Stacks)",
 
+    "hpRegen": "HP Regeneration",
+    "hpRegenContinuous": "Continuous HP Regeneration",
+    "hpRegenOnHit": "HP Regeneration Per Hit",
+
+    "dropletDmg": "Droplet DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"
