@@ -1,12 +1,13 @@
 import { Picker } from '@react-native-picker/picker';
 import Checkbox from 'expo-checkbox';
 import React, { Component } from 'react';
-import { Image, Text, TextInput, View } from 'react-native';
+import { FlatList, Image, Text, TextInput, View } from 'react-native';
 
 import Character from './js/Character.js';
 import Weapon from './js/Weapon.js';
 import Artifact, { mainStatProps, subStatProps } from './js/Artifact.js';
 import DamageModifier from './js/DamageModifer.js';
+import TalentOption from './js/TalentOption.js';
 import * as statUtils from './js/Stat.js';
 import * as data from './js/Data.js';
 
@@ -56,6 +57,8 @@ export default class App extends Component {
       talentAttackDamage: undefined,
       talentSkillDamage: undefined,
       talentBurstDamage: undefined,
+
+      talentOptions: [],
     }
   }
 
@@ -154,7 +157,10 @@ export default class App extends Component {
           onValueChange={(value, _) => {
             if (value != 0) {
               this.character = new Character(value);
-              this.setState({ characterId: value }, this.setCharacterState);
+              this.setState({
+                characterId: value,
+                talentOptions: this.character.getTalentOptions()
+              }, this.setCharacterState);
             }
           }}
         >
@@ -194,9 +200,12 @@ export default class App extends Component {
   }
 
   getDamageModifier = () => {
-    return new DamageModifier({ 
+    let modifier = new DamageModifier({ 
       characterLevel: this.state.characterLevel,
+      talentOptions: this.state.talentOptions,
     });
+
+    return modifier;
   }
 
   setCharacterState = () => {
@@ -322,6 +331,39 @@ export default class App extends Component {
       });
 
       this.setState({ [`talent${type}Damage`]: talentDmg });
+    }
+  }
+
+  // Not used in setCharacterState, setWeaponState, or setArtifactState to reduce number of setState calls
+  // Does not call setTalentState to reduce number of setState calls
+  setAllTalentState = () => {
+    if (this.character !== undefined) {
+      let talentAttackDamage = this.character.getTalentDamageAt({
+        type: 'Attack', 
+        talentLevel: this.state.talentAttackLevel, 
+        totalStats: this.state.totalStats,
+        modifier: this.getDamageModifier(),
+      });
+
+      let talentSkillDamage = this.character.getTalentDamageAt({
+        type: 'Skill', 
+        talentLevel: this.state.talentSkillLevel, 
+        totalStats: this.state.totalStats,
+        modifier: this.getDamageModifier(),
+      });
+      
+      let talentBurstDamage = this.character.getTalentDamageAt({
+        type: 'Burst', 
+        talentLevel: this.state.talentBurstLevel, 
+        totalStats: this.state.totalStats,
+        modifier: this.getDamageModifier(),
+      });
+
+      this.setState({
+        talentAttackDamage: talentAttackDamage,
+        talentSkillDamage: talentSkillDamage,
+        talentBurstDamage: talentBurstDamage,
+      });
     }
   }
 
@@ -522,6 +564,34 @@ export default class App extends Component {
     )
   }
 
+  renderTalentOptions = () => {
+    return (
+      <FlatList
+        data={this.state.talentOptions}
+        keyExtractor={item => item.description}
+        renderItem={({item, index}) => {
+          if (item.type === 'boolean') {
+            return (
+              <View style={styles.inputRow}>
+                <Text>{item.description} </Text>
+                <Checkbox
+                  onValueChange={value => {
+                    let talentOptions = [...this.state.talentOptions];
+                    talentOptions[index] = new TalentOption(item.description, item.type, item.value, value);
+                    this.setState({ talentOptions }, this.setAllTalentState);
+                  }}
+                  value={item.isActivated}
+                />
+              </View>
+            );
+          } else {
+            return null;
+          }
+        }}
+      />
+    )
+  }
+
   renderAllTalentDamage = () => {
     return (
       <View style={styles.resultBlockNoBorder}>
@@ -530,6 +600,7 @@ export default class App extends Component {
         {this.renderTalentDamage('Attack')}
         {this.renderTalentDamage('Skill')}
         {this.renderTalentDamage('Burst', true)}
+        {this.renderTalentOptions()}
       </View>
     )
   }

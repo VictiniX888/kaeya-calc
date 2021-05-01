@@ -163,7 +163,7 @@ function plungeAttackDefault({ element, params, stats, modifier }) {
 }
 
 // Used for all default sword/polearm/catalyst attacks
-function attackLightDefault({ normalHits, element, params, stats, modifier }) {
+function attackLightDefault({ normalHits, element = 'physical', params, stats, modifier }) {
     let talentValues = [];
 
     talentValues.push(...normalAttackDefault({ 
@@ -192,7 +192,7 @@ function attackLightDefault({ normalHits, element, params, stats, modifier }) {
 }
 
 // Used for all default sword/polearm attacks with multi damage instances
-function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, element, params, stats, modifier }) {
+function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, element = 'physical', params, stats, modifier }) {
     let talentValues = [];
 
     talentValues.push(...normalAttackMulti({ 
@@ -231,48 +231,13 @@ function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, eleme
     return talentValues;
 }
 
-// Used for all default physical sword/polearm attacks
-function attackLightPhysical({ normalHits, params, stats, modifier }) {
-    return attackLightDefault({
-        normalHits,
-        element: 'physical',
-        params,
-        stats,
-        modifier,
-    });
-}
-
-// Used for all physical sword/polearm attacks with multi damage instances
-function attackLightMultiPhysical({ normalHits, doubledHits = [], chargedHits = 1, params, stats, modifier }) {
-    return attackLightMulti({
-        normalHits,
-        doubledHits,
-        chargedHits,
-        element: 'physical',
-        params,
-        stats,
-        modifier,
-    });
-}
-
-// Used for all catalyst/infused attacks
-function attackMagic({ normalHits, element, params, stats, modifier }) {
-    return attackLightDefault({
-        normalHits,
-        element,
-        params,
-        stats,
-        modifier,
-    });
-}
-
 // Used for all default claymore attacks
-function attackHeavyDefault({ normalHits, params, stats, modifier }) {
+function attackHeavyDefault({ normalHits, element = 'physical', params, stats, modifier }) {
     let talentValues = [];
 
     talentValues.push(...normalAttackDefault({
         hits: normalHits, 
-        element: 'physical',
+        element,
         params: params.slice(0, normalHits), 
         stats,
         modifier,
@@ -285,7 +250,7 @@ function attackHeavyDefault({ normalHits, params, stats, modifier }) {
     }));
 
     talentValues.push(...plungeAttackDefault({
-        element: 'physical',
+        element,
         params: params.slice(normalHits + 2 + 2), 
         stats,
         modifier,
@@ -295,13 +260,13 @@ function attackHeavyDefault({ normalHits, params, stats, modifier }) {
 }
 
 // Used for all claymore attacks with multi damage instances
-function attackHeavyMulti({ normalHits, doubledHits, params, stats, modifier }) {
+function attackHeavyMulti({ normalHits, element = 'physical', doubledHits, params, stats, modifier }) {
     let talentValues = [];
 
     talentValues.push(...normalAttackMulti({
         hits: normalHits, 
         doubledHits,
-        element: 'physical',
+        element,
         params: params.slice(0, normalHits), 
         stats,
         modifier,
@@ -314,7 +279,7 @@ function attackHeavyMulti({ normalHits, doubledHits, params, stats, modifier }) 
     }));
 
     talentValues.push(...plungeAttackDefault({
-        element: 'physical',
+        element,
         params: params.slice(normalHits + 2 + 2), 
         stats,
         modifier,
@@ -370,7 +335,7 @@ function healingSkillBase({ description, params, stats, modifier }) {
 
 // Lisa
 export function lisaAttack({ params, stats, modifier }) {
-    return attackMagic({
+    return attackLightDefault({
         normalHits: 4,
         element: 'electro',
         params,
@@ -414,7 +379,7 @@ export function lisaBurst({ params, stats, modifier }) {
 
 // Barbara
 export function barbaraAttack({ params, stats, modifier }) {
-    return attackMagic({
+    return attackLightDefault({
         normalHits: 4,
         element: 'hydro',
         params,
@@ -464,7 +429,7 @@ export function barbaraBurst({ params, stats, modifier }) {
 
 // Kaeya
 export function kaeyaAttack({ params, stats, modifier }) {
-    return attackLightMultiPhysical({ 
+    return attackLightMulti({ 
         normalHits: 5, 
         chargedHits: 2, 
         params, 

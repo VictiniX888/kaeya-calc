@@ -10,6 +10,8 @@ import {
 import * as talents from './Talent.js';
 const emptyTalentParams = Array(19).fill(NaN);
 
+import * as talentOptions from './TalentOption.js';
+
 export default class Character {
     constructor(id) {
         this.id = id;
@@ -114,5 +116,14 @@ export default class Character {
         });
 
         return damage;
+    }
+
+    getTalentOptions() {
+        let options = talentOptions[this.id + 'TalentOptions'];
+        if (options !== undefined) {
+            return options;
+        } else {
+            return [];
+        }
     }
 }
