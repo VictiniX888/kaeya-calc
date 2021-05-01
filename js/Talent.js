@@ -456,6 +456,48 @@ export function kaeyaBurst({ params, stats, modifier }) {
     });
 }
 
+// Diluc
+export function dilucAttack({ params, stats, modifier }) {
+    let element = modifier.infusion ? modifier.infusion : 'physical';
+    return attackHeavyDefault({
+        normalHits: 4,
+        element,
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function dilucSkill({ params, stats, modifier }) {
+    let talentDamage = [];
+    for (let i = 0; i < 3; i++) {
+        talentDamage.push(skillBase({
+            description: `${i+1}HitDmg`,
+            element: 'pyro',
+            multiplier: params[i],
+            stats,
+            modifier,
+        }));
+    }
+
+    return talentDamage;
+}
+
+export function dilucBurst({ params, stats, modifier }) {
+    let descriptions = ['slashingDmg', 'dot', 'explosionDmg'];
+    let talentDamage = descriptions.map((description, i) => {
+        return skillBase({
+            description,
+            element: 'pyro',
+            multiplier: params[i],
+            stats,
+            modifier,
+        });
+    });
+
+    return talentDamage;
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 

@@ -33,6 +33,10 @@
 
     "dropletDmg": "Droplet DMG",
 
+    "slashingDmg": "Slashing DMG",
+    "dot": "DoT",
+    "explosionDmg": "Explosion DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"
