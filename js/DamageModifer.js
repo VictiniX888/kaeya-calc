@@ -8,9 +8,9 @@ export default class DamageModifier {
         this.flatDmg = flatDmg;
         this.reaction = reaction;
 
-        talentOptions.forEach(({description, value, isActivated}) => {
+        talentOptions.forEach(({id, value, isActivated}) => {
             if (isActivated) {
-                this[description] = value;
+                this[id] = value;
             }
         });
     }

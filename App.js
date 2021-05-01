@@ -573,11 +573,11 @@ export default class App extends Component {
           if (item.type === 'boolean') {
             return (
               <View style={styles.inputRow}>
-                <Text>{item.description} </Text>
+                <Text>{statUtils.getTalentOptionName(item.id)}: </Text>
                 <Checkbox
                   onValueChange={value => {
                     let talentOptions = [...this.state.talentOptions];
-                    talentOptions[index] = new TalentOption(item.description, item.type, item.value, value);
+                    talentOptions[index] = new TalentOption(item.id, item.type, item.value, value);
                     this.setState({ talentOptions }, this.setAllTalentState);
                   }}
                   value={item.isActivated}
