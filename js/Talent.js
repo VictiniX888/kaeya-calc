@@ -1,3 +1,5 @@
+import { getTalentData, getTalentStatsAt } from './Data.js';
+
 // Placeholder function
 export function defaultTalent() {
     return [];
@@ -458,7 +460,7 @@ export function kaeyaBurst({ params, stats, modifier }) {
 
 // Diluc
 export function dilucAttack({ params, stats, modifier }) {
-    let element = modifier.infusion ? modifier.infusion : 'physical';
+    let element = modifier.infusion ? 'pyro' : 'physical';
     return attackHeavyDefault({
         normalHits: 4,
         element,
@@ -494,6 +496,52 @@ export function dilucBurst({ params, stats, modifier }) {
             modifier,
         });
     });
+
+    return talentDamage;
+}
+
+// Razor
+export function razorAttack({ params, stats, modifier }) {
+    return attackHeavyDefault({
+        normalHits: 4,
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function razorSkill({ params, stats, modifier }) {
+    let descriptions = ['pressDmg', 'holdDmg'];
+    return descriptions.map((description, i) => {
+        return skillBase({
+            description,
+            element: 'electro',
+            multiplier: params[i],
+            stats,
+            modifier,
+        });
+    });
+}
+
+export function razorBurst({ params, stats, modifier }) {
+    let talentDamage = skillDefault({
+        element: 'electro',
+        params,
+        stats,
+        modifier,
+    });
+
+    let attackParams = getTalentStatsAt('attack', modifier.talentAttackLevel, getTalentData('razor'));
+
+    for (let i = 0; i < 4; i++) {
+        talentDamage.push(skillBase({
+            description: `${i+1}HitDmgSoulCompanion`,
+            element: 'electro',
+            multiplier: params[1] * attackParams[i],
+            stats,
+            modifier,
+        }));
+    }
 
     return talentDamage;
 }

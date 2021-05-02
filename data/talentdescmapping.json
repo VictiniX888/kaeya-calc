@@ -37,6 +37,11 @@
     "dot": "DoT",
     "explosionDmg": "Explosion DMG",
 
+    "1HitDmgSoulCompanion": "Soul Companion 1-Hit DMG",
+    "2HitDmgSoulCompanion": "Soul Companion 2-Hit DMG",
+    "3HitDmgSoulCompanion": "Soul Companion 3-Hit DMG",
+    "4HitDmgSoulCompanion": "Soul Companion 4-Hit DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"

@@ -1,5 +1,17 @@
 export default class DamageModifier {
-    constructor({ characterLevel, enemyLevel = 1, enemyRes = {}, modifiers = {}, critType = 'none', flatDmg = 0, reaction = 'none', talentOptions = [] }) {
+    constructor({
+        characterLevel,
+        enemyLevel = 1,
+        enemyRes = {},
+        modifiers = {},
+        critType = 'none',
+        flatDmg = 0,
+        reaction = 'none',
+        talentAttackLevel,
+        talentSkillLevel,
+        talentBurstLevel,
+        talentOptions = [] 
+    }) {
         this.characterLevel = characterLevel;
         this.enemyLevel = enemyLevel;
         this.enemyRes = enemyRes;
@@ -7,11 +19,12 @@ export default class DamageModifier {
         this.critType = critType;
         this.flatDmg = flatDmg;
         this.reaction = reaction;
+        this.talentAttackLevel = talentAttackLevel;
+        this.talentSkillLevel = talentAttackLevel;
+        this.talentBurstLevel = talentAttackLevel;
 
-        talentOptions.forEach(({id, value, isActivated}) => {
-            if (isActivated) {
-                this[id] = value;
-            }
+        talentOptions.forEach(({id, value}) => {
+            this[id] = value;
         });
     }
 }

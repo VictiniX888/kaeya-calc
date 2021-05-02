@@ -117,7 +117,7 @@ export default class App extends Component {
             style={styles.levelInput}
             defaultValue={this.state.talentAttackLevel} 
             onChangeText={text => {
-              this.setState({ talentAttackLevel: parseInt(text) }, () => this.setTalentState('Attack'));
+              this.setState({ talentAttackLevel: parseInt(text) }, this.setAllTalentState);
             }}
           />
         </View>
@@ -128,7 +128,7 @@ export default class App extends Component {
             style={styles.levelInput}
             defaultValue={this.state.talentSkillLevel} 
             onChangeText={text => {
-              this.setState({ talentSkillLevel: parseInt(text) }, () => this.setTalentState('Skill'));
+              this.setState({ talentSkillLevel: parseInt(text) }, this.setAllTalentState);
             }}
           />
         </View>
@@ -139,7 +139,7 @@ export default class App extends Component {
             style={styles.levelInput}
             defaultValue={this.state.talentBurstLevel} 
             onChangeText={text => {
-              this.setState({ talentBurstLevel: parseInt(text) }, () => this.setTalentState('Burst'));
+              this.setState({ talentBurstLevel: parseInt(text) }, this.setAllTalentState);
             }}
           />
         </View>
@@ -202,6 +202,9 @@ export default class App extends Component {
   getDamageModifier = () => {
     let modifier = new DamageModifier({ 
       characterLevel: this.state.characterLevel,
+      talentAttackLevel: this.state.talentAttackLevel,
+      talentSkillLevel: this.state.talentSkillLevel,
+      talentBurstLevel: this.state.talentBurstLevel,
       talentOptions: this.state.talentOptions,
     });
 
@@ -568,7 +571,7 @@ export default class App extends Component {
     return (
       <FlatList
         data={this.state.talentOptions}
-        keyExtractor={item => item.description}
+        keyExtractor={item => item.id}
         renderItem={({item, index}) => {
           if (item.type === 'boolean') {
             return (
@@ -577,10 +580,10 @@ export default class App extends Component {
                 <Checkbox
                   onValueChange={value => {
                     let talentOptions = [...this.state.talentOptions];
-                    talentOptions[index] = new TalentOption(item.id, item.type, item.value, value);
+                    talentOptions[index] = new TalentOption(item.id, item.type, value);
                     this.setState({ talentOptions }, this.setAllTalentState);
                   }}
-                  value={item.isActivated}
+                  value={item.value}
                 />
               </View>
             );
