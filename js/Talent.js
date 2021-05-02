@@ -51,6 +51,11 @@ function calculateHealing({ stats, multiplier, flatHealing, scalingType = 'hp' }
     return calculateBaseDamage({ stats, multiplier, scalingType, flatDmg: flatHealing });
 }
 
+// Used for calculting hp of summons e.g. baron bunny
+function calculateHp({ stats, multiplier }) {
+    return stats.flatHp * multiplier;
+}
+
 // Used for all default normal attacks
 function normalAttackDefault({ hits, element, params, stats, modifier }) {
     let talentValues = [];
@@ -291,6 +296,64 @@ function attackHeavyMulti({ normalHits, element = 'physical', doubledHits, param
     return talentValues;
 }
 
+// Used for all debault bow aim shots (include charged shots)
+function aimShotDefault({ chargedElement, params, stats, modifier }) {
+    let talentValues = [];
+
+    let damage = calculateTotalDamage({ 
+        stats, 
+        multiplier: params[0], 
+        element: 'physical', 
+        modifier,
+    });
+    talentValues.push({
+            description: 'aimShotDmg',
+            damage: [damage],
+    });
+
+    damage = calculateTotalDamage({
+        stats,
+        multiplier: params[1],
+        element: chargedElement,
+        modifier,
+    });
+    talentValues.push({
+        description: 'chargedAimShotDmg',
+        damage: [damage],
+    });
+
+    return talentValues;
+}
+
+// Used for all default bow attacks
+function attackBowDefault({ normalHits, chargedElement, params, stats, modifier }) {
+    let talentValues = [];
+    
+    talentValues.push(...normalAttackDefault({
+        hits: 5,
+        element: 'physical',
+        params: params.slice(0, normalHits),
+        stats,
+        modifier,
+    }));
+
+    talentValues.push(...aimShotDefault({
+        chargedElement,
+        params: params.slice(normalHits, normalHits + 2),
+        stats,
+        modifier,
+    }));
+
+    talentValues.push(...plungeAttackDefault({
+        element: 'physical',
+        params: params.slice(normalHits + 2), 
+        stats,
+        modifier,
+    }));
+
+    return talentValues;
+}
+
 // Base function for all damage skills. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
 function skillBase({ description, element, multiplier, stats, modifier }) {
@@ -330,6 +393,19 @@ function healingSkillBase({ description, params, stats, modifier }) {
     return {
         description,
         damage: [damage],
+    };
+}
+
+// Base function for all HP summons e.g. Baron Bunny HP
+function constructHpBase({ description, multiplier, stats, modifier }) {
+    let hp = calculateHp({
+        stats,
+        multiplier,
+    });
+
+    return {
+        description,
+        damage: [hp],
     };
 }
 
@@ -543,6 +619,57 @@ export function razorBurst({ params, stats, modifier }) {
             modifier,
         }));
     }
+
+    return talentDamage;
+}
+
+// Amber
+export function amberAttack({ params, stats, modifier }) {
+    return attackBowDefault({
+        normalHits: 5,
+        chargedElement: 'pyro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function amberSkill({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(skillBase({
+        description: 'explosionDmg',
+        element: 'electro',
+        multiplier: params[1],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(constructHpBase({
+        description: 'baronBunnyHp',
+        multiplier: params[0],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function amberBurst({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(skillBase({
+        description: 'dmgPerWave',
+        element: 'pyro',
+        multiplier: params[0],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push({
+        description: 'totalDmg',
+        damage: [talentDamage[0].damage[0] * 18],
+    });
 
     return talentDamage;
 }
