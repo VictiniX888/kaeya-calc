@@ -129,13 +129,13 @@ function chargedAttackMulti({ hits, element, params, stats, modifier }) {
 }
 
 // Used for all default claymore charged attacks
-function chargedAttackHeavy({ params, stats, modifier }) {
+function chargedAttackHeavy({ element = 'physical', params, stats, modifier }) {
     let descriptions = ['chargedSpinDmg', 'chargedFinalDmg'];
     return descriptions.map((description, i) => {
         let damage = calculateTotalDamage({ 
             stats, 
             multiplier: params[i], 
-            element: 'physical', 
+            element, 
             modifier,
         });
 
@@ -246,7 +246,8 @@ function attackHeavyDefault({ normalHits, element = 'physical', params, stats, m
     }));
 
     talentValues.push(...chargedAttackHeavy({
-        params: params.slice(normalHits, normalHits + 2), 
+        element,
+        params: params.slice(normalHits, normalHits + 2),
         stats,
         modifier,
     }));
