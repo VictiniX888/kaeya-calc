@@ -49,6 +49,8 @@
     "dmgPerWave": "DMG Per Wave",
     "totalDmg": "Total DMG",
 
+    "dotElementalAbsorption": "Elemental Absorption DoT",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"

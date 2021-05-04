@@ -674,6 +674,58 @@ export function amberBurst({ params, stats, modifier }) {
     return talentDamage;
 }
 
+// Venti
+export function ventiAttack({ params, stats, modifier }) {
+    return attackBowDefault({
+        normalHits: 6,
+        chargedElement: 'anemo',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function ventiSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'pressDmg',
+            element: 'anemo',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        skillBase({
+            description: 'holdDmg',
+            element: 'anemo',
+            multiplier: params[2],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function ventiBurst({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'dot',
+            element: 'anemo',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        // Not sure how the elemental absorption dmg is calculated
+        skillBase({
+            description: 'dotElementalAbsorption',
+            element: 'none',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 
