@@ -736,6 +736,42 @@ export function xianglingAttack({ params, stats, modifier }) {
     });
 }
 
+export function xianglingSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'guobaDmg',
+            element: 'pyro',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function xianglingBurst({ params, stats, modifier }) {
+    let talentDamage = []
+
+    for (let i = 0; i < 3; i++) {
+        talentDamage.push(skillBase({
+            description: `swing${i+1}HitDmg`,
+            element: 'pyro',
+            multiplier: params[i],
+            stats,
+            modifier,
+        }));
+    }
+
+    talentDamage.push(skillBase({
+        description: 'pyronadoDmg',
+        element: 'pyro',
+        multiplier: params[3],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 

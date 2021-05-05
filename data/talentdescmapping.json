@@ -51,6 +51,12 @@
 
     "dotElementalAbsorption": "Elemental Absorption DoT",
 
+    "guobaDmg": "Guoba DMG",
+    "swing1HitDmg": "1-Hit Swing DMG",
+    "swing2HitDmg": "2-Hit Swing DMG",
+    "swing3HitDmg": "3-Hit Swing DMG",
+    "pyronadoDmg": "Pyronado DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"
