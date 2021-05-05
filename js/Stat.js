@@ -17,19 +17,29 @@ export function getStatDisplayValue(value, isPercentage) {
 export function getDamageDisplayValue(values) {
     let str = '';
 
+    if (values.length === 0) {
+        return str;
+    }
+
     if (isNaN(values[0])) {
         return '-';
     } else {
         str += Math.round(values[0]);
     }
 
-    values.slice(1).forEach(value => {
-        if (isNaN(value)) {
-            return '-';
-        } else {
-            str += ' + ' + Math.round(value);
-        }
-    });
+    if (values.length >= 3 && values.every(value => value === values[0])) {
+        // All elements are the same, simplify to ${damage} x${count}
+        str += ' x ' + values.length;
+    } else {
+        // Less than 3 elements, or elements are different
+        values.slice(1).forEach(value => {
+            if (isNaN(value)) {
+                return '-';
+            } else {
+                str += ' + ' + Math.round(value);
+            }
+        });
+    }
 
     return str;
 }

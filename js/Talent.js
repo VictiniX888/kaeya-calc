@@ -78,9 +78,8 @@ function normalAttackDefault({ hits, element, params, stats, modifier }) {
 
 // Used for all normal attacks with multiple damage instances in 1 hit e.g. polearms
 // doubledHits is an array containing all n where n-hit is 2 identical damage instances
-function normalAttackMulti({ hits, doubledHits, element, params, stats, modifier }) {
-    let talentValues = [];
-    for (let i = 0; i < hits; i++) {
+function normalAttackMulti({ hits = [], element, params, stats, modifier }) {
+    let talentValues = hits.map((hitCount, i) => {
         let damage = calculateTotalDamage({ 
             stats, 
             multiplier: params[i], 
@@ -88,13 +87,16 @@ function normalAttackMulti({ hits, doubledHits, element, params, stats, modifier
             modifier,
         });
 
-        let damages = doubledHits.includes(i+1) ? [damage, damage] : [damage];
-        
-        talentValues.push({
+        let damages = [];
+        for (let hit = 0; hit < hitCount; hit++) {
+            damages.push(damage);
+        }
+
+        return {
             description: `${i+1}HitDmg`,
             damage: damages,
-        });
-    }
+        };
+    });
 
     return talentValues;
 }
@@ -199,14 +201,13 @@ function attackLightDefault({ normalHits, element = 'physical', params, stats, m
 }
 
 // Used for all default sword/polearm attacks with multi damage instances
-function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, element = 'physical', params, stats, modifier }) {
+function attackLightMulti({ normalHits = [], chargedHits = 1, element = 'physical', params, stats, modifier }) {
     let talentValues = [];
 
     talentValues.push(...normalAttackMulti({ 
         hits: normalHits, 
-        doubledHits,
         element,
-        params: params.slice(0, normalHits), 
+        params: params.slice(0, normalHits.length), 
         stats, 
         modifier 
     }));
@@ -214,7 +215,7 @@ function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, eleme
     if (chargedHits === 1) {
         talentValues.push(...chargedAttackDefault({
             element,
-            params: params.slice(normalHits, normalHits + 1), 
+            params: params.slice(normalHits.length, normalHits.length + 1), 
             stats, 
             modifier,
         }));
@@ -222,7 +223,7 @@ function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, eleme
         talentValues.push(...chargedAttackMulti({
             hits: chargedHits,
             element,
-            params: params.slice(normalHits, normalHits + chargedHits), 
+            params: params.slice(normalHits.length, normalHits.length + chargedHits), 
             stats, 
             modifier,
         }));
@@ -230,7 +231,7 @@ function attackLightMulti({ normalHits, doubledHits = [], chargedHits = 1, eleme
 
     talentValues.push(...plungeAttackDefault({
         element,
-        params: params.slice(normalHits + chargedHits + 1), 
+        params: params.slice(normalHits.length + chargedHits + 1), 
         stats, 
         modifier,
     }));
@@ -268,27 +269,26 @@ function attackHeavyDefault({ normalHits, element = 'physical', params, stats, m
 }
 
 // Used for all claymore attacks with multi damage instances
-function attackHeavyMulti({ normalHits, element = 'physical', doubledHits, params, stats, modifier }) {
+function attackHeavyMulti({ normalHits = [], element = 'physical', params, stats, modifier }) {
     let talentValues = [];
 
     talentValues.push(...normalAttackMulti({
         hits: normalHits, 
-        doubledHits,
         element,
-        params: params.slice(0, normalHits), 
+        params: params.slice(0, normalHits.length), 
         stats,
         modifier,
     }));
 
     talentValues.push(...chargedAttackHeavy({
-        params: params.slice(normalHits, normalHits + 2), 
+        params: params.slice(normalHits.length, normalHits.length + 2), 
         stats,
         modifier,
     }));
 
     talentValues.push(...plungeAttackDefault({
         element,
-        params: params.slice(normalHits + 2 + 2), 
+        params: params.slice(normalHits.length + 2 + 2), 
         stats,
         modifier,
     }));
@@ -509,7 +509,7 @@ export function barbaraBurst({ params, stats, modifier }) {
 // Kaeya
 export function kaeyaAttack({ params, stats, modifier }) {
     return attackLightMulti({ 
-        normalHits: 5, 
+        normalHits: [1, 1, 1, 1, 1], 
         chargedHits: 2, 
         params, 
         stats, 
@@ -726,11 +726,20 @@ export function ventiBurst({ params, stats, modifier }) {
     ];
 }
 
+// Xiangling
+export function xianglingAttack({ params, stats, modifier }) {
+    return attackLightMulti({
+        normalHits: [1, 1, 2, 4, 1],
+        params,
+        stats,
+        modifier,
+    });
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 
-        normalHits: 5, 
-        doubledHits: [3, 5],
+        normalHits: [1, 1, 2, 1, 2], 
         params, 
         stats, 
         modifier
