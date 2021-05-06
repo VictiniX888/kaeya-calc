@@ -51,9 +51,9 @@ function calculateHealing({ stats, multiplier, flatHealing, scalingType = 'hp' }
     return calculateBaseDamage({ stats, multiplier, scalingType, flatDmg: flatHealing });
 }
 
-// Used for calculting hp of summons e.g. baron bunny
-function calculateHp({ stats, multiplier }) {
-    return stats.flatHp * multiplier;
+// Used for calculting hp of summons/shield
+function calculateHp({ stats, multiplier, flatBonus }) {
+    return stats.flatHp * multiplier + flatBonus;
 }
 
 // Used for all default normal attacks
@@ -381,6 +381,25 @@ function skillDefault({ element, params, stats, modifier }) {
     })];
 }
 
+// Base function for damage skills with multiple damage instances
+function skillMultiBase({ description, hits, element, params, stats, modifier }) {
+    let damages = [];
+    
+    for (let i = 0; i < hits; i++) {
+        damages.push(calculateTotalDamage({
+            element,
+            multiplier: params[i],
+            stats,
+            modifier,
+        }));
+    }
+
+    return {
+        description,
+        damage: damages,
+    };
+}
+
 // Base function for all healing skills. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
 function healingSkillBase({ description, params, stats, modifier }) {
@@ -396,11 +415,12 @@ function healingSkillBase({ description, params, stats, modifier }) {
     };
 }
 
-// Base function for all HP summons e.g. Baron Bunny HP
-function constructHpBase({ description, multiplier, stats, modifier }) {
+// Base function for all shields/summon HP
+function hpBase({ description, multiplier, flatBonus, stats, modifier }) {
     let hp = calculateHp({
         stats,
         multiplier,
+        flatBonus,
     });
 
     return {
@@ -645,9 +665,10 @@ export function amberSkill({ params, stats, modifier }) {
         modifier,
     }));
 
-    talentDamage.push(constructHpBase({
+    talentDamage.push(hpBase({
         description: 'baronBunnyHp',
         multiplier: params[0],
+        flatBonus: 0,
         stats,
         modifier,
     }));
@@ -770,6 +791,100 @@ export function xianglingBurst({ params, stats, modifier }) {
     }));
 
     return talentDamage;
+}
+
+// Beidou
+export function beidouAttack({ params, stats, modifier }) {
+    return attackHeavyDefault({
+        normalHits: 5,
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function beidouSkill({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(hpBase({
+        description: 'shieldHp',
+        multiplier: params[0],
+        flatBonus: params[1],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(skillBase({
+        description: 'baseDmg',
+        element: 'electro',
+        multiplier: params[2],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(skillBase({
+        description: 'dmgBonusOnHitTaken',
+        element: 'electro',
+        multiplier: params[3],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function beidouBurst({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(skillBase({
+        description: 'skillDmg',
+        element: 'electro',
+        multiplier: params[0],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(skillBase({
+        description: 'lightningDmg',
+        element: 'electro',
+        multiplier: params[1],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+// Xingqiu
+export function xingqiuAttack({ params, stats, modifier }) {
+    return attackLightMulti({
+        normalHits: [1, 1, 2, 1, 2],
+        chargedHits: 2,
+        params: params.slice(0, 3).concat(params.slice(4, 6)).concat(params.slice(7)),
+        stats,
+        modifier,
+    });
+}
+
+export function xingqiuSkill({ params, stats, modifier }) {
+    return [skillMultiBase({
+        description: 'skillDmg',
+        hits: 2,
+        element: 'hydro',
+        params,
+        stats,
+        modifier,
+    })];
+}
+
+export function xingqiuBurst({ params, stats, modifier }) {
+    return [skillBase({
+        description: 'swordRainDmg',
+        element: 'hydro',
+        multiplier: params[0],
+        stats,
+        modifier,
+    })];
 }
 
 // Eula

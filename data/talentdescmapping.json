@@ -25,6 +25,10 @@
     "pressDmg": "Press DMG",
     "holdDmg": "Hold DMG",
 
+    "shieldHp": "Shield DMG Absorption",
+    "baseDmg": "Base DMG",
+    "dmgBonusOnHitTaken": "DMG Bonus On Hit Taken",
+
     "holdDmgStack0": "Hold DMG (0 Stacks)",
     "holdDmgStack1": "Hold DMG (1 Stack)",
     "holdDmgStack2": "Hold DMG (2 Stacks)",
@@ -56,6 +60,10 @@
     "swing2HitDmg": "2-Hit Swing DMG",
     "swing3HitDmg": "3-Hit Swing DMG",
     "pyronadoDmg": "Pyronado DMG",
+
+    "lightningDmg": "Lightning DMG",
+
+    "swordRainDmg": "Sword Rain DMG",
 
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
