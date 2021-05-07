@@ -7,13 +7,18 @@ export function defaultTalent() {
 
 // Internal functions
 
-function getDamageBonus({ stats, element }) {
-    let dmgBonus = stats[`${element}DmgBonus`];
-    if (dmgBonus !== undefined) {
-        return 1 + dmgBonus;
-    } else {
-        return 1;
+function getDamageBonus({ stats, element, attackType }) {
+    let dmgBonus = 1;
+    dmgBonus += stats[`${element}DmgBonus`] ? stats[`${element}DmgBonus`] : 0;
+    if (attackType === 'normal') {
+        dmgBonus += stats.normalDmgBonus ? stats.normalDmgBonus : 0;
+    } else if (attackType === 'charged') {
+        dmgBonus += stats.chargedDmgBonus ? stats.chargedDmgBonus : 0;
+    } else if (attackType === 'plunge') {
+        dmgBonus += stats.plungeDmgBonus ? stats.plungeDmgBonus : 0;
     }
+
+    return dmgBonus;
 }
 
 function calculateBaseDamage({ stats, multiplier, scalingType, flatDmg = 0 }) {
@@ -28,9 +33,9 @@ function calculateBaseDamage({ stats, multiplier, scalingType, flatDmg = 0 }) {
     }
 }
 
-function calculateTotalDamage({ stats, multiplier, element, scalingType = 'attack', modifier }) {
+function calculateTotalDamage({ stats, multiplier, element, scalingType = 'attack', attackType = 'none', modifier }) {
     let baseDmg = calculateBaseDamage({ stats, multiplier, scalingType, flatDmg: modifier.flatDmg });
-    let dmgBonus = getDamageBonus({ stats, element });
+    let dmgBonus = getDamageBonus({ stats, element, attackType });
 
     let crit = 1;
     if (modifier.critType === 'crit') {
@@ -64,6 +69,7 @@ function normalAttackDefault({ hits, element, params, stats, modifier }) {
             stats, 
             multiplier: params[i], 
             element, 
+            attackType: 'normal',
             modifier,
         });
         
@@ -84,6 +90,7 @@ function normalAttackMulti({ hits = [], element, params, stats, modifier }) {
             stats, 
             multiplier: params[i], 
             element,
+            attackType: 'normal',
             modifier,
         });
 
@@ -107,6 +114,7 @@ function chargedAttackDefault({ element, params, stats, modifier }) {
         stats, 
         multiplier: params[0], 
         element, 
+        attackType: 'charged',
         modifier,
      });
 
@@ -124,6 +132,7 @@ function chargedAttackMulti({ hits, element, params, stats, modifier }) {
             stats, 
             multiplier: params[i], 
             element, 
+            attackType: 'charged',
             modifier,
         });
         damages.push(damage);
@@ -143,6 +152,7 @@ function chargedAttackHeavy({ element = 'physical', params, stats, modifier }) {
             stats, 
             multiplier: params[i], 
             element, 
+            attackType: 'charged',
             modifier,
         });
 
@@ -161,6 +171,7 @@ function plungeAttackDefault({ element, params, stats, modifier }) {
             stats,
             multiplier: params[i], 
             element,
+            attackType: 'plunge',
             modifier 
         });
 
@@ -304,6 +315,7 @@ function aimShotDefault({ chargedElement, params, stats, modifier }) {
         stats, 
         multiplier: params[0], 
         element: 'physical', 
+        attackType: 'normal',
         modifier,
     });
     talentValues.push({
@@ -315,6 +327,7 @@ function aimShotDefault({ chargedElement, params, stats, modifier }) {
         stats,
         multiplier: params[1],
         element: chargedElement,
+        attackType: 'charged',
         modifier,
     });
     talentValues.push({
@@ -360,6 +373,7 @@ function skillBase({ description, element, multiplier, stats, modifier }) {
     let damage = calculateTotalDamage({
         element,
         multiplier,
+        attackType: 'skill',
         stats, 
         modifier,
     });
@@ -389,6 +403,7 @@ function skillMultiBase({ description, hits, element, params, stats, modifier })
         damages.push(calculateTotalDamage({
             element,
             multiplier: params[i],
+            attackType: 'skill',
             stats,
             modifier,
         }));

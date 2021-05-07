@@ -8,3 +8,6 @@ export default class TalentOption {
 
 // Diluc
 export const dilucTalentOptions = [new TalentOption('infusion', 'boolean', false)];
+
+// Xiao
+export const xiaoTalentOptions = [new TalentOption('infusion', 'boolean', false)];
