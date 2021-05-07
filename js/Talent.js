@@ -902,6 +902,60 @@ export function xingqiuBurst({ params, stats, modifier }) {
     })];
 }
 
+// Xiao
+export function xiaoAttack({ params, stats, modifier }) {
+    if (modifier.infusion) {
+        let burstParams = getTalentStatsAt('burst', modifier.talentBurstLevel, getTalentData('xiao'));
+        let modifiedStats = {...stats};
+
+        if (modifiedStats.normalDmgBonus === undefined) {
+            modifiedStats.normalDmgBonus = burstParams[0];
+        } else {
+            modifiedStats.normalDmgBonus += burstParams[0];
+        }
+
+        if (modifiedStats.chargedDmgBonus === undefined) {
+            modifiedStats.chargedDmgBonus = burstParams[0];
+        } else {
+            modifiedStats.chargedDmgBonus += burstParams[0];
+        }
+
+        if (modifiedStats.plungeDmgBonus === undefined) {
+            modifiedStats.plungeDmgBonus = burstParams[0];
+        } else {
+            modifiedStats.plungeDmgBonus += burstParams[0];
+        }
+
+        return attackLightMulti({
+            normalHits: [2, 1, 1, 2, 1, 1],
+            element: 'anemo',
+            params: params.slice(1, 5).concat(params.slice(6)),
+            stats: modifiedStats,
+            modifier,
+        });
+    } else {
+        return attackLightMulti({
+            normalHits: [2, 1, 1, 2, 1, 1],
+            params: params.slice(1, 5).concat(params.slice(6)),
+            stats,
+            modifier,
+        });
+    }
+}
+
+export function xiaoSkill({ params, stats, modifier }) {
+    return skillDefault({
+        element: 'anemo',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function xiaoBurst({ params, stats, modifier }) {
+    return defaultTalent();
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 
