@@ -83,7 +83,6 @@ function normalAttackDefault({ hits, element, params, stats, modifier }) {
 }
 
 // Used for all normal attacks with multiple damage instances in 1 hit e.g. polearms
-// doubledHits is an array containing all n where n-hit is 2 identical damage instances
 function normalAttackMulti({ hits = [], element, params, stats, modifier }) {
     let talentValues = hits.map((hitCount, i) => {
         let damage = calculateTotalDamage({ 
@@ -954,6 +953,85 @@ export function xiaoSkill({ params, stats, modifier }) {
 
 export function xiaoBurst({ params, stats, modifier }) {
     return defaultTalent();
+}
+
+// Ningguang
+export function ningguangAttack({ params, stats, modifier }) {
+    let talentDmg = []; 
+
+    // Ningguang's normal attack has no combo
+    let normalAtkDmg = calculateTotalDamage({
+        stats,
+        multiplier: params[0],
+        element: 'geo',
+        attackType: 'normal',
+        modifier,
+    });
+    talentDmg.push({
+        description: 'normalAtkDmg',
+        damage: [normalAtkDmg],
+    });
+
+    talentDmg.push(...chargedAttackDefault({
+        element: 'geo',
+        params: params.slice(1, 2),
+        stats,
+        modifier,
+    }));
+
+    // Ningguang's charged attack dmg per star jade
+    let starJadeDmg = calculateTotalDamage({
+        stats,
+        multiplier: params[2],
+        element: 'geo',
+        attackType: 'charged',
+        modifier,
+    });
+    talentDmg.push({
+        description: 'starJadeDmg',
+        damage: [starJadeDmg],
+    });
+
+    talentDmg.push(...plungeAttackDefault({
+        element: 'geo',
+        params: params.slice(4),
+        stats,
+        modifier,
+    }));
+
+    return talentDmg;
+}
+
+export function ningguangSkill({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(skillBase({
+        description: 'skillDmg',
+        element: 'geo',
+        multiplier: params[1],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(hpBase({
+        description: 'jadeScreenHp',
+        multiplier: params[2],
+        flatBonus: 0,
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function ningguangBurst({ params, stats, modifier }) {
+    return [skillBase({
+        description: 'dmgPerGem',
+        element: 'geo',
+        multiplier: params[0],
+        stats,
+        modifier,
+    })];
 }
 
 // Eula
