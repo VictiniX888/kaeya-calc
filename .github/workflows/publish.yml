@@ -1,13 +1,5 @@
 name: publish-web
 
-env:
-  FIREBASE_APIKEY: ${{ secrets.FIREBASE_APIKEY }}
-  FIREBASE_AUTHDOMAIN: ${{ secrets.FIREBASE_AUTHDOMAIN }}
-  FIREBASE_PROJECTID: ${{ secrets.FIREBASE_PROJECTID }}
-  FIREBASE_STORAGEBUCKET: ${{ secrets.FIREBASE_STORAGEBUCKET }}
-  FIREBASE_MESSAGINGSENDERID: ${{ secrets.FIREBASE_MESSAGINGSENDERID }}
-  FIREBASE_APPID: ${{ secrets.FIREBASE_APPID }}
-
 on:
   push:
     branches:
@@ -18,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - uses: expo/expo-github-action@v5
 
       - run: yarn install
