@@ -1,6 +1,7 @@
 {
     "dmg": "DMG",
     "skillDmg": "DMG",
+    "burstDmg": "DMG",
     
     "normalAtkDmg": "Normal Attack DMG",
     "1HitDmg": "1-Hit DMG",

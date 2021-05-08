@@ -383,7 +383,7 @@ function skillBase({ description, element, multiplier, stats, modifier }) {
     };
 }
 
-// Used for all default skill/burst that only does 1-hit elemental dmg
+// Used for all default skill that only does 1-hit elemental dmg
 function skillDefault({ element, params, stats, modifier }) {
     return [skillBase({
         description: 'skillDmg',
@@ -412,6 +412,34 @@ function skillMultiBase({ description, hits, element, params, stats, modifier })
         description,
         damage: damages,
     };
+}
+
+// Base function for all damage bursts. Returns an object representing a single line to be displayed.
+// The returned object should always be added into an array to construct the list of talent damage.
+function burstBase({ description, element, multiplier, stats, modifier }) {
+    let damage = calculateTotalDamage({
+        element,
+        multiplier,
+        attackType: 'burst',
+        stats, 
+        modifier,
+    });
+
+    return {
+        description,
+        damage: [damage],
+    };
+}
+
+// Used for all default burst that only does 1-hit elemental dmg
+function burstDefault({ element, params, stats, modifier }) {
+    return [burstBase({
+        description: 'burstDmg',
+        element,
+        multiplier: params[0],
+        stats,
+        modifier,
+    })];
 }
 
 // Base function for all healing skills. Returns an object representing a single line to be displayed.
@@ -482,7 +510,7 @@ export function lisaSkill({ params, stats, modifier }) {
 }
 
 export function lisaBurst({ params, stats, modifier }) {
-    return skillDefault({
+    return burstDefault({
         element: 'electro',
         params,
         stats,
@@ -561,7 +589,7 @@ export function kaeyaSkill({ params, stats, modifier }) {
 }
 
 export function kaeyaBurst({ params, stats, modifier }) {
-    return skillDefault({ 
+    return burstDefault({ 
         element: 'cryo', 
         params, 
         stats, 
@@ -599,7 +627,7 @@ export function dilucSkill({ params, stats, modifier }) {
 export function dilucBurst({ params, stats, modifier }) {
     let descriptions = ['slashingDmg', 'dot', 'explosionDmg'];
     let talentDamage = descriptions.map((description, i) => {
-        return skillBase({
+        return burstBase({
             description,
             element: 'pyro',
             multiplier: params[i],
@@ -635,7 +663,7 @@ export function razorSkill({ params, stats, modifier }) {
 }
 
 export function razorBurst({ params, stats, modifier }) {
-    let talentDamage = skillDefault({
+    let talentDamage = burstDefault({
         element: 'electro',
         params,
         stats,
@@ -645,7 +673,7 @@ export function razorBurst({ params, stats, modifier }) {
     let attackParams = getTalentStatsAt('attack', modifier.talentAttackLevel, getTalentData('razor'));
 
     for (let i = 0; i < 4; i++) {
-        talentDamage.push(skillBase({
+        talentDamage.push(burstBase({
             description: `${i+1}HitDmgSoulCompanion`,
             element: 'electro',
             multiplier: params[1] * attackParams[i],
@@ -693,7 +721,7 @@ export function amberSkill({ params, stats, modifier }) {
 export function amberBurst({ params, stats, modifier }) {
     let talentDamage = [];
 
-    talentDamage.push(skillBase({
+    talentDamage.push(burstBase({
         description: 'dmgPerWave',
         element: 'pyro',
         multiplier: params[0],
@@ -742,7 +770,7 @@ export function ventiSkill({ params, stats, modifier }) {
 
 export function ventiBurst({ params, stats, modifier }) {
     return [
-        skillBase({
+        burstBase({
             description: 'dot',
             element: 'anemo',
             multiplier: params[0],
@@ -751,7 +779,7 @@ export function ventiBurst({ params, stats, modifier }) {
         }),
 
         // Not sure how the elemental absorption dmg is calculated
-        skillBase({
+        burstBase({
             description: 'dotElementalAbsorption',
             element: 'none',
             multiplier: params[1],
@@ -787,7 +815,7 @@ export function xianglingBurst({ params, stats, modifier }) {
     let talentDamage = []
 
     for (let i = 0; i < 3; i++) {
-        talentDamage.push(skillBase({
+        talentDamage.push(burstBase({
             description: `swing${i+1}HitDmg`,
             element: 'pyro',
             multiplier: params[i],
@@ -796,7 +824,7 @@ export function xianglingBurst({ params, stats, modifier }) {
         }));
     }
 
-    talentDamage.push(skillBase({
+    talentDamage.push(burstBase({
         description: 'pyronadoDmg',
         element: 'pyro',
         multiplier: params[3],
@@ -850,7 +878,7 @@ export function beidouSkill({ params, stats, modifier }) {
 export function beidouBurst({ params, stats, modifier }) {
     let talentDamage = [];
 
-    talentDamage.push(skillBase({
+    talentDamage.push(burstBase({
         description: 'skillDmg',
         element: 'electro',
         multiplier: params[0],
@@ -858,7 +886,7 @@ export function beidouBurst({ params, stats, modifier }) {
         modifier,
     }));
 
-    talentDamage.push(skillBase({
+    talentDamage.push(burstBase({
         description: 'lightningDmg',
         element: 'electro',
         multiplier: params[1],
@@ -892,7 +920,7 @@ export function xingqiuSkill({ params, stats, modifier }) {
 }
 
 export function xingqiuBurst({ params, stats, modifier }) {
-    return [skillBase({
+    return [burstBase({
         description: 'swordRainDmg',
         element: 'hydro',
         multiplier: params[0],
@@ -1025,7 +1053,7 @@ export function ningguangSkill({ params, stats, modifier }) {
 }
 
 export function ningguangBurst({ params, stats, modifier }) {
-    return [skillBase({
+    return [burstBase({
         description: 'dmgPerGem',
         element: 'geo',
         multiplier: params[0],
@@ -1059,7 +1087,7 @@ export function eulaSkill({ params, stats, modifier }) {
 
 export function eulaBurst({ params, stats, modifier }) {
     let talentDmg = [];
-    talentDmg.push(...skillDefault({
+    talentDmg.push(...burstDefault({
         element: 'cryo', 
         params, 
         stats,
@@ -1069,7 +1097,7 @@ export function eulaBurst({ params, stats, modifier }) {
     let descriptions = ['lightfallSwordBaseDmg', 'lightfallSwordStackDmg'];
     let lightfallSwordParams = params.slice(1, 3);
     let lightfallSwordTalent = descriptions.map((description, i) => {
-        return skillBase({
+        return burstBase({
             description,
             element: 'physical',
             multiplier: lightfallSwordParams[i],
