@@ -71,6 +71,13 @@
     "jadeScreenHp": "Jade Screen HP",
     "dmgPerGem": "DMG Per Gem",
 
+    "jumpyDumptyDmg": "Jumpy Dumpty DMG",
+    "mineDmg": "Mine DMG",
+    "sparksNSplashDmg": "Sparks 'n' Splash DMG",
+
+    "stoneSteeleDmg": "Stone Steele DMG",
+    "resonanceDmg": "Resonance DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"

@@ -1062,6 +1062,98 @@ export function ningguangBurst({ params, stats, modifier }) {
     })];
 }
 
+// Klee
+export function kleeAttack({ params, stats, modifier }) {
+    return attackLightDefault({
+        normalHits: 3,
+        element: 'pyro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function kleeSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'jumpyDumptyDmg',
+            element: 'pyro',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        skillBase({
+            description: 'mineDmg',
+            element: 'pyro',
+            multiplier: params[3],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function kleeBurst({ params, stats, modifier }) {
+    return [burstBase({
+        description: 'sparksNSplashDmg',
+        element: 'pyro',
+        multiplier: params[0],
+        stats,
+        modifier,
+    })];
+}
+
+// Zhongli
+export function zhongliAttack({ params, stats, modifier }) {
+    return attackLightMulti({
+        normalHits: [1, 1, 1, 1, 4, 1],
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function zhongliSkill({ params, stats, modifier }) {
+    let descriptions = ['stoneSteeleDmg', 'resonanceDmg'];
+
+    let talentDamage = descriptions.map((description, i) => {
+        return skillBase({
+            description,
+            element: 'geo',
+            multiplier: params[i],
+            stats,
+            modifier,
+        });
+    });
+
+    talentDamage.push(skillBase({
+        description: 'holdDmg',
+        element: 'geo',
+        multiplier: params[3],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(hpBase({
+        description: 'shieldHp',
+        multiplier: params[5],
+        flatBonus: params[4],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function zhongliBurst({ params, stats, modifier }) {
+    return burstDefault({
+        element: 'geo',
+        params,
+        stats,
+        modifier,
+    });
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 
