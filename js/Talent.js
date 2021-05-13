@@ -1154,6 +1154,40 @@ export function zhongliBurst({ params, stats, modifier }) {
     });
 }
 
+// Fischl
+export function fischlAttack({ params, stats, modifier }) {
+    return attackBowDefault({
+        normalHits: 5,
+        chargedElement: 'electro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function fischlSkill({ params, stats, modifier }) {
+    let descriptions = ['ozDmg', 'summoningDmg'];
+    return descriptions.map((description, i) => skillBase({
+        description,
+        element: 'electro',
+        multiplier: params[i],
+        stats,
+        modifier,
+    }));
+}
+
+export function fischlBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'fallingThunderDmg',
+            element: 'electro',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 

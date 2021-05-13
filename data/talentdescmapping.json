@@ -78,6 +78,10 @@
     "stoneSteeleDmg": "Stone Steele DMG",
     "resonanceDmg": "Resonance DMG",
 
+    "ozDmg": "Oz's ATK DMG",
+    "summoningDmg": "Summoning DMG",
+    "fallingThunderDmg": "Falling Thunder DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"
