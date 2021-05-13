@@ -124,6 +124,9 @@ export function getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, characte
 
     // Calculate total stats
     let totalStats = {};
+
+    totalStats.baseAtk = (combinedStats.baseAtk ? combinedStats.baseAtk : 0);
+
     totalStats.flatAtk = (combinedStats.baseAtk ? combinedStats.baseAtk : 0) 
         * (1 + (combinedStats.atkBonus ? combinedStats.atkBonus : 0))
         + (combinedStats.flatAtk ? combinedStats.flatAtk : 0);

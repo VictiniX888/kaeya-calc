@@ -541,7 +541,11 @@ export default class App extends Component {
         {
           this.state.totalStats ? (
             Object.entries(this.state.totalStats).map(([stat, value]) => {
-              return <Text style={styles.resultText} key={stat}>{data.propMapping[stat].name}: {statUtils.getStatDisplayValue(value, data.propMapping[stat].isPercentage)}</Text>
+              if (stat != 'baseAtk') {
+                return <Text style={styles.resultText} key={stat}>{data.propMapping[stat].name}: {statUtils.getStatDisplayValue(value, data.propMapping[stat].isPercentage)}</Text>
+              } else {
+                return null;
+              }
             })
           ) : null
         }
