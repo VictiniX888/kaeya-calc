@@ -82,6 +82,11 @@
     "summoningDmg": "Summoning DMG",
     "fallingThunderDmg": "Falling Thunder DMG",
 
+    "chargeLevel1Dmg": "Charge Level 1 DMG",
+    "chargeLevel2Dmg": "Charge Level 2 DMG",
+    "hpRegenContinuousPerSecond": "HP Regeneration Per Second",
+    "atkBonus": "ATK Bonus",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"

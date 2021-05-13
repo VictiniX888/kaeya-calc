@@ -1188,6 +1188,83 @@ export function fischlBurst({ params, stats, modifier }) {
     ];
 }
 
+// Bennett
+export function bennettAttack({ params, stats, modifier }) {
+    return attackLightMulti({
+        normalHits: [1, 1, 1, 1, 1],
+        chargedHits: 2,
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function bennettSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'pressDmg',
+            element: 'pyro',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        skillMultiBase({
+            description: 'chargeLevel1Dmg',
+            hits: 2,
+            element: 'pyro',
+            params: params.slice(1, 3),
+            stats,
+            modifier,
+        }),
+
+        skillMultiBase({
+            description: 'chargeLevel2Dmg',
+            hits: 2,
+            element: 'pyro',
+            params: params.slice(3, 5),
+            stats,
+            modifier,
+        }),
+
+        skillBase({
+            description: 'explosionDmg',
+            element: 'pyro',
+            multiplier: params[5],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function bennettBurst({ params, stats, modifier }) {
+    let talentDamage = [
+        burstBase({
+            description: 'burstDmg',
+            element: 'pyro',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        healingSkillBase({
+            description: 'hpRegenContinuousPerSecond',
+            params: params.slice(1, 3),
+            stats,
+            modifier,
+        }),
+    ];
+
+    // ATK Bonus
+    let atkBonus = stats.baseAtk * params[3];
+    talentDamage.push({
+        description: 'atkBonus',
+        damage: [atkBonus],
+    });
+
+    return talentDamage;
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 
