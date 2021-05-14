@@ -8,8 +8,6 @@ import {
 } from './Data.js';
 
 import * as talents from './Talent.js';
-const emptyTalentParams = Array(19).fill(NaN);
-
 import * as talentOptions from './TalentOption.js';
 
 export default class Character {
@@ -110,8 +108,8 @@ export default class Character {
         }
 
         let damage = damageFn({
-            params: params ? params : emptyTalentParams, 
-            stats: totalStats, 
+            params,
+            stats: totalStats,
             modifier,
         });
 

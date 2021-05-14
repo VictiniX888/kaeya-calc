@@ -135,8 +135,15 @@ export function getTalentData(id) {
     return talentData[id];
 }
 
+const emptyTalentParams = Array(19).fill(NaN);
+
 export function getTalentStatsAt(type, level, talents) {
-    return talents[type][level];
+    const talentStats = talents[type][level];
+    if (talentStats !== undefined) {
+        return talentStats;
+    } else {
+        return emptyTalentParams;
+    }
 }
 
 // "Public" functions for getting data collections

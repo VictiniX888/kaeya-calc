@@ -9,13 +9,13 @@ export function defaultTalent() {
 
 function getDamageBonus({ stats, element, attackType }) {
     let dmgBonus = 1;
-    dmgBonus += stats[`${element}DmgBonus`] ? stats[`${element}DmgBonus`] : 0;
+    dmgBonus += stats[`${element}DmgBonus`] ?? 0;
     if (attackType === 'normal') {
-        dmgBonus += stats.normalDmgBonus ? stats.normalDmgBonus : 0;
+        dmgBonus += stats.normalDmgBonus ?? 0;
     } else if (attackType === 'charged') {
-        dmgBonus += stats.chargedDmgBonus ? stats.chargedDmgBonus : 0;
+        dmgBonus += stats.chargedDmgBonus ?? 0;
     } else if (attackType === 'plunge') {
-        dmgBonus += stats.plungeDmgBonus ? stats.plungeDmgBonus : 0;
+        dmgBonus += stats.plungeDmgBonus ?? 0;
     }
 
     return dmgBonus;
