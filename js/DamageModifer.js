@@ -20,8 +20,8 @@ export default class DamageModifier {
         this.flatDmg = flatDmg;
         this.reaction = reaction;
         this.talentAttackLevel = talentAttackLevel;
-        this.talentSkillLevel = talentAttackLevel;
-        this.talentBurstLevel = talentAttackLevel;
+        this.talentSkillLevel = talentSkillLevel;
+        this.talentBurstLevel = talentBurstLevel;
 
         talentOptions.forEach(({id, value}) => {
             this[id] = value;

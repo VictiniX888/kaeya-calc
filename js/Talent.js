@@ -57,8 +57,16 @@ function calculateHealing({ stats, multiplier, flatHealing, scalingType = 'hp' }
 }
 
 // Used for calculting hp of summons/shield
-function calculateHp({ stats, multiplier, flatBonus }) {
-    return stats.flatHp * multiplier + flatBonus;
+function calculateHp({ stats, multiplier, flatBonus, scalingType = 'hp' }) {
+    if (scalingType == 'attack') {
+        return stats.flatAtk * multiplier + flatBonus;
+    } else if (scalingType == 'defense') {
+        return stats.flatDef * multiplier + flatBonus;
+    } else if (scalingType == 'hp') {
+        return stats.flatHp * multiplier + flatBonus;
+    } else {
+        return NaN;
+    }
 }
 
 // Used for all default normal attacks
@@ -342,7 +350,7 @@ function attackBowDefault({ normalHits, chargedElement, params, stats, modifier 
     let talentValues = [];
     
     talentValues.push(...normalAttackDefault({
-        hits: 5,
+        hits: normalHits,
         element: 'physical',
         params: params.slice(0, normalHits),
         stats,
@@ -458,11 +466,12 @@ function healingSkillBase({ description, params, stats, modifier }) {
 }
 
 // Base function for all shields/summon HP
-function hpBase({ description, multiplier, flatBonus, stats, modifier }) {
+function hpBase({ description, multiplier, flatBonus, scalingType = 'hp', stats, modifier }) {
     let hp = calculateHp({
         stats,
         multiplier,
         flatBonus,
+        scalingType,
     });
 
     return {
@@ -1263,6 +1272,195 @@ export function bennettBurst({ params, stats, modifier }) {
     });
 
     return talentDamage;
+}
+
+// Tartaglia
+export function tartagliaAttack({ params, stats, modifier }) {
+    let talentDamage = attackBowDefault({
+        normalHits: 6,
+        chargedElement: 'hydro',
+        params: params.slice(0, 8).concat(params.slice(10)),
+        stats,
+        modifier,
+    });
+
+    let riptideFlashDmg = calculateTotalDamage({
+        stats,
+        multiplier: params[8],
+        element: 'hydro',
+        attackType: 'normal',
+        modifier,
+    });
+    talentDamage.push({
+        description: 'riptideFlashDmg',
+        damage: [riptideFlashDmg],
+    });
+
+    let riptideBurstDmg = calculateTotalDamage({
+        stats,
+        multiplier: params[9],
+        element: 'hydro',
+        attackType: 'normal',
+        modifier,
+    });
+    talentDamage.push({
+        description: 'riptideBurstDmg',
+        damage: [riptideBurstDmg],
+    });
+
+    return talentDamage;
+}
+
+export function tartagliaSkill({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(skillBase({
+        description: 'stanceChangeDmg',
+        element: 'hydro',
+        multiplier: params[0],
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(...normalAttackMulti({
+        hits: [1, 1, 1, 1, 1, 2],
+        element: 'hydro',
+        params: params.slice(1, 8),
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(...chargedAttackMulti({
+        hits: 2,
+        element: 'hydro',
+        params: params.slice(8, 10),
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(skillBase({
+        description: 'riptideSlashDmg',
+        element: 'hydro',
+        multiplier: params[10],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function tartagliaBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'burstDmgMelee',
+            element: 'hydro',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        burstBase({
+            description: 'burstDmgRanged',
+            element: 'hydro',
+            multiplier: params[2],
+            stats,
+            modifier,
+        }),
+
+        burstBase({
+            description: 'riptideBlastDmg',
+            element: 'hydro',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+// Noelle
+export function noelleAttack({ params, stats, modifier }) {
+    if (modifier.infusion) {
+        let burstParams = getTalentStatsAt('burst', modifier.talentBurstLevel, getTalentData('noelle'));
+        let modifiedStats = {
+            ...stats,
+            flatAtk: stats.flatAtk + stats.flatDef * burstParams[2],
+        };
+
+        return attackHeavyDefault({
+            normalHits: 4,
+            element: 'geo',
+            params,
+            stats: modifiedStats,
+            modifier,
+        });
+    } else {
+        return attackHeavyDefault({
+            normalHits: 4,
+            params,
+            stats,
+            modifier,
+        }); 
+    }
+}
+
+export function noelleSkill({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    let skillDamage = calculateTotalDamage({
+        stats,
+        multiplier: params[5],
+        element: 'geo',
+        scalingType: 'defense',
+        attackType: 'skill',
+        modifier,
+    });
+    talentDamage.push({
+        description: 'skillDmg',
+        damage: [skillDamage],
+    });
+
+    talentDamage.push(hpBase({
+        description: 'shieldHp',
+        multiplier: params[0],
+        flatBonus: params[6],
+        scalingType: 'defense',
+        stats,
+        modifier,
+    }));
+
+    talentDamage.push(healingSkillBase({
+        description: 'healing',
+        params: [params[1], params[7]],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function noelleBurst({ params, stats, modifier }) {
+    let modifiedStats = {
+        ...stats,
+        flatAtk: stats.flatAtk + stats.flatDef * params[2]
+    };
+
+    return [
+        burstBase({
+            description: 'burstInitDmg',
+            element: 'geo',
+            multiplier: params[0],
+            stats: modifiedStats,
+            modifier,
+        }),
+
+        burstBase({
+            description: 'firstSwingDmg',
+            element: 'geo',
+            multiplier: params[1],
+            stats: modifiedStats,
+            modifier,
+        }),
+    ]
 }
 
 // Eula

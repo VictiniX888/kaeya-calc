@@ -39,6 +39,7 @@
     "hpRegen": "HP Regeneration",
     "hpRegenContinuous": "Continuous HP Regeneration",
     "hpRegenOnHit": "HP Regeneration Per Hit",
+    "healing": "Healing",
 
     "dropletDmg": "Droplet DMG",
 
@@ -86,6 +87,17 @@
     "chargeLevel2Dmg": "Charge Level 2 DMG",
     "hpRegenContinuousPerSecond": "HP Regeneration Per Second",
     "atkBonus": "ATK Bonus",
+
+    "riptideFlashDmg": "Riptide Flash DMG",
+    "riptideBurstDmg": "Riptide Burst DMG",
+    "stanceChangeDmg": "Stance Change DMG",
+    "riptideSlashDmg": "Riptide Slash DMG",
+    "burstDmgMelee": "DMG: Melee",
+    "burstDmgRanged": "DMG: Ranged",
+    "riptideBlastDmg": "Riptide Blast DMG",
+
+    "burstInitDmg": "Initial Burst DMG",
+    "firstSwingDmg": "First Swing DMG",
 
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
