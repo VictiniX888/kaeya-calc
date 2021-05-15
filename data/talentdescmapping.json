@@ -99,6 +99,14 @@
     "burstInitDmg": "Initial Burst DMG",
     "firstSwingDmg": "First Swing DMG",
 
+    "heraldOfFrostDmg": "Herald of Frost DMG",
+
+    "aimShotChargeLevel1": "Aimed Shot Charge Level 1",
+    "frostflakeArrowDmg": "Frostflake Arrow DMG",
+    "frostflakeArrowBloomDmg": "Frostflake Arrow Bloom DMG",
+    "iceLotusHp": "Ice Lotus HP",
+    "iceShardDmg": "Ice Shard DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"

@@ -452,11 +452,12 @@ function burstDefault({ element, params, stats, modifier }) {
 
 // Base function for all healing skills. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
-function healingSkillBase({ description, params, stats, modifier }) {
+function healingSkillBase({ description, scalingType = 'hp', params, stats, modifier }) {
     let damage = calculateHealing({
         stats,
         multiplier: params[0],
         flatHealing: params[1],
+        scalingType,
     });
 
     return {
@@ -1461,6 +1462,196 @@ export function noelleBurst({ params, stats, modifier }) {
             modifier,
         }),
     ]
+}
+
+// Qiqi
+export function qiqiAttack({ params, stats, modifier }) {
+    return attackLightMulti({
+        normalHits: [1, 1, 2, 2, 1],
+        chargedHits: 2,
+        params: params.slice(0, 6).concat(params[5]).concat(params.slice(6)),
+        stats,
+        modifier,
+    });
+}
+
+export function qiqiSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'skillDmg',
+            element: 'cryo',
+            multiplier: params[7],
+            stats,
+            modifier,
+        }),
+
+        skillBase({
+            description: 'heraldOfFrostDmg',
+            element: 'cryo',
+            multiplier: params[4],
+            stats,
+            modifier,
+        }),
+
+        healingSkillBase({
+            description: 'hpRegenOnHit',
+            scalingType: 'attack',
+            params: params.slice(0, 2),
+            stats,
+            modifier,
+        }),
+
+        healingSkillBase({
+            description: 'hpRegenContinuous',
+            scalingType: 'attack',
+            params: params.slice(2, 4),
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function qiqiBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'burstDmg',
+            element: 'cryo',
+            multiplier: params[2],
+            stats,
+            modifier,
+        }),
+
+        healingSkillBase({
+            description: 'healing',
+            scalingType: 'attack',
+            params,
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+// Chongyun
+export function chongyunAttack({ params, stats, modifier }) {
+    if (modifier.infusion) {
+        return attackHeavyDefault({
+            normalHits: 4,
+            element: 'cryo',
+            params,
+            stats,
+            modifier,
+        });
+    } else {
+        return attackHeavyDefault({
+            normalHits: 4,
+            params,
+            stats,
+            modifier,
+        });
+    }
+}
+
+export function chongyunSkill({ params, stats, modifier }) {
+    return skillDefault({
+        element: 'cryo',
+        params: params,
+        stats,
+        modifier,
+    });
+}
+
+export function chongyunBurst({ params, stats, modifier }) {
+    return burstDefault({
+        element: 'cryo',
+        params: params,
+        stats,
+        modifier,
+    });
+}
+
+// Ganyu
+export function ganyuAttack({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    // Normal attack
+    talentDamage.push(...normalAttackDefault({
+        hits: 6,
+        element: 'physical',
+        params,
+        stats,
+        modifier,
+    }));
+
+    // Charged attack
+    let aimedShotDmg = calculateTotalDamage({
+        stats,
+        multiplier: params[6],
+        element: 'physical',
+        attackType: 'normal',
+        modifier,
+    });
+    talentDamage.push({
+        description: 'aimShotDmg',
+        damage: [aimedShotDmg],
+    });
+
+    let chargedDescriptions = ['aimShotChargeLevel1', 'frostflakeArrowDmg', 'frostflakeArrowBloomDmg'];
+    let chargedDmg = chargedDescriptions.map((description, i) => {
+        let damage = calculateTotalDamage({
+            stats,
+            multiplier: params[i+7],
+            element: 'cryo',
+            attackType: 'charged',
+            modifier,
+        });
+
+        return {
+            description,
+            damage: [damage],
+        };
+    });
+    talentDamage.push(...chargedDmg);
+
+    talentDamage.push(...plungeAttackDefault({
+        element: 'physical',
+        params: params.slice(10),
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function ganyuSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'skillDmg',
+            element: 'cryo',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+
+        hpBase({
+            description: 'iceLotusHp',
+            multiplier: params[0],
+            flatBonus: 0,
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function ganyuBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'iceShardDmg',
+            element: 'cryo',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+    ];
 }
 
 // Eula

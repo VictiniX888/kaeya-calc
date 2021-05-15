@@ -14,3 +14,6 @@ export const xiaoTalentOptions = [new TalentOption('infusion', 'boolean', false)
 
 // Noelle
 export const noelleTalentOptions = [new TalentOption('infusion', 'boolean', false)];
+
+// Chongyun
+export const chongyunTalentOptions = [new TalentOption('infusion', 'boolean', false)];
