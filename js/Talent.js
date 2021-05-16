@@ -1654,6 +1654,122 @@ export function ganyuBurst({ params, stats, modifier }) {
     ];
 }
 
+// Albedo
+export function albedoAttack({ params, stats, modifier }) {
+    return attackLightMulti({
+        normalHits: [1, 1, 1, 1, 1],
+        chargedHits: 2,
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function albedoSkill({ params, stats, modifier }) {
+    let talentDmg = [];
+
+    talentDmg.push(skillBase({
+        description: 'skillDmg',
+        element: 'geo',
+        multiplier: params[0],
+        stats,
+        modifier,
+    }));
+
+    let transientBlossomDmg = calculateTotalDamage({
+        stats,
+        multiplier: params[1],
+        element: 'geo',
+        scalingType: 'defense',
+        attackType: 'skill',
+        modifier,
+    });
+    talentDmg.push({
+        description: 'transientBlossomDmg',
+        damage: [transientBlossomDmg],
+    });
+
+    return talentDmg;
+}
+
+export function albedoBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'burstDmg',
+            element: 'geo',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        burstBase({
+            description: 'fatalBlossomDmg',
+            element: 'geo',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+// Diona
+export function dionaAttack({ params, stats, modifier }) {
+    return attackBowDefault({
+        normalHits: 5,
+        chargedElement: 'cryo',
+        params: params.slice(0, 5).concat(params.slice(6)),
+        stats,
+        modifier,
+    });
+}
+
+export function dionaSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'icyPawDmgPerPaw',
+            element: 'cryo',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        hpBase({
+            description: 'shieldHp',
+            multiplier: params[1],
+            flatBonus: params[2],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function dionaBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'burstDmg',
+            element: 'cryo',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        burstBase({
+            description: 'continuousFieldDmg',
+            element: 'cryo',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+
+        healingSkillBase({
+            description: 'hpRegenContinuousTime',
+            params: params.slice(2),
+            stats,
+            modifier,
+        }),
+    ];
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 

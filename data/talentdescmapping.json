@@ -28,6 +28,7 @@
     "holdDmg": "Hold DMG",
 
     "shieldHp": "Shield DMG Absorption",
+
     "baseDmg": "Base DMG",
     "dmgBonusOnHitTaken": "DMG Bonus On Hit Taken",
 
@@ -38,6 +39,7 @@
 
     "hpRegen": "HP Regeneration",
     "hpRegenContinuous": "Continuous HP Regeneration",
+    "hpRegenContinuousTime": "HP Regeneration Over Time",
     "hpRegenOnHit": "HP Regeneration Per Hit",
     "healing": "Healing",
 
@@ -106,6 +108,12 @@
     "frostflakeArrowBloomDmg": "Frostflake Arrow Bloom DMG",
     "iceLotusHp": "Ice Lotus HP",
     "iceShardDmg": "Ice Shard DMG",
+
+    "transientBlossomDmg": "Transient Blossom DMG",
+    "fatalBlossomDmg": "Fatal Blossom DMG",
+
+    "icyPawDmgPerPaw": "Icy Paw DMG Per Paw",
+    "continuousFieldDmg": "Continuous Field DMG",
 
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
