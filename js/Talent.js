@@ -69,6 +69,24 @@ function calculateHp({ stats, multiplier, flatBonus, scalingType = 'hp' }) {
     }
 }
 
+// Used for calculating total shield strength
+function calculateDmgAbsorption({ stats, multiplier, flatBonus, element, scalingType = 'hp', modifier }) {
+    let dmgAbsorption = calculateHp({ stats, multiplier, flatBonus, scalingType });
+
+    // Geo Shields
+    if (element === 'geo') dmgAbsorption *= 1.5;
+
+    // Shield bonus from external sources
+    if (stats.shieldStrength !== undefined) dmgAbsorption *= (1 + stats.shieldStrength);
+
+    // Character-specific bonuses
+
+    // Diona Hold Skill
+    if (modifier.dionaHoldSkill) dmgAbsorption *= 1.75;
+
+    return dmgAbsorption;
+}
+
 // Used for all default normal attacks
 function normalAttackDefault({ hits, element, params, stats, modifier }) {
     let talentValues = [];
@@ -481,6 +499,22 @@ function hpBase({ description, multiplier, flatBonus, scalingType = 'hp', stats,
     };
 }
 
+function shieldBase({ description, multiplier, flatBonus, element, scalingType = 'hp', stats, modifier }) {
+    let dmgAbsorption = calculateDmgAbsorption({
+        stats,
+        multiplier,
+        flatBonus,
+        element,
+        scalingType,
+        modifier,
+    });
+
+    return {
+        description,
+        damage: [dmgAbsorption],
+    };
+}
+
 // Public functions
 // Access using talent[characterId + type]
 
@@ -858,10 +892,11 @@ export function beidouAttack({ params, stats, modifier }) {
 export function beidouSkill({ params, stats, modifier }) {
     let talentDamage = [];
 
-    talentDamage.push(hpBase({
+    talentDamage.push(shieldBase({
         description: 'shieldHp',
         multiplier: params[0],
         flatBonus: params[1],
+        element: 'electro',
         stats,
         modifier,
     }));
@@ -1144,10 +1179,11 @@ export function zhongliSkill({ params, stats, modifier }) {
         modifier,
     }));
 
-    talentDamage.push(hpBase({
+    talentDamage.push(shieldBase({
         description: 'shieldHp',
         multiplier: params[5],
         flatBonus: params[4],
+        element: 'geo',
         stats,
         modifier,
     }));
@@ -1420,10 +1456,11 @@ export function noelleSkill({ params, stats, modifier }) {
         damage: [skillDamage],
     });
 
-    talentDamage.push(hpBase({
+    talentDamage.push(shieldBase({
         description: 'shieldHp',
         multiplier: params[0],
         flatBonus: params[6],
+        element: 'geo',
         scalingType: 'defense',
         stats,
         modifier,
@@ -1724,6 +1761,11 @@ export function dionaAttack({ params, stats, modifier }) {
 }
 
 export function dionaSkill({ params, stats, modifier }) {
+    let holdModifier = {
+        ...modifier,
+        dionaHoldSkill: true,
+    }
+
     return [
         skillBase({
             description: 'icyPawDmgPerPaw',
@@ -1733,12 +1775,22 @@ export function dionaSkill({ params, stats, modifier }) {
             modifier,
         }),
 
-        hpBase({
-            description: 'shieldHp',
+        shieldBase({
+            description: 'shieldHpPress',
             multiplier: params[1],
             flatBonus: params[2],
+            element: 'cryo',
             stats,
             modifier,
+        }),
+
+        shieldBase({
+            description: 'shieldHpHold',
+            multiplier: params[1],
+            flatBonus: params[2],
+            element: 'cryo',
+            stats,
+            modifier: holdModifier,
         }),
     ];
 }

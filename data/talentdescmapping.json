@@ -113,6 +113,8 @@
     "fatalBlossomDmg": "Fatal Blossom DMG",
 
     "icyPawDmgPerPaw": "Icy Paw DMG Per Paw",
+    "shieldHpPress": "Shield DMG Absorption (Press)",
+    "shieldHpHold": "Shield DMG Absorption (Hold)",
     "continuousFieldDmg": "Continuous Field DMG",
 
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
