@@ -28,6 +28,9 @@
     "holdDmg": "Hold DMG",
 
     "shieldHp": "Shield DMG Absorption",
+    "shieldHpLevel1": "Shield Level 1 DMG Absorption",
+    "shieldHpLevel2": "Shield Level 2 DMG Absorption",
+    "shieldHpLevel3": "Shield Level 3 DMG Absorption",
 
     "baseDmg": "Base DMG",
     "dmgBonusOnHitTaken": "DMG Bonus On Hit Taken",
@@ -116,6 +119,16 @@
     "shieldHpPress": "Shield DMG Absorption (Press)",
     "shieldHpHold": "Shield DMG Absorption (Hold)",
     "continuousFieldDmg": "Continuous Field DMG",
+
+    "lightningStilettoDmg": "Lightning Stiletto DMG",
+    "thunderclapSlashDmg": "Thunderclap Slash DMG",
+    "consecutiveSlashDmg": "Consecutive Slash DMG",
+    "lastAttackDmg": "Last Attack DMG",
+
+    "swingDmg": "Swing DMG",
+    "pyroDot": "Pyro DoT",
+
+    "iceLanceDot": "Ice Lance DoT",
 
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",

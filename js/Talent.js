@@ -468,6 +468,26 @@ function burstDefault({ element, params, stats, modifier }) {
     })];
 }
 
+// Base function for bursts with multiple damage instances
+function burstMultiBase({ description, hits, element, params, stats, modifier }) {
+    let damages = [];
+    
+    for (let i = 0; i < hits; i++) {
+        damages.push(calculateTotalDamage({
+            element,
+            multiplier: params[i],
+            attackType: 'burst',
+            stats,
+            modifier,
+        }));
+    }
+
+    return {
+        description,
+        damage: damages,
+    };
+}
+
 // Base function for all healing skills. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
 function healingSkillBase({ description, scalingType = 'hp', params, stats, modifier }) {
@@ -1816,6 +1836,367 @@ export function dionaBurst({ params, stats, modifier }) {
         healingSkillBase({
             description: 'hpRegenContinuousTime',
             params: params.slice(2),
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+// Mona
+export function monaAttack({ params, stats, modifier }) {
+    return attackLightDefault({
+        normalHits: 4,
+        element: 'hyrdo',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function monaSkill({ params, stats, modifier }) {
+    return [
+        skillBase({
+            description: 'dot',
+            element: 'hydro',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        skillBase({
+            description: 'explosionDmg',
+            element: 'hydro',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function monaBurst({ params, stats, modifier }) {
+    let modifiedStats = { ...stats };
+    if (modifiedStats.dmgBonus !== undefined) {
+        modifiedStats.dmgBonus += params[9];
+    } else {
+        modifiedStats.dmgBonus = params[9];
+    }
+
+    return [
+        burstBase({
+            description: 'explosionDmg',
+            element: 'hydro',
+            multiplier: params[1],
+            stats: modifiedStats,
+            modifier,
+        }),
+    ];
+}
+
+// Keqing
+export function keqingAttack({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    // Normal attack
+    for (let i = 0; i < 3; i++) {
+        let damage = calculateTotalDamage({
+            stats,
+            multiplier: params[i],
+            element: 'physical',
+            attackType: 'normal',
+            modifier,
+        });
+        talentDamage.push({
+            description: `${i+1}HitDmg`,
+            damage: [damage],
+        });
+    }
+
+    let hit4Dmg = [];
+    for (let i = 3; i < 5; i++) {
+        hit4Dmg.push(calculateTotalDamage({
+            stats,
+            multiplier: params[i],
+            element: 'physical',
+            attackType: 'normal',
+            modifier,
+        }));
+    }
+    talentDamage.push({
+        description: '4HitDmg',
+        damage: hit4Dmg,
+    });
+
+    let hit5Dmg = [calculateTotalDamage({
+        stats,
+        multiplier: params[5],
+        element: 'physical',
+        attackType: 'normal',
+        modifier,
+    })];
+    talentDamage.push({
+        description: `5HitDmg`,
+        damage: hit5Dmg,
+    });
+
+    // Charged attack
+    talentDamage.push(...chargedAttackMulti({
+        hits: 2,
+        element: 'physical',
+        params: params.slice(6, 8),
+        stats,
+        modifier,
+    }));
+
+    // Plunge attack
+    talentDamage.push(...plungeAttackDefault({
+        element: 'physical',
+        params: params.slice(9, 12),
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function keqingSkill({ params, stats, modifier }) {
+    let descriptions = ['lightningStilettoDmg', 'slashingDmg'];
+    let talentDamage = descriptions.map((description, i) => {
+        return skillBase({
+            description,
+            element: 'electro',
+            multiplier: params[i],
+            stats,
+            modifier,
+        });
+    });
+
+    talentDamage.push(skillMultiBase({
+        description: 'thunderclapSlashDmg',
+        hits: 2,
+        element: 'electro',
+        params: [params[2], params[2]],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function keqingBurst({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(burstBase({
+        description: 'burstInitDmg',
+        element: 'electro',
+        multiplier: params[0],
+        stats,
+        modifier,
+    }));
+
+    let consecutiveSlashDmg = calculateTotalDamage({
+        stats,
+        multiplier: params[1],
+        element: 'electro',
+        attackType: 'burst',
+        modifier,
+    });
+    talentDamage.push({
+        description: 'consecutiveSlashDmg',
+        damage: Array(8).fill(consecutiveSlashDmg),
+    });
+
+    talentDamage.push(burstBase({
+        description: 'lastAttackDmg',
+        element: 'electro',
+        multiplier: params[2],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+// Sucrose
+export function sucroseAttack({ params, stats, modifier }) {
+    return attackLightDefault({
+        normalHits: 4,
+        element: 'anemo',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function sucroseSkill({ params, stats, modifier }) {
+    return skillDefault({
+        element: 'anemo',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function sucroseBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'dot',
+            element: 'anemo',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        // Not sure how the elemental absorption dmg is calculated
+        burstBase({
+            description: 'dotElementalAbsorption',
+            element: 'none',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+// Xinyan
+export function xinyanAttack({ params, stats, modifier }) {
+    return attackHeavyDefault({
+        normalHits: 4,
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function xinyanSkill({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    talentDamage.push(skillBase({
+        description: 'swingDmg',
+        element: 'pyro',
+        multiplier: params[0],
+        stats,
+        modifier,
+    }));
+
+    // Shields
+    for (let i = 0; i < 3; i++) {
+        talentDamage.push(shieldBase({
+            description: `shieldHpLevel${i+1}`,
+            multiplier: params[2 * i + 1],
+            flatBonus: params[2 * i + 2],
+            element: 'pyro',
+            scalingType: 'defense',
+            stats,
+            modifier,
+        }));
+    }
+
+    talentDamage.push(skillBase({
+        description: 'dot',
+        element: 'pyro',
+        multiplier: params[7],
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function xinyanBurst({ params, stats, modifier }) {
+    return [
+        burstBase({
+            description: 'burstDmg',
+            element: 'physical',
+            multiplier: params[0],
+            stats,
+            modifier,
+        }),
+
+        burstBase({
+            description: 'pyroDot',
+            element: 'pyro',
+            multiplier: params[1],
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+// Rosaria
+export function rosariaAttack({ params, stats, modifier }) {
+    let talentDamage = [];
+
+    // Normal attack
+    talentDamage.push(...normalAttackMulti({
+        hits: [1, 1, 2, 1],
+        element: 'physical',
+        params,
+        stats,
+        modifier,
+    }));
+
+    let hit5Dmg = [];
+    for (let i = 4; i < 6; i++) {
+        hit5Dmg.push(calculateTotalDamage({
+            stats,
+            multiplier: params[i],
+            element: 'physical',
+            attackType: 'normal',
+            modifier,
+        }));
+    }
+    talentDamage.push({
+        description: '5HitDmg',
+        damage: hit5Dmg,
+    });
+
+    // Charged attack
+    talentDamage.push(...chargedAttackDefault({
+        element: 'physical',
+        params: params.slice(6, 7),
+        stats,
+        modifier,
+    }));
+
+    // Plunge attack
+    talentDamage.push(...plungeAttackDefault({
+        element: 'physical',
+        params: params.slice(8, 11),
+        stats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function rosariaSkill({ params, stats, modifier }) {
+    return [
+        skillMultiBase({
+            description: 'skillDmg',
+            hits: 2,
+            element: 'cryo',
+            params,
+            stats,
+            modifier,
+        }),
+    ];
+}
+
+export function rosariaBurst({ params, stats, modifier }) {
+    return [
+        burstMultiBase({
+            description: 'burstDmg',
+            hits: 2,
+            element: 'cryo',
+            params,
+            stats,
+            modifier,
+        }),
+
+        burstBase({
+            description: 'iceLanceDot',
+            element: 'cyro',
+            multiplier: params[2],
             stats,
             modifier,
         }),
