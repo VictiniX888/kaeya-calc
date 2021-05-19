@@ -130,6 +130,16 @@
 
     "iceLanceDot": "Ice Lance DoT",
 
+    "bloodBlossomDmg": "Blood Blossom DMG",
+    "burstDmgLowHp": "Low HP DMG",
+    "hpRegenLowHp": "Low HP Regen",
+
+    "chargedDmgSeal0": "Charged Attack DMG (0 Seals)",
+    "chargedDmgSeal1": "Charged Attack DMG (1 Seals)",
+    "chargedDmgSeal2": "Charged Attack DMG (2 Seals)",
+    "chargedDmgSeal3": "Charged Attack DMG (3 Seals)",
+    "chargedDmgSeal4": "Charged Attack DMG (4 Seals)",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"

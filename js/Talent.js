@@ -2203,6 +2203,193 @@ export function rosariaBurst({ params, stats, modifier }) {
     ];
 }
 
+// Hu Tao
+export function hutaoAttack({ params, stats, modifier }) {
+    let element = 'physical';
+    let modifiedStats = { ...stats };
+    
+    if (modifier.infusion) {
+        element = 'pyro';
+
+        let skillParams = getTalentStatsAt('skill', modifier.talentSkillLevel, getTalentData('hutao'));
+        modifiedStats.flatAtk += skillParams[1] * stats.flatHp;
+    }
+
+    let talentDamage = [];
+
+    // Normal attack
+    talentDamage.push(...normalAttackDefault({
+        hits: 4,
+        element,
+        params,
+        stats: modifiedStats,
+        modifier,
+    }));
+
+    let hit5Dmg = [];
+    for (let i = 4; i < 6; i++) {
+        hit5Dmg.push(calculateTotalDamage({
+            stats: modifiedStats,
+            multiplier: params[i],
+            element,
+            attackType: 'normal',
+            modifier,
+        }));
+    }
+    talentDamage.push({
+        description: '5HitDmg',
+        damage: hit5Dmg,
+    });
+
+    let hit6Dmg = [calculateTotalDamage({
+        stats: modifiedStats,
+        multiplier: params[6],
+        element,
+        attackType: 'normal',
+        modifier,
+    })];
+    talentDamage.push({
+        description: '6HitDmg',
+        damage: hit6Dmg,
+    });
+
+    // Charged attack
+    talentDamage.push(...chargedAttackDefault({
+        element,
+        params: params.slice(7, 8),
+        stats: modifiedStats,
+        modifier,
+    }));
+
+    // Plunge attack
+    talentDamage.push(...plungeAttackDefault({
+        element,
+        params: params.slice(9, 12),
+        stats: modifiedStats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function hutaoSkill({ params, stats, modifier }) {
+    let modifiedStats = { ...stats };
+    if (modifier.infusion) {
+        modifiedStats.flatAtk += params[1] * stats.flatHp;
+    }
+
+    return [
+        skillBase({
+            description: 'bloodBlossomDmg',
+            element: 'pyro',
+            multiplier: params[2],
+            stats: modifiedStats,
+            modifier,
+        }),
+    ];
+}
+
+export function hutaoBurst({ params, stats, modifier }) {
+    let modifiedStats = { ...stats };
+    if (modifier.infusion) {
+        let skillParams = getTalentStatsAt('skill', modifier.talentSkillLevel, getTalentData('hutao'));
+        modifiedStats.flatAtk += skillParams[1] * stats.flatHp;
+    }
+
+    let talentDamage = [];
+
+    let dmgDescriptions = ['burstDmg', 'burstDmgLowHp'];
+    dmgDescriptions.forEach((description, i) => {
+        talentDamage.push(burstBase({
+            description,
+            element: 'pyro',
+            multiplier: params[i],
+            stats: modifiedStats,
+            modifier,
+        }));
+    });
+
+    let regenDescriptions = ['hpRegen', 'hpRegenLowHp'];
+    regenDescriptions.forEach((description, i) => {
+        talentDamage.push(healingSkillBase({
+            description,
+            params: [params[i+2], 0],
+            stats: modifiedStats,
+            modifier,
+        }));
+    });
+
+    return talentDamage;
+}
+
+// Yanfei
+export function yanfeiAttack({ params, stats, modifier }) {
+    let modifiedStats = { ...stats };
+    if (modifier.brilliance) {
+        let burstParams = getTalentStatsAt('burst', modifier.talentBurstLevel, getTalentData('yanfei'));
+
+        if (modifiedStats.chargedDmgBonus === undefined) {
+            modifiedStats.chargedDmgBonus = burstParams[1];
+        } else {
+            modifiedStats.chargedDmgBonus += burstParams[1];
+        }
+    }
+
+    let talentDamage = [];
+
+    // Normal attack
+    talentDamage.push(...normalAttackDefault({
+        hits: 3,
+        element: 'pyro',
+        params,
+        stats: modifiedStats,
+        modifier,
+    }));
+
+    // Charged attack
+    for (let i = 0; i < 5; i++) {
+        let damage = calculateTotalDamage({
+            stats: modifiedStats,
+            multiplier: params[i+3],
+            element: 'pyro',
+            attackType: 'charged',
+            modifier,
+        });
+        talentDamage.push({
+            description: `chargedDmgSeal${i}`,
+            damage: [damage],
+        });
+    }
+
+    // Plunge attack
+    talentDamage.push(...plungeAttackDefault({
+        element: 'pyro',
+        params: params.slice(15, 18),
+        stats: modifiedStats,
+        modifier,
+    }));
+
+    return talentDamage;
+}
+
+export function yanfeiSkill({ stats, params, modifier }) {
+    return skillDefault({
+        element: 'pyro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
+export function yanfeiBurst({ stats, params, modifier }) {
+    return burstDefault({
+        element: 'pyro',
+        params,
+        stats,
+        modifier,
+    });
+}
+
 // Eula
 export function eulaAttack({ params, stats, modifier }) {
     return attackHeavyMulti({ 
