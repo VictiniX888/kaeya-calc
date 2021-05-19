@@ -13,8 +13,12 @@ import * as statUtils from './js/Stat.js';
 import * as data from './js/Data.js';
 
 import styles from './js/Styles.js';
+import Resistance from './js/Resistance.js';
 
 export default class App extends Component {
+
+  // Constants
+  elements = ['anemo', 'cryo', 'electro', 'geo', 'hydro', 'pyro', 'physical'];
 
   // Class properties
   character;
@@ -52,6 +56,8 @@ export default class App extends Component {
       talentBurstLevel: 1,
 
       critType: 'none',
+      enemyLevel: 1,
+      enemyRes: new Resistance({}),
 
       characterStats: undefined,
       weaponStats: undefined,
@@ -180,6 +186,38 @@ export default class App extends Component {
               }}
             />
         </View>
+
+        <View style={styles.inputRow}>
+          <Text>Enemy Level: </Text>
+          <TextInput 
+            style={styles.levelInput}
+            defaultValue={this.state.enemyLevel} 
+            onChangeText={text => {
+              this.setState({ enemyLevel: parseInt(text) }, this.setAllTalentState);
+            }}
+          />
+        </View>
+
+        {
+          this.elements.map(element => {
+            return (
+              <View style={styles.inputRow} key={element}>
+                <Text>Enemy {statUtils.capitalize(element)} RES: </Text>
+                <TextInput 
+                  style={styles.levelInput}
+                  defaultValue={this.state.enemyRes[element]} 
+                  onChangeText={text => {
+                    this.state.enemyRes.set(element, parseFloat(text));
+                    let enemyRes = this.state.enemyRes;
+                    this.setState({ enemyRes }, this.setAllTalentState);
+                  }}
+                />
+                <Text>%</Text>
+              </View>
+            )
+          })
+        }
+
       </View>
     )
   }
@@ -240,6 +278,8 @@ export default class App extends Component {
     let modifier = new DamageModifier({ 
       characterLevel: this.state.characterLevel,
       critType: this.state.critType,
+      enemyLevel: this.state.enemyLevel,
+      enemyRes: this.state.enemyRes,
       talentAttackLevel: this.state.talentAttackLevel,
       talentSkillLevel: this.state.talentSkillLevel,
       talentBurstLevel: this.state.talentBurstLevel,

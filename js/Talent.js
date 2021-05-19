@@ -1,4 +1,5 @@
 import { getTalentData, getTalentStatsAt } from './Data.js';
+import Resistance from './Resistance.js';
 
 // Placeholder function
 export function defaultTalent() {
@@ -33,6 +34,18 @@ function calculateBaseDamage({ stats, multiplier, scalingType, flatDmg = 0 }) {
     }
 }
 
+function calculateResMultiplier({ element, res = new Resistance({}), resReduction = new Resistance({}) }) {
+    let totalRes = res[element] - resReduction[element];
+    
+    if (totalRes < 0) {
+        return 1 - (totalRes / 2);
+    } else if (totalRes < 0.75) {
+        return 1 - totalRes;
+    } else {
+        return 1 / (4 * totalRes + 1);
+    }
+}
+
 function calculateTotalDamage({ stats, multiplier, element, scalingType = 'attack', attackType = 'none', modifier }) {
     let baseDmg = calculateBaseDamage({ stats, multiplier, scalingType, flatDmg: modifier.flatDmg });
     let dmgBonus = getDamageBonus({ stats, element, attackType });
@@ -44,11 +57,12 @@ function calculateTotalDamage({ stats, multiplier, element, scalingType = 'attac
         crit += Math.min(1, stats.critRate) * stats.critDmg;
     }
 
-    // TODO: enemyDefMultiplier
-    // TODO: enemyResMultiplier
+    let enemyDefMultiplier = (modifier.characterLevel + 100) / ((modifier.characterLevel + 100) + (modifier.enemyLevel + 100) * (1 - modifier.enemyDefReduction));
+    let enemyResMultiplier = calculateResMultiplier({ element, res: modifier.enemyRes, resReduction: modifier.enemyResReduction });
+    
     // TODO: reactionBonus
 
-    return baseDmg * dmgBonus * crit;
+    return baseDmg * dmgBonus * crit * enemyDefMultiplier * enemyResMultiplier;
 } 
 
 function calculateHealing({ stats, multiplier, flatHealing, scalingType = 'hp' }) {

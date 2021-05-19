@@ -1,8 +1,12 @@
+import Resistance from "./Resistance";
+
 export default class DamageModifier {
     constructor({
         characterLevel,
         enemyLevel = 1,
-        enemyRes = {},
+        enemyDefReduction = 0,
+        enemyRes = new Resistance({}),
+        enemyResReduction = new Resistance({}),
         modifiers = {},
         critType = 'none',
         flatDmg = 0,
@@ -14,7 +18,9 @@ export default class DamageModifier {
     }) {
         this.characterLevel = characterLevel;
         this.enemyLevel = enemyLevel;
+        this.enemyDefReduction = enemyDefReduction;
         this.enemyRes = enemyRes;
+        this.enemyResReduction = enemyResReduction;
         this.modifiers = modifiers;
         this.critType = critType;
         this.flatDmg = flatDmg;

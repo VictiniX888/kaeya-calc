@@ -161,3 +161,7 @@ export function getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, characte
 
     return totalStats;
 }
+
+export function capitalize(str) {
+    return str[0].toUpperCase().concat(str.slice(1));
+}
