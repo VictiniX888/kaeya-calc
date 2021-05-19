@@ -1,4 +1,4 @@
-# [KaeyaCalc](https://victinix888.github.io/KaeyaCalc/)  
+# [KaeyaCalc](https://victinix888.github.io/kaeya-calc/)  
 
 KaeyaCalc is a damage calculator for [Genshin Impact](https://genshin.mihoyo.com/).  
 
