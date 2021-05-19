@@ -1,5 +1,6 @@
 import { Picker } from '@react-native-picker/picker';
 import Checkbox from 'expo-checkbox';
+import { ButtonGroup } from 'react-native-elements';
 import React, { Component } from 'react';
 import { FlatList, Image, Text, TextInput, View } from 'react-native';
 
@@ -49,6 +50,8 @@ export default class App extends Component {
       talentAttackLevel: 1,
       talentSkillLevel: 1,
       talentBurstLevel: 1,
+
+      critType: 'none',
 
       characterStats: undefined,
       weaponStats: undefined,
@@ -143,6 +146,40 @@ export default class App extends Component {
             }}
           />
         </View>
+
+        <Text> </Text>
+
+        <View style={styles.inputRow}>
+          <Text>Crit: </Text>
+            <ButtonGroup
+              buttons={['None', 'Crit', 'Average']}
+              containerStyle={styles.buttonGroupContainer}
+              buttonContainerStyle={styles.buttonGroupButtonContainer}
+              textStyle={styles.buttonGroupText}
+              selectedButtonStyle={styles.buttonGroupSelectedButton}
+              selectedTextStyle={styles.buttonGroupSelectedText}
+
+              selectedIndex={(() => {
+                if (this.state.critType === 'crit') {
+                  return 1;
+                } else if (this.state.critType === 'average') {
+                  return 2;
+                } else {
+                  return 0;
+                }
+              })()}
+
+              onPress={(selectedIndex) => {
+                if (selectedIndex === 1) {
+                  this.setState({ critType: 'crit' }, this.setAllTalentState);
+                } else if (selectedIndex === 2) {
+                  this.setState({ critType: 'average' }, this.setAllTalentState);
+                } else {
+                  this.setState({ critType: 'none' }, this.setAllTalentState);
+                }
+              }}
+            />
+        </View>
       </View>
     )
   }
@@ -202,6 +239,7 @@ export default class App extends Component {
   getDamageModifier = () => {
     let modifier = new DamageModifier({ 
       characterLevel: this.state.characterLevel,
+      critType: this.state.critType,
       talentAttackLevel: this.state.talentAttackLevel,
       talentSkillLevel: this.state.talentSkillLevel,
       talentBurstLevel: this.state.talentBurstLevel,

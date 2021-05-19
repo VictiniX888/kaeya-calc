@@ -40,6 +40,39 @@ export default StyleSheet.create({
         width: '3em',
     },
 
+    buttonGroupContainer: {
+        height: 'initial',
+
+        marginTop: 0,
+        marginBottom: 0,
+        marginLeft: 0,
+        marginRight: 0,
+
+        borderRadius: 2,
+        borderColor: '#000',
+
+        backgroundColor: '#ccc',
+    },
+
+    buttonGroupButtonContainer: {
+        borderRightColor: '#000',
+        width: '4em',
+    },
+
+    buttonGroupText: {
+        fontSize: '1em',
+        fontWeight: 400,
+        color: '#000',
+    },
+
+    buttonGroupSelectedButton: {
+        backgroundColor: '#eee',
+    },
+
+    buttonGroupSelectedText: {
+        color: '#000',
+    },
+
     resultColumn: {
         display: 'flex',
         flexDirection: 'column',
