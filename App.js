@@ -7,13 +7,14 @@ import { FlatList, Image, Text, TextInput, View } from 'react-native';
 import Character from './js/Character.js';
 import Weapon from './js/Weapon.js';
 import Artifact, { mainStatProps, subStatProps } from './js/Artifact.js';
+import ArtifactSet from './js/ArtifactSet.js';
 import DamageModifier from './js/DamageModifer.js';
 import TalentOption from './js/TalentOption.js';
+import Resistance from './js/Resistance.js';
 import * as statUtils from './js/Stat.js';
 import * as data from './js/Data.js';
 
 import styles from './js/Styles.js';
-import Resistance from './js/Resistance.js';
 
 export default class App extends Component {
 
@@ -23,6 +24,7 @@ export default class App extends Component {
   // Class properties
   character;
   weapon;
+  artifactSetStats;
   artifactFlower;
   artifactFeather;
   artifactSands;
@@ -35,12 +37,15 @@ export default class App extends Component {
     // Initialize sorted list of characters and weapons
     this.characters = data.getSortedCharacterList();
     this.weapons = data.getSortedWeaponList();
+    this.artifacts = data.getSortedArtifactSetList();
 
     this.artifactFlower = new Artifact('Flower');
     this.artifactFeather = new Artifact('Feather');
     this.artifactSands = new Artifact('Sands');
     this.artifactGoblet = new Artifact('Goblet');
     this.artifactCirclet = new Artifact('Circlet');
+
+    this.artifactSets = [0, 0, 0];
 
     this.state = {
       characterId: undefined,
@@ -50,6 +55,13 @@ export default class App extends Component {
       weaponId: undefined,
       weaponLevel: 1,
       isWeaponAscended: false,
+
+      artifactSet1Id: undefined,
+      artifactSet1Pc: undefined,
+      artifactSet2Id: undefined,
+      artifactSet2Pc: undefined,
+      artifactSet3Id: undefined,
+      artifactSet3Pc: undefined,
 
       talentAttackLevel: 1,
       talentSkillLevel: 1,
@@ -117,6 +129,11 @@ export default class App extends Component {
             value={this.state.isWeaponAscended}
           />
         </View>
+
+        <Text> </Text>
+
+        <Text>Artifact Sets</Text>
+        {this.artifactSets.map((_, i) => this.renderArtifactSetInput(i))}
 
         <Text> </Text>
 
@@ -267,6 +284,38 @@ export default class App extends Component {
     )
   }
 
+  renderArtifactSetInput = (i) => {
+    return (
+      <View style={styles.inputRow} key={i}>
+        <Picker
+          style={styles.characterSelect}
+          selectedValue={this.state[`artifactSet${i+1}Id`]}
+          onValueChange={(value, _) => {
+            if (value != 0) {
+              this.artifactSets[i] = new ArtifactSet(value);
+              this.setState({ [`artifactSet${i+1}Id`]: value }, this.setArtifactSetState);
+            }
+          }}
+        >
+          <Picker.Item label='' value={0} />
+          {this.artifacts.map(id => <Picker.Item label={data.getArtifactSetData(id).name} value={id} key={id} />)}
+        </Picker>
+
+        <Text> : </Text>
+
+        <TextInput
+          style={styles.levelInput}
+          defaultValue={this.state[`artifactSet${i+1}Pc`]} 
+          onChangeText={text => {
+            this.setState({ [`artifactSet${i+1}Pc`]: parseInt(text) }, this.setArtifactSetState);
+          }}
+        />
+
+        <Text>pc</Text>
+      </View>
+    )
+  }
+
   renderCharacterImage = () => {
     let imageUrl = `https://rerollcdn.com/GENSHIN/Characters/${this.character.name}.png`
     return (
@@ -366,6 +415,28 @@ export default class App extends Component {
     }
   }
 
+  setArtifactSetState = () => {
+    if (!this.artifactSets.every(value => value === 0)) {
+      this.artifactSetStats = this.artifactSets.reduce((acc, set, i) => {
+        if (set !== 0) {
+          let setStats = set.getStatsAt(this.state[`artifactSet${i+1}Pc`]);
+          Object.entries(setStats).forEach(([stat, value]) => {
+            if (acc[stat] !== undefined) {
+              acc[stat] += value;
+            } else {
+              acc[stat] = value;
+            }
+          });
+          return acc;
+        } else {
+          return acc;
+        }
+      }, {});
+
+      this.setArtifactState();
+    }
+  }
+
   setArtifactState = (type) => {
     let totalStats = this.getTotalStats();
     let modifier = this.getDamageModifier();
@@ -458,6 +529,7 @@ export default class App extends Component {
       this.character,
       this.state.characterLevel,
       this.state.isCharacterAscended,
+      this.artifactSetStats,
       artifacts,
     );
 
@@ -499,6 +571,21 @@ export default class App extends Component {
         </View>
       ) : null
     )
+  }
+
+  renderArtifactSetStats = () => {
+    let stats = this.artifactSetStats;
+
+    return stats ? (
+      <View style={styles.resultBlock}>
+        <Text style={styles.titleText}>Artifact Sets</Text>
+        {
+          Object.entries(stats).map(([stat, value]) => {
+            return <Text style={styles.resultText} key={stat}>{data.propMapping[stat].name}: {statUtils.getStatDisplayValue(value, data.propMapping[stat].isPercentage)}</Text>
+          })
+        }
+      </View>
+    ) : null;
   }
 
   renderArtifactMainStat = (type) => {
@@ -700,6 +787,7 @@ export default class App extends Component {
         <View style={styles.resultColumn}>
           {this.renderCharacterStats()}
           {this.renderWeaponStats()}
+          {this.renderArtifactSetStats()}
           {this.renderAllArtifactStats()}
         </View>
 

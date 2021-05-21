@@ -4,9 +4,9 @@ import characterStatCurveDataRaw from '../data/characterstatcurvedata.json';
 import weaponDataRaw from '../data/weapondata.json';
 import weaponAscensionBonusDataRaw from '../data/weaponascensionbonusdata.json';
 import weaponStatCurveDataRaw from '../data/weaponstatcurvedata.json';
-//import artifactSetDataRaw from '../data/artifactsetdata.json';
-//import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
 import talentDataRaw from '../data/talentdata.json';
+import artifactSetDataRaw from '../data/artifactsetdata.json';
+import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
 export { default as propMapping } from '../data/propmapping.json';
 export { default as talentDescMapping } from '../data/talentdescmapping.json';
 export { default as talentOptionMapping } from '../data/talentoptionmapping.json';
@@ -19,10 +19,13 @@ const weaponData = processWeaponData(weaponDataRaw);
 const weaponAscensionBonusData = processWeaponAscensionBonusData(weaponAscensionBonusDataRaw);
 const weaponStatCurveData = processWeaponStatCurveData(weaponStatCurveDataRaw);
 const talentData = processTalentData(talentDataRaw);
+const artifactSetData = processArtifactSetData(artifactSetDataRaw);
+const artifactSetBonusData = processArtifactSetBonusData(artifactSetBonusDataRaw);
 
 // Pre-processed data, lists
 let sortedCharacterList;    // lazy loading implemented with getSortedCharacterList()
 let sortedWeaponList;       // lazy loading implemented with getSortedWeaponList()
+let sortedArtifactSetList;  // lazy loading implemented with getSortedArtifactSetList()
 
 // Functions for pre-processing data
 function processCharacterData(rawData) {
@@ -89,6 +92,23 @@ function processTalentData(rawData) {
     }, {});
 }
 
+function processArtifactSetData(rawData) {
+    return rawData.reduce((acc, setData) => {
+        acc[setData.id] = setData;
+        return acc;
+    }, {});
+}
+
+function processArtifactSetBonusData(rawData) {
+    return rawData.reduce((acc, setData) => {
+        acc[setData.setId] = setData.setBonusSet.reduce((bonusAcc, bonusData) => {
+            bonusAcc[bonusData.bonusThreshold] = bonusData;
+            return bonusAcc;
+        }, {});
+        return acc;
+    }, {});
+}
+
 // Helper functions for accessing data properties
 function getData(id, dataObj) {
     return dataObj[id];
@@ -146,6 +166,14 @@ export function getTalentStatsAt(type, level, talents) {
     }
 }
 
+export function getArtifactSetData(id) {
+    return getData(id, artifactSetData);
+}
+
+export function getArtifactSetBonusData(id) {
+    return getData(id, artifactSetBonusData);
+}
+
 // "Public" functions for getting data collections
 export function getSortedCharacterList() {
     if (sortedCharacterList === undefined) {
@@ -165,4 +193,14 @@ export function getSortedWeaponList() {
     }
 
     return sortedWeaponList;
+}
+
+export function getSortedArtifactSetList() {
+    if (sortedArtifactSetList === undefined) {
+        sortedArtifactSetList = Object.entries(artifactSetData)
+            .sort(([_1, {name: name1}], [_2, {name: name2}]) => name1.localeCompare(name2))
+            .map(([id, _]) => id);
+    }
+
+    return sortedArtifactSetList;
 }

@@ -96,9 +96,19 @@ function getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, character, chara
 
 // Returns object containing the total stats of the character, weapon and artifacts
 // Ignores any of [character, weapon] that are undefined
-export function getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, character, characterLevel, characterHasAscended, artifacts) {
+export function getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, character, characterLevel, characterHasAscended, artifactSetBonuses, artifacts) {
     
     let baseStats = getBaseStatsAt(weapon, weaponLevel, weaponHasAscended, character, characterLevel, characterHasAscended);
+    let combinedStats = {...baseStats};
+
+    // Merge base stats and artifact set bonuses
+    Object.entries(artifactSetBonuses).forEach(([stat, value]) => {
+        if (combinedStats[stat] === undefined) {
+            combinedStats[stat] = value;
+        } else {
+            combinedStats[stat] += value;
+        }
+    });
     
     // Merge artifact bonuses into separate object
     let artifactStats = {};
@@ -113,7 +123,6 @@ export function getTotalStatsAt(weapon, weaponLevel, weaponHasAscended, characte
     });
 
     // Merge base stats and artifact bonuses
-    let combinedStats = {...baseStats};
     Object.entries(artifactStats).forEach(([stat, value]) => {
         if (combinedStats[stat] === undefined) {
             combinedStats[stat] = value;
