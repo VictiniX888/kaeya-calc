@@ -126,13 +126,15 @@ export function getTotalStatsAt(
   let combinedStats = { ...baseStats };
 
   // Merge base stats and artifact set bonuses
-  Object.entries(artifactSetBonuses).forEach(([stat, value]) => {
-    if (combinedStats[stat] === undefined) {
-      combinedStats[stat] = value;
-    } else {
-      combinedStats[stat] += value;
-    }
-  });
+  if (artifactSetBonuses !== undefined) {
+    Object.entries(artifactSetBonuses).forEach(([stat, value]) => {
+      if (combinedStats[stat] === undefined) {
+        combinedStats[stat] = value;
+      } else {
+        combinedStats[stat] += value;
+      }
+    });
+  }
 
   // Merge artifact bonuses into separate object
   let artifactStats = {};
