@@ -8,7 +8,7 @@ import {
 } from './Data.js';
 
 import * as talents from './Talent.js';
-import * as talentOptions from './TalentOption.js';
+import { getOptions } from './option';
 
 export default class Character {
   constructor(id) {
@@ -122,12 +122,7 @@ export default class Character {
     return damage;
   }
 
-  getTalentOptions() {
-    let options = talentOptions[this.id + 'TalentOptions'];
-    if (options !== undefined) {
-      return options;
-    } else {
-      return [];
-    }
+  getOptions() {
+    return getOptions('character', this.id);
   }
 }

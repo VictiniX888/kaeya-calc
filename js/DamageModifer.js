@@ -14,7 +14,7 @@ export default class DamageModifier {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
-    talentOptions = [],
+    options = [],
   }) {
     this.characterLevel = characterLevel;
     this.enemyLevel = enemyLevel;
@@ -29,8 +29,8 @@ export default class DamageModifier {
     this.talentSkillLevel = talentSkillLevel;
     this.talentBurstLevel = talentBurstLevel;
 
-    talentOptions.forEach(({ id, value }) => {
-      this[id] = value;
+    options.forEach((option) => {
+      option.applyOnModifier(this);
     });
   }
 }

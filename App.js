@@ -9,7 +9,7 @@ import Weapon from './js/Weapon.js';
 import Artifact, { mainStatProps, subStatProps } from './js/Artifact.js';
 import ArtifactSet from './js/ArtifactSet.js';
 import DamageModifier from './js/DamageModifer.js';
-import TalentOption from './js/TalentOption.js';
+import Option, { getOptions } from './js/option';
 import Resistance from './js/Resistance.js';
 import * as statUtils from './js/Stat.js';
 import * as data from './js/Data.js';
@@ -78,7 +78,7 @@ export default class App extends Component {
       talentSkillDamage: undefined,
       talentBurstDamage: undefined,
 
-      talentOptions: [],
+      options: [],
     };
   }
 
@@ -271,7 +271,7 @@ export default class App extends Component {
               this.setState(
                 {
                   characterId: value,
-                  talentOptions: this.character.getTalentOptions(),
+                  options: this.character.getOptions(),
                 },
                 this.setCharacterState
               );
@@ -381,7 +381,7 @@ export default class App extends Component {
       talentAttackLevel: this.state.talentAttackLevel,
       talentSkillLevel: this.state.talentSkillLevel,
       talentBurstLevel: this.state.talentBurstLevel,
-      talentOptions: this.state.talentOptions,
+      options: this.state.options,
     });
 
     return modifier;
@@ -867,25 +867,21 @@ export default class App extends Component {
     );
   };
 
-  renderTalentOptions = () => {
+  renderOptions = () => {
     return (
       <FlatList
-        data={this.state.talentOptions}
+        data={this.state.options}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => {
           if (item.type === 'boolean') {
             return (
               <View style={styles.inputRow}>
-                <Text>{statUtils.getTalentOptionName(item.id)}: </Text>
+                <Text>{statUtils.getOptionName(item.id)}: </Text>
                 <Checkbox
                   onValueChange={(value) => {
-                    let talentOptions = [...this.state.talentOptions];
-                    talentOptions[index] = new TalentOption(
-                      item.id,
-                      item.type,
-                      value
-                    );
-                    this.setState({ talentOptions }, this.setAllTalentState);
+                    let options = [...this.state.options];
+                    options[index] = options[index].withValue(value);
+                    this.setState({ options }, this.setAllTalentState);
                   }}
                   value={item.value}
                 />
@@ -907,7 +903,7 @@ export default class App extends Component {
         {this.renderTalentDamage('Attack')}
         {this.renderTalentDamage('Skill')}
         {this.renderTalentDamage('Burst', true)}
-        {this.renderTalentOptions()}
+        {this.renderOptions()}
       </View>
     );
   };

@@ -1,4 +1,4 @@
-import { talentDescMapping, talentOptionMapping } from './Data.js';
+import { talentDescMapping, optionMapping } from './Data.js';
 
 // Returns the string to display as the value of a stat
 export function getStatDisplayValue(value, isPercentage) {
@@ -45,8 +45,8 @@ export function getDamageDisplayValue(values) {
 }
 
 // Returns the display name of a talent option
-export function getTalentOptionName(id) {
-  return talentOptionMapping[id];
+export function getOptionName(id) {
+  return optionMapping[id];
 }
 
 // Returns a Number representing the inputed value of a stat

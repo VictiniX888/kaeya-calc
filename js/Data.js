@@ -9,7 +9,7 @@ import artifactSetDataRaw from '../data/artifactsetdata.json';
 import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
 export { default as propMapping } from '../data/propmapping.json';
 export { default as talentDescMapping } from '../data/talentdescmapping.json';
-export { default as talentOptionMapping } from '../data/talentoptionmapping.json';
+export { default as optionMapping } from '../data/optionmapping.json';
 
 // Pre-processed data, coverting from arrays to objects (map-like) for faster lookup
 const characterData = processCharacterData(characterDataRaw);
