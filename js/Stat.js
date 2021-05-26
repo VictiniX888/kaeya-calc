@@ -113,7 +113,11 @@ export function getTotalStatsAt(
   characterLevel,
   characterHasAscended,
   artifactSetBonuses,
-  artifacts
+  artifacts,
+  talentAttackLevel,
+  talentSkillLevel,
+  talentBurstLevel,
+  options
 ) {
   let baseStats = getBaseStatsAt(
     weapon,
@@ -223,6 +227,15 @@ export function getTotalStatsAt(
   combinedStats.healingBonus
     ? (totalStats.healingBonus = combinedStats.healingBonus)
     : null;
+
+  options.forEach((option) => {
+    option.applyOnStats(
+      totalStats,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel
+    );
+  });
 
   return totalStats;
 }

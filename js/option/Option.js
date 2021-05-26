@@ -7,7 +7,13 @@ export default class Option {
 
     // Applies the Option onto stats
     // Mutates stats directly
-    applyOnStats = (stats, value) => {
+    applyOnStats = (
+      stats,
+      value,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel
+    ) => {
       return stats;
     },
 
@@ -24,8 +30,14 @@ export default class Option {
     this._applyOnModifier = applyOnModifier;
   }
 
-  applyOnStats(stats) {
-    return this._applyOnStats(stats, this.value);
+  applyOnStats(stats, talentAttackLevel, talentSkillLevel, talentBurstLevel) {
+    return this._applyOnStats(
+      stats,
+      this.value,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel
+    );
   }
 
   applyOnModifier(modifier) {

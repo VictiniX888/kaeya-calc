@@ -118,5 +118,18 @@
   "healedBonus": {
     "name": "Incoming Healing Bonus",
     "isPercentage": true
+  },
+
+  "normalDmgBonus": {
+    "name": "Normal Atk DMG Bonus",
+    "isPercentage": true
+  },
+  "chargedDmgBonus": {
+    "name": "Charged Atk DMG Bonus",
+    "isPercentage": true
+  },
+  "plungeDmgBonus": {
+    "name": "Plunge Atk DMG Bonus",
+    "isPercentage": true
   }
 }

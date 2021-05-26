@@ -157,7 +157,7 @@ export default class App extends Component {
             onChangeText={(text) => {
               this.setState(
                 { talentAttackLevel: parseInt(text) },
-                this.setAllTalentState
+                this.setStatTalentState
               );
             }}
           />
@@ -171,7 +171,7 @@ export default class App extends Component {
             onChangeText={(text) => {
               this.setState(
                 { talentSkillLevel: parseInt(text) },
-                this.setAllTalentState
+                this.setStatTalentState
               );
             }}
           />
@@ -185,7 +185,7 @@ export default class App extends Component {
             onChangeText={(text) => {
               this.setState(
                 { talentBurstLevel: parseInt(text) },
-                this.setAllTalentState
+                this.setStatTalentState
               );
             }}
           />
@@ -488,11 +488,11 @@ export default class App extends Component {
         }
       }, {});
 
-      this.setArtifactState();
+      this.setStatTalentState();
     }
   };
 
-  setArtifactState = (type) => {
+  setStatTalentState = (type) => {
     let totalStats = this.getTotalStats();
     let modifier = this.getDamageModifier();
 
@@ -591,7 +591,11 @@ export default class App extends Component {
       this.state.characterLevel,
       this.state.isCharacterAscended,
       this.artifactSetStats,
-      artifacts
+      artifacts,
+      this.state.talentAttackLevel,
+      this.state.talentSkillLevel,
+      this.state.talentBurstLevel,
+      this.state.options
     );
 
     return stats;
@@ -682,7 +686,7 @@ export default class App extends Component {
                 data.propMapping[stat].isPercentage
               );
               // Update total stats
-              this.setArtifactState(type);
+              this.setStatTalentState(type);
             }
           }}
         >
@@ -720,7 +724,7 @@ export default class App extends Component {
             }
 
             // Update total stats
-            this.setArtifactState(type);
+            this.setStatTalentState(type);
           }}
         />
       </View>
@@ -744,7 +748,7 @@ export default class App extends Component {
                       data.propMapping[stat].isPercentage
                     );
                     // Update total stats
-                    this.setArtifactState(type);
+                    this.setStatTalentState(type);
                   }
                 }}
               >
@@ -781,7 +785,7 @@ export default class App extends Component {
                     );
                   }
                   // Update total stats
-                  this.setArtifactState(type);
+                  this.setStatTalentState(type);
                 }}
               />
             </View>
@@ -881,7 +885,7 @@ export default class App extends Component {
                   onValueChange={(value) => {
                     let options = [...this.state.options];
                     options[index] = options[index].withValue(value);
-                    this.setState({ options }, this.setAllTalentState);
+                    this.setState({ options }, this.setStatTalentState);
                   }}
                   value={item.value}
                 />

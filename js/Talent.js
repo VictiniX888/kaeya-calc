@@ -841,7 +841,7 @@ export function kaeyaBurst({ params, stats, modifier }) {
 
 // Diluc
 export function dilucAttack({ params, stats, modifier }) {
-  let element = modifier.infusion ? 'pyro' : 'physical';
+  const element = modifier.infusion ?? 'physical';
   return attackHeavyDefault({
     normalHits: 4,
     element,
@@ -1209,47 +1209,15 @@ export function xingqiuBurst({ params, stats, modifier }) {
 
 // Xiao
 export function xiaoAttack({ params, stats, modifier }) {
-  if (modifier.infusion) {
-    let burstParams = getTalentStatsAt(
-      'burst',
-      modifier.talentBurstLevel,
-      getTalentData('xiao')
-    );
-    let modifiedStats = { ...stats };
+  const element = modifier.infusion ?? 'physical';
 
-    if (modifiedStats.normalDmgBonus === undefined) {
-      modifiedStats.normalDmgBonus = burstParams[0];
-    } else {
-      modifiedStats.normalDmgBonus += burstParams[0];
-    }
-
-    if (modifiedStats.chargedDmgBonus === undefined) {
-      modifiedStats.chargedDmgBonus = burstParams[0];
-    } else {
-      modifiedStats.chargedDmgBonus += burstParams[0];
-    }
-
-    if (modifiedStats.plungeDmgBonus === undefined) {
-      modifiedStats.plungeDmgBonus = burstParams[0];
-    } else {
-      modifiedStats.plungeDmgBonus += burstParams[0];
-    }
-
-    return attackLightMulti({
-      normalHits: [2, 1, 1, 2, 1, 1],
-      element: 'anemo',
-      params: params.slice(1, 5).concat(params.slice(6)),
-      stats: modifiedStats,
-      modifier,
-    });
-  } else {
-    return attackLightMulti({
-      normalHits: [2, 1, 1, 2, 1, 1],
-      params: params.slice(1, 5).concat(params.slice(6)),
-      stats,
-      modifier,
-    });
-  }
+  return attackLightMulti({
+    normalHits: [2, 1, 1, 2, 1, 1],
+    element,
+    params: params.slice(1, 5).concat(params.slice(6)),
+    stats,
+    modifier,
+  });
 }
 
 export function xiaoSkill({ params, stats, modifier }) {
