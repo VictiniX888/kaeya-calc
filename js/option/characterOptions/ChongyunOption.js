@@ -3,7 +3,7 @@ import Option from '../Option.js';
 const chongyunOptionInfusion = new Option({
   id: 'infusionCryo',
   type: 'boolean',
-  value: false,
+  initialValue: false,
 
   applyOnModifier: (modifier, value) => {
     if (value === true) {

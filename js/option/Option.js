@@ -3,16 +3,14 @@ export default class Option {
   constructor({
     id,
     type,
-    value,
+    initialValue,
 
     // Applies the Option onto stats
     // Mutates stats directly
     applyOnStats = (
       stats,
       value,
-      talentAttackLevel,
-      talentSkillLevel,
-      talentBurstLevel
+      { talentAttackLevel, talentSkillLevel, talentBurstLevel }
     ) => {
       return stats;
     },
@@ -25,19 +23,17 @@ export default class Option {
   }) {
     this.id = id;
     this.type = type;
-    this.value = value;
+    this.value = initialValue;
     this._applyOnStats = applyOnStats;
     this._applyOnModifier = applyOnModifier;
   }
 
   applyOnStats(stats, talentAttackLevel, talentSkillLevel, talentBurstLevel) {
-    this._applyOnStats(
-      stats,
-      this.value,
+    this._applyOnStats(stats, this.value, {
       talentAttackLevel,
       talentSkillLevel,
-      talentBurstLevel
-    );
+      talentBurstLevel,
+    });
     return stats;
   }
 
@@ -51,7 +47,7 @@ export default class Option {
     return new Option({
       id: this.id,
       type: this.type,
-      value,
+      initialValue: value,
       applyOnStats: this._applyOnStats,
       applyOnModifier: this._applyOnModifier,
     });

@@ -4,9 +4,9 @@ import { getTalentStatsAt, getTalentData } from '../../Data.js';
 const hutaoOptionSkill = new Option({
   id: 'paramitaPapilioState',
   type: 'boolean',
-  value: false,
+  initialValue: false,
 
-  applyOnStats: (stats, value, _, talentSkillLevel) => {
+  applyOnStats: (stats, value, { talentSkillLevel }) => {
     if (value === true) {
       let skillParams = getTalentStatsAt(
         'skill',

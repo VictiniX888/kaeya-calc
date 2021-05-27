@@ -4,9 +4,9 @@ import { getTalentStatsAt, getTalentData } from '../../Data.js';
 const yanfeiOptionBurst = new Option({
   id: 'brilliance',
   type: 'boolean',
-  value: false,
+  initialValue: false,
 
-  applyOnStats: (stats, value, _1, _2, talentBurstLevel) => {
+  applyOnStats: (stats, value, { talentBurstLevel }) => {
     if (value === true) {
       const burstParams = getTalentStatsAt(
         'burst',

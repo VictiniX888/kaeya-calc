@@ -9,7 +9,6 @@ import Weapon from './js/Weapon.js';
 import Artifact, { mainStatProps, subStatProps } from './js/Artifact.js';
 import ArtifactSet from './js/ArtifactSet.js';
 import DamageModifier from './js/DamageModifer.js';
-import Option, { getOptions } from './js/option';
 import Resistance from './js/Resistance.js';
 import * as statUtils from './js/Stat.js';
 import * as data from './js/Data.js';
