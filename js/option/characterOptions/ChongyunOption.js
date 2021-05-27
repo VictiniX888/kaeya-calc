@@ -9,8 +9,6 @@ const chongyunOptionInfusion = new Option({
     if (value === true) {
       modifier.infusion = 'cryo';
     }
-
-    return modifier;
   },
 });
 

@@ -31,17 +31,19 @@ export default class Option {
   }
 
   applyOnStats(stats, talentAttackLevel, talentSkillLevel, talentBurstLevel) {
-    return this._applyOnStats(
+    this._applyOnStats(
       stats,
       this.value,
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel
     );
+    return stats;
   }
 
   applyOnModifier(modifier) {
-    return this._applyOnModifier(modifier, this.value);
+    this._applyOnModifier(modifier, this.value);
+    return modifier;
   }
 
   // Returns a new Option with the new value

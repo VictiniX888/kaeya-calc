@@ -16,16 +16,12 @@ const noelleOptionBurst = new Option({
 
       stats.flatAtk = stats.flatAtk + stats.flatDef * burstParams[2];
     }
-
-    return stats;
   },
 
   applyOnModifier: (modifier, value) => {
     if (value === true) {
       modifier.infusion = 'geo';
     }
-
-    return modifier;
   },
 });
 

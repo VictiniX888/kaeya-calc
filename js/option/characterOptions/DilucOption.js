@@ -9,7 +9,6 @@ const dilucOptionInfusion = new Option({
     if (value === true) {
       modifier.infusion = 'pyro';
     }
-    return modifier;
   },
 });
 

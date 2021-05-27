@@ -18,16 +18,12 @@ const xiaoOptionBurst = new Option({
       stats.chargedDmgBonus = burstParams[0] + (stats.chargedDmgBonus ?? 0);
       stats.plungeDmgBonus = burstParams[0] + (stats.plungeDmgBonus ?? 0);
     }
-
-    return stats;
   },
 
   applyOnModifier: (modifier, value) => {
     if (value === true) {
       modifier.infusion = 'anemo';
     }
-
-    return modifier;
   },
 });
 
