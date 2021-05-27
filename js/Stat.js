@@ -228,6 +228,10 @@ export function getTotalStatsAt(
     ? (totalStats.healingBonus = combinedStats.healingBonus)
     : null;
 
+  combinedStats.chargedCritRate
+    ? (totalStats.chargedCritRate = combinedStats.chargedCritRate)
+    : null;
+
   options.forEach((option) => {
     option.applyOnStats(
       totalStats,

@@ -70,7 +70,11 @@ function calculateTotalDamage({
   if (modifier.critType === 'crit') {
     crit += stats.critDmg;
   } else if (modifier.critType === 'average') {
-    crit += Math.min(1, stats.critRate) * stats.critDmg;
+    let critRate = stats.critRate;
+    if (attackType === 'charged') {
+      critRate += stats.chargedCritRate ?? 0;
+    }
+    crit += Math.min(1, critRate) * stats.critDmg;
   }
 
   let enemyDefMultiplier =
