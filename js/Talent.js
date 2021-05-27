@@ -2437,19 +2437,7 @@ export function rosariaBurst({ params, stats, modifier }) {
 
 // Hu Tao
 export function hutaoAttack({ params, stats, modifier }) {
-  let element = 'physical';
-  let modifiedStats = { ...stats };
-
-  if (modifier.infusion) {
-    element = 'pyro';
-
-    let skillParams = getTalentStatsAt(
-      'skill',
-      modifier.talentSkillLevel,
-      getTalentData('hutao')
-    );
-    modifiedStats.flatAtk += skillParams[1] * stats.flatHp;
-  }
+  const element = modifier.infusion ?? 'physical';
 
   let talentDamage = [];
 
@@ -2459,7 +2447,7 @@ export function hutaoAttack({ params, stats, modifier }) {
       hits: 4,
       element,
       params,
-      stats: modifiedStats,
+      stats,
       modifier,
     })
   );
@@ -2468,7 +2456,7 @@ export function hutaoAttack({ params, stats, modifier }) {
   for (let i = 4; i < 6; i++) {
     hit5Dmg.push(
       calculateTotalDamage({
-        stats: modifiedStats,
+        stats,
         multiplier: params[i],
         element,
         attackType: 'normal',
@@ -2483,7 +2471,7 @@ export function hutaoAttack({ params, stats, modifier }) {
 
   let hit6Dmg = [
     calculateTotalDamage({
-      stats: modifiedStats,
+      stats,
       multiplier: params[6],
       element,
       attackType: 'normal',
@@ -2500,7 +2488,7 @@ export function hutaoAttack({ params, stats, modifier }) {
     ...chargedAttackDefault({
       element,
       params: params.slice(7, 8),
-      stats: modifiedStats,
+      stats,
       modifier,
     })
   );
@@ -2510,7 +2498,7 @@ export function hutaoAttack({ params, stats, modifier }) {
     ...plungeAttackDefault({
       element,
       params: params.slice(9, 12),
-      stats: modifiedStats,
+      stats,
       modifier,
     })
   );
@@ -2519,33 +2507,18 @@ export function hutaoAttack({ params, stats, modifier }) {
 }
 
 export function hutaoSkill({ params, stats, modifier }) {
-  let modifiedStats = { ...stats };
-  if (modifier.infusion) {
-    modifiedStats.flatAtk += params[1] * stats.flatHp;
-  }
-
   return [
     skillBase({
       description: 'bloodBlossomDmg',
       element: 'pyro',
       multiplier: params[2],
-      stats: modifiedStats,
+      stats,
       modifier,
     }),
   ];
 }
 
 export function hutaoBurst({ params, stats, modifier }) {
-  let modifiedStats = { ...stats };
-  if (modifier.infusion) {
-    let skillParams = getTalentStatsAt(
-      'skill',
-      modifier.talentSkillLevel,
-      getTalentData('hutao')
-    );
-    modifiedStats.flatAtk += skillParams[1] * stats.flatHp;
-  }
-
   let talentDamage = [];
 
   let dmgDescriptions = ['burstDmg', 'burstDmgLowHp'];
@@ -2555,7 +2528,7 @@ export function hutaoBurst({ params, stats, modifier }) {
         description,
         element: 'pyro',
         multiplier: params[i],
-        stats: modifiedStats,
+        stats,
         modifier,
       })
     );
@@ -2567,7 +2540,7 @@ export function hutaoBurst({ params, stats, modifier }) {
       healingSkillBase({
         description,
         params: [params[i + 2], 0],
-        stats: modifiedStats,
+        stats,
         modifier,
       })
     );
@@ -2578,21 +2551,6 @@ export function hutaoBurst({ params, stats, modifier }) {
 
 // Yanfei
 export function yanfeiAttack({ params, stats, modifier }) {
-  let modifiedStats = { ...stats };
-  if (modifier.brilliance) {
-    let burstParams = getTalentStatsAt(
-      'burst',
-      modifier.talentBurstLevel,
-      getTalentData('yanfei')
-    );
-
-    if (modifiedStats.chargedDmgBonus === undefined) {
-      modifiedStats.chargedDmgBonus = burstParams[1];
-    } else {
-      modifiedStats.chargedDmgBonus += burstParams[1];
-    }
-  }
-
   let talentDamage = [];
 
   // Normal attack
@@ -2601,7 +2559,7 @@ export function yanfeiAttack({ params, stats, modifier }) {
       hits: 3,
       element: 'pyro',
       params,
-      stats: modifiedStats,
+      stats,
       modifier,
     })
   );
@@ -2609,7 +2567,7 @@ export function yanfeiAttack({ params, stats, modifier }) {
   // Charged attack
   for (let i = 0; i < 5; i++) {
     let damage = calculateTotalDamage({
-      stats: modifiedStats,
+      stats,
       multiplier: params[i + 3],
       element: 'pyro',
       attackType: 'charged',
@@ -2626,7 +2584,7 @@ export function yanfeiAttack({ params, stats, modifier }) {
     ...plungeAttackDefault({
       element: 'pyro',
       params: params.slice(15, 18),
-      stats: modifiedStats,
+      stats,
       modifier,
     })
   );
