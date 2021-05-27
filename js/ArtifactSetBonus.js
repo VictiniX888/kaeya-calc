@@ -11,3 +11,8 @@ export function Relic_ExtraAtkCritUp(params) {
     },
   ];
 }
+
+export function Relic_GiantKiller() {
+  // Handled through Options
+  return defaultSetBonus();
+}

@@ -326,8 +326,18 @@ export default class App extends Component {
           onValueChange={(value, _) => {
             if (value != 0) {
               this.artifactSets[i] = new ArtifactSet(value);
+              // Update options too
+              let options = [...this.state.options];
+              options.push(
+                ...this.artifactSets[i].getOptions(
+                  this.state[`artifactSet${i + 1}Pc`]
+                )
+              );
               this.setState(
-                { [`artifactSet${i + 1}Id`]: value },
+                {
+                  [`artifactSet${i + 1}Id`]: value,
+                  options,
+                },
                 this.setArtifactSetState
               );
             }
@@ -349,8 +359,14 @@ export default class App extends Component {
           style={styles.levelInput}
           defaultValue={this.state[`artifactSet${i + 1}Pc`]}
           onChangeText={(text) => {
+            // Update options too
+            let options = [...this.state.options];
+            options.push(...this.artifactSets[i].getOptions(parseInt(text)));
             this.setState(
-              { [`artifactSet${i + 1}Pc`]: parseInt(text) },
+              {
+                [`artifactSet${i + 1}Pc`]: parseInt(text),
+                options,
+              },
               this.setArtifactSetState
             );
           }}

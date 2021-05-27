@@ -10,6 +10,7 @@ export function defaultTalent() {
 
 function getDamageBonus({ stats, element, attackType }) {
   let dmgBonus = 1;
+  dmgBonus += stats.dmgBonus ?? 0;
   dmgBonus += stats[`${element}DmgBonus`] ?? 0;
   if (attackType === 'normal') {
     dmgBonus += stats.normalDmgBonus ?? 0;

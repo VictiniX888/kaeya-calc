@@ -186,6 +186,11 @@ export function getArtifactSetBonusData(id) {
   return getData(id, artifactSetBonusData);
 }
 
+export function getArtifactSetBonusParams(id, pieces) {
+  const params = getArtifactSetBonusData(id)?.[pieces]?.bonusExtra?.params;
+  return params ?? emptyTalentParams;
+}
+
 // "Public" functions for getting data collections
 export function getSortedCharacterList() {
   if (sortedCharacterList === undefined) {

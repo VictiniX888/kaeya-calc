@@ -1,5 +1,6 @@
 import { getArtifactSetData, getArtifactSetBonusData } from './Data.js';
 import * as extraBonuses from './ArtifactSetBonus.js';
+import { getOptions } from './option/';
 
 export default class ArtifactSet {
   constructor(id) {
@@ -55,5 +56,10 @@ export default class ArtifactSet {
     });
 
     return stats;
+  }
+
+  getOptions(pieces) {
+    const options = getOptions('artifactSet', this.id);
+    return options.filter(({ threshold }) => pieces >= threshold);
   }
 }
