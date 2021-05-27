@@ -1647,32 +1647,15 @@ export function tartagliaBurst({ params, stats, modifier }) {
 
 // Noelle
 export function noelleAttack({ params, stats, modifier }) {
-  if (modifier.infusion) {
-    let burstParams = getTalentStatsAt(
-      'burst',
-      modifier.talentBurstLevel,
-      getTalentData('noelle')
-    );
-    let modifiedStats = {
-      ...stats,
-      flatAtk: stats.flatAtk + stats.flatDef * burstParams[2],
-    };
+  const element = modifier.infusion ?? 'physical';
 
-    return attackHeavyDefault({
-      normalHits: 4,
-      element: 'geo',
-      params,
-      stats: modifiedStats,
-      modifier,
-    });
-  } else {
-    return attackHeavyDefault({
-      normalHits: 4,
-      params,
-      stats,
-      modifier,
-    });
-  }
+  return attackHeavyDefault({
+    normalHits: 4,
+    element,
+    params,
+    stats,
+    modifier,
+  });
 }
 
 export function noelleSkill({ params, stats, modifier }) {
@@ -1809,22 +1792,14 @@ export function qiqiBurst({ params, stats, modifier }) {
 
 // Chongyun
 export function chongyunAttack({ params, stats, modifier }) {
-  if (modifier.infusion) {
-    return attackHeavyDefault({
-      normalHits: 4,
-      element: 'cryo',
-      params,
-      stats,
-      modifier,
-    });
-  } else {
-    return attackHeavyDefault({
-      normalHits: 4,
-      params,
-      stats,
-      modifier,
-    });
-  }
+  const element = modifier.infusion ?? 'physical';
+  return attackHeavyDefault({
+    normalHits: 4,
+    element,
+    params,
+    stats,
+    modifier,
+  });
 }
 
 export function chongyunSkill({ params, stats, modifier }) {
