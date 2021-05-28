@@ -11,15 +11,11 @@ export default class Option {
       stats,
       value,
       { talentAttackLevel, talentSkillLevel, talentBurstLevel }
-    ) => {
-      return stats;
-    },
+    ) => {},
 
     // Applies the Option onto modifier
     // Mutates modifier directly
-    applyOnModifier = (modifier, value) => {
-      return modifier;
-    },
+    applyOnModifier = (modifier, value) => {},
   }) {
     this.id = id;
     this.type = type;
@@ -42,9 +38,9 @@ export default class Option {
     return modifier;
   }
 
-  // Returns a new Option with the new value
+  // Returns a new Option (or child class) with the new value
   withValue(value) {
-    return new Option({
+    return new this.constructor({
       id: this.id,
       type: this.type,
       initialValue: value,

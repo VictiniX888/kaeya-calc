@@ -27,4 +27,16 @@ export default class ArtifactSetOption extends Option {
     this._applyOnStats(stats, this.value);
     return stats;
   }
+
+  // Returns a new Option with the new value
+  withValue(value) {
+    return new this.constructor({
+      id: this.id,
+      type: this.type,
+      initialValue: value,
+      threshold: this.threshold,
+      applyOnStats: this._applyOnStats,
+      applyOnModifier: this._applyOnModifier,
+    });
+  }
 }

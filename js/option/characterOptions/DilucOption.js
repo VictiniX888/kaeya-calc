@@ -1,6 +1,6 @@
-import Option from '../Option.js';
+import CharacterOption from './CharacterOption.js';
 
-const dilucOptionInfusion = new Option({
+const dilucOptionInfusion = new CharacterOption({
   id: 'infusionPyro',
   type: 'boolean',
   initialValue: false,

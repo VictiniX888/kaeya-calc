@@ -1,6 +1,6 @@
-import Option from '../Option.js';
+import CharacterOption from './CharacterOption.js';
 
-const chongyunOptionInfusion = new Option({
+const chongyunOptionInfusion = new CharacterOption({
   id: 'infusionCryo',
   type: 'boolean',
   initialValue: false,

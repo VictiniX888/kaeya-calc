@@ -1,7 +1,7 @@
-import Option from '../Option.js';
+import CharacterOption from './CharacterOption.js';
 import { getTalentStatsAt, getTalentData } from '../../Data.js';
 
-const noelleOptionBurst = new Option({
+const noelleOptionBurst = new CharacterOption({
   id: 'noelleBurst',
   type: 'boolean',
   initialValue: false,

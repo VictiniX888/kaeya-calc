@@ -1,7 +1,7 @@
-import Option from '../Option.js';
+import CharacterOption from './CharacterOption.js';
 import { getTalentStatsAt, getTalentData } from '../../Data.js';
 
-const hutaoOptionSkill = new Option({
+const hutaoOptionSkill = new CharacterOption({
   id: 'paramitaPapilioState',
   type: 'boolean',
   initialValue: false,

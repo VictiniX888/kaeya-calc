@@ -1,7 +1,7 @@
-import Option from '../Option.js';
+import CharacterOption from './CharacterOption.js';
 import { getTalentStatsAt, getTalentData } from '../../Data.js';
 
-const yanfeiOptionBurst = new Option({
+const yanfeiOptionBurst = new CharacterOption({
   id: 'brilliance',
   type: 'boolean',
   initialValue: false,

@@ -1,7 +1,7 @@
-import Option from '../Option.js';
+import CharacterOption from './CharacterOption.js';
 import { getTalentStatsAt, getTalentData } from '../../Data.js';
 
-const xiaoOptionBurst = new Option({
+const xiaoOptionBurst = new CharacterOption({
   id: 'xiaoBurst',
   type: 'boolean',
   initialValue: false,
