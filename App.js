@@ -522,7 +522,10 @@ export default class App extends Component {
     if (!this.artifactSets.every((value) => value === 0)) {
       this.artifactSetStats = this.artifactSets.reduce((acc, set, i) => {
         if (set !== 0) {
-          let setStats = set.getStatsAt(this.state[`artifactSet${i + 1}Pc`]);
+          let setStats = set.getStatsAt(
+            this.state[`artifactSet${i + 1}Pc`],
+            this.state[`artifactSet${i + 1}Options`]
+          );
           Object.entries(setStats).forEach(([stat, value]) => {
             if (acc[stat] !== undefined) {
               acc[stat] += value;
@@ -640,10 +643,10 @@ export default class App extends Component {
       this.state.isCharacterAscended,
       this.artifactSetStats,
       artifacts,
+      this.state.characterOptions,
       this.state.talentAttackLevel,
       this.state.talentSkillLevel,
-      this.state.talentBurstLevel,
-      this.getAllOptions()
+      this.state.talentBurstLevel
     );
 
     return stats;

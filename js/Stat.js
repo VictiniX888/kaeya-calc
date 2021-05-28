@@ -114,10 +114,10 @@ export function getTotalStatsAt(
   characterHasAscended,
   artifactSetBonuses,
   artifacts,
+  characterOptions,
   talentAttackLevel,
   talentSkillLevel,
-  talentBurstLevel,
-  options
+  talentBurstLevel
 ) {
   let baseStats = getBaseStatsAt(
     weapon,
@@ -228,11 +228,27 @@ export function getTotalStatsAt(
     ? (totalStats.healingBonus = combinedStats.healingBonus)
     : null;
 
+  combinedStats.shieldStrength
+    ? (totalStats.shieldStrength = combinedStats.shieldStrength)
+    : null;
+  combinedStats.dmgBonus
+    ? (totalStats.dmgBonus = combinedStats.dmgBonus)
+    : null;
+  combinedStats.normalDmgBonus
+    ? (totalStats.normalDmgBonus = combinedStats.normalDmgBonus)
+    : null;
+  combinedStats.chargedDmgBonus
+    ? (totalStats.chargedDmgBonus = combinedStats.chargedDmgBonus)
+    : null;
+  combinedStats.plungeDmgBonus
+    ? (totalStats.plungeDmgBonus = combinedStats.plungeDmgBonus)
+    : null;
   combinedStats.chargedCritRate
     ? (totalStats.chargedCritRate = combinedStats.chargedCritRate)
     : null;
 
-  options.forEach((option) => {
+  // Apply character options (only)
+  characterOptions.forEach((option) => {
     option.applyOnStats(
       totalStats,
       talentAttackLevel,

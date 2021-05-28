@@ -19,7 +19,7 @@ export default class ArtifactSet {
       .map((threshold) => this.setBonuses[threshold]);
   }
 
-  getStatsAt(pieces) {
+  getStatsAt(pieces, options) {
     let stats = {};
 
     let setBonuses = this.getSetBonusesAt(pieces);
@@ -53,6 +53,10 @@ export default class ArtifactSet {
           }
         });
       }
+    });
+
+    options.forEach((option) => {
+      option.applyOnStats(stats);
     });
 
     return stats;
