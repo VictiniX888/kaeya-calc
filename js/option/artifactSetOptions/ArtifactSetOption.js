@@ -9,23 +9,14 @@ export default class ArtifactSetOption extends Option {
 
     // Applies the Option onto stats
     // Mutates stats directly
-    applyOnStats = (stats, value) => {
-      return stats;
-    },
+    applyOnStats = (stats, value) => {},
 
     // Applies the Option onto modifier
     // Mutates modifier directly
-    applyOnModifier = (modifier, value) => {
-      return modifier;
-    },
+    applyOnModifier = (modifier, value) => {},
   }) {
     super({ id, type, initialValue, applyOnStats, applyOnModifier });
     this.threshold = threshold;
-  }
-
-  applyOnStats(stats) {
-    this._applyOnStats(stats, this.value);
-    return stats;
   }
 
   // Returns a new Option with the new value

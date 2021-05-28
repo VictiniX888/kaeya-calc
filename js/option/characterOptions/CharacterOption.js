@@ -12,15 +12,11 @@ export default class CharacterOption extends Option {
       stats,
       value,
       { talentAttackLevel, talentSkillLevel, talentBurstLevel }
-    ) => {
-      return stats;
-    },
+    ) => {},
 
     // Applies the Option onto modifier
     // Mutates modifier directly
-    applyOnModifier = (modifier, value) => {
-      return modifier;
-    },
+    applyOnModifier = (modifier, value) => {},
   }) {
     super({ id, type, initialValue, applyOnStats, applyOnModifier });
   }

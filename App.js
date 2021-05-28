@@ -77,7 +77,10 @@ export default class App extends Component {
       talentSkillDamage: undefined,
       talentBurstDamage: undefined,
 
-      options: [],
+      characterOptions: [],
+      artifactSet1Options: [],
+      artifactSet2Options: [],
+      artifactSet3Options: [],
     };
   }
 
@@ -270,7 +273,7 @@ export default class App extends Component {
               this.setState(
                 {
                   characterId: value,
-                  options: this.character.getOptions(),
+                  characterOptions: this.character.getOptions(),
                 },
                 this.setCharacterState
               );
@@ -326,17 +329,16 @@ export default class App extends Component {
           onValueChange={(value, _) => {
             if (value != 0) {
               this.artifactSets[i] = new ArtifactSet(value);
+
               // Update options too
-              let options = [...this.state.options];
-              options.push(
-                ...this.artifactSets[i].getOptions(
-                  this.state[`artifactSet${i + 1}Pc`]
-                )
+              let options = this.artifactSets[i].getOptions(
+                this.state[`artifactSet${i + 1}Pc`]
               );
+
               this.setState(
                 {
                   [`artifactSet${i + 1}Id`]: value,
-                  options,
+                  [`artifactSet${i + 1}Options`]: options,
                 },
                 this.setArtifactSetState
               );
@@ -359,13 +361,35 @@ export default class App extends Component {
           style={styles.levelInput}
           defaultValue={this.state[`artifactSet${i + 1}Pc`]}
           onChangeText={(text) => {
-            // Update options too
-            let options = [...this.state.options];
-            options.push(...this.artifactSets[i].getOptions(parseInt(text)));
+            const pieces = parseInt(text);
+
+            let options = [];
+            if (this.state[`artifactSet${i + 1}Id`] !== undefined) {
+              // Update options too
+              options = [...this.state[`artifactSet${i + 1}Options`]];
+              console.log(this.state[`artifactSet${i + 1}Pc`]);
+              if (
+                !this.state[`artifactSet${i + 1}Pc`] ||
+                pieces > this.state[`artifactSet${i + 1}Pc`]
+              ) {
+                // Add any additional bonuses that have not been added previously
+                options.push(
+                  ...this.artifactSets[i]
+                    .getOptions(parseInt(text))
+                    .filter(
+                      ({ threshold }) =>
+                        threshold > (this.state[`artifactSet${i + 1}Pc`] || 0)
+                    )
+                );
+              } else {
+                options = options.filter(({ threshold }) => pieces > threshold);
+              }
+            }
+
             this.setState(
               {
                 [`artifactSet${i + 1}Pc`]: parseInt(text),
-                options,
+                [`artifactSet${i + 1}Options`]: options,
               },
               this.setArtifactSetState
             );
@@ -387,6 +411,15 @@ export default class App extends Component {
     );
   };
 
+  getAllOptions = () => {
+    return [
+      ...this.state.characterOptions,
+      ...this.state.artifactSet1Options,
+      ...this.state.artifactSet2Options,
+      ...this.state.artifactSet3Options,
+    ];
+  };
+
   getDamageModifier = () => {
     let modifier = new DamageModifier({
       characterLevel: this.state.characterLevel,
@@ -396,7 +429,7 @@ export default class App extends Component {
       talentAttackLevel: this.state.talentAttackLevel,
       talentSkillLevel: this.state.talentSkillLevel,
       talentBurstLevel: this.state.talentBurstLevel,
-      options: this.state.options,
+      options: this.getAllOptions(),
     });
 
     return modifier;
@@ -610,7 +643,7 @@ export default class App extends Component {
       this.state.talentAttackLevel,
       this.state.talentSkillLevel,
       this.state.talentBurstLevel,
-      this.state.options
+      this.getAllOptions()
     );
 
     return stats;
@@ -886,33 +919,63 @@ export default class App extends Component {
     );
   };
 
-  renderOptions = () => {
+  renderOptions = (options, onValueChange = (index) => (value) => {}) => {
     return (
       <FlatList
-        data={this.state.options}
+        data={options}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => {
-          if (item.type === 'boolean') {
-            return (
-              <View style={styles.inputRow}>
-                <Text>{statUtils.getOptionName(item.id)}: </Text>
-                <Checkbox
-                  onValueChange={(value) => {
-                    let options = [...this.state.options];
-                    options[index] = options[index].withValue(value);
-                    this.setState({ options }, this.setStatTalentState);
-                  }}
-                  value={item.value}
-                />
-              </View>
-            );
-          } else {
-            return null;
+          switch (item.type) {
+            case 'boolean':
+              return (
+                <View style={styles.inputRow}>
+                  <Text>{statUtils.getOptionName(item.id)}: </Text>
+                  <Checkbox
+                    onValueChange={onValueChange(index)}
+                    value={item.value}
+                  />
+                </View>
+              );
+
+            case 'number':
+              return (
+                <View style={styles.inputRow}>
+                  <Text>{statUtils.getOptionName(item.id)}: </Text>
+                  <TextInput
+                    style={styles.levelInput}
+                    onChangeText={onValueChange(index)}
+                    value={item.value}
+                  />
+                </View>
+              );
+
+            default:
+              return null;
           }
         }}
       />
     );
   };
+
+  renderCharacterOptions = () =>
+    this.renderOptions(this.state.characterOptions, (index) => (value) => {
+      let options = [...this.state.characterOptions];
+      options[index] = options[index].withValue(value);
+      this.setState({ characterOptions: options }, this.setStatTalentState);
+    });
+
+  renderArtifactSetOptions = (i) =>
+    this.renderOptions(
+      this.state[`artifactSet${i + 1}Options`],
+      (index) => (value) => {
+        let options = [...this.state[`artifactSet${i + 1}Options`]];
+        options[index] = options[index].withValue(value);
+        this.setState(
+          { [`artifactSet${i + 1}Options`]: options },
+          this.setArtifactSetState
+        );
+      }
+    );
 
   renderAllTalentDamage = () => {
     return (
@@ -922,7 +985,10 @@ export default class App extends Component {
         {this.renderTalentDamage('Attack')}
         {this.renderTalentDamage('Skill')}
         {this.renderTalentDamage('Burst', true)}
-        {this.renderOptions()}
+        {this.renderCharacterOptions()}
+        {this.renderArtifactSetOptions(0)}
+        {this.renderArtifactSetOptions(1)}
+        {this.renderArtifactSetOptions(2)}
       </View>
     );
   };
