@@ -8,18 +8,18 @@ export default class Resistance {
     pyro = 0,
     physical = 0,
   }) {
-    this.anemo = anemo / 100;
-    this.cryo = cryo / 100;
-    this.electro = electro / 100;
-    this.geo = geo / 100;
-    this.hydro = hydro / 100;
-    this.pyro = pyro / 100;
-    this.physical = physical / 100;
+    this.anemo = anemo;
+    this.cryo = cryo;
+    this.electro = electro;
+    this.geo = geo;
+    this.hydro = hydro;
+    this.pyro = pyro;
+    this.physical = physical;
   }
 
   set(type, value) {
     if (!isNaN(value)) {
-      this[type] = value / 100;
+      this[type] = value;
     } else {
       this[type] = 0;
     }
@@ -27,7 +27,7 @@ export default class Resistance {
 
   add(type, value) {
     if (!isNaN(value)) {
-      this[type] += value / 100;
+      this[type] += value;
     }
   }
 }

@@ -247,7 +247,7 @@ export default class App extends Component {
                 style={styles.levelInput}
                 defaultValue={this.state.enemyRes[element]}
                 onChangeText={(text) => {
-                  this.state.enemyRes.set(element, parseFloat(text));
+                  this.state.enemyRes.set(element, parseFloat(text) / 100);
                   let enemyRes = this.state.enemyRes;
                   this.setState({ enemyRes }, this.setAllTalentState);
                 }}

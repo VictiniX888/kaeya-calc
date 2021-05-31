@@ -10,7 +10,7 @@ const viridescentVenerer4PcOption = new ArtifactSetOption({
 
   applyOnModifier: (modifier, value) => {
     const params = getArtifactSetBonusParams('viridescentvenerer', 4);
-    modifier.enemyResReduction.set(value, params[1] * 100);
+    modifier.enemyResReduction.add(value, params[1]);
   },
 });
 
