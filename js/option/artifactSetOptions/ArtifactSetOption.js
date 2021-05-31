@@ -5,6 +5,7 @@ export default class ArtifactSetOption extends Option {
     id,
     type,
     initialValue,
+    choices = [],
     threshold,
 
     // Applies the Option onto stats
@@ -15,7 +16,7 @@ export default class ArtifactSetOption extends Option {
     // Mutates modifier directly
     applyOnModifier = (modifier, value) => {},
   }) {
-    super({ id, type, initialValue, applyOnStats, applyOnModifier });
+    super({ id, type, initialValue, choices, applyOnStats, applyOnModifier });
     this.threshold = threshold;
   }
 
@@ -25,6 +26,7 @@ export default class ArtifactSetOption extends Option {
       id: this.id,
       type: this.type,
       initialValue: value,
+      choices: this.choices,
       threshold: this.threshold,
       applyOnStats: this._applyOnStats,
       applyOnModifier: this._applyOnModifier,

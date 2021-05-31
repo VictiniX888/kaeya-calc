@@ -243,6 +243,12 @@ export function getTotalStatsAt(
   combinedStats.plungeDmgBonus
     ? (totalStats.plungeDmgBonus = combinedStats.plungeDmgBonus)
     : null;
+  combinedStats.skillDmgBonus
+    ? (totalStats.skillDmgBonus = combinedStats.skillDmgBonus)
+    : null;
+  combinedStats.burstDmgBonus
+    ? (totalStats.burstDmgBonus = combinedStats.burstDmgBonus)
+    : null;
   combinedStats.chargedCritRate
     ? (totalStats.chargedCritRate = combinedStats.chargedCritRate)
     : null;

@@ -10,5 +10,13 @@
 
 
     "braveHeart4Pc": "Brave Heart 4pc (Enemy HP>50%)",
-    "berserker4Pc": "Berserker 4pc (HP<70%)"
+    "berserker4Pc": "Berserker 4pc (HP<70%)",
+    "martialArtist4Pc": "Martial Artist 4pc (Use Skill)",
+    "instructor4Pc": "Instructor 4pc (Trigger Reaction)",
+    "blizzardStrayer4PcCryo": "Blizzard Strayer 4pc (Affected by Cryo)",
+    "blizzardStrayer4PcFrozen": "Blizzard Strayer 4pc (Frozen)",
+    "thundersoother4Pc": "Thundersoother 4pc (Affected by Electro)",
+    "lavawalker4Pc": "Lavawalker 4pc (Affected by Pyro)",
+    "maidenBeloved4Pc": "Maiden Beloved 4pc (Use Skill/Burst)",
+    "viridescentVenerer4Pc": "Viridescent Venerer 4pc (RES Shred)"
 }

@@ -4,6 +4,7 @@ export default class Option {
     id,
     type,
     initialValue,
+    choices = [],
 
     // Applies the Option onto stats
     // Mutates stats directly
@@ -16,6 +17,7 @@ export default class Option {
     this.id = id;
     this.type = type;
     this.value = initialValue;
+    this.choices = choices;
     this._applyOnStats = applyOnStats;
     this._applyOnModifier = applyOnModifier;
   }
@@ -36,6 +38,7 @@ export default class Option {
       id: this.id,
       type: this.type,
       initialValue: value,
+      choices: this.choices,
       applyOnStats: this._applyOnStats,
       applyOnModifier: this._applyOnModifier,
     });

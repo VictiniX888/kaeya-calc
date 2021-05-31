@@ -12,12 +12,30 @@ function getDamageBonus({ stats, element, attackType }) {
   let dmgBonus = 1;
   dmgBonus += stats.dmgBonus ?? 0;
   dmgBonus += stats[`${element}DmgBonus`] ?? 0;
-  if (attackType === 'normal') {
-    dmgBonus += stats.normalDmgBonus ?? 0;
-  } else if (attackType === 'charged') {
-    dmgBonus += stats.chargedDmgBonus ?? 0;
-  } else if (attackType === 'plunge') {
-    dmgBonus += stats.plungeDmgBonus ?? 0;
+
+  switch (attackType) {
+    case 'normal':
+      dmgBonus += stats.normalDmgBonus ?? 0;
+      break;
+
+    case 'charged':
+      dmgBonus += stats.chargedDmgBonus ?? 0;
+      break;
+
+    case 'plunge':
+      dmgBonus += stats.plungeDmgBonus ?? 0;
+      break;
+
+    case 'skill':
+      dmgBonus += stats.skillDmgBonus ?? 0;
+      break;
+
+    case 'burst':
+      dmgBonus += stats.burstDmgBonus ?? 0;
+      break;
+
+    default:
+      break;
   }
 
   return dmgBonus;

@@ -132,6 +132,14 @@
     "name": "Plunge Atk DMG Bonus",
     "isPercentage": true
   },
+  "skillDmgBonus": {
+    "name": "Skill DMG Bonus",
+    "isPercentage": true
+  },
+  "burstDmgBonus": {
+    "name": "Burst DMG Bonus",
+    "isPercentage": true
+  },
 
   "chargedCritRate": {
     "name": "Charged Atk Crit Rate",

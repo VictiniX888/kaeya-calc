@@ -367,7 +367,6 @@ export default class App extends Component {
             if (this.state[`artifactSet${i + 1}Id`] !== undefined) {
               // Update options too
               options = [...this.state[`artifactSet${i + 1}Options`]];
-              console.log(this.state[`artifactSet${i + 1}Pc`]);
               if (
                 !this.state[`artifactSet${i + 1}Pc`] ||
                 pieces > this.state[`artifactSet${i + 1}Pc`]
@@ -949,6 +948,26 @@ export default class App extends Component {
                     onChangeText={onValueChange(index)}
                     value={item.value}
                   />
+                </View>
+              );
+
+            case 'picker':
+              return (
+                <View style={styles.inputRow}>
+                  <Text>{statUtils.getOptionName(item.id)}: </Text>
+                  <Picker
+                    style={styles.characterSelect}
+                    selectedValue={item.value}
+                    onValueChange={onValueChange(index)}
+                  >
+                    {item.choices.map((choice) => (
+                      <Picker.Item
+                        label={statUtils.capitalize(choice)}
+                        value={choice}
+                        key={choice}
+                      />
+                    ))}
+                  </Picker>
                 </View>
               );
 

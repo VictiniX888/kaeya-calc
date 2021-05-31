@@ -5,6 +5,7 @@ export default class CharacterOption extends Option {
     id,
     type,
     initialValue,
+    choices = [],
 
     // Applies the Option onto stats
     // Mutates stats directly
@@ -18,7 +19,7 @@ export default class CharacterOption extends Option {
     // Mutates modifier directly
     applyOnModifier = (modifier, value) => {},
   }) {
-    super({ id, type, initialValue, applyOnStats, applyOnModifier });
+    super({ id, type, initialValue, choices, applyOnStats, applyOnModifier });
   }
 
   applyOnStats(stats, talentAttackLevel, talentSkillLevel, talentBurstLevel) {
