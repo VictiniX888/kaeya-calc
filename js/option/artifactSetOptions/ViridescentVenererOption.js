@@ -4,7 +4,7 @@ import { getArtifactSetBonusParams } from '../../Data.js';
 const viridescentVenerer4PcOption = new ArtifactSetOption({
   id: 'viridescentVenerer4Pc',
   type: 'picker',
-  initialValue: true,
+  initialValue: 'cryo',
   choices: ['cryo', 'electro', 'hydro', 'pyro'],
   threshold: 4,
 
