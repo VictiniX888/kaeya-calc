@@ -1722,17 +1722,12 @@ export function noelleSkill({ params, stats, modifier }) {
 }
 
 export function noelleBurst({ params, stats, modifier }) {
-  let modifiedStats = {
-    ...stats,
-    flatAtk: stats.flatAtk + stats.flatDef * params[2],
-  };
-
   return [
     burstBase({
       description: 'burstInitDmg',
       element: 'geo',
       multiplier: params[0],
-      stats: modifiedStats,
+      stats,
       modifier,
     }),
 
@@ -1740,7 +1735,7 @@ export function noelleBurst({ params, stats, modifier }) {
       description: 'firstSwingDmg',
       element: 'geo',
       multiplier: params[1],
-      stats: modifiedStats,
+      stats,
       modifier,
     }),
   ];
