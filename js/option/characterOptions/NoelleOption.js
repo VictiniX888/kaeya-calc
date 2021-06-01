@@ -14,7 +14,11 @@ const noelleOptionBurst = new CharacterOption({
         getTalentData('noelle')
       );
 
-      stats.flatAtk = stats.flatAtk + stats.flatDef * burstParams[2];
+      const totalDef =
+        (stats.baseDef ?? 0) * (1 + (stats.defBonus ?? 0)) +
+        (stats.flatDef ?? 0);
+
+      stats.flatAtk = (stats.flatAtk ?? 0) + totalDef * burstParams[2];
     }
   },
 

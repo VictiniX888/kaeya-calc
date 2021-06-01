@@ -161,6 +161,16 @@ export function getTotalStatsAt(
     }
   });
 
+  // Apply character options (only)
+  characterOptions.forEach((option) => {
+    option.applyOnStats(
+      combinedStats,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel
+    );
+  });
+
   // Calculate total stats
   let totalStats = {};
 
@@ -252,16 +262,6 @@ export function getTotalStatsAt(
   combinedStats.chargedCritRate
     ? (totalStats.chargedCritRate = combinedStats.chargedCritRate)
     : null;
-
-  // Apply character options (only)
-  characterOptions.forEach((option) => {
-    option.applyOnStats(
-      totalStats,
-      talentAttackLevel,
-      talentSkillLevel,
-      talentBurstLevel
-    );
-  });
 
   return totalStats;
 }
