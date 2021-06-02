@@ -1,3 +1,5 @@
+import type * as Data from '../data/types';
+
 import characterDataRaw from '../data/characterdata.json';
 import characterAscensionBonusDataRaw from '../data/characterascensionbonusdata.json';
 import characterStatCurveDataRaw from '../data/characterstatcurvedata.json';
@@ -7,9 +9,13 @@ import weaponStatCurveDataRaw from '../data/weaponstatcurvedata.json';
 import talentDataRaw from '../data/talentdata.json';
 import artifactSetDataRaw from '../data/artifactsetdata.json';
 import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
+
+import talentDescMappingRaw from '../data/talentdescmapping.json';
+import optionMappingRaw from '../data/optionmapping.json';
+
 export { default as propMapping } from '../data/propmapping.json';
-export { default as talentDescMapping } from '../data/talentdescmapping.json';
-export { default as optionMapping } from '../data/optionmapping.json';
+export const talentDescMapping = talentDescMappingRaw as Data.LanguageMapping;
+export const optionMapping = optionMappingRaw as Data.LanguageMapping;
 
 // Pre-processed data, coverting from arrays to objects (map-like) for faster lookup
 const characterData = processCharacterData(characterDataRaw);
@@ -31,145 +37,164 @@ const artifactSetBonusData = processArtifactSetBonusData(
 );
 
 // Pre-processed data, lists
-let sortedCharacterList; // lazy loading implemented with getSortedCharacterList()
-let sortedWeaponList; // lazy loading implemented with getSortedWeaponList()
-let sortedArtifactSetList; // lazy loading implemented with getSortedArtifactSetList()
+let sortedCharacterList: string[]; // lazy loading implemented with getSortedCharacterList()
+let sortedWeaponList: string[]; // lazy loading implemented with getSortedWeaponList()
+let sortedArtifactSetList: string[]; // lazy loading implemented with getSortedArtifactSetList()
 
 // Functions for pre-processing data
-function processCharacterData(rawData) {
+function processCharacterData(rawData: Data.CharacterData[]) {
   return rawData.reduce((acc, charData) => {
     acc[charData.id] = charData;
     return acc;
-  }, {});
+  }, {} as Record<string, Data.CharacterData>);
 }
 
-function processCharacterAscensionBonusData(rawData) {
+function processCharacterAscensionBonusData(
+  rawData: Data.CharacterAscensionBonusDataRaw[]
+) {
   return rawData.reduce((acc, charData) => {
     acc[charData.characterId] = charData.ascensionBonusSet.map(
       (bonusData) => bonusData.ascensionBonuses
     );
     return acc;
-  }, {});
+  }, {} as Record<string, Data.AscensionBonus[]>);
 }
 
-function processCharacterStatCurveData(rawData) {
+function processCharacterStatCurveData(rawData: Data.StatCurveData[]) {
   return rawData.reduce((acc, curveData) => {
     acc[curveData.level] = curveData.statCurves;
     return acc;
-  }, {});
+  }, {} as Record<number, Data.StatCurves>);
 }
 
-function processWeaponData(rawData) {
+function processWeaponData(rawData: Data.WeaponData[]) {
   return rawData.reduce((acc, weaponData) => {
     acc[weaponData.id] = weaponData;
     return acc;
-  }, {});
+  }, {} as Record<string, Data.WeaponData>);
 }
 
-function processWeaponAscensionBonusData(rawData) {
+function processWeaponAscensionBonusData(
+  rawData: Data.WeaponAscensionBonusDataRaw[]
+) {
   return rawData.reduce((acc, weaponData) => {
     acc[weaponData.weaponId] = weaponData.ascensionBonusSet.map(
       (bonusData) => bonusData.ascensionBonuses
     );
     return acc;
-  }, {});
+  }, {} as Record<string, Data.AscensionBonus[]>);
 }
 
-function processWeaponStatCurveData(rawData) {
+function processWeaponStatCurveData(rawData: Data.StatCurveData[]) {
   return rawData.reduce((acc, curveData) => {
     acc[curveData.level] = curveData.statCurves;
     return acc;
-  }, {});
+  }, {} as Record<number, Data.StatCurves>);
 }
 
-function processTalentData(rawData) {
+function processTalentData(rawData: Data.CharacterTalentDataRaw[]) {
   return rawData.reduce((acc, talentDataRaw) => {
-    let talentData = { ...talentDataRaw.talents };
+    const talentDataSetRaw = talentDataRaw.talents;
 
-    talentData.attack = talentData.attack.reduce((curveAcc, curveData) => {
-      curveAcc[curveData.level] = curveData.params;
-      return curveAcc;
-    }, {});
-    talentData.skill = talentData.skill.reduce((curveAcc, curveData) => {
-      curveAcc[curveData.level] = curveData.params;
-      return curveAcc;
-    }, {});
-    talentData.burst = talentData.burst.reduce((curveAcc, curveData) => {
-      curveAcc[curveData.level] = curveData.params;
-      return curveAcc;
-    }, {});
+    let talentData: Data.TalentDataSet = {
+      attack: talentDataSetRaw.attack.reduce((curveAcc, curveData) => {
+        curveAcc[curveData.level] = curveData.params;
+        return curveAcc;
+      }, {} as Data.TalentData),
+      skill: talentDataSetRaw.skill.reduce((curveAcc, curveData) => {
+        curveAcc[curveData.level] = curveData.params;
+        return curveAcc;
+      }, {} as Data.TalentData),
+      burst: talentDataSetRaw.burst.reduce((curveAcc, curveData) => {
+        curveAcc[curveData.level] = curveData.params;
+        return curveAcc;
+      }, {} as Data.TalentData),
+    };
 
     acc[talentDataRaw.characterId] = talentData;
     return acc;
-  }, {});
+  }, {} as Record<string, Data.TalentDataSet>);
 }
 
-function processArtifactSetData(rawData) {
+function processArtifactSetData(rawData: Data.ArtifactSetData[]) {
   return rawData.reduce((acc, setData) => {
     acc[setData.id] = setData;
     return acc;
-  }, {});
+  }, {} as Record<string, Data.ArtifactSetData>);
 }
 
-function processArtifactSetBonusData(rawData) {
+function processArtifactSetBonusData(rawData: Data.ArtifactSetBonusDataRaw[]) {
   return rawData.reduce((acc, setData) => {
     acc[setData.setId] = setData.setBonusSet.reduce((bonusAcc, bonusData) => {
       bonusAcc[bonusData.bonusThreshold] = bonusData;
       return bonusAcc;
-    }, {});
+    }, {} as Record<number, Data.ArtifactSetBonusSet>);
     return acc;
-  }, {});
+  }, {} as Record<string, Data.ArtifactSetBonus>);
 }
 
 // Helper functions for accessing data properties
-function getData(id, dataObj) {
+function getData(id: string, dataObj: Record<string, any>) {
   return dataObj[id];
 }
 
-function getAscensionBonusData(id, dataObj) {
+function getAscensionBonusData(
+  id: string,
+  dataObj: Record<string, Data.AscensionBonus[]>
+) {
   return dataObj[id];
 }
 
-function getStatCurveAt(level, statCurves) {
+function getStatCurveAt(
+  level: number,
+  statCurves: Record<number, Data.StatCurves>
+) {
   return statCurves[level];
 }
 
 // "Public" functions for accessing data properties
-export function getCharacterData(id) {
+export function getCharacterData(id: string): Data.CharacterData {
   return getData(id, characterData);
 }
 
-export function getCharacterAscensionBonusData(id) {
+export function getCharacterAscensionBonusData(id: string) {
   return getAscensionBonusData(id, characterAscensionBonusData);
 }
 
-export function getCharacterStatCurveAt(level) {
+export function getCharacterStatCurveAt(level: number) {
   return getStatCurveAt(level, characterStatCurveData);
 }
 
-export function getWeaponData(id) {
+export function getWeaponData(id: string): Data.WeaponData {
   return getData(id, weaponData);
 }
 
-export function getWeaponAscensionBonusData(id) {
+export function getWeaponAscensionBonusData(id: string) {
   return getAscensionBonusData(id, weaponAscensionBonusData);
 }
 
-export function getWeaponStatCurveAt(level) {
+export function getWeaponStatCurveAt(level: number) {
   return getStatCurveAt(level, weaponStatCurveData);
 }
 
-export function getAscensionBonusAt(level, ascensionBonuses) {
+export function getAscensionBonusAt(
+  level: number,
+  ascensionBonuses: Data.AscensionBonus[]
+) {
   return ascensionBonuses[level];
 }
 
-export function getTalentData(id) {
+export function getTalentData(id: string) {
   return talentData[id];
 }
 
-const emptyTalentParams = Array(19).fill(NaN);
+const emptyTalentParams: number[] = Array(19).fill(NaN);
 
-export function getTalentStatsAt(type, level, talents) {
+export function getTalentStatsAt(
+  type: 'attack' | 'skill' | 'burst',
+  level: number,
+  talents: Data.TalentDataSet
+) {
   const talentStats = talents[type][level];
   if (talentStats !== undefined) {
     return talentStats;
@@ -178,15 +203,15 @@ export function getTalentStatsAt(type, level, talents) {
   }
 }
 
-export function getArtifactSetData(id) {
+export function getArtifactSetData(id: string): Data.ArtifactSetData {
   return getData(id, artifactSetData);
 }
 
-export function getArtifactSetBonusData(id) {
+export function getArtifactSetBonusData(id: string): Data.ArtifactSetBonus {
   return getData(id, artifactSetBonusData);
 }
 
-export function getArtifactSetBonusParams(id, pieces) {
+export function getArtifactSetBonusParams(id: string, pieces: number) {
   const params = getArtifactSetBonusData(id)?.[pieces]?.bonusExtra?.params;
   return params ?? emptyTalentParams;
 }
