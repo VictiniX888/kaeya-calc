@@ -14,21 +14,21 @@ To-do:
 - Character constellations  
 
 ## Development  
-KaeyaCalc is created with Expo/React Native.  
+KaeyaCalc is created with React/Typescript.  
 
 Install dependencies:  
 ```
 npm install
 ```
 
-Run in Expo:  
+Run in development mode:  
 ```
 npm start
 ```
 
 Build:  
 ```
-expo build:web
+npm run build
 ```
 
 ## License  

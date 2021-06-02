@@ -1,6 +1,6 @@
 import { getArtifactSetData, getArtifactSetBonusData } from './Data.js';
 import * as extraBonuses from './ArtifactSetBonus.js';
-import { getOptions } from './option/';
+import { getOptions } from './option';
 
 export default class ArtifactSet {
   constructor(id) {
