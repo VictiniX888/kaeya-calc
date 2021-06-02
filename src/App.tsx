@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import InputColumn from './component/InputColumn';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export type AppState = {
+  characterId: string;
+};
+
+class App extends React.Component<{}, AppState> {
+  state: AppState = {
+    characterId: '',
+  };
+
+  // Not very type-safe
+  setAppState = (key: keyof AppState, value: typeof key) => {
+    this.setState({ [key]: value });
+  };
+
+  render() {
+    return (
+      <div className='App'>
+        <InputColumn appState={this.state} setAppState={this.setAppState} />
+      </div>
+    );
+  }
 }
 
 export default App;
