@@ -5,12 +5,15 @@ import Column from './Column';
 
 type InputColumnProps = {
   appState: AppState;
-  setAppState: (key: keyof AppState, value: any) => void;
+  setAppState: <K extends keyof AppState>(
+    state: Pick<AppState, K>,
+    callback?: () => void
+  ) => void;
 };
 
 class InputColumn extends React.Component<InputColumnProps> {
   setCharacterId = (id: string) => {
-    this.props.setAppState('characterId', id);
+    this.props.setAppState({ characterId: id });
   };
 
   render() {

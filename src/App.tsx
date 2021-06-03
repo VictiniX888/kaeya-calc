@@ -11,9 +11,11 @@ class App extends React.Component<{}, AppState> {
     characterId: '',
   };
 
-  // Not very type-safe
-  setAppState = (key: keyof AppState, value: typeof key) => {
-    this.setState({ [key]: value });
+  setAppState = <K extends keyof AppState>(
+    state: Pick<AppState, K>,
+    callback?: () => void
+  ) => {
+    this.setState(state, callback);
   };
 
   render() {
