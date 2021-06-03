@@ -1,8 +1,16 @@
 import React from 'react';
 
-class Column extends React.Component {
+type ColumnProps = {
+  className?: string;
+};
+
+class Column extends React.Component<ColumnProps> {
   render() {
-    return <div className='column'>{this.props.children}</div>;
+    return (
+      <div className={`column ${this.props.className}`}>
+        {this.props.children}
+      </div>
+    );
   }
 }
 

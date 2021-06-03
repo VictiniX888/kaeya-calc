@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  font-size: 14px;
+
+  height: 100vh;
+
+  background-color: #fff;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-column {
+  padding: 1%;
+
+  border-right-width: 1;
+
+  background-color: #ccc;
+}
+
+.input-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 0.5em;
+
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+.level-input {
+  width: 3em;
+}
+
+.stat-input {
+  width: 4em;
+}
+
+input[type='number'] {
+  padding: 0px;
+  background-color: transparent;
+  border: 0;
+  font-size: 1em;
+  font-family: inherit;
+}
+
+input[type='checkbox'] {
+  margin: 0px;
+}

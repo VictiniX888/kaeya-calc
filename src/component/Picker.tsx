@@ -1,10 +1,12 @@
 import React from 'react';
 
 type PickerProps = {
+  id: string;
   label: string;
   defaultValue: string;
   value?: string;
   onChange?: (value: string) => void;
+  className?: string;
 };
 
 type PickerState = {
@@ -51,9 +53,14 @@ class Picker extends React.Component<PickerProps, PickerState> {
       : this.state.value;
 
     return (
-      <div>
-        <label>{this.props.label}</label>
-        <select value={selectedValue} onChange={this.handleChange}>
+      <div className='input-row'>
+        <label htmlFor={this.props.id}>{this.props.label}</label>
+        <select
+          value={selectedValue}
+          onChange={this.handleChange}
+          className={this.props.className}
+          id={this.props.id}
+        >
           {this.props.children}
         </select>
       </div>

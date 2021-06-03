@@ -24,7 +24,7 @@ class App extends React.Component<{}, AppState> {
 
   render() {
     return (
-      <div className='App'>
+      <div className='container'>
         <InputColumn appState={this.state} setAppState={this.setAppState} />
       </div>
     );

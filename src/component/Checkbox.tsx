@@ -1,10 +1,12 @@
 import React from 'react';
 
 type CheckboxProps = {
+  id: string;
   label: string;
   defaultValue: boolean;
   value?: boolean;
   onChange?: (value: boolean) => void;
+  className?: string;
 };
 
 type CheckboxState = {
@@ -43,9 +45,15 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   render() {
     const value = this.isControlled() ? this.props.value : this.state.value;
     return (
-      <div>
-        <label>{this.props.label}</label>
-        <input type='checkbox' checked={value} onChange={this.handleChange} />
+      <div className='input-row'>
+        <label htmlFor={this.props.id}>{this.props.label}</label>
+        <input
+          type='checkbox'
+          checked={value}
+          onChange={this.handleChange}
+          className={this.props.className}
+          id={this.props.id}
+        />
       </div>
     );
   }

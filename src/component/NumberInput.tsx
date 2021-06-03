@@ -1,10 +1,12 @@
 import React from 'react';
 
 type NumberInputProps = {
+  id: string;
   label: string;
   defaultValue: number;
   value?: number;
   onInput?: (value: number) => void;
+  className?: string;
 };
 
 type NumberInputState = {
@@ -46,9 +48,15 @@ class NumberInput extends React.Component<NumberInputProps, NumberInputState> {
     const displayString = isNaN(value) ? '' : value.toString();
 
     return (
-      <div>
-        <label>{this.props.label}</label>
-        <input type='number' value={displayString} onInput={this.handleInput} />
+      <div className='input-row'>
+        <label htmlFor={this.props.id}>{this.props.label}</label>
+        <input
+          type='number'
+          value={displayString}
+          onInput={this.handleInput}
+          className={this.props.className}
+          id={this.props.id}
+        />
       </div>
     );
   }

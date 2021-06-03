@@ -30,21 +30,24 @@ class InputColumn extends React.Component<InputColumnProps> {
     const appState = this.props.appState;
 
     return (
-      <Column>
+      <Column className='input-column'>
         <CharacterPicker
           characterId={appState.characterId}
           setCharacterId={this.setCharacterId}
         />
 
         <NumberInput
-          label='Level: '
+          id='character-level-input'
+          label='Level:'
           defaultValue={1}
           value={appState.characterLevel}
           onInput={this.setCharacterLevel}
+          className='level-input'
         />
 
         <Checkbox
-          label='Ascended? '
+          id='character-ascension-checkbox'
+          label='Ascended?'
           defaultValue={false}
           value={appState.isCharacterAscended}
           onChange={this.setIsCharacterAscended}
