@@ -4,11 +4,15 @@ import InputColumn from './component/InputColumn';
 
 export type AppState = {
   characterId: string;
+  characterLevel: number;
+  isCharacterAscended: boolean;
 };
 
 class App extends React.Component<{}, AppState> {
   state: AppState = {
     characterId: '',
+    characterLevel: 1,
+    isCharacterAscended: false,
   };
 
   setAppState = <K extends keyof AppState>(
