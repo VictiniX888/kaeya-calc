@@ -9,15 +9,15 @@ type CharacterPickerProps = {
 };
 
 class CharacterPicker extends React.Component<CharacterPickerProps> {
-  onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-    this.props.setCharacterId(selectedValue);
+  onChange = (value: string) => {
+    this.props.setCharacterId(value);
   };
 
   render() {
     return (
       <Picker
         label='Character: '
+        defaultValue=''
         value={this.props.characterId}
         onChange={this.onChange}
       >

@@ -2,8 +2,13 @@ import React from 'react';
 
 type PickerProps = {
   label: string;
+  defaultValue: string;
+  value?: string;
+  onChange?: (value: string) => void;
+};
+
+type PickerState = {
   value: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 type PickerItemProps = {
@@ -11,20 +16,44 @@ type PickerItemProps = {
   value: string;
 };
 
-class Picker extends React.Component<PickerProps> {
-  handleChangeDefault = (e: React.ChangeEvent<HTMLSelectElement>) => {
+class Picker extends React.Component<PickerProps, PickerState> {
+  // Boilerplate for making this an optionally controllable component
+  // https://medium.com/quick-code/writing-ui-components-with-optionally-controllable-state-86e396a6f1ec
+  state: PickerState = {
+    value: this.props.defaultValue,
+  };
+
+  isControlled = () => this.props.value !== undefined;
+
+  onChangeDefault = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     this.setState({ value: selectedValue });
   };
 
-  handleChange = this.props.onChange ?? this.handleChangeDefault;
+  handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+
+    if (this.isControlled()) {
+      if (this.props.onChange !== undefined) {
+        this.props.onChange(selectedValue);
+      }
+    } else {
+      this.setState({ value: selectedValue }, () => {
+        // Callback fn
+        if (this.props.onChange) this.props.onChange(selectedValue);
+      });
+    }
+  };
 
   render() {
-    console.log();
+    const selectedValue = this.isControlled()
+      ? this.props.value
+      : this.state.value;
+
     return (
       <div>
         <label>{this.props.label}</label>
-        <select value={this.props.value} onChange={this.handleChange}>
+        <select value={selectedValue} onChange={this.handleChange}>
           {this.props.children}
         </select>
       </div>
