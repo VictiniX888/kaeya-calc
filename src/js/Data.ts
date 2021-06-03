@@ -10,30 +10,42 @@ import talentDataRaw from '../data/talentdata.json';
 import artifactSetDataRaw from '../data/artifactsetdata.json';
 import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
 
+import propMappingRaw from '../data/propmapping.json';
 import talentDescMappingRaw from '../data/talentdescmapping.json';
 import optionMappingRaw from '../data/optionmapping.json';
 
-export { default as propMapping } from '../data/propmapping.json';
+// Mappings
+export const propMapping = propMappingRaw as Data.PropMapping;
 export const talentDescMapping = talentDescMappingRaw as Data.LanguageMapping;
 export const optionMapping = optionMappingRaw as Data.LanguageMapping;
 
 // Pre-processed data, coverting from arrays to objects (map-like) for faster lookup
-const characterData = processCharacterData(characterDataRaw);
+const characterData = processCharacterData(
+  characterDataRaw as Data.CharacterData[]
+);
 const characterAscensionBonusData = processCharacterAscensionBonusData(
-  characterAscensionBonusDataRaw
+  characterAscensionBonusDataRaw as Data.CharacterAscensionBonusDataRaw[]
 );
 const characterStatCurveData = processCharacterStatCurveData(
-  characterStatCurveDataRaw
+  characterStatCurveDataRaw as Data.StatCurveData[]
 );
-const weaponData = processWeaponData(weaponDataRaw);
+const weaponData = processWeaponData(
+  weaponDataRaw as unknown as Data.WeaponData[]
+);
 const weaponAscensionBonusData = processWeaponAscensionBonusData(
-  weaponAscensionBonusDataRaw
+  weaponAscensionBonusDataRaw as Data.WeaponAscensionBonusDataRaw[]
 );
-const weaponStatCurveData = processWeaponStatCurveData(weaponStatCurveDataRaw);
-const talentData = processTalentData(talentDataRaw);
-const artifactSetData = processArtifactSetData(artifactSetDataRaw);
+const weaponStatCurveData = processWeaponStatCurveData(
+  weaponStatCurveDataRaw as Data.StatCurveData[]
+);
+const talentData = processTalentData(
+  talentDataRaw as Data.CharacterTalentDataRaw[]
+);
+const artifactSetData = processArtifactSetData(
+  artifactSetDataRaw as Data.ArtifactSetData[]
+);
 const artifactSetBonusData = processArtifactSetBonusData(
-  artifactSetBonusDataRaw
+  artifactSetBonusDataRaw as Data.ArtifactSetBonusDataRaw[]
 );
 
 // Pre-processed data, lists
