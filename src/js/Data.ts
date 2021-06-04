@@ -1,4 +1,5 @@
 import type * as Data from '../data/types';
+import type { TalentType } from './talent/types';
 
 import characterDataRaw from '../data/characterdata.json';
 import characterAscensionBonusDataRaw from '../data/characterascensionbonusdata.json';
@@ -203,7 +204,7 @@ export function getTalentData(id: string) {
 const emptyTalentParams: number[] = Array(19).fill(NaN);
 
 export function getTalentStatsAt(
-  type: 'attack' | 'skill' | 'burst',
+  type: TalentType,
   level: number,
   talents: Data.TalentDataSet
 ) {

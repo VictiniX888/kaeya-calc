@@ -1,0 +1,1 @@
+export { getTalentFn } from './TalentUtil';

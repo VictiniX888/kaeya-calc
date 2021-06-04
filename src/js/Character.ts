@@ -7,11 +7,31 @@ import {
   getTalentStatsAt,
 } from './Data.js';
 
-import * as talents from './Talent.js';
+import { getTalentFn } from './talent';
 import { getOptions } from './option';
 
+import type {
+  AscensionBonus,
+  StatCurveMapping,
+  Stats,
+  TalentDataSet,
+} from '../data/types';
+import type DamageModifier from './modifier/DamageModifer.js';
+import type { TalentType } from './talent/types.js';
+
 export default class Character {
-  constructor(id) {
+  id: string;
+  name: string;
+  baseStats: Stats;
+  statCurveMapping: StatCurveMapping;
+  ascensionBonuses: AscensionBonus[];
+  talents: TalentDataSet;
+
+  innateStats?: Stats;
+  level?: number;
+  hasAscended?: boolean;
+
+  constructor(id: string) {
     this.id = id;
 
     const data = getData(id);
@@ -24,16 +44,16 @@ export default class Character {
   }
 
   // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
-  getInnateStatsAt(level, hasAscended) {
+  getInnateStatsAt(level: number, hasAscended: boolean) {
     if (isNaN(level) || level < 1 || level > 90) {
       // Return nulls if level is invalid
       let innateStats;
       if (this.innateStats !== undefined) {
         // Copy all of innateStats' properties to a new object and initialize them to null
         innateStats = Object.keys(this.innateStats).reduce((obj, stat) => {
-          obj[stat] = null;
+          obj[stat] = NaN;
           return obj;
-        }, {});
+        }, {} as Stats);
       } else {
         innateStats = {};
       }
@@ -101,17 +121,20 @@ export default class Character {
   }
 
   // Return an Object with description and damage properties
-  getTalentDamageAt({ type, talentLevel, totalStats, modifier }) {
-    const params = getTalentStatsAt(
-      type.toLowerCase(),
-      talentLevel,
-      this.talents
-    );
+  getTalentDamageAt({
+    type,
+    talentLevel,
+    totalStats,
+    modifier,
+  }: {
+    type: TalentType;
+    talentLevel: number;
+    totalStats: Stats;
+    modifier: DamageModifier;
+  }) {
+    const params = getTalentStatsAt(type, talentLevel, this.talents);
 
-    let damageFn = talents[this.id + type];
-    if (damageFn === undefined) {
-      damageFn = talents['defaultTalent'];
-    }
+    let damageFn = getTalentFn(this.id, type);
 
     let damage = damageFn({
       params,

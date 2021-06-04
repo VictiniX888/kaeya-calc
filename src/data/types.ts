@@ -1,9 +1,9 @@
 // Type definitions
-type Stats = Record<string, number>;
-type StatCurveMapping = Record<string, string>;
+export type Stats = Record<string, number>;
+export type StatCurveMapping = Record<string, string>;
 export type AscensionBonus = Record<string, number>;
 export type StatCurves = Record<string, number>;
-type TalentParams = number[];
+export type TalentParams = number[];
 export type TalentData = Record<number, TalentParams>;
 export type ArtifactSetBonus = Record<number, ArtifactSetBonusSet>;
 
