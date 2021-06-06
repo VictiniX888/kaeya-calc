@@ -1,5 +1,5 @@
-import CharacterOption from './CharacterOption.js';
-import { getTalentStatsAt, getTalentData } from '../../Data.js';
+import CharacterOption from './CharacterOption';
+import { getTalentStatsAt, getTalentData } from '../../Data';
 
 const hutaoOptionSkill = new CharacterOption({
   id: 'paramitaPapilioState',

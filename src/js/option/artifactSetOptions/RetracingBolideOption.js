@@ -1,5 +1,5 @@
-import ArtifactSetOption from './ArtifactSetOption.js';
-import { getArtifactSetBonusParams } from '../../Data.js';
+import ArtifactSetOption from './ArtifactSetOption';
+import { getArtifactSetBonusParams } from '../../Data';
 
 const retracingBolide4PcOption = new ArtifactSetOption({
   id: 'retracingBolide4Pc',

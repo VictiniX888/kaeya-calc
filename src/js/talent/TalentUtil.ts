@@ -1,4 +1,4 @@
-import { Stats, TalentParams } from '../../data/types.js';
+import { Stats, TalentParams } from '../../data/types';
 import {
   AttackType,
   Element,
@@ -6,9 +6,9 @@ import {
   TalentType,
   TalentValue,
 } from './types';
-import Resistance from '../Resistance.js';
-import DamageModifier from '../modifier/DamageModifer.js';
-import { talents } from './Talent.js';
+import Resistance from '../Resistance';
+import DamageModifier from '../modifier/DamageModifer';
+import { talents } from './Talent';
 
 // Function to get specified talent
 export function getTalentFn(characterId: string, type: TalentType) {

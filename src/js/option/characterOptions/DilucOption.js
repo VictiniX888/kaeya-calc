@@ -1,4 +1,4 @@
-import CharacterOption from './CharacterOption.js';
+import CharacterOption from './CharacterOption';
 
 const dilucOptionInfusion = new CharacterOption({
   id: 'infusionPyro',

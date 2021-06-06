@@ -1,4 +1,4 @@
-import CharacterOption from './CharacterOption.js';
+import CharacterOption from './CharacterOption';
 
 const chongyunOptionInfusion = new CharacterOption({
   id: 'infusionCryo',

@@ -1,5 +1,5 @@
-import ArtifactSetOption from './ArtifactSetOption.js';
-import { getArtifactSetBonusData } from '../../Data.js';
+import ArtifactSetOption from './ArtifactSetOption';
+import { getArtifactSetBonusData } from '../../Data';
 
 const crimsonWitch4PcOption = new ArtifactSetOption({
   id: 'crimsonWitch4Pc',

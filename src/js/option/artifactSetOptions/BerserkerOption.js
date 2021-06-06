@@ -1,5 +1,5 @@
-import ArtifactSetOption from './ArtifactSetOption.js';
-import { getArtifactSetBonusParams } from '../../Data.js';
+import ArtifactSetOption from './ArtifactSetOption';
+import { getArtifactSetBonusParams } from '../../Data';
 
 const berserker4PcOption = new ArtifactSetOption({
   id: 'berserker4Pc',

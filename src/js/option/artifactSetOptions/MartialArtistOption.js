@@ -1,5 +1,5 @@
-import ArtifactSetOption from './ArtifactSetOption.js';
-import { getArtifactSetBonusParams } from '../../Data.js';
+import ArtifactSetOption from './ArtifactSetOption';
+import { getArtifactSetBonusParams } from '../../Data';
 
 const martialArtist4PcOption = new ArtifactSetOption({
   id: 'martialArtist4Pc',
