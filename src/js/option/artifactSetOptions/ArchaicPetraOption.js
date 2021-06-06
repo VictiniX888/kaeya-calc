@@ -16,4 +16,5 @@ const archaicPetra4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [archaicPetra4PcOption];
+const archaicPetraOptions = [archaicPetra4PcOption];
+export default archaicPetraOptions;

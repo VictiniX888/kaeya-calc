@@ -12,4 +12,5 @@ const dilucOptionInfusion = new CharacterOption({
   },
 });
 
-export default [dilucOptionInfusion];
+const dilucOptions = [dilucOptionInfusion];
+export default dilucOptions;

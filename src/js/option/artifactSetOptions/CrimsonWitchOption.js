@@ -19,4 +19,5 @@ const crimsonWitch4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [crimsonWitch4PcOption];
+const crimsonWitchOptions = [crimsonWitch4PcOption];
+export default crimsonWitchOptions;

@@ -15,4 +15,5 @@ const bloodstainedChivalry4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [bloodstainedChivalry4PcOption];
+const bloodstainedChivalryOptions = [bloodstainedChivalry4PcOption];
+export default bloodstainedChivalryOptions;

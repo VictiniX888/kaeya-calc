@@ -21,4 +21,5 @@ const paleFlame4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [paleFlame4PcOption];
+const paleFlameOptions = [paleFlame4PcOption];
+export default paleFlameOptions;

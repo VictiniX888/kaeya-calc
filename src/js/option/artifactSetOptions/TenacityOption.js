@@ -16,4 +16,5 @@ const tenacity4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [tenacity4PcOption];
+const tenacityOptions = [tenacity4PcOption];
+export default tenacityOptions;

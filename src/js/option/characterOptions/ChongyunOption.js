@@ -12,4 +12,5 @@ const chongyunOptionInfusion = new CharacterOption({
   },
 });
 
-export default [chongyunOptionInfusion];
+const chongyunOptions = [chongyunOptionInfusion];
+export default chongyunOptions;

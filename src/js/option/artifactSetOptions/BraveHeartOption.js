@@ -15,4 +15,5 @@ const braveHeart4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [braveHeart4PcOption];
+const braveHeartOptions = [braveHeart4PcOption];
+export default braveHeartOptions;

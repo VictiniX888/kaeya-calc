@@ -29,4 +29,5 @@ const noelleOptionBurst = new CharacterOption({
   },
 });
 
-export default [noelleOptionBurst];
+const noelleOptions = [noelleOptionBurst];
+export default noelleOptions;

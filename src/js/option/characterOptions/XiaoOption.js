@@ -27,4 +27,5 @@ const xiaoOptionBurst = new CharacterOption({
   },
 });
 
-export default [xiaoOptionBurst];
+const xiaoOptions = [xiaoOptionBurst];
+export default xiaoOptions;

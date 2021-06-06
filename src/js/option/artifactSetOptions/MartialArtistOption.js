@@ -16,4 +16,5 @@ const martialArtist4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [martialArtist4PcOption];
+const martialArtistOptions = [martialArtist4PcOption];
+export default martialArtistOptions;

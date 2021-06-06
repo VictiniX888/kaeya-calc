@@ -15,4 +15,5 @@ const berserker4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [berserker4PcOption];
+const berserkerOptions = [berserker4PcOption];
+export default berserkerOptions;

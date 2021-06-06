@@ -29,4 +29,8 @@ const blizzardStrayer4PcFrozenOption = new ArtifactSetOption({
   },
 });
 
-export default [blizzardStrayer4PcCryoOption, blizzardStrayer4PcFrozenOption];
+const blizzardStrayerOptions = [
+  blizzardStrayer4PcCryoOption,
+  blizzardStrayer4PcFrozenOption,
+];
+export default blizzardStrayerOptions;

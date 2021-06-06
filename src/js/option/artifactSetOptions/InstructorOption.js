@@ -15,4 +15,5 @@ const instructor4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [instructor4PcOption];
+const instructorOptions = [instructor4PcOption];
+export default instructorOptions;

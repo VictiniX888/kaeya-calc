@@ -16,4 +16,5 @@ const heartOfDepth4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [heartOfDepth4PcOption];
+const heartOfDepthOptions = [heartOfDepth4PcOption];
+export default heartOfDepthOptions;

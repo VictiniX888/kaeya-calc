@@ -15,4 +15,5 @@ const maidenBeloved4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [maidenBeloved4PcOption];
+const maidenBelovedOptions = [maidenBeloved4PcOption];
+export default maidenBelovedOptions;

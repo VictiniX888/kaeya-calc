@@ -15,4 +15,5 @@ const noblesseOblige4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [noblesseOblige4PcOption];
+const noblesseObligeOptions = [noblesseOblige4PcOption];
+export default noblesseObligeOptions;

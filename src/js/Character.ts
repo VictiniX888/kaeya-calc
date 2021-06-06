@@ -115,17 +115,17 @@ export default class Character {
 
     // Calculate stats from character ascension
     let ascensionLevel;
-    if (level > 80 || (level == 80 && hasAscended)) {
+    if (level > 80 || (level === 80 && hasAscended)) {
       ascensionLevel = 6;
-    } else if (level > 70 || (level == 70 && hasAscended)) {
+    } else if (level > 70 || (level === 70 && hasAscended)) {
       ascensionLevel = 5;
-    } else if (level > 60 || (level == 60 && hasAscended)) {
+    } else if (level > 60 || (level === 60 && hasAscended)) {
       ascensionLevel = 4;
-    } else if (level > 50 || (level == 50 && hasAscended)) {
+    } else if (level > 50 || (level === 50 && hasAscended)) {
       ascensionLevel = 3;
-    } else if (level > 40 || (level == 40 && hasAscended)) {
+    } else if (level > 40 || (level === 40 && hasAscended)) {
       ascensionLevel = 2;
-    } else if (level > 20 || (level == 20 && hasAscended)) {
+    } else if (level > 20 || (level === 20 && hasAscended)) {
       ascensionLevel = 1;
     } else {
       ascensionLevel = 0;

@@ -18,4 +18,5 @@ const yanfeiOptionBurst = new CharacterOption({
   },
 });
 
-export default [yanfeiOptionBurst];
+const yanfeiOptions = [yanfeiOptionBurst];
+export default yanfeiOptions;

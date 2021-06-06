@@ -15,4 +15,5 @@ const thundersoother4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [thundersoother4PcOption];
+const thundersootherOptions = [thundersoother4PcOption];
+export default thundersootherOptions;

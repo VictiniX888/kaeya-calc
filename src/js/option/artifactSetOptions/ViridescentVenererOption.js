@@ -14,4 +14,5 @@ const viridescentVenerer4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [viridescentVenerer4PcOption];
+const viridescentVenererOptions = [viridescentVenerer4PcOption];
+export default viridescentVenererOptions;

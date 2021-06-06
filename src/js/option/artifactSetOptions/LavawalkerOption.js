@@ -15,4 +15,5 @@ const lavawalker4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [lavawalker4PcOption];
+const lavawalkerOptions = [lavawalker4PcOption];
+export default lavawalkerOptions;

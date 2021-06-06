@@ -16,4 +16,5 @@ const retracingBolide4PcOption = new ArtifactSetOption({
   },
 });
 
-export default [retracingBolide4PcOption];
+const retracingBolideOptions = [retracingBolide4PcOption];
+export default retracingBolideOptions;

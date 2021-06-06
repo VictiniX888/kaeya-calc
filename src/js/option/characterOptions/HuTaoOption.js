@@ -24,4 +24,5 @@ const hutaoOptionSkill = new CharacterOption({
   },
 });
 
-export default [hutaoOptionSkill];
+const hutaoOptions = [hutaoOptionSkill];
+export default hutaoOptions;
