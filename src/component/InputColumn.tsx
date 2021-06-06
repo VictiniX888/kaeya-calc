@@ -15,15 +15,21 @@ type InputColumnProps = {
 
 class InputColumn extends React.Component<InputColumnProps> {
   setCharacterId = (id: string) => {
-    this.props.setAppState({ characterId: id });
+    const character = this.props.appState.character;
+    character.id = id;
+    this.props.setAppState({ character });
   };
 
   setCharacterLevel = (level: number) => {
-    this.props.setAppState({ characterLevel: level });
+    const character = this.props.appState.character;
+    character.level = level;
+    this.props.setAppState({ character });
   };
 
   setIsCharacterAscended = (isAscended: boolean) => {
-    this.props.setAppState({ isCharacterAscended: isAscended });
+    const character = this.props.appState.character;
+    character.hasAscended = isAscended;
+    this.props.setAppState({ character });
   };
 
   render() {
@@ -32,7 +38,7 @@ class InputColumn extends React.Component<InputColumnProps> {
     return (
       <Column className='input-column'>
         <CharacterPicker
-          characterId={appState.characterId}
+          characterId={appState.character.id}
           setCharacterId={this.setCharacterId}
         />
 
@@ -40,7 +46,7 @@ class InputColumn extends React.Component<InputColumnProps> {
           id='character-level-input'
           label='Level:'
           defaultValue={1}
-          value={appState.characterLevel}
+          value={appState.character.level}
           onInput={this.setCharacterLevel}
           className='level-input'
         />
@@ -49,7 +55,7 @@ class InputColumn extends React.Component<InputColumnProps> {
           id='character-ascension-checkbox'
           label='Ascended?'
           defaultValue={false}
-          value={appState.isCharacterAscended}
+          value={appState.character.hasAscended}
           onChange={this.setIsCharacterAscended}
         />
       </Column>

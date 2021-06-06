@@ -5,7 +5,7 @@ import {
   getAscensionBonusAt,
   getTalentData,
   getTalentStatsAt,
-} from './Data.js';
+} from './Data';
 
 import { getTalentFn } from './talent';
 import { getOptions } from './option';
@@ -16,35 +16,75 @@ import type {
   Stats,
   TalentDataSet,
 } from '../data/types';
-import type DamageModifier from './modifier/DamageModifer.js';
-import type { TalentType } from './talent/types.js';
+import type DamageModifier from './modifier/DamageModifer';
+import type { TalentType } from './talent/types';
 
 export default class Character {
-  id: string;
-  name: string;
-  baseStats: Stats;
-  statCurveMapping: StatCurveMapping;
-  ascensionBonuses: AscensionBonus[];
-  talents: TalentDataSet;
+  constructor(id: string, level: number, hasAscended: boolean) {
+    this._level = level;
+    this._hasAscended = hasAscended;
 
-  innateStats?: Stats;
-  level?: number;
-  hasAscended?: boolean;
-
-  constructor(id: string) {
     this.id = id;
-
-    const data = getData(id);
-    this.name = data.name;
-    this.baseStats = data.baseStats;
-    this.statCurveMapping = data.statCurves;
-    this.ascensionBonuses = getAscensionBonusData(id);
-
-    this.talents = getTalentData(id);
   }
+
+  private _id: string = '';
+  get id(): string {
+    return this._id;
+  }
+  set id(value: string) {
+    // Essentially replaces the constructor
+    this._id = value;
+
+    const data = getData(value);
+    if (data !== undefined) {
+      this.name = data.name;
+      this.baseStats = data.baseStats;
+      this.statCurveMapping = data.statCurves;
+      this.ascensionBonuses = getAscensionBonusData(value);
+
+      this.talents = getTalentData(value);
+    }
+
+    this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
+  }
+
+  name?: string;
+  baseStats?: Stats;
+  statCurveMapping?: StatCurveMapping;
+  ascensionBonuses?: AscensionBonus[];
+  talents?: TalentDataSet;
+
+  private _level: number = 1;
+  get level(): number {
+    return this._level;
+  }
+  set level(value: number) {
+    this._level = value;
+    this.innateStats = this.getInnateStatsAt(value, this.hasAscended);
+  }
+
+  private _hasAscended: boolean = false;
+  get hasAscended() {
+    return this._hasAscended;
+  }
+  set hasAscended(value: boolean) {
+    this._hasAscended = value;
+    this.innateStats = this.getInnateStatsAt(this.level, value);
+  }
+
+  innateStats: Stats = {};
 
   // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
   getInnateStatsAt(level: number, hasAscended: boolean) {
+    if (
+      this.baseStats === undefined ||
+      this.statCurveMapping === undefined ||
+      this.ascensionBonuses === undefined
+    ) {
+      // Character is (likely) not defined/stats not found
+      return {};
+    }
+
     if (isNaN(level) || level < 1 || level > 90) {
       // Return nulls if level is invalid
       let innateStats;
@@ -58,66 +98,54 @@ export default class Character {
         innateStats = {};
       }
 
-      this.innateStats = innateStats;
-      this.level = level;
-      this.hasAscended = hasAscended;
-
       return innateStats;
     }
-    // If getStatsAt has not been called before, this.level, this.hasAscended, and this.stats will be undefined
-    else if (level === this.level && hasAscended === this.hasAscended) {
-      // Don't recalculate stats if it has been calculated with the same parameters before
-      return this.innateStats;
+
+    // ELSE
+    // Initialize stats with character level 1 base stats
+    let innateStats = { ...this.baseStats };
+
+    let charStatCurves = getStatCurveAt(level);
+
+    // Calculate stats from character level
+    Object.entries(this.statCurveMapping).forEach(([stat, curve]) => {
+      let multiplier = charStatCurves[curve];
+      innateStats[stat] *= multiplier;
+    });
+
+    // Calculate stats from character ascension
+    let ascensionLevel;
+    if (level > 80 || (level == 80 && hasAscended)) {
+      ascensionLevel = 6;
+    } else if (level > 70 || (level == 70 && hasAscended)) {
+      ascensionLevel = 5;
+    } else if (level > 60 || (level == 60 && hasAscended)) {
+      ascensionLevel = 4;
+    } else if (level > 50 || (level == 50 && hasAscended)) {
+      ascensionLevel = 3;
+    } else if (level > 40 || (level == 40 && hasAscended)) {
+      ascensionLevel = 2;
+    } else if (level > 20 || (level == 20 && hasAscended)) {
+      ascensionLevel = 1;
     } else {
-      // Initialize stats with character level 1 base stats
-      let innateStats = { ...this.baseStats };
-
-      let charStatCurves = getStatCurveAt(level);
-
-      // Calculate stats from character level
-      Object.entries(this.statCurveMapping).forEach(([stat, curve]) => {
-        let multiplier = charStatCurves[curve];
-        innateStats[stat] *= multiplier;
-      });
-
-      // Calculate stats from character ascension
-      let ascensionLevel;
-      if (level > 80 || (level == 80 && hasAscended)) {
-        ascensionLevel = 6;
-      } else if (level > 70 || (level == 70 && hasAscended)) {
-        ascensionLevel = 5;
-      } else if (level > 60 || (level == 60 && hasAscended)) {
-        ascensionLevel = 4;
-      } else if (level > 50 || (level == 50 && hasAscended)) {
-        ascensionLevel = 3;
-      } else if (level > 40 || (level == 40 && hasAscended)) {
-        ascensionLevel = 2;
-      } else if (level > 20 || (level == 20 && hasAscended)) {
-        ascensionLevel = 1;
-      } else {
-        ascensionLevel = 0;
-      }
-      let ascensionBonuses = getAscensionBonusAt(
-        ascensionLevel,
-        this.ascensionBonuses
-      );
-
-      if (ascensionBonuses !== undefined) {
-        Object.entries(ascensionBonuses).forEach(([stat, bonus]) => {
-          if (stat in innateStats) {
-            innateStats[stat] += bonus;
-          } else {
-            innateStats[stat] = bonus;
-          }
-        });
-      }
-
-      this.innateStats = innateStats;
-      this.level = level;
-      this.hasAscended = hasAscended;
-
-      return innateStats;
+      ascensionLevel = 0;
     }
+    let ascensionBonuses = getAscensionBonusAt(
+      ascensionLevel,
+      this.ascensionBonuses
+    );
+
+    if (ascensionBonuses !== undefined) {
+      Object.entries(ascensionBonuses).forEach(([stat, bonus]) => {
+        if (stat in innateStats) {
+          innateStats[stat] += bonus;
+        } else {
+          innateStats[stat] = bonus;
+        }
+      });
+    }
+
+    return innateStats;
   }
 
   // Return an Object with description and damage properties
@@ -132,6 +160,10 @@ export default class Character {
     totalStats: Stats;
     modifier: DamageModifier;
   }) {
+    if (this.talents === undefined) {
+      return [];
+    }
+
     const params = getTalentStatsAt(type, talentLevel, this.talents);
 
     let damageFn = getTalentFn(this.id, type);
