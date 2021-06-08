@@ -13,12 +13,13 @@
 .column {
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #000;
 }
 
 .input-column {
-  padding: 1%;
+  padding: 0.8em;
 
-  border-right-width: 1;
+  border-right-width: 1px;
 
   background-color: #ccc;
 }
@@ -51,4 +52,30 @@ input[type='number'] {
 
 input[type='checkbox'] {
   margin: 0px;
+}
+
+.stat-column {
+  background-color: #eee;
+}
+
+.result-block {
+  display: flex;
+  flex-direction: column;
+
+  padding: 0.8em;
+  border-bottom: 1px solid #000;
+}
+
+.result-block > h2 {
+  font-size: 1.5em;
+  font-weight: 200;
+
+  margin-top: 0;
+  margin-bottom: 0.17em;
+}
+
+.result-block > p,
+.result-block > img {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
 }

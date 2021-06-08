@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import InputColumn from './component/InputColumn';
+import StatColumn from './component/StatColumn';
 import Character from './js/Character';
 
 export type AppState = {
@@ -23,6 +24,7 @@ class App extends React.Component<{}, AppState> {
     return (
       <div className='container'>
         <InputColumn appState={this.state} setAppState={this.setAppState} />
+        <StatColumn appState={this.state} />
       </div>
     );
   }
