@@ -90,7 +90,7 @@ export default class Character {
     }
 
     if (isNaN(level) || level < 1 || level > 90) {
-      // Return nulls if level is invalid
+      // Return NaNs if level is invalid
       let innateStats;
       if (this.innateStats !== undefined) {
         // Copy all of innateStats' properties to a new object and initialize them to null

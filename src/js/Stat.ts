@@ -3,7 +3,7 @@ import Artifact from './artifact/Artifact';
 import Character from './Character';
 import { talentDescMapping, optionMapping } from './Data';
 import CharacterOption from './option/characterOptions/CharacterOption';
-import Weapon from './Weapon';
+import Weapon from './weapon/Weapon';
 
 // Returns the string to display as the value of a stat
 export function getStatDisplayValue(value: number, isPercentage: boolean) {
