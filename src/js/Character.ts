@@ -74,6 +74,10 @@ export default class Character {
 
   innateStats: Stats = {};
 
+  isDefined() {
+    return this.id !== '';
+  }
+
   // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
   getInnateStatsAt(level: number, hasAscended: boolean) {
     if (

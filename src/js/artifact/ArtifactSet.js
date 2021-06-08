@@ -1,5 +1,5 @@
-import { getArtifactSetData, getArtifactSetBonusData } from './Data.js';
-import * as extraBonuses from './ArtifactSetBonus.js';
+import { getArtifactSetData, getArtifactSetBonusData } from './Data';
+import * as extraBonuses from './ArtifactSetBonus';
 import { getOptions } from './option';
 
 export default class ArtifactSet {

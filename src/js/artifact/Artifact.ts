@@ -1,51 +1,60 @@
-import * as statUtils from './Stat.js';
+import { Stats } from '../../data/types';
+import * as statUtils from '../Stat';
+import type { ArtifactType, InputStat } from './types';
 
 export default class Artifact {
-  mainStat = {
-    stat: 0,
+  type: ArtifactType;
+
+  mainStat: InputStat = {
+    stat: '',
     rawValue: NaN,
     value: NaN,
   };
 
-  subStats = [
+  subStats: InputStat[] = [
     {
-      stat: 0,
+      stat: '',
       rawValue: NaN,
       value: NaN,
     },
     {
-      stat: 0,
+      stat: '',
       rawValue: NaN,
       value: NaN,
     },
     {
-      stat: 0,
+      stat: '',
       rawValue: NaN,
       value: NaN,
     },
     {
-      stat: 0,
+      stat: '',
       rawValue: NaN,
       value: NaN,
     },
   ];
 
-  constructor(type) {
+  constructor(type: ArtifactType) {
     this.type = type;
   }
 
   // Can be called with one of the two of stat and value (the other will be undefined)
-  setStat(statObj, stat, value, isPercentage = false) {
-    if (stat == undefined && value != undefined) {
+  setStat(
+    statObj: InputStat,
+    stat: string,
+    value: number,
+    isPercentage = false
+  ) {
+    if (stat === undefined && value !== undefined) {
       statObj.rawValue = value;
       statObj.value = statUtils.convertStatValue(value, isPercentage);
-    } else if (stat != undefined && value == undefined) {
+    } else if (stat !== undefined && value === undefined) {
       statObj.stat = stat;
       statObj.value = statUtils.convertStatValue(
         statObj.rawValue,
         isPercentage
       );
-    } else if (stat != undefined && value != undefined) {
+    } else if (stat !== undefined && value !== undefined) {
       statObj.stat = stat;
       statObj.rawValue = value;
       statObj.value = statUtils.convertStatValue(value, isPercentage);
@@ -65,22 +74,22 @@ export default class Artifact {
 
   // Returns object containing stat: value mapping, including both main stat and substats
   getStats() {
-    let stats = {};
+    let stats: Stats = {};
 
-    if (this.mainStat.stat != 0) {
+    if (this.mainStat.stat !== '') {
       if (!isNaN(this.mainStat.value)) {
         stats[this.mainStat.stat] = this.mainStat.value;
       } else {
-        stats[this.mainStat.stat] = null;
+        stats[this.mainStat.stat] = NaN;
       }
     }
 
     this.subStats.forEach((subStat) => {
-      if (subStat.stat != 0) {
+      if (subStat.stat !== '') {
         if (!isNaN(subStat.value)) {
           stats[subStat.stat] = subStat.value;
         } else {
-          stats[subStat.stat] = null;
+          stats[subStat.stat] = NaN;
         }
       }
     });

@@ -7,7 +7,7 @@ export type TalentParams = number[];
 export type TalentData = Record<number, TalentParams>;
 export type ArtifactSetBonus = Record<number, ArtifactSetBonusSet>;
 
-interface Stat {
+export interface Stat {
   stat: string;
   value: number;
 }
