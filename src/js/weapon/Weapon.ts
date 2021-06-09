@@ -5,10 +5,13 @@ import {
   getWeaponStatCurveAt as getStatCurveAt,
   getAscensionBonusAt,
 } from '../Data';
-import { WeaponType } from './types';
+import type { WeaponType } from './types';
 
 export default class Weapon {
-  constructor(id: string) {
+  constructor(id: string, level: number, hasAscended: boolean) {
+    this._weaponLevel = level;
+    this._hasAscended = hasAscended;
+
     this.id = id;
   }
 
@@ -114,21 +117,21 @@ export default class Weapon {
     // Only 3-star and above weapons can be ascended beyond level 70
     if (
       this.rank > 2 &&
-      (weaponLevel > 80 || (weaponLevel == 80 && hasAscended))
+      (weaponLevel > 80 || (weaponLevel === 80 && hasAscended))
     ) {
       ascensionLevel = 6;
     } else if (
       this.rank > 2 &&
-      (weaponLevel > 70 || (weaponLevel == 70 && hasAscended))
+      (weaponLevel > 70 || (weaponLevel === 70 && hasAscended))
     ) {
       ascensionLevel = 5;
-    } else if (weaponLevel > 60 || (weaponLevel == 60 && hasAscended)) {
+    } else if (weaponLevel > 60 || (weaponLevel === 60 && hasAscended)) {
       ascensionLevel = 4;
-    } else if (weaponLevel > 50 || (weaponLevel == 50 && hasAscended)) {
+    } else if (weaponLevel > 50 || (weaponLevel === 50 && hasAscended)) {
       ascensionLevel = 3;
-    } else if (weaponLevel > 40 || (weaponLevel == 40 && hasAscended)) {
+    } else if (weaponLevel > 40 || (weaponLevel === 40 && hasAscended)) {
       ascensionLevel = 2;
-    } else if (weaponLevel > 20 || (weaponLevel == 20 && hasAscended)) {
+    } else if (weaponLevel > 20 || (weaponLevel === 20 && hasAscended)) {
       ascensionLevel = 1;
     } else {
       ascensionLevel = 0;

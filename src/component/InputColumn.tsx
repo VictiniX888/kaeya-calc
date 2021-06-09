@@ -4,6 +4,7 @@ import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
 import Column from './Column';
 import NumberInput from './NumberInput';
+import WeaponPicker from './WeaponPicker';
 
 type InputColumnProps = {
   appState: AppState;
@@ -32,6 +33,24 @@ class InputColumn extends React.Component<InputColumnProps> {
     this.props.setAppState({ character });
   };
 
+  setWeaponId = (id: string) => {
+    const weapon = this.props.appState.weapon;
+    weapon.id = id;
+    this.props.setAppState({ weapon });
+  };
+
+  setWeaponLevel = (level: number) => {
+    const weapon = this.props.appState.weapon;
+    weapon.weaponLevel = level;
+    this.props.setAppState({ weapon });
+  };
+
+  setIsWeaponAscended = (isAscended: boolean) => {
+    const weapon = this.props.appState.weapon;
+    weapon.hasAscended = isAscended;
+    this.props.setAppState({ weapon });
+  };
+
   render() {
     const appState = this.props.appState;
 
@@ -57,6 +76,30 @@ class InputColumn extends React.Component<InputColumnProps> {
           defaultValue={false}
           value={appState.character.hasAscended}
           onChange={this.setIsCharacterAscended}
+        />
+
+        <br />
+
+        <WeaponPicker
+          weaponId={appState.weapon.id}
+          setWeaponId={this.setWeaponId}
+        />
+
+        <NumberInput
+          id='weapon-level-input'
+          label='Level:'
+          defaultValue={1}
+          value={appState.weapon.weaponLevel}
+          onInput={this.setWeaponLevel}
+          className='level-input'
+        />
+
+        <Checkbox
+          id='weapon-ascension-checkbox'
+          label='Ascended?'
+          defaultValue={false}
+          value={appState.weapon.hasAscended}
+          onChange={this.setIsWeaponAscended}
         />
       </Column>
     );

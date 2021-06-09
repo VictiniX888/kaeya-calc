@@ -16,7 +16,7 @@ class CharacterPicker extends React.Component<CharacterPickerProps> {
   render() {
     return (
       <Picker
-        id='character=picker'
+        id='character-picker'
         label='Character:'
         defaultValue=''
         value={this.props.characterId}
