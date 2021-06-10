@@ -1,48 +1,44 @@
 import { Stats } from '../../data/types';
-import * as statUtils from '../Stat';
-import type { ArtifactType, InputStat } from './types';
+import { ArtifactType, InputStat } from './types';
 
 export default class Artifact {
   type: ArtifactType;
 
-  mainStat: InputStat = {
-    stat: '',
-    rawValue: NaN,
-    value: NaN,
-  };
+  mainStat: InputStat = new InputStat();
 
   subStats: InputStat[] = [
-    {
-      stat: '',
-      rawValue: NaN,
-      value: NaN,
-    },
-    {
-      stat: '',
-      rawValue: NaN,
-      value: NaN,
-    },
-    {
-      stat: '',
-      rawValue: NaN,
-      value: NaN,
-    },
-    {
-      stat: '',
-      rawValue: NaN,
-      value: NaN,
-    },
+    new InputStat(),
+    new InputStat(),
+    new InputStat(),
+    new InputStat(),
   ];
 
   constructor(type: ArtifactType) {
     this.type = type;
   }
 
+  setMainStatProp(prop: string) {
+    this.mainStat.setProp(prop);
+  }
+
+  setMainStatValue(value: number) {
+    this.mainStat.setValue(value);
+  }
+
+  setSubStatProp(i: number, prop: string) {
+    this.subStats[i].setProp(prop);
+  }
+
+  setSubStatValue(i: number, value: number) {
+    this.subStats[i].setValue(value);
+  }
+
+  /*
   // Can be called with one of the two of stat and value (the other will be undefined)
   setStat(
     statObj: InputStat,
-    stat: string,
-    value: number,
+    stat?: string,
+    value?: number,
     isPercentage = false
   ) {
     if (stat === undefined && value !== undefined) {
@@ -61,16 +57,15 @@ export default class Artifact {
     }
   }
 
-  /*
-    setMainStat(stat, value, isPercentage = false) {
-        this.setStat(this.mainStat, stat, value, isPercentage);
-    }
+  setMainStat(stat, value, isPercentage = false) {
+      this.setStat(this.mainStat, stat, value, isPercentage);
+  }
 
-    // Set substat in a spefiic position
-    setSubStat(pos, stat, value, isPercentage = false) {
-        this.setStat(this.subStats[pos], stat, value, isPercentage);
-    }
-    */
+  // Set substat in a spefiic position
+  setSubStat(pos, stat, value, isPercentage = false) {
+      this.setStat(this.subStats[pos], stat, value, isPercentage);
+  }
+  */
 
   // Returns object containing stat: value mapping, including both main stat and substats
   getStats() {
@@ -99,11 +94,11 @@ export default class Artifact {
 }
 
 export const mainStatProps = {
-  Flower: ['flatHp'],
+  flower: ['flatHp'],
 
-  Feather: ['flatAtk'],
+  feather: ['flatAtk'],
 
-  Sands: [
+  sands: [
     'hpBonus',
     'atkBonus',
     'defBonus',
@@ -111,7 +106,7 @@ export const mainStatProps = {
     'energyRecharge',
   ],
 
-  Goblet: [
+  goblet: [
     'hpBonus',
     'atkBonus',
     'defBonus',
@@ -125,7 +120,7 @@ export const mainStatProps = {
     'physicalDmgBonus',
   ],
 
-  Circlet: [
+  circlet: [
     'hpBonus',
     'atkBonus',
     'defBonus',

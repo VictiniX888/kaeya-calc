@@ -6,6 +6,7 @@ type NumberInputProps = {
   defaultValue: number;
   value?: number;
   onInput?: (value: number) => void;
+  isLabelShown?: boolean;
   className?: string;
 };
 
@@ -22,13 +23,19 @@ class NumberInput extends React.Component<NumberInputProps, NumberInputState> {
 
   isControlled = () => this.props.value !== undefined;
 
+  isLabelShown = () => this.props.isLabelShown ?? true;
+
   onChangeDefault = (e: React.FormEvent<HTMLInputElement>) => {
     const value = parseInt(e.currentTarget.value);
     this.setState({ value });
   };
 
+  parseInput = (value: string) => {
+    return Number(value);
+  };
+
   handleInput = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = parseInt(e.currentTarget.value);
+    const value = this.parseInput(e.currentTarget.value);
 
     if (this.isControlled()) {
       if (this.props.onInput !== undefined) {
@@ -48,8 +55,13 @@ class NumberInput extends React.Component<NumberInputProps, NumberInputState> {
     const displayString = isNaN(value) ? '' : value.toString();
 
     return (
-      <div className='input-row'>
-        <label htmlFor={this.props.id}>{this.props.label}</label>
+      <>
+        <label
+          htmlFor={this.props.id}
+          className={this.isLabelShown() ? '' : 'hidden'}
+        >
+          {this.props.label}
+        </label>
         <input
           type='number'
           value={displayString}
@@ -57,7 +69,7 @@ class NumberInput extends React.Component<NumberInputProps, NumberInputState> {
           className={this.props.className}
           id={this.props.id}
         />
-      </div>
+      </>
     );
   }
 }

@@ -6,6 +6,7 @@ type PickerProps = {
   defaultValue: string;
   value?: string;
   onChange?: (value: string) => void;
+  isLabelShown?: boolean;
   className?: string;
 };
 
@@ -26,6 +27,8 @@ class Picker extends React.Component<PickerProps, PickerState> {
   };
 
   isControlled = () => this.props.value !== undefined;
+
+  isLabelShown = () => this.props.isLabelShown ?? true;
 
   onChangeDefault = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
@@ -53,8 +56,13 @@ class Picker extends React.Component<PickerProps, PickerState> {
       : this.state.value;
 
     return (
-      <div className='input-row'>
-        <label htmlFor={this.props.id}>{this.props.label}</label>
+      <>
+        <label
+          htmlFor={this.props.id}
+          className={this.isLabelShown() ? '' : 'hidden'}
+        >
+          {this.props.label}
+        </label>
         <select
           value={selectedValue}
           onChange={this.handleChange}
@@ -63,7 +71,7 @@ class Picker extends React.Component<PickerProps, PickerState> {
         >
           {this.props.children}
         </select>
-      </div>
+      </>
     );
   }
 

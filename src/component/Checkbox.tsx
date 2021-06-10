@@ -6,6 +6,7 @@ type CheckboxProps = {
   defaultValue: boolean;
   value?: boolean;
   onChange?: (value: boolean) => void;
+  isLabelShown?: boolean;
   className?: string;
 };
 
@@ -21,6 +22,8 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   };
 
   isControlled = () => this.props.value !== undefined;
+
+  isLabelShown = () => this.props.isLabelShown ?? true;
 
   onChangeDefault = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.checked;
@@ -45,8 +48,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   render() {
     const value = this.isControlled() ? this.props.value : this.state.value;
     return (
-      <div className='input-row'>
-        <label htmlFor={this.props.id}>{this.props.label}</label>
+      <>
+        <label
+          htmlFor={this.props.id}
+          className={this.isLabelShown() ? '' : 'hidden'}
+        >
+          {this.props.label}
+        </label>
         <input
           type='checkbox'
           checked={value}
@@ -54,7 +62,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           className={this.props.className}
           id={this.props.id}
         />
-      </div>
+      </>
     );
   }
 }
