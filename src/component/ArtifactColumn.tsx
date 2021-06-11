@@ -1,5 +1,8 @@
 import React from 'react';
 import { AppState } from '../App';
+import Artifact from '../js/artifact/Artifact';
+import Character from '../js/Character';
+import Weapon from '../js/weapon/Weapon';
 import ArtifactBlock from './ArtifactBlock';
 import Column from './Column';
 
@@ -9,11 +12,21 @@ type ArtifactColumnProps = {
     state: Pick<AppState, K>,
     callback?: () => void
   ) => void;
+  updateTotalStats: ({
+    character,
+    weapon,
+    artifacts,
+  }: {
+    character?: Character;
+    weapon?: Weapon;
+    artifacts?: Artifact[];
+  }) => void;
 };
 
 class ArtifactColumn extends React.Component<ArtifactColumnProps> {
   updateArtifactState = () => {
     const artifacts = [...this.props.appState.artifacts];
+    this.props.updateTotalStats({ artifacts });
     this.props.setAppState({ artifacts });
   };
 

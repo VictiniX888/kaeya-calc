@@ -1,7 +1,7 @@
 import React from 'react';
 import Character from '../js/Character';
-import * as data from '../js/Data';
-import * as statUtil from '../js/Stat';
+import { propMapping } from '../js/Data';
+import { getStatDisplayValue } from '../js/Stat';
 
 type CharacterStatBlockProps = {
   character: Character;
@@ -27,11 +27,8 @@ class CharacterStatBlock extends React.Component<CharacterStatBlockProps> {
         <p>{character.name ?? ''}</p>
         {Object.entries(character.innateStats).map(([prop, value]) => (
           <p key={prop}>
-            {data.propMapping[prop].name}:{' '}
-            {statUtil.getStatDisplayValue(
-              value,
-              data.propMapping[prop].isPercentage
-            )}
+            {propMapping[prop].name}:{' '}
+            {getStatDisplayValue(value, propMapping[prop].isPercentage)}
           </p>
         ))}
       </div>

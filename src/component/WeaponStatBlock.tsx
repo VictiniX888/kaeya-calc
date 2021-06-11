@@ -1,7 +1,7 @@
 import React from 'react';
+import { propMapping } from '../js/Data';
+import { getStatDisplayValue } from '../js/Stat';
 import Weapon from '../js/weapon/Weapon';
-import * as data from '../js/Data';
-import * as statUtil from '../js/Stat';
 
 type WeaponStatBlockProps = {
   weapon: Weapon;
@@ -21,11 +21,8 @@ class WeaponStatBlock extends React.Component<WeaponStatBlockProps> {
         <p>{weapon.name ?? ''}</p>
         {Object.entries(weapon.stats).map(([prop, value]) => (
           <p key={prop}>
-            {data.propMapping[prop].name}:{' '}
-            {statUtil.getStatDisplayValue(
-              value,
-              data.propMapping[prop].isPercentage
-            )}
+            {propMapping[prop].name}:{' '}
+            {getStatDisplayValue(value, propMapping[prop].isPercentage)}
           </p>
         ))}
       </div>

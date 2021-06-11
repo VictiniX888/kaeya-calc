@@ -24,14 +24,12 @@ export default class Weapon {
     this._id = value;
 
     const data = getData(value);
-    if (data !== undefined) {
-      this.name = data.name;
-      this.type = data.type as WeaponType;
-      this.rank = data.rank;
-      this.baseStats = data.baseStats;
-      this.statCurveMapping = data.statCurves;
-      this.ascensionBonuses = getAscensionBonusData(value);
-    }
+    this.name = data?.name;
+    this.type = data?.type as WeaponType | undefined;
+    this.rank = data?.rank;
+    this.baseStats = data?.baseStats;
+    this.statCurveMapping = data?.statCurves;
+    this.ascensionBonuses = getAscensionBonusData(value);
 
     this.stats = this.getStatsAt(this.weaponLevel, this.hasAscended);
   }

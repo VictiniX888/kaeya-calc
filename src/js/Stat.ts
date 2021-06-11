@@ -69,29 +69,19 @@ export function getTalentDescription(desc: string) {
 
 // Returns object containing base stats of character with the passed weapon
 // Base stats = character innate stats + weapon stats
-function getBaseStatsAt(
-  weapon: Weapon,
-  weaponLevel: number,
-  weaponHasAscended: boolean,
-  character: Character,
-  characterLevel: number,
-  characterHasAscended: boolean
-) {
-  let weaponStats;
-  if (weapon !== undefined) {
-    weaponStats = weapon.getStatsAt(weaponLevel, weaponHasAscended);
-  } else {
-    weaponStats = {};
-  }
-
+function getBaseStatsAt(character: Character, weapon: Weapon) {
   let characterStats;
   if (character !== undefined) {
-    characterStats = character.getInnateStatsAt(
-      characterLevel,
-      characterHasAscended
-    );
+    characterStats = character.innateStats;
   } else {
     characterStats = {};
+  }
+
+  let weaponStats;
+  if (weapon !== undefined) {
+    weaponStats = weapon.stats;
+  } else {
+    weaponStats = {};
   }
 
   // Merges weaponStats and innateStats into a new baseStats object
@@ -110,12 +100,8 @@ function getBaseStatsAt(
 // Returns object containing the total stats of the character, weapon and artifacts
 // Ignores any of [character, weapon] that are undefined
 export function getTotalStatsAt(
-  weapon: Weapon,
-  weaponLevel: number,
-  weaponHasAscended: boolean,
   character: Character,
-  characterLevel: number,
-  characterHasAscended: boolean,
+  weapon: Weapon,
   artifactSetBonuses: Stats,
   artifacts: Artifact[],
   characterOptions: CharacterOption[],
@@ -123,14 +109,7 @@ export function getTotalStatsAt(
   talentSkillLevel: number,
   talentBurstLevel: number
 ) {
-  let baseStats = getBaseStatsAt(
-    weapon,
-    weaponLevel,
-    weaponHasAscended,
-    character,
-    characterLevel,
-    characterHasAscended
-  );
+  let baseStats = getBaseStatsAt(character, weapon);
   let combinedStats = { ...baseStats };
 
   // Merge base stats and artifact set bonuses

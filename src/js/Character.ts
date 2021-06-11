@@ -36,14 +36,13 @@ export default class Character {
     this._id = value;
 
     const data = getData(value);
-    if (data !== undefined) {
-      this.name = data.name;
-      this.baseStats = data.baseStats;
-      this.statCurveMapping = data.statCurves;
-      this.ascensionBonuses = getAscensionBonusData(value);
 
-      this.talents = getTalentData(value);
-    }
+    this.name = data?.name;
+    this.baseStats = data?.baseStats;
+    this.statCurveMapping = data?.statCurves;
+    this.ascensionBonuses = getAscensionBonusData(value);
+
+    this.talents = getTalentData(value);
 
     this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
   }

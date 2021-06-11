@@ -1,5 +1,8 @@
 import React from 'react';
 import { AppState } from '../App';
+import Artifact from '../js/artifact/Artifact';
+import Character from '../js/Character';
+import Weapon from '../js/weapon/Weapon';
 import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
 import Column from './Column';
@@ -13,42 +16,58 @@ type InputColumnProps = {
     state: Pick<AppState, K>,
     callback?: () => void
   ) => void;
+  updateTotalStats: ({
+    character,
+    weapon,
+    artifacts,
+  }: {
+    character?: Character;
+    weapon?: Weapon;
+    artifacts?: Artifact[];
+  }) => void;
 };
 
 class InputColumn extends React.Component<InputColumnProps> {
   setCharacterId = (id: string) => {
     const character = this.props.appState.character;
     character.id = id;
+    console.log(character);
+    this.props.updateTotalStats({ character });
     this.props.setAppState({ character });
   };
 
   setCharacterLevel = (level: number) => {
     const character = this.props.appState.character;
     character.level = level;
+    this.props.updateTotalStats({ character });
     this.props.setAppState({ character });
   };
 
   setIsCharacterAscended = (isAscended: boolean) => {
     const character = this.props.appState.character;
     character.hasAscended = isAscended;
+    this.props.updateTotalStats({ character });
     this.props.setAppState({ character });
   };
 
   setWeaponId = (id: string) => {
     const weapon = this.props.appState.weapon;
     weapon.id = id;
+    this.props.updateTotalStats({ weapon });
     this.props.setAppState({ weapon });
   };
 
   setWeaponLevel = (level: number) => {
     const weapon = this.props.appState.weapon;
     weapon.weaponLevel = level;
+    this.props.updateTotalStats({ weapon });
     this.props.setAppState({ weapon });
   };
 
   setIsWeaponAscended = (isAscended: boolean) => {
     const weapon = this.props.appState.weapon;
     weapon.hasAscended = isAscended;
+    this.props.updateTotalStats({ weapon });
     this.props.setAppState({ weapon });
   };
 
