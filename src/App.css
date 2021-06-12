@@ -7,7 +7,7 @@
 
   height: max(100%, 100vh);
 
-  background-color: #fff;
+  background-color: #eee;
 }
 
 h2 {
@@ -30,6 +30,11 @@ h3 {
   display: flex;
   flex-direction: column;
   border-right: 1px solid #000;
+}
+
+.column:last-child {
+  flex-grow: 1;
+  border-right: 0px;
 }
 
 .input-column {
@@ -64,15 +69,29 @@ h3 {
 }
 
 input[type='number'] {
-  padding: 0px;
+  padding: 0;
   background-color: transparent;
   border: 0;
   font-size: 1em;
   font-family: inherit;
 }
 
+input[type='number']:hover,
+input[type='number']:focus-visible {
+  outline: #000 solid 2px;
+}
+
 input[type='checkbox'] {
   margin: 0px;
+}
+
+input[type='checkbox']:focus-visible {
+  outline: #000 solid 2px;
+}
+
+select:focus-visible {
+  outline: #000 solid 2px;
+  outline-offset: -1px;
 }
 
 .stat-column {
@@ -95,6 +114,11 @@ input[type='checkbox'] {
   padding-bottom: 0.7em;
 
   border-bottom: 1px dashed #000;
+}
+
+.result-block:last-child,
+.artifact-block:last-child {
+  border-bottom: 0px;
 }
 
 .result-block > p,

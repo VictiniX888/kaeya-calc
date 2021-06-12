@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ArtifactColumn from './component/ArtifactColumn';
+import Column from './component/Column';
 import InputColumn from './component/InputColumn';
 import StatColumn from './component/StatColumn';
 import { Stats } from './data/types';
@@ -67,6 +68,7 @@ class App extends React.Component<{}, AppState> {
           updateTotalStats={this.updateTotalStats}
         />
         <StatColumn appState={this.state} totalStats={this.totalStats} />
+        <Column></Column>
       </div>
     );
   }

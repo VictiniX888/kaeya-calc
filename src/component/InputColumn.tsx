@@ -31,7 +31,6 @@ class InputColumn extends React.Component<InputColumnProps> {
   setCharacterId = (id: string) => {
     const character = this.props.appState.character;
     character.id = id;
-    console.log(character);
     this.props.updateTotalStats({ character });
     this.props.setAppState({ character });
   };
