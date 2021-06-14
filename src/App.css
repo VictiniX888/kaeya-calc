@@ -94,10 +94,6 @@ select:focus-visible {
   outline-offset: -1px;
 }
 
-.stat-column {
-  background-color: #eee;
-}
-
 .result-block {
   display: flex;
   flex-direction: column;
@@ -106,7 +102,7 @@ select:focus-visible {
   border-bottom: 1px solid #000;
 }
 
-.artifact-block {
+.sub-block {
   display: flex;
   flex-direction: column;
 
@@ -117,13 +113,13 @@ select:focus-visible {
 }
 
 .result-block:last-child,
-.artifact-block:last-child {
+.sub-block:last-child {
   border-bottom: 0px;
 }
 
 .result-block > p,
 .result-block > img,
-.artifact-block > p {
+.sub-block > p {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }

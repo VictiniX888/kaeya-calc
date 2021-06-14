@@ -6,6 +6,12 @@ export interface TalentValue {
   damage: number[];
 }
 
+export interface TalentValueSet {
+  attack: TalentValue[];
+  skill: TalentValue[];
+  burst: TalentValue[];
+}
+
 export interface TalentProps {
   params: TalentParams;
   stats: Stats;

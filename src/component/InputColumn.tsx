@@ -20,10 +20,16 @@ type InputColumnProps = {
     character,
     weapon,
     artifacts,
+    talentAttackLevel,
+    talentSkillLevel,
+    talentBurstLevel,
   }: {
     character?: Character;
     weapon?: Weapon;
     artifacts?: Artifact[];
+    talentAttackLevel?: number;
+    talentSkillLevel?: number;
+    talentBurstLevel?: number;
   }) => void;
 };
 
@@ -68,6 +74,21 @@ class InputColumn extends React.Component<InputColumnProps> {
     weapon.hasAscended = isAscended;
     this.props.updateTotalStats({ weapon });
     this.props.setAppState({ weapon });
+  };
+
+  setTalentAttackLevel = (level: number) => {
+    this.props.updateTotalStats({ talentAttackLevel: level });
+    this.props.setAppState({ talentAttackLevel: level });
+  };
+
+  setTalentSkillLevel = (level: number) => {
+    this.props.updateTotalStats({ talentSkillLevel: level });
+    this.props.setAppState({ talentSkillLevel: level });
+  };
+
+  setTalentBurstLevel = (level: number) => {
+    this.props.updateTotalStats({ talentBurstLevel: level });
+    this.props.setAppState({ talentBurstLevel: level });
   };
 
   render() {
@@ -130,6 +151,41 @@ class InputColumn extends React.Component<InputColumnProps> {
             defaultValue={false}
             value={appState.weapon.hasAscended}
             onChange={this.setIsWeaponAscended}
+          />
+        </InputRow>
+
+        <br />
+
+        <InputRow>
+          <IntInput
+            id='talent-attack-level-input'
+            label='Attack Talent Level:'
+            defaultValue={1}
+            value={appState.talentAttackLevel}
+            onInput={this.setTalentAttackLevel}
+            className='level-input'
+          />
+        </InputRow>
+
+        <InputRow>
+          <IntInput
+            id='talent-skill-level-input'
+            label='Skill Talent Level:'
+            defaultValue={1}
+            value={appState.talentSkillLevel}
+            onInput={this.setTalentSkillLevel}
+            className='level-input'
+          />
+        </InputRow>
+
+        <InputRow>
+          <IntInput
+            id='talent-burst-level-input'
+            label='Burst Talent Level:'
+            defaultValue={1}
+            value={appState.talentBurstLevel}
+            onInput={this.setTalentBurstLevel}
+            className='level-input'
           />
         </InputRow>
       </Column>

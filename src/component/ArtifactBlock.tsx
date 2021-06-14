@@ -36,7 +36,7 @@ class ArtifactBlock extends React.Component<ArtifactBlockProps> {
     const { artifact } = this.props;
 
     return (
-      <div className='artifact-block'>
+      <div className='sub-block'>
         <h3>{capitalize(artifact.type)}</h3>
 
         <p>Main Stat</p>

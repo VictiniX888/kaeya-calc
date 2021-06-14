@@ -11,7 +11,6 @@ interface DamageModifierBase {
   enemyDefReduction: number;
   enemyRes: Resistance;
   enemyResReduction: Resistance;
-  modifiers: any;
   critType: string;
   flatDmg: number;
   reaction: string;
