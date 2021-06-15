@@ -40,8 +40,8 @@ class App extends React.Component<{}, AppState> {
 
     enemyLevel: 1,
     enemyDefReduction: 0,
-    enemyRes: new Resistance({}),
-    enemyResReduction: new Resistance({}),
+    enemyRes: new Resistance(),
+    enemyResReduction: new Resistance(),
     critType: 'none',
     flatDmg: 0,
     reaction: 'none',
@@ -58,17 +58,19 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
+    enemyRes,
   }: {
     characterLevel?: number;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
+    enemyRes?: Resistance;
   } = {}): DamageModifier {
     return {
       characterLevel: characterLevel ?? this.state.character.level,
       enemyLevel: this.state.enemyLevel,
       enemyDefReduction: this.state.enemyDefReduction,
-      enemyRes: this.state.enemyRes,
+      enemyRes: enemyRes ?? this.state.enemyRes,
       enemyResReduction: this.state.enemyResReduction,
       critType: this.state.critType,
       flatDmg: this.state.flatDmg,
@@ -125,11 +127,13 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
+    enemyRes,
   }: {
     character?: Character;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
+    enemyRes?: Resistance;
   }) => {
     const character = newChar ?? this.state.character;
     const damageModifer = this.getDamageModifier({
@@ -137,6 +141,7 @@ class App extends React.Component<{}, AppState> {
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
+      enemyRes,
     });
 
     this.talentValues.attack = character.getTalentDamageAt({
@@ -166,6 +171,7 @@ class App extends React.Component<{}, AppState> {
           appState={this.state}
           setAppState={this.setAppState}
           updateTotalStats={this.updateTotalStats}
+          updateTalentValues={this.updateTalentValues}
         />
         <ArtifactColumn
           appState={this.state}

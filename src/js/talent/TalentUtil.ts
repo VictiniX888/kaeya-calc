@@ -55,14 +55,14 @@ function calculateBaseDamage({
 }
 function calculateResMultiplier({
   element,
-  res = new Resistance({}),
-  resReduction = new Resistance({}),
+  res = new Resistance(),
+  resReduction = new Resistance(),
 }: {
   element: Element;
   res?: Resistance;
   resReduction?: Resistance;
 }) {
-  let totalRes = res[element] - resReduction[element];
+  let totalRes = res.get(element) - resReduction.get(element);
 
   if (totalRes < 0) {
     return 1 - totalRes / 2;
