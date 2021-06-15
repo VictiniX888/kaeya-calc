@@ -45,6 +45,12 @@ h3 {
   background-color: #ccc;
 }
 
+.input-block {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
 .input-row {
   display: flex;
   flex-direction: row;
