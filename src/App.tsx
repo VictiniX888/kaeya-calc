@@ -171,7 +171,7 @@ class App extends React.Component<{}, AppState> {
 
   render() {
     return (
-      <div className='container'>
+      <div className='app'>
         <InputColumn
           appState={this.state}
           setAppState={this.setAppState}

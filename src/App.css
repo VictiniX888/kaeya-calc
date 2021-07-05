@@ -1,4 +1,4 @@
-.container {
+.app {
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -72,6 +72,10 @@ h3 {
 
 .stat-input {
   width: 4em;
+}
+
+label {
+  margin-bottom: 0;
 }
 
 input[type='number'] {
