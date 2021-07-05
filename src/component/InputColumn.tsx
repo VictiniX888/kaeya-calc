@@ -21,14 +21,12 @@ type InputColumnProps = {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
-    enemyRes,
   }: {
     character?: Character;
     weapon?: Weapon;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
-    enemyRes?: Resistance;
   }) => void;
   updateTalentValues: ({ enemyRes }: { enemyRes?: Resistance }) => void;
 };

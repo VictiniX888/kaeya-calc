@@ -55,20 +55,22 @@ class App extends React.Component<{}, AppState> {
 
   getDamageModifier({
     characterLevel,
+    enemyLevel,
+    enemyRes,
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
-    enemyRes,
   }: {
     characterLevel?: number;
+    enemyLevel?: number;
+    enemyRes?: Resistance;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
-    enemyRes?: Resistance;
   } = {}): DamageModifier {
     return {
       characterLevel: characterLevel ?? this.state.character.level,
-      enemyLevel: this.state.enemyLevel,
+      enemyLevel: enemyLevel ?? this.state.enemyLevel,
       enemyDefReduction: this.state.enemyDefReduction,
       enemyRes: enemyRes ?? this.state.enemyRes,
       enemyResReduction: this.state.enemyResReduction,
@@ -127,21 +129,24 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
+    enemyLevel,
     enemyRes,
   }: {
     character?: Character;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
+    enemyLevel?: number;
     enemyRes?: Resistance;
   }) => {
     const character = newChar ?? this.state.character;
     const damageModifer = this.getDamageModifier({
       characterLevel: newChar?.level,
+      enemyLevel,
+      enemyRes,
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
-      enemyRes,
     });
 
     this.talentValues.attack = character.getTalentDamageAt({
