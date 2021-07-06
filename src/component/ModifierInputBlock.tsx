@@ -1,5 +1,7 @@
 import React from 'react';
+import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { AppState } from '../App';
+import CritType from '../js/modifier/CritType';
 import Resistance from '../js/Resistance';
 import { capitalize } from '../js/Stat';
 import { Element } from '../js/talent/types';
@@ -16,9 +18,11 @@ type ModifierInputBlockProps = {
   updateTalentValues: ({
     enemyLevel,
     enemyRes,
+    critType,
   }: {
     enemyLevel?: number;
     enemyRes?: Resistance;
+    critType?: CritType;
   }) => void;
 };
 
@@ -35,10 +39,36 @@ class ModifierInputBlock extends React.Component<ModifierInputBlockProps> {
     this.props.setAppState({ enemyRes });
   };
 
+  setCritType = (critType: CritType) => {
+    this.props.updateTalentValues({ critType });
+    this.props.setAppState({ critType });
+  };
+
   render() {
-    const { enemyLevel, enemyRes } = this.props.appState;
+    const { enemyLevel, enemyRes, critType } = this.props.appState;
     return (
       <div className='input-block'>
+        <InputRow>
+          Crit:
+          <ToggleButtonGroup
+            name='crit-type-input'
+            type='radio'
+            size='sm'
+            value={critType}
+            onChange={this.setCritType}
+          >
+            <ToggleButton value='none' variant='outline-secondary'>
+              None
+            </ToggleButton>
+            <ToggleButton value='crit' variant='outline-secondary'>
+              Crit
+            </ToggleButton>
+            <ToggleButton value='average' variant='outline-secondary'>
+              Average
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </InputRow>
+
         <InputRow>
           <IntInput
             id='enemy-level-input'

@@ -1,5 +1,6 @@
 import type Resistance from '../Resistance';
 import type { Element } from '../talent/types';
+import CritType from './CritType';
 
 export default interface DamageModifier
   extends DamageModifierBase,
@@ -11,7 +12,7 @@ interface DamageModifierBase {
   enemyDefReduction: number;
   enemyRes: Resistance;
   enemyResReduction: Resistance;
-  critType: string;
+  critType: CritType;
   flatDmg: number;
   reaction: string;
   talentAttackLevel: number;

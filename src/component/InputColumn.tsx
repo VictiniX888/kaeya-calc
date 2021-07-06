@@ -1,6 +1,8 @@
 import React from 'react';
 import { AppState } from '../App';
+import Artifact from '../js/artifact/Artifact';
 import Character from '../js/Character';
+import CritType from '../js/modifier/CritType';
 import Resistance from '../js/Resistance';
 import Weapon from '../js/weapon/Weapon';
 import CharacterInputBlock from './CharacterInputBlock';
@@ -18,17 +20,35 @@ type InputColumnProps = {
   updateTotalStats: ({
     character,
     weapon,
+    artifacts,
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
   }: {
     character?: Character;
     weapon?: Weapon;
+    artifacts?: Artifact[];
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
   }) => void;
-  updateTalentValues: ({ enemyRes }: { enemyRes?: Resistance }) => void;
+  updateTalentValues: ({
+    character: newChar,
+    talentAttackLevel,
+    talentSkillLevel,
+    talentBurstLevel,
+    enemyLevel,
+    enemyRes,
+    critType,
+  }: {
+    character?: Character;
+    talentAttackLevel?: number;
+    talentSkillLevel?: number;
+    talentBurstLevel?: number;
+    enemyLevel?: number;
+    enemyRes?: Resistance;
+    critType?: CritType;
+  }) => void;
 };
 
 class InputColumn extends React.Component<InputColumnProps> {

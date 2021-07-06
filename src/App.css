@@ -137,3 +137,9 @@ select:focus-visible {
 .hidden {
   display: none;
 }
+
+/* Overriding Bootstrap styles */
+.btn-group-sm > .btn,
+.btn-sm {
+  padding: 0rem 0.5rem;
+}
