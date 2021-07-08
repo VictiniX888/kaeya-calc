@@ -11,6 +11,8 @@ import { ArtifactType } from './js/artifact/types';
 import Character from './js/Character';
 import CritType from './js/modifier/CritType';
 import DamageModifier from './js/modifier/DamageModifer';
+import { isModifierApplicable } from './js/option';
+import { CharacterOption } from './js/option/characterOptions';
 import Resistance from './js/Resistance';
 import { getTotalStatsAt } from './js/Stat';
 import { TalentType, TalentValueSet } from './js/talent/types';
@@ -31,6 +33,8 @@ export type AppState = {
   talentAttackLevel: number;
   talentSkillLevel: number;
   talentBurstLevel: number;
+
+  characterOptions: CharacterOption[];
 };
 
 class App extends React.Component<{}, AppState> {
@@ -49,6 +53,8 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel: 1,
     talentSkillLevel: 1,
     talentBurstLevel: 1,
+
+    characterOptions: [],
   };
 
   totalStats: Stats = {};
@@ -62,6 +68,7 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
+    characterOptions,
   }: {
     characterLevel?: number;
     enemyLevel?: number;
@@ -70,8 +77,9 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
+    characterOptions?: CharacterOption[];
   } = {}): DamageModifier {
-    return {
+    const modifier: DamageModifier = {
       characterLevel: characterLevel ?? this.state.character.level,
       enemyLevel: enemyLevel ?? this.state.enemyLevel,
       enemyDefReduction: this.state.enemyDefReduction,
@@ -84,6 +92,14 @@ class App extends React.Component<{}, AppState> {
       talentSkillLevel: talentSkillLevel ?? this.state.talentSkillLevel,
       talentBurstLevel: talentBurstLevel ?? this.state.talentBurstLevel,
     };
+
+    (characterOptions ?? this.state.characterOptions).forEach((option) => {
+      if (isModifierApplicable(option)) {
+        option.applyOnModifier(modifier);
+      }
+    });
+
+    return modifier;
   }
 
   setAppState = <K extends keyof AppState>(
@@ -100,6 +116,7 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
+    characterOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
@@ -107,13 +124,14 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
+    characterOptions?: CharacterOption[];
   }) => {
     this.totalStats = getTotalStatsAt(
       character ?? this.state.character,
       weapon ?? this.state.weapon,
       {}, // Temp
       artifacts ?? this.state.artifacts,
-      [], // Temp
+      characterOptions ?? this.state.characterOptions,
       talentAttackLevel ?? this.state.talentAttackLevel,
       talentSkillLevel ?? this.state.talentSkillLevel,
       talentBurstLevel ?? this.state.talentBurstLevel
@@ -135,6 +153,7 @@ class App extends React.Component<{}, AppState> {
     enemyLevel,
     enemyRes,
     critType,
+    characterOptions,
   }: {
     character?: Character;
     talentAttackLevel?: number;
@@ -143,6 +162,7 @@ class App extends React.Component<{}, AppState> {
     enemyLevel?: number;
     enemyRes?: Resistance;
     critType?: CritType;
+    characterOptions?: CharacterOption[];
   }) => {
     const character = newChar ?? this.state.character;
     const damageModifer = this.getDamageModifier({
@@ -153,6 +173,7 @@ class App extends React.Component<{}, AppState> {
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
+      characterOptions,
     });
 
     this.talentValues.attack = character.getTalentDamageAt({

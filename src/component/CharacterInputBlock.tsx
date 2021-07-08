@@ -1,10 +1,12 @@
 import React from 'react';
 import { AppState } from '../App';
 import Character from '../js/Character';
+import { CharacterOption } from '../js/option/characterOptions';
 import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
+import OptionInput from './OptionInput';
 
 type CharacterInputBlockProps = {
   appState: AppState;
@@ -12,15 +14,24 @@ type CharacterInputBlockProps = {
     state: Pick<AppState, K>,
     callback?: () => void
   ) => void;
-  updateTotalStats: ({ character }: { character?: Character }) => void;
+  updateTotalStats: ({
+    character,
+    characterOptions,
+  }: {
+    character?: Character;
+    characterOptions?: CharacterOption[];
+  }) => void;
 };
 
 class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
   setCharacterId = (id: string) => {
     const character = this.props.appState.character;
     character.id = id;
-    this.props.updateTotalStats({ character });
-    this.props.setAppState({ character });
+    const characterOptions = character
+      .getOptions()
+      .map((Option) => new Option());
+    this.props.updateTotalStats({ character, characterOptions });
+    this.props.setAppState({ character, characterOptions });
   };
 
   setCharacterLevel = (level: number) => {
@@ -35,6 +46,12 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
     character.hasAscended = isAscended;
     this.props.updateTotalStats({ character });
     this.props.setAppState({ character });
+  };
+
+  updateOptions = () => {
+    const { characterOptions } = this.props.appState;
+    this.props.updateTotalStats({ characterOptions });
+    this.props.setAppState({ characterOptions: [...characterOptions] });
   };
 
   render() {
@@ -69,6 +86,14 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
             onChange={this.setIsCharacterAscended}
           />
         </InputRow>
+
+        {appState.characterOptions.map((option) => {
+          return (
+            <InputRow key={option.id}>
+              <OptionInput option={option} updateOptions={this.updateOptions} />
+            </InputRow>
+          );
+        })}
       </div>
     );
   }

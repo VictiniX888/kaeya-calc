@@ -2,6 +2,7 @@ import { Stats } from '../data/types';
 import Artifact from './artifact/Artifact';
 import Character from './Character';
 import { talentDescMapping, optionMapping } from './Data';
+import { isStatsApplicable } from './option';
 import CharacterOption from './option/characterOptions/CharacterOption';
 import Weapon from './weapon/Weapon';
 
@@ -144,16 +145,6 @@ export function getTotalStatsAt(
     }
   });
 
-  // Apply character options (only)
-  characterOptions.forEach((option) => {
-    option.applyOnStats(
-      combinedStats,
-      talentAttackLevel,
-      talentSkillLevel,
-      talentBurstLevel
-    );
-  });
-
   // Calculate total stats
   let totalStats: Stats = {};
 
@@ -245,6 +236,18 @@ export function getTotalStatsAt(
   if (combinedStats.chargedCritRate !== undefined) {
     totalStats.chargedCritRate = combinedStats.chargedCritRate;
   }
+
+  // Apply character options (only)
+  characterOptions.forEach((option) => {
+    if (isStatsApplicable(option)) {
+      option.applyOnStats(
+        totalStats,
+        talentAttackLevel,
+        talentSkillLevel,
+        talentBurstLevel
+      );
+    }
+  });
 
   return totalStats;
 }
