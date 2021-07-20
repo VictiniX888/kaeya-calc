@@ -13,6 +13,15 @@ export interface IOptionBoolean {
   value: boolean;
 }
 
+export interface IOptionPicker {
+  value: string;
+  choices: string[];
+}
+
+export interface IOptionNumber {
+  value: number;
+}
+
 export interface IStatsApplicable {
   applyOnStats: (
     stats: Stats,

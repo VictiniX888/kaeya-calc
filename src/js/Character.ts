@@ -18,6 +18,7 @@ import type {
 } from '../data/types';
 import type DamageModifier from './modifier/DamageModifer';
 import type { TalentType } from './talent/types';
+import { CharacterOption } from './option/characterOptions';
 
 export default class Character {
   constructor(id: string, level: number, hasAscended: boolean) {
@@ -180,7 +181,7 @@ export default class Character {
     return damage;
   }
 
-  getOptions() {
+  getOptions(): typeof CharacterOption[] {
     return getOptions('character', this.id);
   }
 }
