@@ -38,3 +38,5 @@ export enum ArtifactType {
   Goblet = 'goblet',
   Circlet = 'circlet',
 }
+
+export type ArtifactSetBonusFunction = (params: number[]) => Stat[];

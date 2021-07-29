@@ -9,7 +9,7 @@ class ViridescentVenerer4PcOption
   implements IOptionPicker, IModifierApplicable
 {
   value = '';
-  choices = ['', Element.Cryo, Element.Electro, Element.Hydro, Element.Pyro];
+  choices = [Element.Cryo, Element.Electro, Element.Hydro, Element.Pyro];
 
   constructor() {
     super('viridescentVenerer4Pc', 4);

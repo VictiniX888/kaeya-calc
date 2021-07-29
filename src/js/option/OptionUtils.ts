@@ -10,16 +10,12 @@ import Option, {
 
 const defaultOptions: typeof Option[] = [];
 
-// Type can be character, weapon, or artifact
-export function getOptions(type: string, id: string) {
-  switch (type) {
-    case 'character':
-      return characterOptions[id] ?? defaultOptions;
-    case 'artifactSet':
-      return artifactSetOptions[id] ?? defaultOptions;
-    default:
-      return defaultOptions;
-  }
+export function getCharacterOptions(id: string) {
+  return characterOptions[id] ?? defaultOptions;
+}
+
+export function getArtifactSetOptions(id: string) {
+  return artifactSetOptions[id] ?? defaultOptions;
 }
 
 export function isBooleanOption(

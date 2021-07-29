@@ -8,7 +8,7 @@ class ArchaicPetra4PcOption
   implements IOptionPicker, IStatsApplicable
 {
   value = '';
-  choices = ['', 'cryo', 'electro', 'hydro', 'pyro'];
+  choices = ['cryo', 'electro', 'hydro', 'pyro'];
 
   constructor() {
     super('archaicPetra4Pc', 4);

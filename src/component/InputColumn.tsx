@@ -1,10 +1,15 @@
 import React from 'react';
 import { AppState } from '../App';
+import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
+import ArtifactSet from '../js/artifact/ArtifactSet';
 import Character from '../js/Character';
 import CritType from '../js/modifier/CritType';
+import { ArtifactSetOption } from '../js/option/artifactSetOptions';
+import { CharacterOption } from '../js/option/characterOptions';
 import Resistance from '../js/Resistance';
 import Weapon from '../js/weapon/Weapon';
+import ArtifactSetInputBlock from './ArtifactSetInputBlock';
 import CharacterInputBlock from './CharacterInputBlock';
 import Column from './Column';
 import ModifierInputBlock from './ModifierInputBlock';
@@ -17,29 +22,42 @@ type InputColumnProps = {
     state: Pick<AppState, K>,
     callback?: () => void
   ) => void;
+  updateArtifactSetBonuses: ({
+    artifactSets,
+  }: {
+    artifactSets?: ArtifactSet[];
+  }) => void;
   updateTotalStats: ({
     character,
     weapon,
     artifacts,
+    artifactSetBonuses,
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
+    characterOptions,
+    artifactSetOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
     artifacts?: Artifact[];
+    artifactSetBonuses?: Stats;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
+    characterOptions?: CharacterOption[];
+    artifactSetOptions?: ArtifactSetOption[];
   }) => void;
   updateTalentValues: ({
-    character: newChar,
+    character,
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
     enemyLevel,
     enemyRes,
     critType,
+    characterOptions,
+    artifactSetOptions,
   }: {
     character?: Character;
     talentAttackLevel?: number;
@@ -48,13 +66,20 @@ type InputColumnProps = {
     enemyLevel?: number;
     enemyRes?: Resistance;
     critType?: CritType;
+    characterOptions?: CharacterOption[];
+    artifactSetOptions?: ArtifactSetOption[];
   }) => void;
 };
 
 class InputColumn extends React.Component<InputColumnProps> {
   render() {
-    const { appState, setAppState, updateTotalStats, updateTalentValues } =
-      this.props;
+    const {
+      appState,
+      setAppState,
+      updateArtifactSetBonuses,
+      updateTotalStats,
+      updateTalentValues,
+    } = this.props;
 
     return (
       <Column className='input-column'>
@@ -68,6 +93,12 @@ class InputColumn extends React.Component<InputColumnProps> {
           appState={appState}
           setAppState={setAppState}
           updateTotalStats={updateTotalStats}
+        />
+
+        <ArtifactSetInputBlock
+          appState={appState}
+          setAppState={setAppState}
+          updateArtifactSetBonuses={updateArtifactSetBonuses}
         />
 
         <TalentInputBlock

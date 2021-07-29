@@ -7,11 +7,13 @@ import StatColumn from './component/StatColumn';
 import TalentColumn from './component/TalentColumn';
 import { Stats } from './data/types';
 import Artifact from './js/artifact/Artifact';
+import ArtifactSet from './js/artifact/ArtifactSet';
 import { ArtifactType } from './js/artifact/types';
 import Character from './js/Character';
 import CritType from './js/modifier/CritType';
 import DamageModifier from './js/modifier/DamageModifer';
-import { isModifierApplicable } from './js/option';
+import { isModifierApplicable, isStatsApplicable } from './js/option';
+import { ArtifactSetOption } from './js/option/artifactSetOptions';
 import { CharacterOption } from './js/option/characterOptions';
 import Resistance from './js/Resistance';
 import { getTotalStatsAt } from './js/Stat';
@@ -23,10 +25,11 @@ export type AppState = {
   weapon: Weapon;
   artifacts: Artifact[];
 
+  artifactSets: ArtifactSet[];
+
   enemyLevel: number;
   enemyDefReduction: number;
   enemyRes: Resistance;
-  enemyResReduction: Resistance;
   critType: CritType;
   flatDmg: number;
   reaction: string;
@@ -35,6 +38,7 @@ export type AppState = {
   talentBurstLevel: number;
 
   characterOptions: CharacterOption[];
+  artifactSetOptions: ArtifactSetOption[];
 };
 
 class App extends React.Component<{}, AppState> {
@@ -43,10 +47,15 @@ class App extends React.Component<{}, AppState> {
     weapon: new Weapon('', 1, false),
     artifacts: Object.values(ArtifactType).map((type) => new Artifact(type)),
 
+    artifactSets: [
+      new ArtifactSet(''),
+      new ArtifactSet(''),
+      new ArtifactSet(''),
+    ],
+
     enemyLevel: 1,
     enemyDefReduction: 0,
     enemyRes: new Resistance(),
-    enemyResReduction: new Resistance(),
     critType: CritType.None,
     flatDmg: 0,
     reaction: 'none',
@@ -55,8 +64,10 @@ class App extends React.Component<{}, AppState> {
     talentBurstLevel: 1,
 
     characterOptions: [],
+    artifactSetOptions: [],
   };
 
+  artifactSetBonuses: Stats = {};
   totalStats: Stats = {};
   talentValues: TalentValueSet = { attack: [], skill: [], burst: [] };
 
@@ -69,6 +80,7 @@ class App extends React.Component<{}, AppState> {
     talentSkillLevel,
     talentBurstLevel,
     characterOptions,
+    artifactSetOptions,
   }: {
     characterLevel?: number;
     enemyLevel?: number;
@@ -78,13 +90,14 @@ class App extends React.Component<{}, AppState> {
     talentSkillLevel?: number;
     talentBurstLevel?: number;
     characterOptions?: CharacterOption[];
+    artifactSetOptions?: ArtifactSetOption[];
   } = {}): DamageModifier {
     const modifier: DamageModifier = {
       characterLevel: characterLevel ?? this.state.character.level,
       enemyLevel: enemyLevel ?? this.state.enemyLevel,
       enemyDefReduction: this.state.enemyDefReduction,
       enemyRes: enemyRes ?? this.state.enemyRes,
-      enemyResReduction: this.state.enemyResReduction,
+      enemyResReduction: new Resistance(),
       critType: critType ?? this.state.critType,
       flatDmg: this.state.flatDmg,
       reaction: this.state.reaction,
@@ -94,6 +107,12 @@ class App extends React.Component<{}, AppState> {
     };
 
     (characterOptions ?? this.state.characterOptions).forEach((option) => {
+      if (isModifierApplicable(option)) {
+        option.applyOnModifier(modifier);
+      }
+    });
+
+    (artifactSetOptions ?? this.state.artifactSetOptions).forEach((option) => {
       if (isModifierApplicable(option)) {
         option.applyOnModifier(modifier);
       }
@@ -109,27 +128,61 @@ class App extends React.Component<{}, AppState> {
     this.setState(state, callback);
   };
 
+  updateArtifactSetBonuses = ({
+    artifactSets,
+    artifactSetOptions,
+  }: {
+    artifactSets?: ArtifactSet[];
+    artifactSetOptions?: ArtifactSetOption[];
+  }) => {
+    const newArtifactSets = artifactSets ?? this.state.artifactSets;
+    this.artifactSetBonuses = newArtifactSets
+      .map((artifactSet) => artifactSet.stats)
+      .reduce((acc, stats) => {
+        Object.entries(stats).forEach(([stat, value]) => {
+          acc[stat] = value + (acc[stat] ?? 0);
+        });
+        return acc;
+      }, {} as Stats);
+
+    (artifactSetOptions ?? this.state.artifactSetOptions).forEach((option) => {
+      if (isStatsApplicable(option)) {
+        // Placeholder talent levels, currently no artifactsetoption uses it
+        option.applyOnStats(this.artifactSetBonuses, 1, 1, 1);
+      }
+    });
+
+    this.updateTotalStats({
+      artifactSetBonuses: this.artifactSetBonuses,
+      artifactSetOptions,
+    });
+  };
+
   updateTotalStats = ({
     character,
     weapon,
     artifacts,
+    artifactSetBonuses,
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
     characterOptions,
+    artifactSetOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
     artifacts?: Artifact[];
+    artifactSetBonuses?: Stats;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
     characterOptions?: CharacterOption[];
+    artifactSetOptions?: ArtifactSetOption[];
   }) => {
     this.totalStats = getTotalStatsAt(
       character ?? this.state.character,
       weapon ?? this.state.weapon,
-      {}, // Temp
+      artifactSetBonuses ?? this.artifactSetBonuses,
       artifacts ?? this.state.artifacts,
       characterOptions ?? this.state.characterOptions,
       talentAttackLevel ?? this.state.talentAttackLevel,
@@ -142,6 +195,8 @@ class App extends React.Component<{}, AppState> {
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
+      characterOptions,
+      artifactSetOptions,
     });
   };
 
@@ -154,6 +209,7 @@ class App extends React.Component<{}, AppState> {
     enemyRes,
     critType,
     characterOptions,
+    artifactSetOptions,
   }: {
     character?: Character;
     talentAttackLevel?: number;
@@ -163,6 +219,7 @@ class App extends React.Component<{}, AppState> {
     enemyRes?: Resistance;
     critType?: CritType;
     characterOptions?: CharacterOption[];
+    artifactSetOptions?: ArtifactSetOption[];
   }) => {
     const character = newChar ?? this.state.character;
     const damageModifer = this.getDamageModifier({
@@ -174,6 +231,7 @@ class App extends React.Component<{}, AppState> {
       talentSkillLevel,
       talentBurstLevel,
       characterOptions,
+      artifactSetOptions,
     });
 
     this.talentValues.attack = character.getTalentDamageAt({
@@ -202,6 +260,7 @@ class App extends React.Component<{}, AppState> {
         <InputColumn
           appState={this.state}
           setAppState={this.setAppState}
+          updateArtifactSetBonuses={this.updateArtifactSetBonuses}
           updateTotalStats={this.updateTotalStats}
           updateTalentValues={this.updateTalentValues}
         />
@@ -210,7 +269,11 @@ class App extends React.Component<{}, AppState> {
           setAppState={this.setAppState}
           updateTotalStats={this.updateTotalStats}
         />
-        <StatColumn appState={this.state} totalStats={this.totalStats} />
+        <StatColumn
+          appState={this.state}
+          totalStats={this.totalStats}
+          artifactSetBonuses={this.artifactSetBonuses}
+        />
         <TalentColumn talentValues={this.talentValues} />
         <Column></Column>
       </div>
