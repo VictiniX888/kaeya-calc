@@ -258,5 +258,21 @@
             2,
             4
         ]
+    },
+    {
+        "id": "shimenawasreminiscence",
+        "name": "Shimenawa's Reminiscence",
+        "bonusThresholds": [
+            2,
+            4
+        ]
+    },
+    {
+        "id": "emblemofseveredfate",
+        "name": "Emblem of Severed Fate",
+        "bonusThresholds": [
+            2,
+            4
+        ]
     }
 ]

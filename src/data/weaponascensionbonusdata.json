@@ -896,6 +896,52 @@
         ]
     },
     {
+        "weaponId": "amenomakageuchi",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
         "weaponId": "aquilafavonia",
         "ascensionBonusSet": [
             {
@@ -988,6 +1034,52 @@
         ]
     },
     {
+        "weaponId": "freedomsworn",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 31.100000381469727
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 62.20000076293945
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 93.4000015258789
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 124.5
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 186.6999969482422
+                }
+            }
+        ]
+    },
+    {
         "weaponId": "summitshaper",
         "ascensionBonusSet": [
             {
@@ -1035,6 +1127,52 @@
     },
     {
         "weaponId": "primordialjadecutter",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 31.100000381469727
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 62.20000076293945
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 93.4000015258789
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 124.5
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 186.6999969482422
+                }
+            }
+        ]
+    },
+    {
+        "weaponId": "mistsplitterreforged",
         "ascensionBonusSet": [
             {
                 "ascensionLevel": 0,
@@ -1884,6 +2022,52 @@
         ]
     },
     {
+        "weaponId": "katsuragikirinagamasa",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
         "weaponId": "skywardpride",
         "ascensionBonusSet": [
             {
@@ -2643,6 +2827,52 @@
     },
     {
         "weaponId": "dragonspinespear",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
+        "weaponId": "kitaincrossspear",
         "ascensionBonusSet": [
             {
                 "ascensionLevel": 0,
@@ -3676,6 +3906,98 @@
         ]
     },
     {
+        "weaponId": "dodocotales",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
+        "weaponId": "hakushinring",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
         "weaponId": "skywardatlas",
         "ascensionBonusSet": [
             {
@@ -4618,7 +4940,99 @@
         ]
     },
     {
+        "weaponId": "mitternachtswaltz",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
         "weaponId": "windblumeode",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
+        "weaponId": "hamayumi",
         "ascensionBonusSet": [
             {
                 "ascensionLevel": 0,
@@ -4757,6 +5171,52 @@
     },
     {
         "weaponId": "elegyfortheend",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 31.100000381469727
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 62.20000076293945
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 93.4000015258789
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 124.5
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 186.6999969482422
+                }
+            }
+        ]
+    },
+    {
+        "weaponId": "thunderingpulse",
         "ascensionBonusSet": [
             {
                 "ascensionLevel": 0,

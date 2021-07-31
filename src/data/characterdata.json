@@ -1,5 +1,37 @@
 [
     {
+        "id": "ayaka",
+        "name": "Ayaka",
+        "baseStats": {
+            "baseHp": 1000.9860229492188,
+            "baseAtk": 26.62660026550293,
+            "baseDef": 61.0265998840332,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
+        }
+    },
+    {
+        "id": "jean",
+        "name": "Jean",
+        "baseStats": {
+            "baseHp": 1143.9840087890625,
+            "baseAtk": 18.6200008392334,
+            "baseDef": 59.83000183105469,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
+        }
+    },
+    {
         "id": "lisa",
         "name": "Lisa",
         "baseStats": {
@@ -464,6 +496,22 @@
         }
     },
     {
+        "id": "kazuha",
+        "name": "Kazuha",
+        "baseStats": {
+            "baseHp": 1039.1187744140625,
+            "baseAtk": 23.08880043029785,
+            "baseDef": 62.82149887084961,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
+        }
+    },
+    {
         "id": "yanfei",
         "name": "Yanfei",
         "baseStats": {
@@ -480,6 +528,22 @@
         }
     },
     {
+        "id": "yoimiya",
+        "name": "Yoimiya",
+        "baseStats": {
+            "baseHp": 791.255615234375,
+            "baseAtk": 25.136999130249023,
+            "baseDef": 47.86399841308594,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
+        }
+    },
+    {
         "id": "eula",
         "name": "Eula",
         "baseStats": {
@@ -493,6 +557,22 @@
             "baseHp": "growthCurveHp5Star",
             "baseAtk": "growthCurveAtk5Star",
             "baseDef": "growthCurveHp5Star"
+        }
+    },
+    {
+        "id": "sayu",
+        "name": "Sayu",
+        "baseStats": {
+            "baseHp": 993.8521728515625,
+            "baseAtk": 20.47920036315918,
+            "baseDef": 62.43247604370117,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp4Star",
+            "baseAtk": "growthCurveAtk4Star",
+            "baseDef": "growthCurveHp4Star"
         }
     }
 ]

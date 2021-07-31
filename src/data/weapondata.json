@@ -276,6 +276,20 @@
         }
     },
     {
+        "id": "amenomakageuchi",
+        "name": "Amenoma Kageuchi",
+        "type": "sword",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 41.067100524902344,
+            "atkBonus": 0.11999999731779099
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk204",
+            "atkBonus": "growthCurveSub201"
+        }
+    },
+    {
         "id": "aquilafavonia",
         "name": "Aquila Favonia",
         "type": "sword",
@@ -304,6 +318,20 @@
         }
     },
     {
+        "id": "freedomsworn",
+        "name": "Freedom-Sworn",
+        "type": "sword",
+        "rank": 5,
+        "baseStats": {
+            "baseAtk": 45.9364013671875,
+            "elementalMastery": 43.20000076293945
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk301",
+            "elementalMastery": "growthCurveSub301"
+        }
+    },
+    {
         "id": "summitshaper",
         "name": "Summit Shaper",
         "type": "sword",
@@ -329,6 +357,20 @@
         "statCurves": {
             "baseAtk": "growthCurveAtk304",
             "critRate": "growthCurveSub301"
+        }
+    },
+    {
+        "id": "mistsplitterreforged",
+        "name": "Mistsplitter Reforged",
+        "type": "sword",
+        "rank": 5,
+        "baseStats": {
+            "baseAtk": 47.5369987487793,
+            "critDmg": 0.09600000083446503
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk302",
+            "critDmg": "growthCurveSub301"
         }
     },
     {
@@ -580,6 +622,20 @@
         }
     },
     {
+        "id": "katsuragikirinagamasa",
+        "name": "Katsuragikiri Nagamasa",
+        "type": "claymore",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 42.4010009765625,
+            "energyRecharge": 0.10000000149011612
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk201",
+            "energyRecharge": "growthCurveSub201"
+        }
+    },
+    {
         "id": "skywardpride",
         "name": "Skyward Pride",
         "type": "claymore",
@@ -825,6 +881,20 @@
         "statCurves": {
             "baseAtk": "growthCurveAtk204",
             "physicalDmgBonus": "growthCurveSub201"
+        }
+    },
+    {
+        "id": "kitaincrossspear",
+        "name": "Kitain Cross Spear",
+        "type": "polearm",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 43.734901428222656,
+            "elementalMastery": 24.0
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk202",
+            "elementalMastery": "growthCurveSub201"
         }
     },
     {
@@ -1132,6 +1202,34 @@
         }
     },
     {
+        "id": "dodocotales",
+        "name": "Dodoco Tales",
+        "type": "catalyst",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 41.067100524902344,
+            "atkBonus": 0.11999999731779099
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk204",
+            "atkBonus": "growthCurveSub201"
+        }
+    },
+    {
+        "id": "hakushinring",
+        "name": "Hakushin Ring",
+        "type": "catalyst",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 43.734901428222656,
+            "energyRecharge": 0.06666699796915054
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk202",
+            "energyRecharge": "growthCurveSub201"
+        }
+    },
+    {
         "id": "skywardatlas",
         "name": "Skyward Atlas",
         "type": "catalyst",
@@ -1422,6 +1520,20 @@
         }
     },
     {
+        "id": "mitternachtswaltz",
+        "name": "Mitternachts Waltz",
+        "type": "bow",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 42.4010009765625,
+            "physicalDmgBonus": 0.11259999871253967
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk201",
+            "physicalDmgBonus": "growthCurveSub201"
+        }
+    },
+    {
         "id": "windblumeode",
         "name": "Windblume Ode",
         "type": "bow",
@@ -1433,6 +1545,20 @@
         "statCurves": {
             "baseAtk": "growthCurveAtk201",
             "elementalMastery": "growthCurveSub201"
+        }
+    },
+    {
+        "id": "hamayumi",
+        "name": "Hamayumi",
+        "type": "bow",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 41.067100524902344,
+            "atkBonus": 0.11999999731779099
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk204",
+            "atkBonus": "growthCurveSub201"
         }
     },
     {
@@ -1475,6 +1601,20 @@
         "statCurves": {
             "baseAtk": "growthCurveAtk301",
             "energyRecharge": "growthCurveSub301"
+        }
+    },
+    {
+        "id": "thunderingpulse",
+        "name": "Thundering Pulse",
+        "type": "bow",
+        "rank": 5,
+        "baseStats": {
+            "baseAtk": 45.9364013671875,
+            "critDmg": 0.14399999380111694
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk301",
+            "critDmg": "growthCurveSub301"
         }
     }
 ]

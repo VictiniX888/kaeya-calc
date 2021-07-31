@@ -1379,5 +1379,95 @@
                 }
             }
         ]
+    },
+    {
+        "setId": "shimenawasreminiscence",
+        "setBonusSet": [
+            {
+                "bonusThreshold": 2,
+                "bonuses": [
+                    {
+                        "stat": "atkBonus",
+                        "value": 0.18000000715255737
+                    }
+                ],
+                "bonusExtra": {
+                    "type": "",
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            {
+                "bonusThreshold": 4,
+                "bonuses": [
+                ],
+                "bonusExtra": {
+                    "type": "Relic_NormalDamageUpIfCostEnergy",
+                    "params": [
+                        15.0,
+                        0.5,
+                        10.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "setId": "emblemofseveredfate",
+        "setBonusSet": [
+            {
+                "bonusThreshold": 2,
+                "bonuses": [
+                    {
+                        "stat": "energyRecharge",
+                        "value": 0.20000000298023224
+                    }
+                ],
+                "bonusExtra": {
+                    "type": "",
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            {
+                "bonusThreshold": 4,
+                "bonuses": [
+                ],
+                "bonusExtra": {
+                    "type": "Relic_ElementalBurstUpByChargeEfficiency",
+                    "params": [
+                        0.25,
+                        0.75,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            }
+        ]
     }
 ]
