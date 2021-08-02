@@ -9,6 +9,7 @@ export const artifactSetBonuses: Record<string, ArtifactSetBonusFunction> = {
   Relic_MeleeAttackUp,
   Relci_RangerAttackUp,
   Relic_ElementalBurstUp,
+  Relic_ElementalBurstUpByChargeEfficiency,
 
   // Handled through Options
   Relic_GiantKiller: defaultSetBonus,
@@ -163,6 +164,20 @@ function Relic_ElementalBurstUp(params: number[]) {
     {
       stat: 'burstDmgBonus',
       value: params[0],
+    },
+  ];
+}
+
+function Relic_ElementalBurstUpByChargeEfficiency(params: number[]) {
+  // Fake stats used to calculate Burst DMG Bonus in getTotalStats
+  return [
+    {
+      stat: 'burstDmgBonusByEnergyRechargeRatio',
+      value: params[0],
+    },
+    {
+      stat: 'burstDmgBonusByEnergyRechargeMax',
+      value: params[1],
     },
   ];
 }

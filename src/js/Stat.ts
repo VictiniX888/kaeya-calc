@@ -110,19 +110,22 @@ export function getTotalStatsAt(
   talentSkillLevel: number,
   talentBurstLevel: number
 ) {
+  // Remove previous Severed Fate set bonus (if applicable)
+  if (
+    artifactSetBonuses.severedFateBonus !== undefined &&
+    !isNaN(artifactSetBonuses.severedFateBonus)
+  ) {
+    artifactSetBonuses.burstDmgBonus -= artifactSetBonuses.severedFateBonus;
+    if (
+      artifactSetBonuses.burstDmgBonusByEnergyRechargeRatio === undefined ||
+      artifactSetBonuses.burstDmgBonusByEnergyRechargeMax === undefined
+    ) {
+      delete artifactSetBonuses.severedFateBonus;
+    }
+  }
+
   let baseStats = getBaseStatsAt(character, weapon);
   let combinedStats = { ...baseStats };
-
-  // Merge base stats and artifact set bonuses
-  if (artifactSetBonuses !== undefined) {
-    Object.entries(artifactSetBonuses).forEach(([stat, value]) => {
-      if (combinedStats[stat] === undefined) {
-        combinedStats[stat] = value;
-      } else {
-        combinedStats[stat] += value;
-      }
-    });
-  }
 
   // Merge artifact bonuses into separate object
   let artifactStats: Stats = {};
@@ -144,6 +147,17 @@ export function getTotalStatsAt(
       combinedStats[stat] += value;
     }
   });
+
+  // Merge base stats and artifact set bonuses
+  if (artifactSetBonuses !== undefined) {
+    Object.entries(artifactSetBonuses).forEach(([stat, value]) => {
+      if (combinedStats[stat] === undefined) {
+        combinedStats[stat] = value;
+      } else {
+        combinedStats[stat] += value;
+      }
+    });
+  }
 
   // Calculate total stats
   let totalStats: Stats = {};
@@ -248,6 +262,31 @@ export function getTotalStatsAt(
       );
     }
   });
+
+  // Severed Fate set bonus (if applicable)
+  if (
+    combinedStats.burstDmgBonusByEnergyRechargeRatio !== undefined &&
+    combinedStats.burstDmgBonusByEnergyRechargeMax !== undefined
+  ) {
+    let burstDmgBonus =
+      totalStats.energyRecharge *
+      combinedStats.burstDmgBonusByEnergyRechargeRatio;
+
+    if (burstDmgBonus > combinedStats.burstDmgBonusByEnergyRechargeMax) {
+      burstDmgBonus = combinedStats.burstDmgBonusByEnergyRechargeMax;
+    }
+
+    artifactSetBonuses.severedFateBonus = burstDmgBonus;
+
+    if (!isNaN(burstDmgBonus)) {
+      // Update artifact set stats too so that Burst DMG Bonus is reflected in the artifact set block
+      artifactSetBonuses.burstDmgBonus =
+        burstDmgBonus + (artifactSetBonuses.burstDmgBonus ?? 0);
+
+      totalStats.burstDmgBonus =
+        burstDmgBonus + (totalStats.burstDmgBonus ?? 0);
+    }
+  }
 
   return totalStats;
 }

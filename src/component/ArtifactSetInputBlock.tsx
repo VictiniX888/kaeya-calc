@@ -62,7 +62,6 @@ class ArtifactSetInputBlock extends React.Component<ArtifactSetInputBlockProps> 
 
   render() {
     const { artifactSets, artifactSetOptions } = this.props.appState;
-    console.log(artifactSetOptions);
 
     return (
       <div className='input-block'>

@@ -18,12 +18,20 @@ class ArtifactSetStatBlock extends React.Component<ArtifactSetStatBlockProps> {
     return (
       <div className='result-block'>
         <h2>Artifact Sets</h2>
-        {Object.entries(artifactSetBonuses).map(([prop, value]) => (
-          <p key={prop}>
-            {propMapping[prop].name}:{' '}
-            {getStatDisplayValue(value, propMapping[prop].isPercentage)}
-          </p>
-        ))}
+        {Object.entries(artifactSetBonuses)
+          .filter(
+            ([prop, _]) =>
+              // Temporary(?) way to not display these fake stats
+              prop !== 'burstDmgBonusByEnergyRechargeRatio' &&
+              prop !== 'burstDmgBonusByEnergyRechargeMax' &&
+              prop !== 'severedFateBonus'
+          )
+          .map(([prop, value]) => (
+            <p key={prop}>
+              {propMapping[prop].name}:{' '}
+              {getStatDisplayValue(value, propMapping[prop].isPercentage)}
+            </p>
+          ))}
       </div>
     );
   }
