@@ -46,6 +46,12 @@
     "hpRegenOnHit": "HP Regeneration Per Hit",
     "healing": "Healing",
 
+    "cuttingDmg": "Cutting DMG",
+    "bloomDmg": "Bloom DMG",
+
+    "fieldEnterExitDmg": "Field Entering/Exiting DMG",
+    "fieldActivationHealing": "Field Activation Healing",
+
     "dropletDmg": "Droplet DMG",
 
     "slashingDmg": "Slashing DMG",
@@ -140,7 +146,20 @@
     "chargedDmgSeal3": "Charged Attack DMG (3 Seals)",
     "chargedDmgSeal4": "Charged Attack DMG (4 Seals)",
 
+    "kindlingArrowDmg": "Kindling Arrow DMG",
+    "aurousBlazeExplosionDmg": "Aurous Blaze Explosion DMG",
+
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
-    "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack"
+    "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack",
+
+    "fuufuuWindwheelDmg": "Fuufuu Windwheel DMG",
+    "fuufuuWhirlwindKickPressDmg": "Fuufuu Whirlwind Kick Press DMG",
+    "fuufuuWhirlwindKickHoldDmg": "Fuufuu Whirlwind Kick Hold DMG",
+    "fuufuuWindwheelElementalDmg": "Fuufuu Windwheel Elemental DMG",
+    "fuufuuWhirlwindKickElementalDmg": "Fuufuu Whirlwind Kick Elemental DMG",
+    "activationDmg": "Skill Activation DMG",
+    "activationHealing": "Skill Activation Healing",
+    "mujimujiDarumaDmg": "Muji-Muji Daruma DMG",
+    "mujimujiDarumaHealing": "Muji-Muji Daruma Healing"
 }

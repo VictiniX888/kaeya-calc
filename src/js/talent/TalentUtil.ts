@@ -326,7 +326,7 @@ export function chargedAttackMulti({
   ] as TalentValue[];
 }
 // Used for all default claymore charged attacks
-function chargedAttackHeavy({
+export function chargedAttackHeavy({
   element = Element.Physical,
   params,
   stats,
