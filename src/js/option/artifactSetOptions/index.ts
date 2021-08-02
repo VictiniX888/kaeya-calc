@@ -13,6 +13,7 @@ import martialArtistOptions from './MartialArtistOption';
 import noblesseObligeOptions from './NoblesseObligeOption';
 import paleFlameOptions from './PaleFlameOption';
 import retracingBolideOptions from './RetracingBolideOption';
+import shimenawaOptions from './ShimenawaOption';
 import tenacityOptions from './TenacityOption';
 import thundersootherOptions from './ThundersootherOption';
 import viridescentVenererOptions from './ViridescentVenererOption';
@@ -37,4 +38,5 @@ export const artifactSetOptions: Record<string, typeof ArtifactSetOption[]> = {
   heartofdepth: heartOfDepthOptions,
   tenacityofthemillelith: tenacityOptions,
   paleflame: paleFlameOptions,
+  shimenawasreminiscence: shimenawaOptions,
 };

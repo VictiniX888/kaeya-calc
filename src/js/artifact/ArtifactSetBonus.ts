@@ -26,6 +26,7 @@ export const artifactSetBonuses: Record<string, ArtifactSetBonusFunction> = {
   Relic_WaterSkillEnhanceNormalAtkAndExtraAtk: defaultSetBonus,
   Relic_ShieldCostUpWhenElementalArtHit: defaultSetBonus,
   Relic_AttackUpWhenNormalAtkAndExtraAtkHit: defaultSetBonus,
+  Relic_NormalDamageUpIfCostEnergy: defaultSetBonus,
 
   // Swirl Dmg up not yet implemented. Medium priority.
   // Requires reaction dmg to be implemented first.
