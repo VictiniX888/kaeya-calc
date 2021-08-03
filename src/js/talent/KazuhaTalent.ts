@@ -130,15 +130,16 @@ function kazuhaBurst({ params, stats, modifier }: TalentProps) {
     })
   );
 
-  talentValues.push(
-    burstBase({
-      description: 'dotElementalAbsorption',
-      element: Element.Anemo,
-      multiplier: params[2],
-      stats,
-      modifier,
-    })
-  );
-
+  if (modifier.elementalAbsorption !== undefined) {
+    talentValues.push(
+      burstBase({
+        description: 'dotElementalAbsorption',
+        element: modifier.elementalAbsorption,
+        multiplier: params[2],
+        stats,
+        modifier,
+      })
+    );
+  }
   return talentValues;
 }

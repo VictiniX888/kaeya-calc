@@ -41,22 +41,28 @@ function ventiSkill({ params, stats, modifier }: TalentProps) {
 }
 
 function ventiBurst({ params, stats, modifier }: TalentProps) {
-  return [
+  let talentValues = [];
+  talentValues.push(
     burstBase({
       description: 'dot',
       element: Element.Anemo,
       multiplier: params[0],
       stats,
       modifier,
-    }),
+    })
+  );
 
-    // Not sure how the elemental absorption dmg is calculated
-    burstBase({
-      description: 'dotElementalAbsorption',
-      element: Element.Anemo,
-      multiplier: params[1],
-      stats,
-      modifier,
-    }),
-  ];
+  if (modifier.elementalAbsorption !== undefined) {
+    talentValues.push(
+      burstBase({
+        description: 'dotElementalAbsorption',
+        element: modifier.elementalAbsorption,
+        multiplier: params[1],
+        stats,
+        modifier,
+      })
+    );
+  }
+
+  return talentValues;
 }

@@ -22,6 +22,7 @@ interface DamageModifierBase {
 
 interface DamageModiferOptional {
   infusion?: Element;
+  elementalAbsorption?: Element;
 
   dionaHoldSkill?: boolean;
 

@@ -112,23 +112,26 @@ function sayuSkill({ params, stats, modifier }: TalentProps) {
     )
   );
 
-  const elementalDescriptions = [
-    'fuufuuWindwheelElementalDmg',
-    'fuufuuWhirlwindKickElementalDmg',
-  ];
-  const elementalParams = [params[1], params[4]];
+  if (modifier.elementalAbsorption !== undefined) {
+    const elementalAbsorption = modifier.elementalAbsorption;
+    const elementalDescriptions = [
+      'fuufuuWindwheelElementalDmg',
+      'fuufuuWhirlwindKickElementalDmg',
+    ];
+    const elementalParams = [params[1], params[4]];
 
-  elementalDescriptions.forEach((description, i) =>
-    talentValues.push(
-      skillBase({
-        description,
-        element: Element.Anemo,
-        multiplier: elementalParams[i],
-        stats,
-        modifier,
-      })
-    )
-  );
+    elementalDescriptions.forEach((description, i) =>
+      talentValues.push(
+        skillBase({
+          description,
+          element: elementalAbsorption,
+          multiplier: elementalParams[i],
+          stats,
+          modifier,
+        })
+      )
+    );
+  }
 
   return talentValues;
 }

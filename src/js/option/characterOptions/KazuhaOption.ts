@@ -2,6 +2,7 @@ import DamageModifier from '../../modifier/DamageModifer';
 import { Element } from '../../talent/types';
 import { IModifierApplicable, IOptionBoolean } from '../Option';
 import CharacterOption from './CharacterOption';
+import ElementalAbsoprtionOption from './ElementalAbsorptionOption';
 
 class KazuhaOptionInfusion
   extends CharacterOption
@@ -20,5 +21,5 @@ class KazuhaOptionInfusion
   }
 }
 
-const kazuhaOptions = [KazuhaOptionInfusion];
+const kazuhaOptions = [KazuhaOptionInfusion, ElementalAbsoprtionOption];
 export default kazuhaOptions;
