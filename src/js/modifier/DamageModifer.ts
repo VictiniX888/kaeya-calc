@@ -25,5 +25,7 @@ interface DamageModiferOptional {
 
   dionaHoldSkill?: boolean;
 
+  infusionPlunge?: Element;
+
   yoimiyaSkill?: boolean;
 }

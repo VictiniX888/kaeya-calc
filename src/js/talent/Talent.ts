@@ -36,6 +36,7 @@ import jeanTalent from './JeanTalent';
 import ayakaTalent from './AyakaTalent';
 import yoimiyaTalent from './YoimiyaTalent';
 import sayuTalent from './SayuTalent';
+import kazuhaTalent from './KazuhaTalent';
 
 export default interface Talent {
   attack: (props: TalentProps) => TalentValue[];
@@ -76,6 +77,7 @@ export const talents: Record<string, Talent> = {
   xinyan: xinyanTalent,
   rosaria: rosariaTalent,
   hutao: hutaoTalent,
+  kazuha: kazuhaTalent,
   yanfei: yanfeiTalent,
   yoimiya: yoimiyaTalent,
   eula: eulaTalent,

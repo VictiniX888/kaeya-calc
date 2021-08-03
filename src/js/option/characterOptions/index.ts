@@ -3,6 +3,7 @@ import CharacterOption from './CharacterOption';
 import chongyunOptions from './ChongyunOption';
 import dilucOptions from './DilucOption';
 import hutaoOptions from './HuTaoOption';
+import kazuhaOptions from './KazuhaOption';
 import noelleOptions from './NoelleOption';
 import xiaoOptions from './XiaoOption';
 import yanfeiOptions from './YanfeiOption';
@@ -17,6 +18,7 @@ export const characterOptions: Record<string, typeof CharacterOption[]> = {
   noelle: noelleOptions,
   chongyun: chongyunOptions,
   hutao: hutaoOptions,
+  kazuha: kazuhaOptions,
   yanfei: yanfeiOptions,
   yoimiya: yoimiyaOptions,
 };
