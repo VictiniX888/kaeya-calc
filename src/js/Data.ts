@@ -114,14 +114,23 @@ function processTalentData(rawData: Data.CharacterTalentDataRaw[]) {
         curveAcc[curveData.level] = curveData.params;
         return curveAcc;
       }, {} as Data.TalentData),
+
       skill: talentDataSetRaw.skill.reduce((curveAcc, curveData) => {
         curveAcc[curveData.level] = curveData.params;
         return curveAcc;
       }, {} as Data.TalentData),
+
       burst: talentDataSetRaw.burst.reduce((curveAcc, curveData) => {
         curveAcc[curveData.level] = curveData.params;
         return curveAcc;
       }, {} as Data.TalentData),
+
+      passives: talentDataSetRaw.passives.map((passiveData) => {
+        return {
+          params: passiveData.curveData.params,
+          ascensionLevel: passiveData.ascensionLevel,
+        };
+      }),
     };
 
     acc[talentDataRaw.characterId] = talentData;
