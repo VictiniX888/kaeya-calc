@@ -1,6 +1,6 @@
 import { Stats } from '../data/types';
 import Artifact from './artifact/Artifact';
-import Character from './Character';
+import Character from './character/Character';
 import { talentDescMapping, optionMapping } from './Data';
 import { isStatsApplicable } from './option';
 import CharacterOption from './option/characterOptions/CharacterOption';

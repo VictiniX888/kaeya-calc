@@ -53,16 +53,17 @@ interface TalentDataRaw {
   params: TalentParams;
 }
 
-interface PassiveDataRaw {
-  curveData: TalentDataRaw;
+interface PassiveData {
+  id: string;
   ascensionLevel: number;
+  params: TalentParams;
 }
 
 interface TalentDataSetRaw {
   attack: TalentDataRaw[];
   skill: TalentDataRaw[];
   burst: TalentDataRaw[];
-  passives: PassiveDataRaw[];
+  passives: PassiveData[];
 }
 
 export interface CharacterTalentDataRaw {

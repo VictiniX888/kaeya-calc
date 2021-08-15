@@ -1,5 +1,5 @@
 import React from 'react';
-import Character from '../js/Character';
+import Character from '../js/character/Character';
 import { propMapping } from '../js/Data';
 import { getStatDisplayValue } from '../js/Stat';
 

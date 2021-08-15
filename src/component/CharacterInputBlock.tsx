@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppState } from '../App';
-import Character from '../js/Character';
+import Character from '../js/character/Character';
 import { CharacterOption } from '../js/option/characterOptions';
 import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
@@ -27,9 +27,7 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
   setCharacterId = (id: string) => {
     const character = this.props.appState.character;
     character.id = id;
-    const characterOptions = character
-      .getOptions()
-      .map((Option) => new Option());
+    const characterOptions = character.getOptions();
     this.props.updateTotalStats({ character, characterOptions });
     this.props.setAppState({ character, characterOptions });
   };
@@ -37,15 +35,17 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
   setCharacterLevel = (level: number) => {
     const character = this.props.appState.character;
     character.level = level;
-    this.props.updateTotalStats({ character });
-    this.props.setAppState({ character });
+    const characterOptions = character.getOptions();
+    this.props.updateTotalStats({ character, characterOptions });
+    this.props.setAppState({ character, characterOptions });
   };
 
   setIsCharacterAscended = (isAscended: boolean) => {
     const character = this.props.appState.character;
     character.hasAscended = isAscended;
-    this.props.updateTotalStats({ character });
-    this.props.setAppState({ character });
+    const characterOptions = character.getOptions();
+    this.props.updateTotalStats({ character, characterOptions });
+    this.props.setAppState({ character, characterOptions });
   };
 
   updateOptions = () => {

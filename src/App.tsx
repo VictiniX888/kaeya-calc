@@ -9,7 +9,7 @@ import { Stats } from './data/types';
 import Artifact from './js/artifact/Artifact';
 import ArtifactSet from './js/artifact/ArtifactSet';
 import { ArtifactType } from './js/artifact/types';
-import Character from './js/Character';
+import Character from './js/character/Character';
 import CritType from './js/modifier/CritType';
 import DamageModifier from './js/modifier/DamageModifer';
 import { isModifierApplicable, isStatsApplicable } from './js/option';

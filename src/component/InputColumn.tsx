@@ -3,7 +3,7 @@ import { AppState } from '../App';
 import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
 import ArtifactSet from '../js/artifact/ArtifactSet';
-import Character from '../js/Character';
+import Character from '../js/character/Character';
 import CritType from '../js/modifier/CritType';
 import { ArtifactSetOption } from '../js/option/artifactSetOptions';
 import { CharacterOption } from '../js/option/characterOptions';

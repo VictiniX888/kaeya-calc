@@ -5,19 +5,21 @@ import {
   getAscensionBonusAt,
   getTalentData,
   getTalentStatsAt,
-} from './Data';
+} from '../Data';
 
-import { getTalentFn } from './talent';
-import { getCharacterOptions } from './option';
+import { getTalentFn } from '../talent';
+import { getCharacterOptions } from '../option';
 
 import type {
   AscensionBonus,
   StatCurveMapping,
   Stats,
   TalentDataSet,
-} from '../data/types';
-import type DamageModifier from './modifier/DamageModifer';
-import type { TalentType } from './talent/types';
+} from '../../data/types';
+import type DamageModifier from '../modifier/DamageModifer';
+import type { TalentType } from '../talent/types';
+import { getCharacterPassiveFn } from './passive/CharacterPassive';
+import { CharacterOption } from '../option/characterOptions';
 
 export default class Character {
   constructor(id: string, level: number, hasAscended: boolean) {
@@ -45,6 +47,8 @@ export default class Character {
     this.talents = getTalentData(value);
 
     this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
+    this.characterOptions = this.getCharacterOptions();
+    this.passiveOptions = this.getPassiveOptions(this.ascensionLevel);
   }
 
   name?: string;
@@ -59,7 +63,14 @@ export default class Character {
   }
   set level(value: number) {
     this._level = value;
+    const prevAscensionLevel = this.ascensionLevel;
+    this.ascensionLevel = this.getAscensionLevel(this.level, this.hasAscended);
+
     this.innateStats = this.getInnateStatsAt(value, this.hasAscended);
+    this.passiveOptions = this.getPassiveOptions(
+      this.ascensionLevel,
+      prevAscensionLevel
+    );
   }
 
   private _hasAscended: boolean = false;
@@ -68,13 +79,44 @@ export default class Character {
   }
   set hasAscended(value: boolean) {
     this._hasAscended = value;
+    const prevAscensionLevel = this.ascensionLevel;
+    this.ascensionLevel = this.getAscensionLevel(this.level, this.hasAscended);
+
     this.innateStats = this.getInnateStatsAt(this.level, value);
+    this.passiveOptions = this.getPassiveOptions(
+      this.ascensionLevel,
+      prevAscensionLevel
+    );
   }
 
   innateStats: Stats = {};
+  characterOptions: CharacterOption[] = [];
+  passiveOptions: CharacterOption[] = [];
+  ascensionLevel: number = 0;
 
   isDefined() {
     return this.id !== '';
+  }
+
+  getAscensionLevel(level: number, hasAscended: boolean) {
+    let ascensionLevel;
+    if (level > 80 || (level === 80 && hasAscended)) {
+      ascensionLevel = 6;
+    } else if (level > 70 || (level === 70 && hasAscended)) {
+      ascensionLevel = 5;
+    } else if (level > 60 || (level === 60 && hasAscended)) {
+      ascensionLevel = 4;
+    } else if (level > 50 || (level === 50 && hasAscended)) {
+      ascensionLevel = 3;
+    } else if (level > 40 || (level === 40 && hasAscended)) {
+      ascensionLevel = 2;
+    } else if (level > 20 || (level === 20 && hasAscended)) {
+      ascensionLevel = 1;
+    } else {
+      ascensionLevel = 0;
+    }
+
+    return ascensionLevel;
   }
 
   // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
@@ -117,22 +159,8 @@ export default class Character {
     });
 
     // Calculate stats from character ascension
-    let ascensionLevel;
-    if (level > 80 || (level === 80 && hasAscended)) {
-      ascensionLevel = 6;
-    } else if (level > 70 || (level === 70 && hasAscended)) {
-      ascensionLevel = 5;
-    } else if (level > 60 || (level === 60 && hasAscended)) {
-      ascensionLevel = 4;
-    } else if (level > 50 || (level === 50 && hasAscended)) {
-      ascensionLevel = 3;
-    } else if (level > 40 || (level === 40 && hasAscended)) {
-      ascensionLevel = 2;
-    } else if (level > 20 || (level === 20 && hasAscended)) {
-      ascensionLevel = 1;
-    } else {
-      ascensionLevel = 0;
-    }
+    let ascensionLevel = this.ascensionLevel;
+
     let ascensionBonuses = getAscensionBonusAt(
       ascensionLevel,
       this.ascensionBonuses
@@ -180,7 +208,66 @@ export default class Character {
     return damage;
   }
 
+  getCharacterOptions() {
+    return getCharacterOptions(this.id).map((Option) => new Option());
+  }
+
+  getPassiveOptions(ascensionLevel: number, prevAscensionLevel?: number) {
+    if (this.talents === undefined) {
+      return [];
+    }
+
+    const passiveDatas = this.talents.passives;
+
+    if (prevAscensionLevel === undefined || isNaN(prevAscensionLevel)) {
+      return passiveDatas
+        .filter((passiveData) => ascensionLevel >= passiveData.ascensionLevel)
+        .flatMap((passiveData) =>
+          getCharacterPassiveFn(passiveData.id)(passiveData.params)
+        )
+        .flatMap(({ options }) => options)
+        .map((Option) => new Option());
+    }
+
+    if (ascensionLevel > prevAscensionLevel) {
+      const newOptions = passiveDatas
+        .filter(
+          (passiveData) =>
+            ascensionLevel >= passiveData.ascensionLevel &&
+            passiveData.ascensionLevel > prevAscensionLevel
+        )
+        .flatMap((passiveData) =>
+          getCharacterPassiveFn(passiveData.id)(passiveData.params)
+        )
+        .flatMap(({ options }) => options)
+        .map((Option) => new Option());
+
+      return this.passiveOptions.concat(newOptions);
+    }
+
+    if (ascensionLevel < prevAscensionLevel) {
+      const keptOptionIds = passiveDatas
+        .filter((passiveData) => ascensionLevel >= passiveData.ascensionLevel)
+        .flatMap((passiveData) =>
+          getCharacterPassiveFn(passiveData.id)(passiveData.params)
+        )
+        .flatMap(({ options }) => options)
+        .map((Option) => new Option())
+        .map((option) => option.id);
+
+      return this.passiveOptions.filter((option) =>
+        keptOptionIds.includes(option.id)
+      );
+    }
+
+    // if (ascensionLevel === prevAscensionLevel)
+    return this.passiveOptions;
+  }
+
   getOptions() {
-    return getCharacterOptions(this.id);
+    const characterOptions = this.characterOptions;
+    const passiveOptions = this.passiveOptions;
+
+    return characterOptions.concat(passiveOptions);
   }
 }

@@ -125,12 +125,7 @@ function processTalentData(rawData: Data.CharacterTalentDataRaw[]) {
         return curveAcc;
       }, {} as Data.TalentData),
 
-      passives: talentDataSetRaw.passives.map((passiveData) => {
-        return {
-          params: passiveData.curveData.params,
-          ascensionLevel: passiveData.ascensionLevel,
-        };
-      }),
+      passives: talentDataSetRaw.passives,
     };
 
     acc[talentDataRaw.characterId] = talentData;
