@@ -148,7 +148,7 @@ class App extends React.Component<{}, AppState> {
     (artifactSetOptions ?? this.state.artifactSetOptions).forEach((option) => {
       if (isStatsApplicable(option)) {
         // Placeholder talent levels, currently no artifactsetoption uses it
-        option.applyOnStats(this.artifactSetBonuses, 1, 1, 1);
+        option.applyOnStats(this.artifactSetBonuses, 1, 1, 1, 0);
       }
     });
 

@@ -27,7 +27,8 @@ export interface IStatsApplicable {
     stats: Stats,
     talentAttackLevel: number,
     talentSkillLevel: number,
-    talentBurstLevel: number
+    talentBurstLevel: number,
+    ascensionLevel: number
   ) => void;
 }
 
