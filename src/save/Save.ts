@@ -1,5 +1,7 @@
 import { AppState } from '../App';
+import Artifact from '../js/artifact/Artifact';
 import ArtifactSet from '../js/artifact/ArtifactSet';
+import { ArtifactType, InputStat } from '../js/artifact/types';
 import Character from '../js/character/Character';
 import CritType from '../js/modifier/CritType';
 import Resistance from '../js/Resistance';
@@ -16,6 +18,8 @@ export default interface Save {
   weaponId?: string;
   weaponLevel?: number;
   weaponHasAscended?: boolean;
+
+  artifacts?: ArtifactSave[];
 
   artifactSets?: { artifactSetId?: string; artifactSetPieces?: number }[];
 
@@ -38,6 +42,26 @@ export default interface Save {
 
 export type Saves = Record<string, Save>;
 
+interface ArtifactSave {
+  type?: ArtifactType;
+  mainStat?: InputStatSave;
+  subStats?: InputStatSave[];
+}
+
+interface InputStatSave {
+  stat?: string;
+  value?: number;
+  rawValue?: number;
+}
+
+function createInputStatSave({
+  stat,
+  value,
+  rawValue,
+}: InputStat): InputStatSave {
+  return { stat, value, rawValue };
+}
+
 export function createSave(label: string, appState: AppState): Save {
   const save: Save = {
     label,
@@ -49,6 +73,16 @@ export function createSave(label: string, appState: AppState): Save {
     weaponId: appState.weapon.id,
     weaponLevel: appState.weapon.weaponLevel,
     weaponHasAscended: appState.weapon.hasAscended,
+
+    artifacts: appState.artifacts.map((artifact) => {
+      return {
+        type: artifact.type,
+        mainStat: createInputStatSave(artifact.mainStat),
+        subStats: artifact.subStats.map((subStat) =>
+          createInputStatSave(subStat)
+        ),
+      };
+    }),
 
     artifactSets: appState.artifactSets.map((artifactSet) => {
       return {
@@ -94,6 +128,29 @@ export function loadSave(
     save.weaponLevel ?? 1,
     save.weaponHasAscended ?? false
   );
+
+  const artifacts =
+    save.artifacts?.map((savedArtifact, i) => {
+      const artifactType = savedArtifact.type ?? Object.values(ArtifactType)[i];
+      let artifact = new Artifact(artifactType);
+      artifact.mainStat = new InputStat(
+        savedArtifact.mainStat?.stat ?? '',
+        savedArtifact.mainStat?.value ?? NaN,
+        savedArtifact.mainStat?.rawValue ?? NaN
+      );
+      artifact.subStats =
+        savedArtifact.subStats?.map(
+          (subStat) =>
+            new InputStat(
+              subStat.stat ?? '',
+              subStat.value ?? NaN,
+              subStat.rawValue ?? NaN
+            )
+        ) ?? artifact.subStats;
+
+      return artifact;
+    }) ?? Object.values(ArtifactType).map((type) => new Artifact(type));
+
   const artifactSets = save.artifactSets?.map(
     (artifactSet) =>
       new ArtifactSet(
@@ -115,6 +172,7 @@ export function loadSave(
   setAppState({
     character,
     weapon,
+    artifacts,
     artifactSets,
     talentAttackLevel,
     talentSkillLevel,
