@@ -5,7 +5,8 @@ import { ArtifactSetBonus, Stats } from '../../data/types';
 import { ArtifactSetOption } from '../option/artifactSetOptions';
 
 export default class ArtifactSet {
-  constructor(id: string) {
+  constructor(id: string, pieces?: number) {
+    if (pieces !== undefined) this._pieces = pieces;
     this.id = id;
   }
 

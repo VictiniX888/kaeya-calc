@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/esm/Button';
 import { AppState } from '../App';
 import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
@@ -9,9 +10,11 @@ import { ArtifactSetOption } from '../js/option/artifactSetOptions';
 import { CharacterOption } from '../js/option/characterOptions';
 import Resistance from '../js/Resistance';
 import Weapon from '../js/weapon/Weapon';
+import { addSave, createSave, getSave, loadSave, Saves } from '../save/Save';
 import ArtifactSetInputBlock from './ArtifactSetInputBlock';
 import CharacterInputBlock from './CharacterInputBlock';
 import Column from './Column';
+import InputRow from './InputRow';
 import ModifierInputBlock from './ModifierInputBlock';
 import TalentInputBlock from './TalentInputBlock';
 import WeaponInputBlock from './WeaponInputBlock';
@@ -69,6 +72,7 @@ type InputColumnProps = {
     characterOptions?: CharacterOption[];
     artifactSetOptions?: ArtifactSetOption[];
   }) => void;
+  saves: Saves;
 };
 
 class InputColumn extends React.Component<InputColumnProps> {
@@ -79,10 +83,37 @@ class InputColumn extends React.Component<InputColumnProps> {
       updateArtifactSetBonuses,
       updateTotalStats,
       updateTalentValues,
+      saves,
     } = this.props;
 
     return (
       <Column className='input-column'>
+        <InputRow>
+          <Button
+            variant='secondary'
+            size='sm'
+            onClick={() => {
+              const save = createSave('test', appState);
+              addSave(save, saves);
+            }}
+          >
+            Save
+          </Button>
+
+          <Button
+            variant='secondary'
+            size='sm'
+            onClick={() => {
+              const save = getSave('test', saves);
+              if (save !== undefined) {
+                loadSave(save, setAppState);
+              }
+            }}
+          >
+            Load
+          </Button>
+        </InputRow>
+
         <CharacterInputBlock
           appState={appState}
           setAppState={setAppState}
