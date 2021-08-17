@@ -73,6 +73,7 @@ type InputColumnProps = {
     artifactSetOptions?: ArtifactSetOption[];
   }) => void;
   saves: Saves;
+  refreshApp: () => void;
 };
 
 class InputColumn extends React.Component<InputColumnProps> {
@@ -84,6 +85,7 @@ class InputColumn extends React.Component<InputColumnProps> {
       updateTotalStats,
       updateTalentValues,
       saves,
+      refreshApp,
     } = this.props;
 
     return (
@@ -106,7 +108,7 @@ class InputColumn extends React.Component<InputColumnProps> {
             onClick={() => {
               const save = getSave('test', saves);
               if (save !== undefined) {
-                loadSave(save, setAppState);
+                loadSave(save, setAppState, refreshApp);
               }
             }}
           >

@@ -259,7 +259,7 @@ export function getTotalStatsAt(
         talentAttackLevel,
         talentSkillLevel,
         talentBurstLevel,
-        character.ascensionLevel
+        Character.getAscensionLevel(character.level, character.hasAscended)
       );
     }
   });

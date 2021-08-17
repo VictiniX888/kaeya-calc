@@ -116,7 +116,8 @@ export function loadSave(
   setAppState: <K extends keyof AppState>(
     state: Pick<AppState, K>,
     callback?: () => void
-  ) => void
+  ) => void,
+  refreshApp: () => void
 ) {
   const character = new Character(
     save.characterId ?? '',
@@ -169,18 +170,30 @@ export function loadSave(
     ? new Resistance(save.enemyRes)
     : new Resistance();
 
-  setAppState({
-    character,
-    weapon,
-    artifacts,
-    artifactSets,
-    talentAttackLevel,
-    talentSkillLevel,
-    talentBurstLevel,
-    critType,
-    enemyLevel,
-    enemyRes,
-  });
+  const characterOptions = character.getOptions();
+  const artifactSetOptions = artifactSets.flatMap(
+    (artifactSet) => artifactSet.options
+  );
+
+  setAppState(
+    {
+      character,
+      weapon,
+      artifacts,
+      artifactSets,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel,
+      critType,
+      enemyLevel,
+      enemyRes,
+      characterOptions,
+      artifactSetOptions,
+    },
+
+    // Update stats and talents
+    refreshApp
+  );
 }
 
 export function addSave(save: Save, saves: Saves) {

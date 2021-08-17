@@ -269,6 +269,11 @@ class App extends React.Component<{}, AppState> {
     });
   };
 
+  refreshApp = () => {
+    this.updateArtifactSetBonuses({});
+    this.setState({});
+  };
+
   render() {
     return (
       <div className='app'>
@@ -279,6 +284,7 @@ class App extends React.Component<{}, AppState> {
           updateTotalStats={this.updateTotalStats}
           updateTalentValues={this.updateTalentValues}
           saves={this.saves}
+          refreshApp={this.refreshApp}
         />
         <ArtifactColumn
           appState={this.state}

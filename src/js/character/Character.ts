@@ -48,7 +48,9 @@ export default class Character {
 
     this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
     this.characterOptions = this.getCharacterOptions();
-    this.passiveOptions = this.getPassiveOptions(this.ascensionLevel);
+    this.passiveOptions = this.getPassiveOptions(
+      Character.getAscensionLevel(this.level, this.hasAscended)
+    );
   }
 
   name?: string;
@@ -62,13 +64,19 @@ export default class Character {
     return this._level;
   }
   set level(value: number) {
+    const prevAscensionLevel = Character.getAscensionLevel(
+      this.level,
+      this.hasAscended
+    );
     this._level = value;
-    const prevAscensionLevel = this.ascensionLevel;
-    this.ascensionLevel = this.getAscensionLevel(this.level, this.hasAscended);
+    const ascensionLevel = Character.getAscensionLevel(
+      this.level,
+      this.hasAscended
+    );
 
     this.innateStats = this.getInnateStatsAt(value, this.hasAscended);
     this.passiveOptions = this.getPassiveOptions(
-      this.ascensionLevel,
+      ascensionLevel,
       prevAscensionLevel
     );
   }
@@ -78,13 +86,19 @@ export default class Character {
     return this._hasAscended;
   }
   set hasAscended(value: boolean) {
+    const prevAscensionLevel = Character.getAscensionLevel(
+      this.level,
+      this.hasAscended
+    );
     this._hasAscended = value;
-    const prevAscensionLevel = this.ascensionLevel;
-    this.ascensionLevel = this.getAscensionLevel(this.level, this.hasAscended);
+    const ascensionLevel = Character.getAscensionLevel(
+      this.level,
+      this.hasAscended
+    );
 
     this.innateStats = this.getInnateStatsAt(this.level, value);
     this.passiveOptions = this.getPassiveOptions(
-      this.ascensionLevel,
+      ascensionLevel,
       prevAscensionLevel
     );
   }
@@ -92,31 +106,9 @@ export default class Character {
   innateStats: Stats = {};
   characterOptions: CharacterOption[] = [];
   passiveOptions: CharacterOption[] = [];
-  ascensionLevel: number = 0;
 
   isDefined() {
     return this.id !== '';
-  }
-
-  getAscensionLevel(level: number, hasAscended: boolean) {
-    let ascensionLevel;
-    if (level > 80 || (level === 80 && hasAscended)) {
-      ascensionLevel = 6;
-    } else if (level > 70 || (level === 70 && hasAscended)) {
-      ascensionLevel = 5;
-    } else if (level > 60 || (level === 60 && hasAscended)) {
-      ascensionLevel = 4;
-    } else if (level > 50 || (level === 50 && hasAscended)) {
-      ascensionLevel = 3;
-    } else if (level > 40 || (level === 40 && hasAscended)) {
-      ascensionLevel = 2;
-    } else if (level > 20 || (level === 20 && hasAscended)) {
-      ascensionLevel = 1;
-    } else {
-      ascensionLevel = 0;
-    }
-
-    return ascensionLevel;
   }
 
   // Returns an Object containing the character's innate total HP, Atk and Def, taking into account only their level and ascension
@@ -159,7 +151,7 @@ export default class Character {
     });
 
     // Calculate stats from character ascension
-    let ascensionLevel = this.ascensionLevel;
+    let ascensionLevel = Character.getAscensionLevel(level, hasAscended);
 
     let ascensionBonuses = getAscensionBonusAt(
       ascensionLevel,
@@ -269,5 +261,26 @@ export default class Character {
     const passiveOptions = this.passiveOptions;
 
     return characterOptions.concat(passiveOptions);
+  }
+
+  static getAscensionLevel(level: number, hasAscended: boolean) {
+    let ascensionLevel;
+    if (level > 80 || (level === 80 && hasAscended)) {
+      ascensionLevel = 6;
+    } else if (level > 70 || (level === 70 && hasAscended)) {
+      ascensionLevel = 5;
+    } else if (level > 60 || (level === 60 && hasAscended)) {
+      ascensionLevel = 4;
+    } else if (level > 50 || (level === 50 && hasAscended)) {
+      ascensionLevel = 3;
+    } else if (level > 40 || (level === 40 && hasAscended)) {
+      ascensionLevel = 2;
+    } else if (level > 20 || (level === 20 && hasAscended)) {
+      ascensionLevel = 1;
+    } else {
+      ascensionLevel = 0;
+    }
+
+    return ascensionLevel;
   }
 }
