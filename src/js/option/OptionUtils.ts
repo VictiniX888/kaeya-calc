@@ -49,3 +49,25 @@ export function isModifierApplicable(
     (option as unknown as IModifierApplicable).applyOnModifier !== undefined
   );
 }
+
+export function getOptionValue(option: Option) {
+  if (
+    isBooleanOption(option) ||
+    isPickerOption(option) ||
+    isNumberOption(option)
+  ) {
+    return option.value;
+  }
+}
+
+export function setOptionValue(option: Option, value: unknown) {
+  if (
+    (isBooleanOption(option) && typeof value === 'boolean') ||
+    (isPickerOption(option) &&
+      typeof value === 'string' &&
+      (value === '' || option.choices.includes(value))) ||
+    (isNumberOption(option) && typeof value === 'number')
+  ) {
+    option.value = value;
+  }
+}

@@ -4,6 +4,7 @@ import ArtifactSet from '../js/artifact/ArtifactSet';
 import { ArtifactType, InputStat } from '../js/artifact/types';
 import Character from '../js/character/Character';
 import CritType from '../js/modifier/CritType';
+import { getOptionValue, setOptionValue } from '../js/option';
 import Resistance from '../js/Resistance';
 import { Element } from '../js/talent/types';
 import Weapon from '../js/weapon/Weapon';
@@ -38,6 +39,9 @@ export default interface Save {
     pyro?: number;
     physical?: number;
   };
+
+  characterOptions?: { id?: string; value?: unknown }[];
+  artifactSetOptions?: { id?: string; value?: unknown }[];
 }
 
 export type Saves = Record<string, Save>;
@@ -106,6 +110,13 @@ export function createSave(label: string, appState: AppState): Save {
       pyro: appState.enemyRes.get(Element.Pyro),
       physical: appState.enemyRes.get(Element.Physical),
     },
+
+    characterOptions: appState.characterOptions.map((option) => {
+      return { id: option.id, value: getOptionValue(option) };
+    }),
+    artifactSetOptions: appState.artifactSetOptions.map((option) => {
+      return { id: option.id, value: getOptionValue(option) };
+    }),
   };
 
   return save;
@@ -171,9 +182,26 @@ export function loadSave(
     : new Resistance();
 
   const characterOptions = character.getOptions();
+  save.characterOptions?.forEach((option) => {
+    let characterOption = characterOptions.find(
+      (characterOption) => characterOption.id === option.id
+    );
+    if (characterOption !== undefined) {
+      setOptionValue(characterOption, option.value);
+    }
+  });
+
   const artifactSetOptions = artifactSets.flatMap(
     (artifactSet) => artifactSet.options
   );
+  save.artifactSetOptions?.forEach((option) => {
+    let artifactSetOption = artifactSetOptions.find(
+      (artifactSetOption) => artifactSetOption.id === option.id
+    );
+    if (artifactSetOption !== undefined) {
+      setOptionValue(artifactSetOption, option.value);
+    }
+  });
 
   setAppState(
     {
