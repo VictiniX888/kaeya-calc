@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/kaeya-calc/static/css/main.ba8d98ec.chunk.css",
-    "main.js": "/kaeya-calc/static/js/main.348ea881.chunk.js",
-    "main.js.map": "/kaeya-calc/static/js/main.348ea881.chunk.js.map",
-    "runtime-main.js": "/kaeya-calc/static/js/runtime-main.5e7f3018.js",
-    "runtime-main.js.map": "/kaeya-calc/static/js/runtime-main.5e7f3018.js.map",
-    "static/js/2.41caddad.chunk.js": "/kaeya-calc/static/js/2.41caddad.chunk.js",
-    "static/js/2.41caddad.chunk.js.map": "/kaeya-calc/static/js/2.41caddad.chunk.js.map",
-    "static/js/3.048754b4.chunk.js": "/kaeya-calc/static/js/3.048754b4.chunk.js",
-    "static/js/3.048754b4.chunk.js.map": "/kaeya-calc/static/js/3.048754b4.chunk.js.map",
+    "main.css": "/kaeya-calc/static/css/main.d8e67baf.chunk.css",
+    "main.js": "/kaeya-calc/static/js/main.921bca85.chunk.js",
+    "main.js.map": "/kaeya-calc/static/js/main.921bca85.chunk.js.map",
+    "runtime-main.js": "/kaeya-calc/static/js/runtime-main.d5357feb.js",
+    "runtime-main.js.map": "/kaeya-calc/static/js/runtime-main.d5357feb.js.map",
+    "static/js/2.cf603414.chunk.js": "/kaeya-calc/static/js/2.cf603414.chunk.js",
+    "static/js/2.cf603414.chunk.js.map": "/kaeya-calc/static/js/2.cf603414.chunk.js.map",
+    "static/js/3.50214336.chunk.js": "/kaeya-calc/static/js/3.50214336.chunk.js",
+    "static/js/3.50214336.chunk.js.map": "/kaeya-calc/static/js/3.50214336.chunk.js.map",
     "index.html": "/kaeya-calc/index.html",
-    "static/css/main.ba8d98ec.chunk.css.map": "/kaeya-calc/static/css/main.ba8d98ec.chunk.css.map",
-    "static/js/2.41caddad.chunk.js.LICENSE.txt": "/kaeya-calc/static/js/2.41caddad.chunk.js.LICENSE.txt"
+    "static/css/main.d8e67baf.chunk.css.map": "/kaeya-calc/static/css/main.d8e67baf.chunk.css.map",
+    "static/js/2.cf603414.chunk.js.LICENSE.txt": "/kaeya-calc/static/js/2.cf603414.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.5e7f3018.js",
-    "static/js/2.41caddad.chunk.js",
-    "static/css/main.ba8d98ec.chunk.css",
-    "static/js/main.348ea881.chunk.js"
+    "static/js/runtime-main.d5357feb.js",
+    "static/js/2.cf603414.chunk.js",
+    "static/css/main.d8e67baf.chunk.css",
+    "static/js/main.921bca85.chunk.js"
   ]
 }
