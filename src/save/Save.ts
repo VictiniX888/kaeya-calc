@@ -232,3 +232,8 @@ export function addSave(save: Save, saves: Saves) {
 export function getSave(label: string, saves: Saves): Save | undefined {
   return saves[label];
 }
+
+export function deleteSave(label: string, saves: Saves) {
+  delete saves[label];
+  window.localStorage.setItem('saves', JSON.stringify(saves));
+}

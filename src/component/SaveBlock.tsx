@@ -1,8 +1,16 @@
 import React from 'react';
 import Button from 'react-bootstrap/esm/Button';
 import Form from 'react-bootstrap/esm/Form';
+import Modal from 'react-bootstrap/esm/Modal';
 import { AppState } from '../App';
-import { createSave, addSave, getSave, loadSave, Saves } from '../save/Save';
+import {
+  createSave,
+  addSave,
+  getSave,
+  loadSave,
+  Saves,
+  deleteSave,
+} from '../save/Save';
 import InputRow from './InputRow';
 import Picker from './Picker';
 
@@ -19,6 +27,7 @@ type SaveBlockState = {
   saves: Saves;
   saveInputName: string;
   selectedSave: string;
+  showDeleteWarning: boolean;
 };
 
 class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
@@ -34,7 +43,13 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
 
     // Initialize saves in memory
     const saves = JSON.parse(window.localStorage.getItem('saves') ?? '{}');
-    this.state = { saves, saveInputName: '', selectedSave: '' };
+    // Initialize state
+    this.state = {
+      saves,
+      saveInputName: '',
+      selectedSave: '',
+      showDeleteWarning: false,
+    };
   }
 
   onSaveClick = () => {
@@ -61,6 +76,24 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
 
   onLoadInputChange = (value: string) => {
     this.setState({ selectedSave: value });
+  };
+
+  onDeleteClick = () => {
+    if (this.state.selectedSave !== '') {
+      this.setState({ showDeleteWarning: true });
+    }
+  };
+
+  onModalConfirm = () => {
+    const saves = this.state.saves;
+    deleteSave(this.state.selectedSave, saves);
+    this.setState({ saves });
+
+    this.setState({ showDeleteWarning: false });
+  };
+
+  onModalHide = () => {
+    this.setState({ showDeleteWarning: false });
   };
 
   render() {
@@ -101,6 +134,30 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
               />
             ))}
           </Picker>
+
+          <>
+            <Button variant='danger' size='sm' onClick={this.onDeleteClick}>
+              Delete
+            </Button>
+
+            <Modal
+              show={this.state.showDeleteWarning}
+              onHide={this.onModalHide}
+            >
+              <Modal.Body>
+                Are you sure you want to delete the save configuration? This
+                action is irreversible!
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant='secondary' onClick={this.onModalHide}>
+                  Cancel
+                </Button>
+                <Button variant='danger' onClick={this.onModalConfirm}>
+                  Delete
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </>
         </InputRow>
       </div>
     );
