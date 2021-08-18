@@ -143,3 +143,8 @@ select:focus-visible {
 .btn-sm {
   padding: 0rem 0.5rem;
 }
+
+.form-control-sm {
+  height: calc(1.5em + 2px);
+  padding: 0rem 0.25rem;
+}
