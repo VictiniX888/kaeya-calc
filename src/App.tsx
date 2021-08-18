@@ -19,7 +19,6 @@ import Resistance from './js/Resistance';
 import { getTotalStatsAt } from './js/Stat';
 import { TalentType, TalentValueSet } from './js/talent/types';
 import Weapon from './js/weapon/Weapon';
-import { Saves } from './save/Save';
 
 export type AppState = {
   character: Character;
@@ -71,20 +70,6 @@ class App extends React.Component<{}, AppState> {
   artifactSetBonuses: Stats = {};
   totalStats: Stats = {};
   talentValues: TalentValueSet = { attack: [], skill: [], burst: [] };
-
-  saves: Saves = {};
-
-  constructor(props: {}) {
-    super(props);
-
-    // Populate local storage if empty
-    if (window.localStorage.getItem('saves') === null) {
-      window.localStorage.setItem('saves', '{}');
-    }
-
-    // Initialize saves in memory
-    this.saves = JSON.parse(window.localStorage.getItem('saves') ?? '{}');
-  }
 
   getDamageModifier({
     characterLevel,
@@ -283,7 +268,6 @@ class App extends React.Component<{}, AppState> {
           updateArtifactSetBonuses={this.updateArtifactSetBonuses}
           updateTotalStats={this.updateTotalStats}
           updateTalentValues={this.updateTalentValues}
-          saves={this.saves}
           refreshApp={this.refreshApp}
         />
         <ArtifactColumn
