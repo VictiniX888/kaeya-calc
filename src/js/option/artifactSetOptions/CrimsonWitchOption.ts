@@ -1,26 +1,28 @@
 import ArtifactSetOption from './ArtifactSetOption';
 import { getArtifactSetBonusData } from '../../Data';
-import { IOptionBoolean, IStatsApplicable } from '../Option';
+import { IOptionNumber, IStatsApplicable } from '../Option';
 import { Stats } from '../../../data/types';
 
 class CrimsonWitch4PcOption
   extends ArtifactSetOption
-  implements IOptionBoolean, IStatsApplicable
+  implements IOptionNumber, IStatsApplicable
 {
-  value = true;
+  value = 0;
 
   constructor() {
-    super('crimsonWitch4Pc', 4);
+    super('crimsonWitch4PcStacks', 4);
   }
 
   applyOnStats(stats: Stats) {
-    if (this.value) {
+    if (this.value > 0) {
       const setBonusData = getArtifactSetBonusData('crimsonwitchofflames');
       const param = setBonusData[2].bonuses.find(
         ({ stat }) => stat === 'pyroDmgBonus'
       )?.value!!;
 
-      stats.pyroDmgBonus = param / 2 + (stats.pyroDmgBonus ?? 0);
+      let stacks = this.value;
+      if (stacks > 3) stacks = 3;
+      stats.pyroDmgBonus = stacks * (param / 2) + (stats.pyroDmgBonus ?? 0);
     }
   }
 }
