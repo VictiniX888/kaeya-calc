@@ -160,6 +160,17 @@ export function getTotalStatsAt(
     });
   }
 
+  // Apply stat mixins
+  statMixins.forEach((mixin) =>
+    mixin(
+      combinedStats,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel,
+      getAscensionLevel(character.level, character.hasAscended)
+    )
+  );
+
   // Calculate total stats
   let totalStats: Stats = {};
 
@@ -251,17 +262,6 @@ export function getTotalStatsAt(
   if (combinedStats.chargedCritRate !== undefined) {
     totalStats.chargedCritRate = combinedStats.chargedCritRate;
   }
-
-  // Apply stat mixins
-  statMixins.forEach((mixin) =>
-    mixin(
-      totalStats,
-      talentAttackLevel,
-      talentSkillLevel,
-      talentBurstLevel,
-      getAscensionLevel(character.level, character.hasAscended)
-    )
-  );
 
   // Severed Fate set bonus (if applicable)
   if (
