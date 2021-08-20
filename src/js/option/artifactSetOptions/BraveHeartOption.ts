@@ -13,12 +13,12 @@ class BraveHeart4PcOption
     super('braveHeart4Pc', 4);
   }
 
-  applyOnStats(stats: Stats) {
+  applyOnStats = (stats: Stats) => {
     if (this.value) {
       const params = getArtifactSetBonusParams('braveheart', 4);
       stats.dmgBonus = params[0] + (stats.dmgBonus ?? 0);
     }
-  }
+  };
 }
 
 const braveHeartOptions = [BraveHeart4PcOption];

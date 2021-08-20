@@ -14,12 +14,12 @@ class YanfeiOptionBurst
     super('brilliance');
   }
 
-  applyOnStats(
+  applyOnStats = (
     stats: Stats,
     _talentAttackLevel: number,
     _talentSkillLevel: number,
     talentBurstLevel: number
-  ) {
+  ) => {
     if (this.value) {
       const burstParams = getTalentStatsAt(
         TalentType.Burst,
@@ -28,7 +28,7 @@ class YanfeiOptionBurst
       );
       stats.chargedDmgBonus = burstParams[1] + (stats.chargedDmgBonus ?? 0);
     }
-  }
+  };
 }
 
 const yanfeiOptions = [YanfeiOptionBurst];

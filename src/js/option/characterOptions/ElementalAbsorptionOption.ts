@@ -14,11 +14,11 @@ class ElementalAbsoprtionOption
     super('elementalAbsorption');
   }
 
-  applyOnModifier(modifier: DamageModifier) {
+  applyOnModifier = (modifier: DamageModifier) => {
     if (this.value !== '') {
       modifier.elementalAbsorption = this.value as Element;
     }
-  }
+  };
 }
 
 export default ElementalAbsoprtionOption;

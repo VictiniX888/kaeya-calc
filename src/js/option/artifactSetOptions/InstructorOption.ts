@@ -13,12 +13,12 @@ class Instructor4PcOption
     super('instructor4Pc', 4);
   }
 
-  applyOnStats(stats: Stats) {
+  applyOnStats = (stats: Stats) => {
     if (this.value) {
       const params = getArtifactSetBonusParams('instructor', 4);
       stats.elementalMastery = params[1] + (stats.elementalMastery ?? 0);
     }
-  }
+  };
 }
 
 const instructorOptions = [Instructor4PcOption];

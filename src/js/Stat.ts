@@ -1,9 +1,9 @@
 import { Stats } from '../data/types';
 import Artifact from './artifact/Artifact';
-import Character from './character/Character';
+import Character, { getAscensionLevel } from './character/Character';
 import { talentDescMapping, optionMapping } from './Data';
-import { isStatsApplicable } from './option';
 import CharacterOption from './option/characterOptions/CharacterOption';
+import { StatMixin } from './option/Mixin';
 import Weapon from './weapon/Weapon';
 
 // Returns the string to display as the value of a stat
@@ -108,7 +108,8 @@ export function getTotalStatsAt(
   characterOptions: CharacterOption[],
   talentAttackLevel: number,
   talentSkillLevel: number,
-  talentBurstLevel: number
+  talentBurstLevel: number,
+  statMixins: StatMixin[]
 ) {
   // Remove previous Severed Fate set bonus (if applicable)
   if (
@@ -251,18 +252,16 @@ export function getTotalStatsAt(
     totalStats.chargedCritRate = combinedStats.chargedCritRate;
   }
 
-  // Apply character options (only)
-  characterOptions.forEach((option) => {
-    if (isStatsApplicable(option)) {
-      option.applyOnStats(
-        totalStats,
-        talentAttackLevel,
-        talentSkillLevel,
-        talentBurstLevel,
-        Character.getAscensionLevel(character.level, character.hasAscended)
-      );
-    }
-  });
+  // Apply stat mixins
+  statMixins.forEach((mixin) =>
+    mixin(
+      totalStats,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel,
+      getAscensionLevel(character.level, character.hasAscended)
+    )
+  );
 
   // Severed Fate set bonus (if applicable)
   if (

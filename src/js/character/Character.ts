@@ -20,6 +20,8 @@ import type DamageModifier from '../modifier/DamageModifer';
 import type { TalentType } from '../talent/types';
 import { getCharacterPassiveFn } from '../passive/characterPassives/CharacterPassive';
 import { CharacterOption } from '../option/characterOptions';
+import { CharacterPassive } from '../passive/types';
+import { ModifierMixin, StatMixin } from '../option/Mixin';
 
 export default class Character {
   constructor(id: string, level: number, hasAscended: boolean) {
@@ -48,9 +50,9 @@ export default class Character {
 
     this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
     this.characterOptions = this.getCharacterOptions();
-    this.passiveOptions = this.getPassiveOptions(
-      getAscensionLevel(this.level, this.hasAscended)
-    );
+    const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
+    this.passives = this.getPassives(ascensionLevel);
+    this.passiveOptions = this.getPassiveOptions(ascensionLevel);
   }
 
   name?: string;
@@ -69,6 +71,7 @@ export default class Character {
     const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
 
     this.innateStats = this.getInnateStatsAt(value, this.hasAscended);
+    this.passives = this.getPassives(ascensionLevel, prevAscensionLevel);
     this.passiveOptions = this.getPassiveOptions(
       ascensionLevel,
       prevAscensionLevel
@@ -85,6 +88,7 @@ export default class Character {
     const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
 
     this.innateStats = this.getInnateStatsAt(this.level, value);
+    this.passives = this.getPassives(ascensionLevel, prevAscensionLevel);
     this.passiveOptions = this.getPassiveOptions(
       ascensionLevel,
       prevAscensionLevel
@@ -92,6 +96,7 @@ export default class Character {
   }
 
   innateStats: Stats = {};
+  passives: CharacterPassive[] = [];
   characterOptions: CharacterOption[] = [];
   passiveOptions: CharacterOption[] = [];
 
@@ -192,7 +197,7 @@ export default class Character {
     return getCharacterOptions(this.id).map((Option) => new Option());
   }
 
-  getPassiveOptions(ascensionLevel: number, prevAscensionLevel?: number) {
+  getPassives(ascensionLevel: number, prevAscensionLevel?: number) {
     if (this.talents === undefined) {
       return [];
     }
@@ -204,13 +209,11 @@ export default class Character {
         .filter((passiveData) => ascensionLevel >= passiveData.ascensionLevel)
         .flatMap((passiveData) =>
           getCharacterPassiveFn(passiveData.id)(passiveData.params)
-        )
-        .flatMap(({ options }) => options)
-        .map((Option) => new Option());
+        );
     }
 
     if (ascensionLevel > prevAscensionLevel) {
-      const newOptions = passiveDatas
+      const newPassives = passiveDatas
         .filter(
           (passiveData) =>
             ascensionLevel >= passiveData.ascensionLevel &&
@@ -218,7 +221,38 @@ export default class Character {
         )
         .flatMap((passiveData) =>
           getCharacterPassiveFn(passiveData.id)(passiveData.params)
-        )
+        );
+
+      return this.passives.concat(newPassives);
+    }
+
+    if (ascensionLevel < prevAscensionLevel) {
+      const keptPassiveIds = passiveDatas
+        .filter((passiveData) => ascensionLevel >= passiveData.ascensionLevel)
+        .flatMap(
+          (passiveData) =>
+            getCharacterPassiveFn(passiveData.id)(passiveData.params).id
+        );
+
+      return this.passives.filter((option) =>
+        keptPassiveIds.includes(option.id)
+      );
+    }
+
+    // if (ascensionLevel === prevAscensionLevel)
+    return this.passives;
+  }
+
+  // getPassives should be called before this if passives are updated
+  getPassiveOptions(ascensionLevel: number, prevAscensionLevel?: number) {
+    if (prevAscensionLevel === undefined || isNaN(prevAscensionLevel)) {
+      return this.passives
+        .flatMap(({ options }) => options)
+        .map((Option) => new Option());
+    }
+
+    if (ascensionLevel > prevAscensionLevel) {
+      const newOptions = this.passives
         .flatMap(({ options }) => options)
         .map((Option) => new Option());
 
@@ -226,11 +260,7 @@ export default class Character {
     }
 
     if (ascensionLevel < prevAscensionLevel) {
-      const keptOptionIds = passiveDatas
-        .filter((passiveData) => ascensionLevel >= passiveData.ascensionLevel)
-        .flatMap((passiveData) =>
-          getCharacterPassiveFn(passiveData.id)(passiveData.params)
-        )
+      const keptOptionIds = this.passives
         .flatMap(({ options }) => options)
         .map((Option) => new Option())
         .map((option) => option.id);
@@ -250,10 +280,22 @@ export default class Character {
 
     return characterOptions.concat(passiveOptions);
   }
+
+  getPassiveStatMixins(): StatMixin[] {
+    return this.passives
+      .map(({ statMixin }) => statMixin)
+      .filter((mixin): mixin is StatMixin => mixin !== undefined);
+  }
+
+  getPassiveModifierMixins(): ModifierMixin[] {
+    return this.passives
+      .map(({ modifierMixin }) => modifierMixin)
+      .filter((mixin): mixin is ModifierMixin => mixin !== undefined);
+  }
 }
 
 // Utility functions
-function getAscensionLevel(level: number, hasAscended: boolean) {
+export function getAscensionLevel(level: number, hasAscended: boolean) {
   let ascensionLevel;
   if (level > 80 || (level === 80 && hasAscended)) {
     ascensionLevel = 6;

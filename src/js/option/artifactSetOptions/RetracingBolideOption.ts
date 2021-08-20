@@ -13,13 +13,13 @@ class RetracingBolide4PcOption
     super('retracingBolide4Pc', 4);
   }
 
-  applyOnStats(stats: Stats) {
+  applyOnStats = (stats: Stats) => {
     if (this.value) {
       const params = getArtifactSetBonusParams('retracingbolide', 4);
       stats.normalDmgBonus = params[0] + (stats.normalDmgBonus ?? 0);
       stats.chargedDmgBonus = params[0] + (stats.chargedDmgBonus ?? 0);
     }
-  }
+  };
 }
 
 const retracingBolideOptions = [RetracingBolide4PcOption];

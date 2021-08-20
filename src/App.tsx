@@ -15,6 +15,8 @@ import DamageModifier from './js/modifier/DamageModifer';
 import { isModifierApplicable, isStatsApplicable } from './js/option';
 import { ArtifactSetOption } from './js/option/artifactSetOptions';
 import { CharacterOption } from './js/option/characterOptions';
+import { ModifierMixin, StatMixin } from './js/option/Mixin';
+import { IModifierApplicable, IStatsApplicable } from './js/option/Option';
 import Resistance from './js/Resistance';
 import { getTotalStatsAt } from './js/Stat';
 import { TalentType, TalentValueSet } from './js/talent/types';
@@ -71,6 +73,99 @@ class App extends React.Component<{}, AppState> {
   totalStats: Stats = {};
   talentValues: TalentValueSet = { attack: [], skill: [], burst: [] };
 
+  modifierMixins: ModifierMixin[] = [];
+  statMixins: StatMixin[] = [];
+
+  // Gets all modifier mixins and updates cache (modifierMixins)
+  getModifierMixins({
+    character,
+    characterOptions,
+    artifactSetOptions,
+  }: {
+    character?: Character;
+    characterOptions?: CharacterOption[];
+    artifactSetOptions?: ArtifactSetOption[];
+  }) {
+    if (
+      character === undefined &&
+      characterOptions === undefined &&
+      artifactSetOptions === undefined
+    ) {
+      return this.modifierMixins;
+    }
+
+    const characterPassiveMixins = (
+      character ?? this.state.character
+    ).getPassiveModifierMixins();
+
+    const characterOptionMixins = (
+      characterOptions ?? this.state.characterOptions
+    )
+      .filter((option): option is CharacterOption & IModifierApplicable =>
+        isModifierApplicable(option)
+      )
+      .map((option) => option.applyOnModifier);
+
+    const artifactSetOptionMixins = (
+      artifactSetOptions ?? this.state.artifactSetOptions
+    )
+      .filter((option): option is ArtifactSetOption & IModifierApplicable =>
+        isModifierApplicable(option)
+      )
+      .map((option) => option.applyOnModifier);
+
+    this.modifierMixins = characterPassiveMixins
+      .concat(characterOptionMixins)
+      .concat(artifactSetOptionMixins);
+
+    return this.modifierMixins;
+  }
+
+  // Gets all stat mixins and updates cache (statMixins)
+  getStatMixins({
+    character,
+    characterOptions,
+    artifactSetOptions,
+  }: {
+    character?: Character;
+    characterOptions?: CharacterOption[];
+    artifactSetOptions?: ArtifactSetOption[];
+  }) {
+    if (
+      character === undefined &&
+      characterOptions === undefined &&
+      artifactSetOptions === undefined
+    ) {
+      return this.statMixins;
+    }
+
+    const characterPassiveMixins = (
+      character ?? this.state.character
+    ).getPassiveStatMixins();
+
+    const characterOptionMixins = (
+      characterOptions ?? this.state.characterOptions
+    )
+      .filter((option): option is CharacterOption & IStatsApplicable =>
+        isStatsApplicable(option)
+      )
+      .map((option) => option.applyOnStats);
+
+    const artifactSetOptionMixins = (
+      artifactSetOptions ?? this.state.artifactSetOptions
+    )
+      .filter((option): option is ArtifactSetOption & IStatsApplicable =>
+        isStatsApplicable(option)
+      )
+      .map((option) => option.applyOnStats);
+
+    this.statMixins = characterPassiveMixins
+      .concat(characterOptionMixins)
+      .concat(artifactSetOptionMixins);
+
+    return this.statMixins;
+  }
+
   getDamageModifier({
     characterLevel,
     enemyLevel,
@@ -79,8 +174,7 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
-    characterOptions,
-    artifactSetOptions,
+    modifierMixins,
   }: {
     characterLevel?: number;
     enemyLevel?: number;
@@ -89,8 +183,7 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
-    characterOptions?: CharacterOption[];
-    artifactSetOptions?: ArtifactSetOption[];
+    modifierMixins?: ModifierMixin[];
   } = {}): DamageModifier {
     const modifier: DamageModifier = {
       characterLevel: characterLevel ?? this.state.character.level,
@@ -106,17 +199,8 @@ class App extends React.Component<{}, AppState> {
       talentBurstLevel: talentBurstLevel ?? this.state.talentBurstLevel,
     };
 
-    (characterOptions ?? this.state.characterOptions).forEach((option) => {
-      if (isModifierApplicable(option)) {
-        option.applyOnModifier(modifier);
-      }
-    });
-
-    (artifactSetOptions ?? this.state.artifactSetOptions).forEach((option) => {
-      if (isModifierApplicable(option)) {
-        option.applyOnModifier(modifier);
-      }
-    });
+    // Apply modifier mixins
+    modifierMixins?.forEach((mixin) => mixin(modifier));
 
     return modifier;
   }
@@ -145,13 +229,6 @@ class App extends React.Component<{}, AppState> {
         return acc;
       }, {} as Stats);
 
-    (artifactSetOptions ?? this.state.artifactSetOptions).forEach((option) => {
-      if (isStatsApplicable(option)) {
-        // Placeholder talent levels, currently no artifactsetoption uses it
-        option.applyOnStats(this.artifactSetBonuses, 1, 1, 1, 0);
-      }
-    });
-
     this.updateTotalStats({
       artifactSetBonuses: this.artifactSetBonuses,
       artifactSetOptions,
@@ -179,6 +256,12 @@ class App extends React.Component<{}, AppState> {
     characterOptions?: CharacterOption[];
     artifactSetOptions?: ArtifactSetOption[];
   }) => {
+    const statMixins = this.getStatMixins({
+      character,
+      characterOptions,
+      artifactSetOptions,
+    });
+
     this.totalStats = getTotalStatsAt(
       character ?? this.state.character,
       weapon ?? this.state.weapon,
@@ -187,7 +270,8 @@ class App extends React.Component<{}, AppState> {
       characterOptions ?? this.state.characterOptions,
       talentAttackLevel ?? this.state.talentAttackLevel,
       talentSkillLevel ?? this.state.talentSkillLevel,
-      talentBurstLevel ?? this.state.talentBurstLevel
+      talentBurstLevel ?? this.state.talentBurstLevel,
+      statMixins
     );
 
     this.updateTalentValues({
@@ -222,6 +306,13 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions?: ArtifactSetOption[];
   }) => {
     const character = newChar ?? this.state.character;
+
+    const modifierMixins = this.getModifierMixins({
+      character,
+      characterOptions,
+      artifactSetOptions,
+    });
+
     const damageModifer = this.getDamageModifier({
       characterLevel: newChar?.level,
       enemyLevel,
@@ -230,8 +321,7 @@ class App extends React.Component<{}, AppState> {
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
-      characterOptions,
-      artifactSetOptions,
+      modifierMixins,
     });
 
     this.talentValues.attack = character.getTalentDamageAt({
@@ -255,6 +345,17 @@ class App extends React.Component<{}, AppState> {
   };
 
   refreshApp = () => {
+    this.getStatMixins({
+      character: this.state.character,
+      characterOptions: this.state.characterOptions,
+      artifactSetOptions: this.state.artifactSetOptions,
+    });
+    this.getModifierMixins({
+      character: this.state.character,
+      characterOptions: this.state.characterOptions,
+      artifactSetOptions: this.state.artifactSetOptions,
+    });
+
     this.updateArtifactSetBonuses({});
     this.setState({});
   };

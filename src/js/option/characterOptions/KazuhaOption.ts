@@ -14,11 +14,11 @@ class KazuhaOptionInfusion
     super('infusionAnemoPlunge');
   }
 
-  applyOnModifier(modifier: DamageModifier) {
+  applyOnModifier = (modifier: DamageModifier) => {
     if (this.value) {
       modifier.infusionPlunge = Element.Anemo;
     }
-  }
+  };
 }
 
 const kazuhaOptions = [KazuhaOptionInfusion, ElementalAbsoprtionOption];

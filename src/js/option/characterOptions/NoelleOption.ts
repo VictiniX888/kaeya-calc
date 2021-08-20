@@ -19,12 +19,12 @@ class NoelleOptionBurst
     super('noelleBurst');
   }
 
-  applyOnStats(
+  applyOnStats = (
     stats: Stats,
     _talentAttackLevel: number,
     _talentSkillLevel: number,
     talentBurstLevel: number
-  ) {
+  ) => {
     if (this.value) {
       let burstParams = getTalentStatsAt(
         TalentType.Burst,
@@ -38,13 +38,13 @@ class NoelleOptionBurst
 
       stats.flatAtk = (stats.flatAtk ?? 0) + totalDef * burstParams[2];
     }
-  }
+  };
 
-  applyOnModifier(modifier: DamageModifier) {
+  applyOnModifier = (modifier: DamageModifier) => {
     if (this.value) {
       modifier.infusion = Element.Geo;
     }
-  }
+  };
 }
 
 const noelleOptions = [NoelleOptionBurst];

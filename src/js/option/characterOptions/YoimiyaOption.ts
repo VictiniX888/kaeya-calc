@@ -13,12 +13,12 @@ class YoimiyaOptionSkill
     super('yoimiyaSkill');
   }
 
-  applyOnModifier(modifier: DamageModifier) {
+  applyOnModifier = (modifier: DamageModifier) => {
     if (this.value) {
       modifier.infusion = Element.Pyro;
       modifier.yoimiyaSkill = true;
     }
-  }
+  };
 }
 
 const yoimiyaOptions = [YoimiyaOptionSkill];

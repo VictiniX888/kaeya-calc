@@ -13,12 +13,12 @@ class BloodStainedChivalry4PcOption
     super('bloodstainedChivalry4Pc', 4);
   }
 
-  applyOnStats(stats: Stats) {
+  applyOnStats = (stats: Stats) => {
     if (this.value) {
       const params = getArtifactSetBonusParams('bloodstainedchivalry', 4);
       stats.chargedDmgBonus = params[1] + (stats.chargedDmgBonus ?? 0);
     }
-  }
+  };
 }
 
 const bloodstainedChivalryOptions = [BloodStainedChivalry4PcOption];

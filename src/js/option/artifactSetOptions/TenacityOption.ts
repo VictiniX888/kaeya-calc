@@ -13,13 +13,13 @@ class Tenacity4PcOption
     super('tenacity4Pc', 4);
   }
 
-  applyOnStats(stats: Stats) {
+  applyOnStats = (stats: Stats) => {
     if (this.value) {
       const params = getArtifactSetBonusParams('tenacityofthemillelith', 4);
       stats.atkBonus = params[0] + (stats.atkBonus ?? 0);
       stats.shieldStrength = params[1] + (stats.shieldStrength ?? 0);
     }
-  }
+  };
 }
 
 const tenacityOptions = [Tenacity4PcOption];

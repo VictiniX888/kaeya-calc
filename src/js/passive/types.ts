@@ -5,6 +5,7 @@ import { ModifierMixin, StatMixin } from '../option/Mixin';
 export type CharacterPassiveFn = (params: TalentParams) => CharacterPassive;
 
 export interface CharacterPassive {
+  id: string;
   options: typeof CharacterOption[];
   statMixin?: StatMixin;
   modifierMixin?: ModifierMixin;

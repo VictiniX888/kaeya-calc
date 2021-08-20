@@ -15,12 +15,12 @@ class ViridescentVenerer4PcOption
     super('viridescentVenerer4Pc', 4);
   }
 
-  applyOnModifier(modifier: DamageModifier) {
+  applyOnModifier = (modifier: DamageModifier) => {
     if (this.value !== '') {
       const params = getArtifactSetBonusParams('viridescentvenerer', 4);
       modifier.enemyResReduction.add(this.value as Element, params[1]);
     }
-  }
+  };
 }
 
 const viridescentVenererOptions = [ViridescentVenerer4PcOption];

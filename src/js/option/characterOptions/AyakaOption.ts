@@ -13,11 +13,11 @@ class AyakaOptionInfusion
     super('infusionCryo');
   }
 
-  applyOnModifier(modifier: DamageModifier) {
+  applyOnModifier = (modifier: DamageModifier) => {
     if (this.value) {
       modifier.infusion = Element.Cryo;
     }
-  }
+  };
 }
 
 const ayakaOptions = [AyakaOptionInfusion];

@@ -13,12 +13,12 @@ class Berserker4PcOption
     super('berserker4Pc', 4);
   }
 
-  applyOnStats(stats: Stats) {
+  applyOnStats = (stats: Stats) => {
     if (this.value) {
       const params = getArtifactSetBonusParams('berserker', 4);
       stats.critRate = params[0] + (stats.critRate ?? 0);
     }
-  }
+  };
 }
 
 const berserkerOptions = [Berserker4PcOption];

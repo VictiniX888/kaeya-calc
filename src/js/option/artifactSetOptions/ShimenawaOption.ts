@@ -13,7 +13,7 @@ class Shimenawa4PcOption
     super('shimenawa4Pc', 4);
   }
 
-  applyOnStats(stats: Stats) {
+  applyOnStats = (stats: Stats) => {
     if (this.value) {
       const setBonusData = getArtifactSetBonusData('shimenawasreminiscence');
       const param = setBonusData[4].bonusExtra.params[1];
@@ -21,7 +21,7 @@ class Shimenawa4PcOption
       stats.chargedDmgBonus = param + (stats.chargedDmgBonus ?? 0);
       stats.plungeDmgBonus = param + (stats.plungeDmgBonus ?? 0);
     }
-  }
+  };
 }
 
 const shimenawaOptions = [Shimenawa4PcOption];

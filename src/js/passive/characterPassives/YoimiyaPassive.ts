@@ -14,17 +14,18 @@ export function yoimiyaAscension1(params: TalentParams): CharacterPassive {
       super('yoimiyaAscension1');
     }
 
-    applyOnStats(stats: Stats) {
+    applyOnStats = (stats: Stats) => {
       let pyroDmgBonus = this.value * params[0];
       if (this.value < 0 || this.value > 10) {
         pyroDmgBonus = NaN;
       }
 
       stats.pyroDmgBonus = pyroDmgBonus + (stats.pyroDmgBonus ?? 0);
-    }
+    };
   }
 
   return {
+    id: 'yoimiyaAscension1',
     options: [YoimiyaOptionAscension1],
   };
 }
