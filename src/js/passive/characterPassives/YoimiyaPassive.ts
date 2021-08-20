@@ -1,7 +1,7 @@
 import { Stats, TalentParams } from '../../../data/types';
 import { CharacterOption } from '../../option/characterOptions';
 import { IOptionNumber, IStatsApplicable } from '../../option/Option';
-import { CharacterPassive } from './types';
+import { CharacterPassive } from '../types';
 
 export function yoimiyaAscension1(params: TalentParams): CharacterPassive {
   class YoimiyaOptionAscension1

@@ -1,4 +1,4 @@
-import { CharacterPassive, CharacterPassiveFn } from './types';
+import { CharacterPassive, CharacterPassiveFn } from '../types';
 import { yoimiyaAscension1 } from './YoimiyaPassive';
 
 const characterPassives: Record<string, CharacterPassiveFn> = {

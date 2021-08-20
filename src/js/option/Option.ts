@@ -1,5 +1,4 @@
-import { Stats } from '../../data/types';
-import DamageModifier from '../modifier/DamageModifer';
+import { ModifierMixin, StatMixin } from './Mixin';
 
 export default class Option {
   id: string;
@@ -23,15 +22,9 @@ export interface IOptionNumber {
 }
 
 export interface IStatsApplicable {
-  applyOnStats: (
-    stats: Stats,
-    talentAttackLevel: number,
-    talentSkillLevel: number,
-    talentBurstLevel: number,
-    ascensionLevel: number
-  ) => void;
+  applyOnStats: StatMixin;
 }
 
 export interface IModifierApplicable {
-  applyOnModifier: (modifier: DamageModifier) => void;
+  applyOnModifier: ModifierMixin;
 }

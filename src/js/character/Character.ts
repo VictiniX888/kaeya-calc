@@ -18,7 +18,7 @@ import type {
 } from '../../data/types';
 import type DamageModifier from '../modifier/DamageModifer';
 import type { TalentType } from '../talent/types';
-import { getCharacterPassiveFn } from './passive/CharacterPassive';
+import { getCharacterPassiveFn } from '../passive/characterPassives/CharacterPassive';
 import { CharacterOption } from '../option/characterOptions';
 
 export default class Character {
@@ -49,7 +49,7 @@ export default class Character {
     this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
     this.characterOptions = this.getCharacterOptions();
     this.passiveOptions = this.getPassiveOptions(
-      Character.getAscensionLevel(this.level, this.hasAscended)
+      getAscensionLevel(this.level, this.hasAscended)
     );
   }
 
@@ -64,15 +64,9 @@ export default class Character {
     return this._level;
   }
   set level(value: number) {
-    const prevAscensionLevel = Character.getAscensionLevel(
-      this.level,
-      this.hasAscended
-    );
+    const prevAscensionLevel = getAscensionLevel(this.level, this.hasAscended);
     this._level = value;
-    const ascensionLevel = Character.getAscensionLevel(
-      this.level,
-      this.hasAscended
-    );
+    const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
 
     this.innateStats = this.getInnateStatsAt(value, this.hasAscended);
     this.passiveOptions = this.getPassiveOptions(
@@ -86,15 +80,9 @@ export default class Character {
     return this._hasAscended;
   }
   set hasAscended(value: boolean) {
-    const prevAscensionLevel = Character.getAscensionLevel(
-      this.level,
-      this.hasAscended
-    );
+    const prevAscensionLevel = getAscensionLevel(this.level, this.hasAscended);
     this._hasAscended = value;
-    const ascensionLevel = Character.getAscensionLevel(
-      this.level,
-      this.hasAscended
-    );
+    const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
 
     this.innateStats = this.getInnateStatsAt(this.level, value);
     this.passiveOptions = this.getPassiveOptions(
@@ -151,7 +139,7 @@ export default class Character {
     });
 
     // Calculate stats from character ascension
-    let ascensionLevel = Character.getAscensionLevel(level, hasAscended);
+    let ascensionLevel = getAscensionLevel(level, hasAscended);
 
     let ascensionBonuses = getAscensionBonusAt(
       ascensionLevel,
@@ -262,25 +250,26 @@ export default class Character {
 
     return characterOptions.concat(passiveOptions);
   }
+}
 
-  static getAscensionLevel(level: number, hasAscended: boolean) {
-    let ascensionLevel;
-    if (level > 80 || (level === 80 && hasAscended)) {
-      ascensionLevel = 6;
-    } else if (level > 70 || (level === 70 && hasAscended)) {
-      ascensionLevel = 5;
-    } else if (level > 60 || (level === 60 && hasAscended)) {
-      ascensionLevel = 4;
-    } else if (level > 50 || (level === 50 && hasAscended)) {
-      ascensionLevel = 3;
-    } else if (level > 40 || (level === 40 && hasAscended)) {
-      ascensionLevel = 2;
-    } else if (level > 20 || (level === 20 && hasAscended)) {
-      ascensionLevel = 1;
-    } else {
-      ascensionLevel = 0;
-    }
-
-    return ascensionLevel;
+// Utility functions
+function getAscensionLevel(level: number, hasAscended: boolean) {
+  let ascensionLevel;
+  if (level > 80 || (level === 80 && hasAscended)) {
+    ascensionLevel = 6;
+  } else if (level > 70 || (level === 70 && hasAscended)) {
+    ascensionLevel = 5;
+  } else if (level > 60 || (level === 60 && hasAscended)) {
+    ascensionLevel = 4;
+  } else if (level > 50 || (level === 50 && hasAscended)) {
+    ascensionLevel = 3;
+  } else if (level > 40 || (level === 40 && hasAscended)) {
+    ascensionLevel = 2;
+  } else if (level > 20 || (level === 20 && hasAscended)) {
+    ascensionLevel = 1;
+  } else {
+    ascensionLevel = 0;
   }
+
+  return ascensionLevel;
 }
