@@ -31,7 +31,10 @@ class HuTaoOptionSkill
         talentSkillLevel,
         getTalentData('hutao')
       );
-      stats.flatAtk += skillParams[1] * stats.flatHp;
+
+      const totalHp =
+        (stats.baseHp ?? 0) * (1 + (stats.hpBonus ?? 0)) + (stats.flatHp ?? 0);
+      stats.flatAtk = (stats.flatAtk ?? 0) + totalHp * skillParams[1];
     }
   };
 
