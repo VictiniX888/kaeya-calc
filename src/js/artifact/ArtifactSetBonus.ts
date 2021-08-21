@@ -1,6 +1,124 @@
-import { ArtifactSetBonusFunction } from './types';
+import { ArtifactSetBonus } from './types';
 
-export const artifactSetBonuses: Record<string, ArtifactSetBonusFunction> = {
+// Placeholder function
+const defaultSetBonus: ArtifactSetBonus = {};
+
+const Relic_ExtraAtkCritUp: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    return [
+      {
+        stat: 'chargedCritRate',
+        value: params[0],
+      },
+    ];
+  },
+};
+
+const Relic_AllElemResistUp: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    const elements = ['anemo', 'cryo', 'electro', 'geo', 'hydro', 'pyro'];
+    return elements.map((element) => {
+      return {
+        stat: `${element}Res`,
+        value: params[0],
+      };
+    });
+  },
+};
+
+const Relic_AtkAndExtraAtkUp: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    return [
+      {
+        stat: 'normalDmgBonus',
+        value: params[0],
+      },
+      {
+        stat: 'chargedDmgBonus',
+        value: params[0],
+      },
+    ];
+  },
+};
+
+const Relic_SkillDamageUp: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    return [
+      {
+        stat: 'skillDmgBonus',
+        value: params[0],
+      },
+    ];
+  },
+};
+
+const Relic_MeleeAttackUp: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    // Only for sword, polearm, claymore characters
+    // Did not make this an Option because this would likely not want to be disabled
+    // Calculation will be wrong if used on a catalyst, bow character
+    // Checking for that would require character weapon type to be implemented first
+    return [
+      {
+        stat: 'normalDmgBonus',
+        value: params[0],
+      },
+    ];
+  },
+};
+
+// Swirl Dmg up not yet implemented. Medium priority.
+// Requires reaction dmg to be implemented first.
+// Elemental Res shred implemented through Options
+const Relic_ReactionWindEnhance: ArtifactSetBonus = defaultSetBonus;
+
+const Relci_RangerAttackUp: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    // Typo is present in the game data
+    // Only for catalyst, bow characters
+    // See Relic_MeleeAttackUp for more details
+    return [
+      {
+        stat: 'chargedDmgBonus',
+        value: params[0],
+      },
+    ];
+  },
+};
+
+// Reaction Dmg Up not yet implemented. Medium priority
+// Requires reaction dmg to be implemented first
+// Pyro Dmg Bonus implemented through Options
+const Relic_ReactionFireEnhance: ArtifactSetBonus = defaultSetBonus;
+
+const Relic_ElementalBurstUp: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    return [
+      {
+        stat: 'burstDmgBonus',
+        value: params[0],
+      },
+    ];
+  },
+};
+
+const Relic_ElementalBurstUpByChargeEfficiency: ArtifactSetBonus = {
+  setBonusFunction: (params: number[]) => {
+    // Fake stats used to calculate Burst DMG Bonus in getTotalStats
+    return [
+      {
+        stat: 'burstDmgBonusByEnergyRechargeRatio',
+        value: params[0],
+      },
+      {
+        stat: 'burstDmgBonusByEnergyRechargeMax',
+        value: params[1],
+      },
+    ];
+  },
+};
+
+export const artifactSetBonuses: Record<string, ArtifactSetBonus> = {
   defaultSetBonus,
   Relic_ExtraAtkCritUp,
   Relic_AllElemResistUp,
@@ -71,113 +189,3 @@ export const artifactSetBonuses: Record<string, ArtifactSetBonusFunction> = {
   Relic_ElectricResistance: defaultSetBonus,
   Relic_IceResistance: defaultSetBonus,
 };
-
-// Placeholder function
-function defaultSetBonus() {
-  return [];
-}
-
-function Relic_ExtraAtkCritUp(params: number[]) {
-  return [
-    {
-      stat: 'chargedCritRate',
-      value: params[0],
-    },
-  ];
-}
-
-function Relic_AllElemResistUp(params: number[]) {
-  const elements = ['anemo', 'cryo', 'electro', 'geo', 'hydro', 'pyro'];
-  return elements.map((element) => {
-    return {
-      stat: `${element}Res`,
-      value: params[0],
-    };
-  });
-}
-
-function Relic_AtkAndExtraAtkUp(params: number[]) {
-  return [
-    {
-      stat: 'normalDmgBonus',
-      value: params[0],
-    },
-    {
-      stat: 'chargedDmgBonus',
-      value: params[0],
-    },
-  ];
-}
-
-function Relic_SkillDamageUp(params: number[]) {
-  return [
-    {
-      stat: 'skillDmgBonus',
-      value: params[0],
-    },
-  ];
-}
-
-function Relic_MeleeAttackUp(params: number[]) {
-  // Only for sword, polearm, claymore characters
-  // Did not make this an Option because this would likely not want to be disabled
-  // Calculation will be wrong if used on a catalyst, bow character
-  // Checking for that would require character weapon type to be implemented first
-  return [
-    {
-      stat: 'normalDmgBonus',
-      value: params[0],
-    },
-  ];
-}
-
-function Relic_ReactionWindEnhance() {
-  // Swirl Dmg up not yet implemented. Medium priority.
-  // Requires reaction dmg to be implemented first.
-
-  // Elemental Res shred implemented through Options
-  return defaultSetBonus();
-}
-
-function Relci_RangerAttackUp(params: number[]) {
-  // Typo is present in the game data
-  // Only for catalyst, bow characters
-  // See Relic_MeleeAttackUp for more details
-  return [
-    {
-      stat: 'chargedDmgBonus',
-      value: params[0],
-    },
-  ];
-}
-
-function Relic_ReactionFireEnhance() {
-  // Reaction Dmg Up not yet implemented. Medium priority
-  // Requires reaction dmg to be implemented first
-
-  // Pyro Dmg Bonus implemented through Options
-  return defaultSetBonus();
-}
-
-function Relic_ElementalBurstUp(params: number[]) {
-  return [
-    {
-      stat: 'burstDmgBonus',
-      value: params[0],
-    },
-  ];
-}
-
-function Relic_ElementalBurstUpByChargeEfficiency(params: number[]) {
-  // Fake stats used to calculate Burst DMG Bonus in getTotalStats
-  return [
-    {
-      stat: 'burstDmgBonusByEnergyRechargeRatio',
-      value: params[0],
-    },
-    {
-      stat: 'burstDmgBonusByEnergyRechargeMax',
-      value: params[1],
-    },
-  ];
-}

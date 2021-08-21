@@ -69,12 +69,12 @@ export default class ArtifactSet {
       // Special bonuses, has to be handled individually
       let extraBonus = setBonus?.bonusExtra;
       if (extraBonus !== undefined && extraBonus.type !== '') {
-        let bonusFn =
+        let extraBonusSet =
           extraBonuses[extraBonus.type] ?? extraBonuses['defaultSetBonus'];
 
         let params = extraBonus.params;
 
-        let statBonuses = bonusFn(params);
+        let statBonuses = extraBonusSet.setBonusFunction?.(params) ?? [];
 
         statBonuses.forEach((statBonus) => {
           if (stats[statBonus.stat] !== undefined) {

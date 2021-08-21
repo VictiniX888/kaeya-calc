@@ -1,5 +1,6 @@
 import type { Stat } from '../../data/types';
 import { propMapping } from '../Data';
+import { ModifierMixin, StatMixin } from '../option/Mixin';
 import { convertStatValue } from '../Stat';
 
 export class InputStat implements Stat {
@@ -40,3 +41,9 @@ export enum ArtifactType {
 }
 
 export type ArtifactSetBonusFunction = (params: number[]) => Stat[];
+
+export interface ArtifactSetBonus {
+  setBonusFunction?: ArtifactSetBonusFunction;
+  statMixin?: StatMixin;
+  modifierMixin?: ModifierMixin;
+}
