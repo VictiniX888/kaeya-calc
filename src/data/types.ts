@@ -5,7 +5,7 @@ export type AscensionBonus = Record<string, number>;
 export type StatCurves = Record<string, number>;
 export type TalentParams = number[];
 export type TalentData = Record<number, TalentParams>;
-export type ArtifactSetBonus = Record<number, ArtifactSetBonusSet>;
+export type ArtifactSetBonusData = Record<number, ArtifactSetBonusSet>;
 
 export interface Stat {
   stat: string;

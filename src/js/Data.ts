@@ -147,7 +147,7 @@ function processArtifactSetBonusData(rawData: Data.ArtifactSetBonusDataRaw[]) {
       return bonusAcc;
     }, {} as Record<number, Data.ArtifactSetBonusSet>);
     return acc;
-  }, {} as Record<string, Data.ArtifactSetBonus>);
+  }, {} as Record<string, Data.ArtifactSetBonusData>);
 }
 
 // Helper functions for accessing data properties
@@ -224,7 +224,7 @@ export function getArtifactSetData(id: string): Data.ArtifactSetData {
   return getData(id, artifactSetData);
 }
 
-export function getArtifactSetBonusData(id: string): Data.ArtifactSetBonus {
+export function getArtifactSetBonusData(id: string): Data.ArtifactSetBonusData {
   return getData(id, artifactSetBonusData);
 }
 
