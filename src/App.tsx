@@ -80,15 +80,18 @@ class App extends React.Component<{}, AppState> {
   getModifierMixins({
     character,
     characterOptions,
+    artifactSets,
     artifactSetOptions,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
+    artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
   }) {
     if (
       character === undefined &&
       characterOptions === undefined &&
+      artifactSets === undefined &&
       artifactSetOptions === undefined
     ) {
       return this.modifierMixins;
@@ -97,6 +100,10 @@ class App extends React.Component<{}, AppState> {
     const characterPassiveMixins = (
       character ?? this.state.character
     ).getPassiveModifierMixins();
+
+    const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
+      (artifactSet) => artifactSet.getModifierMixins()
+    );
 
     const characterOptionMixins = (
       characterOptions ?? this.state.characterOptions
@@ -115,6 +122,7 @@ class App extends React.Component<{}, AppState> {
       .map((option) => option.applyOnModifier);
 
     this.modifierMixins = characterPassiveMixins
+      .concat(artifactSetMixins)
       .concat(characterOptionMixins)
       .concat(artifactSetOptionMixins);
 
@@ -125,10 +133,12 @@ class App extends React.Component<{}, AppState> {
   getStatMixins({
     character,
     characterOptions,
+    artifactSets,
     artifactSetOptions,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
+    artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
   }) {
     if (
@@ -142,6 +152,10 @@ class App extends React.Component<{}, AppState> {
     const characterPassiveMixins = (
       character ?? this.state.character
     ).getPassiveStatMixins();
+
+    const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
+      (artifactSet) => artifactSet.getStatMixins()
+    );
 
     const characterOptionMixins = (
       characterOptions ?? this.state.characterOptions
@@ -160,6 +174,7 @@ class App extends React.Component<{}, AppState> {
       .map((option) => option.applyOnStats);
 
     this.statMixins = characterPassiveMixins
+      .concat(artifactSetMixins)
       .concat(characterOptionMixins)
       .concat(artifactSetOptionMixins);
 
@@ -230,6 +245,7 @@ class App extends React.Component<{}, AppState> {
       }, {} as Stats);
 
     this.updateTotalStats({
+      artifactSets,
       artifactSetBonuses: this.artifactSetBonuses,
       artifactSetOptions,
     });
@@ -239,6 +255,7 @@ class App extends React.Component<{}, AppState> {
     character,
     weapon,
     artifacts,
+    artifactSets,
     artifactSetBonuses,
     talentAttackLevel,
     talentSkillLevel,
@@ -249,6 +266,7 @@ class App extends React.Component<{}, AppState> {
     character?: Character;
     weapon?: Weapon;
     artifacts?: Artifact[];
+    artifactSets?: ArtifactSet[];
     artifactSetBonuses?: Stats;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
@@ -259,6 +277,7 @@ class App extends React.Component<{}, AppState> {
     const statMixins = this.getStatMixins({
       character,
       characterOptions,
+      artifactSets,
       artifactSetOptions,
     });
 
@@ -267,7 +286,6 @@ class App extends React.Component<{}, AppState> {
       weapon ?? this.state.weapon,
       artifactSetBonuses ?? this.artifactSetBonuses,
       artifacts ?? this.state.artifacts,
-      characterOptions ?? this.state.characterOptions,
       talentAttackLevel ?? this.state.talentAttackLevel,
       talentSkillLevel ?? this.state.talentSkillLevel,
       talentBurstLevel ?? this.state.talentBurstLevel,
@@ -286,6 +304,7 @@ class App extends React.Component<{}, AppState> {
 
   updateTalentValues = ({
     character: newChar,
+    artifactSets,
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
@@ -296,6 +315,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions,
   }: {
     character?: Character;
+    artifactSets?: ArtifactSet[];
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
@@ -310,6 +330,7 @@ class App extends React.Component<{}, AppState> {
     const modifierMixins = this.getModifierMixins({
       character,
       characterOptions,
+      artifactSets,
       artifactSetOptions,
     });
 

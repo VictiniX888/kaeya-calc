@@ -2,7 +2,6 @@ import { Stats } from '../data/types';
 import Artifact from './artifact/Artifact';
 import Character, { getAscensionLevel } from './character/Character';
 import { talentDescMapping, optionMapping } from './Data';
-import CharacterOption from './option/characterOptions/CharacterOption';
 import { StatMixin } from './option/Mixin';
 import Weapon from './weapon/Weapon';
 
@@ -105,26 +104,11 @@ export function getTotalStatsAt(
   weapon: Weapon,
   artifactSetBonuses: Stats,
   artifacts: Artifact[],
-  characterOptions: CharacterOption[],
   talentAttackLevel: number,
   talentSkillLevel: number,
   talentBurstLevel: number,
   statMixins: StatMixin[]
 ) {
-  // Remove previous Severed Fate set bonus (if applicable)
-  if (
-    artifactSetBonuses.severedFateBonus !== undefined &&
-    !isNaN(artifactSetBonuses.severedFateBonus)
-  ) {
-    artifactSetBonuses.burstDmgBonus -= artifactSetBonuses.severedFateBonus;
-    if (
-      artifactSetBonuses.burstDmgBonusByEnergyRechargeRatio === undefined ||
-      artifactSetBonuses.burstDmgBonusByEnergyRechargeMax === undefined
-    ) {
-      delete artifactSetBonuses.severedFateBonus;
-    }
-  }
-
   let baseStats = getBaseStatsAt(character, weapon);
   let combinedStats = { ...baseStats };
 
@@ -160,6 +144,9 @@ export function getTotalStatsAt(
     });
   }
 
+  // Add base 100% energy recharge
+  combinedStats.energyRecharge = 1 + (combinedStats.energyRecharge ?? 0);
+
   // Apply stat mixins
   statMixins.forEach((mixin) =>
     mixin(
@@ -188,7 +175,7 @@ export function getTotalStatsAt(
   totalStats.critRate = combinedStats.critRate ?? 0;
   totalStats.critDmg = combinedStats.critDmg ?? 0;
   totalStats.elementalMastery = combinedStats.elementalMastery ?? 0;
-  totalStats.energyRecharge = 1 + (combinedStats.energyRecharge ?? 0);
+  totalStats.energyRecharge = combinedStats.energyRecharge ?? 0;
 
   if (combinedStats.anemoDmgBonus !== undefined) {
     totalStats.anemoDmgBonus = combinedStats.anemoDmgBonus;
@@ -261,31 +248,6 @@ export function getTotalStatsAt(
   }
   if (combinedStats.chargedCritRate !== undefined) {
     totalStats.chargedCritRate = combinedStats.chargedCritRate;
-  }
-
-  // Severed Fate set bonus (if applicable)
-  if (
-    combinedStats.burstDmgBonusByEnergyRechargeRatio !== undefined &&
-    combinedStats.burstDmgBonusByEnergyRechargeMax !== undefined
-  ) {
-    let burstDmgBonus =
-      totalStats.energyRecharge *
-      combinedStats.burstDmgBonusByEnergyRechargeRatio;
-
-    if (burstDmgBonus > combinedStats.burstDmgBonusByEnergyRechargeMax) {
-      burstDmgBonus = combinedStats.burstDmgBonusByEnergyRechargeMax;
-    }
-
-    artifactSetBonuses.severedFateBonus = burstDmgBonus;
-
-    if (!isNaN(burstDmgBonus)) {
-      // Update artifact set stats too so that Burst DMG Bonus is reflected in the artifact set block
-      artifactSetBonuses.burstDmgBonus =
-        burstDmgBonus + (artifactSetBonuses.burstDmgBonus ?? 0);
-
-      totalStats.burstDmgBonus =
-        burstDmgBonus + (totalStats.burstDmgBonus ?? 0);
-    }
   }
 
   return totalStats;

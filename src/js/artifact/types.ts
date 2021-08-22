@@ -43,7 +43,7 @@ export enum ArtifactType {
 export type ArtifactSetBonusFunction = (params: number[]) => Stat[];
 
 export interface ArtifactSetBonus {
-  setBonusFunction?: ArtifactSetBonusFunction;
+  extraStatsFn?: ArtifactSetBonusFunction;
   statMixin?: StatMixin;
   modifierMixin?: ModifierMixin;
 }

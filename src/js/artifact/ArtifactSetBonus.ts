@@ -1,10 +1,12 @@
+import { Stats } from '../../data/types';
+import { getArtifactSetBonusParams } from '../Data';
 import { ArtifactSetBonus } from './types';
 
 // Placeholder function
 const defaultSetBonus: ArtifactSetBonus = {};
 
 const Relic_ExtraAtkCritUp: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
+  extraStatsFn: (params: number[]) => {
     return [
       {
         stat: 'chargedCritRate',
@@ -15,7 +17,7 @@ const Relic_ExtraAtkCritUp: ArtifactSetBonus = {
 };
 
 const Relic_AllElemResistUp: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
+  extraStatsFn: (params: number[]) => {
     const elements = ['anemo', 'cryo', 'electro', 'geo', 'hydro', 'pyro'];
     return elements.map((element) => {
       return {
@@ -27,7 +29,7 @@ const Relic_AllElemResistUp: ArtifactSetBonus = {
 };
 
 const Relic_AtkAndExtraAtkUp: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
+  extraStatsFn: (params: number[]) => {
     return [
       {
         stat: 'normalDmgBonus',
@@ -42,7 +44,7 @@ const Relic_AtkAndExtraAtkUp: ArtifactSetBonus = {
 };
 
 const Relic_SkillDamageUp: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
+  extraStatsFn: (params: number[]) => {
     return [
       {
         stat: 'skillDmgBonus',
@@ -53,7 +55,7 @@ const Relic_SkillDamageUp: ArtifactSetBonus = {
 };
 
 const Relic_MeleeAttackUp: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
+  extraStatsFn: (params: number[]) => {
     // Only for sword, polearm, claymore characters
     // Did not make this an Option because this would likely not want to be disabled
     // Calculation will be wrong if used on a catalyst, bow character
@@ -73,7 +75,7 @@ const Relic_MeleeAttackUp: ArtifactSetBonus = {
 const Relic_ReactionWindEnhance: ArtifactSetBonus = defaultSetBonus;
 
 const Relci_RangerAttackUp: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
+  extraStatsFn: (params: number[]) => {
     // Typo is present in the game data
     // Only for catalyst, bow characters
     // See Relic_MeleeAttackUp for more details
@@ -92,7 +94,7 @@ const Relci_RangerAttackUp: ArtifactSetBonus = {
 const Relic_ReactionFireEnhance: ArtifactSetBonus = defaultSetBonus;
 
 const Relic_ElementalBurstUp: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
+  extraStatsFn: (params: number[]) => {
     return [
       {
         stat: 'burstDmgBonus',
@@ -103,18 +105,14 @@ const Relic_ElementalBurstUp: ArtifactSetBonus = {
 };
 
 const Relic_ElementalBurstUpByChargeEfficiency: ArtifactSetBonus = {
-  setBonusFunction: (params: number[]) => {
-    // Fake stats used to calculate Burst DMG Bonus in getTotalStats
-    return [
-      {
-        stat: 'burstDmgBonusByEnergyRechargeRatio',
-        value: params[0],
-      },
-      {
-        stat: 'burstDmgBonusByEnergyRechargeMax',
-        value: params[1],
-      },
-    ];
+  statMixin: (stats: Stats) => {
+    const params = getArtifactSetBonusParams('emblemofseveredfate', 4);
+    let burstDmgBonus = params[0] * stats.energyRecharge;
+    if (burstDmgBonus > params[1]) {
+      burstDmgBonus = params[1];
+    }
+
+    stats.burstDmgBonus = burstDmgBonus + (stats.burstDmgBonus ?? 0);
   },
 };
 

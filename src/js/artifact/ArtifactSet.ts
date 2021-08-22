@@ -3,6 +3,7 @@ import { artifactSetBonuses as extraBonuses } from './ArtifactSetBonus';
 import { getArtifactSetOptions } from '../option';
 import { ArtifactSetBonus, Stats } from '../../data/types';
 import { ArtifactSetOption } from '../option/artifactSetOptions';
+import { ModifierMixin, StatMixin } from '../option/Mixin';
 
 export default class ArtifactSet {
   constructor(id: string, pieces?: number) {
@@ -74,9 +75,9 @@ export default class ArtifactSet {
 
         let params = extraBonus.params;
 
-        let statBonuses = extraBonusSet.setBonusFunction?.(params) ?? [];
+        let extraStats = extraBonusSet.extraStatsFn?.(params) ?? [];
 
-        statBonuses.forEach((statBonus) => {
+        extraStats.forEach((statBonus) => {
           if (stats[statBonus.stat] !== undefined) {
             stats[statBonus.stat] += statBonus.value;
           } else {
@@ -109,5 +110,46 @@ export default class ArtifactSet {
     } else {
       return this.options.filter((option) => option.threshold <= pieces);
     }
+  }
+
+  getStatMixins(): StatMixin[] {
+    const setBonuses = this.getSetBonusesAt(this.pieces);
+    return (
+      setBonuses
+        ?.map((setBonus) => {
+          let statMixin;
+
+          const setBonusType = setBonus?.bonusExtra.type;
+          if (setBonusType !== undefined && setBonusType !== '') {
+            const extraBonusSet =
+              extraBonuses[setBonusType] ?? extraBonuses['defaultSetBonus'];
+
+            statMixin = extraBonusSet.statMixin;
+          }
+
+          return statMixin;
+        })
+        .filter((mixin): mixin is StatMixin => mixin !== undefined) ?? []
+    );
+  }
+
+  getModifierMixins(): ModifierMixin[] {
+    const setBonuses = this.getSetBonusesAt(this.pieces);
+    return (
+      setBonuses
+        ?.map((setBonus) => {
+          let modifierMixin;
+
+          const setBonusType = setBonus?.bonusExtra.type;
+          if (setBonusType !== undefined && setBonusType !== '') {
+            const extraBonusSet =
+              extraBonuses[setBonusType] ?? extraBonuses['defaultSetBonus'];
+
+            modifierMixin = extraBonusSet.modifierMixin;
+          }
+          return modifierMixin;
+        })
+        .filter((mixin): mixin is ModifierMixin => mixin !== undefined) ?? []
+    );
   }
 }
