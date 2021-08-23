@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/kaeya-calc/static/css/main.d8e67baf.chunk.css",
-    "main.js": "/kaeya-calc/static/js/main.0d2d77fb.chunk.js",
-    "main.js.map": "/kaeya-calc/static/js/main.0d2d77fb.chunk.js.map",
+    "main.js": "/kaeya-calc/static/js/main.dffc5240.chunk.js",
+    "main.js.map": "/kaeya-calc/static/js/main.dffc5240.chunk.js.map",
     "runtime-main.js": "/kaeya-calc/static/js/runtime-main.d5357feb.js",
     "runtime-main.js.map": "/kaeya-calc/static/js/runtime-main.d5357feb.js.map",
     "static/js/2.a8d3f897.chunk.js": "/kaeya-calc/static/js/2.a8d3f897.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.d5357feb.js",
     "static/js/2.a8d3f897.chunk.js",
     "static/css/main.d8e67baf.chunk.css",
-    "static/js/main.0d2d77fb.chunk.js"
+    "static/js/main.dffc5240.chunk.js"
   ]
 }
