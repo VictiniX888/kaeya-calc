@@ -1,6 +1,5 @@
 import { getArtifactSetData, getArtifactSetBonusData } from '../Data';
 import { artifactSetBonuses as extraBonuses } from './ArtifactSetBonus';
-import { getArtifactSetOptions } from '../option';
 import {
   ArtifactSetBonusData,
   ArtifactSetBonusSet,
@@ -30,11 +29,10 @@ export default class ArtifactSet {
 
     this.setBonusData = getArtifactSetBonusData(value);
 
-    this.options = this.getOptions(this.pieces);
-
     this.setBonusSets = this.getSetBonusSetsAt(this.pieces);
     this.stats = this.getStats();
     this.setBonuses = this.getSetBonuses();
+    this.options = this.getOptions(this.pieces);
   }
 
   name?: string;
@@ -49,11 +47,10 @@ export default class ArtifactSet {
     const prevPieces = this.pieces;
     this._pieces = value;
 
-    this.options = this.getOptions(this.pieces, prevPieces);
-
     this.setBonusSets = this.getSetBonusSetsAt(this.pieces);
     this.stats = this.getStats();
     this.setBonuses = this.getSetBonuses();
+    this.options = this.getOptions(this.pieces, prevPieces);
   }
 
   options: ArtifactSetOption[] = [];
@@ -109,23 +106,22 @@ export default class ArtifactSet {
 
   getOptions(pieces: number, prevPieces?: number) {
     if (prevPieces === undefined || isNaN(prevPieces)) {
-      const options = getArtifactSetOptions(this.id);
-      return options
-        .map((Option) => new Option())
-        .filter((option) => option.threshold <= pieces);
+      const options = this.setBonuses.flatMap((setBonus) => setBonus.options);
+      return options.map((Option) => new Option());
     } else if (pieces === prevPieces) {
       return this.options;
     } else if (pieces > prevPieces) {
-      const newOptions = getArtifactSetOptions(this.id)
+      const oldOptionIds = this.options.map(({ id }) => id);
+      const newOptions = this.setBonuses
+        .flatMap((setBonus) => setBonus.options)
         .map((Option) => new Option())
-        .filter(
-          (option) =>
-            option.threshold <= pieces && option.threshold > prevPieces
-        );
-
+        .filter(({ id }) => !oldOptionIds.includes(id));
       return this.options.concat(newOptions);
     } else {
-      return this.options.filter((option) => option.threshold <= pieces);
+      const keptOptionIds = this.setBonuses
+        .flatMap((setBonus) => setBonus.options)
+        .map((Option) => new Option().id);
+      return this.options.filter(({ id }) => keptOptionIds.includes(id));
     }
   }
 

@@ -1,11 +1,31 @@
 import { Stats } from '../../data/types';
 import { getArtifactSetBonusParams } from '../Data';
+import archaicPetraOptions from '../option/artifactSetOptions/ArchaicPetraOption';
+import berserkerOptions from '../option/artifactSetOptions/BerserkerOption';
+import blizzardStrayerOptions from '../option/artifactSetOptions/BlizzardStrayerOption';
+import bloodstainedChivalryOptions from '../option/artifactSetOptions/BloodstainedChivalryOption';
+import braveHeartOptions from '../option/artifactSetOptions/BraveHeartOption';
+import crimsonWitchOptions from '../option/artifactSetOptions/CrimsonWitchOption';
+import heartOfDepthOptions from '../option/artifactSetOptions/HeartOfDepthOption';
+import instructorOptions from '../option/artifactSetOptions/InstructorOption';
+import lavawalkerOptions from '../option/artifactSetOptions/LavawalkerOption';
+import maidenBelovedOptions from '../option/artifactSetOptions/MaidenBelovedOption';
+import martialArtistOptions from '../option/artifactSetOptions/MartialArtistOption';
+import noblesseObligeOptions from '../option/artifactSetOptions/NoblesseObligeOption';
+import paleFlameOptions from '../option/artifactSetOptions/PaleFlameOption';
+import retracingBolideOptions from '../option/artifactSetOptions/RetracingBolideOption';
+import shimenawaOptions from '../option/artifactSetOptions/ShimenawaOption';
+import tenacityOptions from '../option/artifactSetOptions/TenacityOption';
+import thundersootherOptions from '../option/artifactSetOptions/ThundersootherOption';
+import viridescentVenererOptions from '../option/artifactSetOptions/ViridescentVenererOption';
 import { ArtifactSetBonus } from './types';
 
 // Placeholder function
-const defaultSetBonus: ArtifactSetBonus = {};
+const defaultSetBonus: ArtifactSetBonus = { options: [] };
 
 const Relic_ExtraAtkCritUp: ArtifactSetBonus = {
+  options: [],
+
   extraStatsFn: (params: number[]) => {
     return [
       {
@@ -17,6 +37,8 @@ const Relic_ExtraAtkCritUp: ArtifactSetBonus = {
 };
 
 const Relic_AllElemResistUp: ArtifactSetBonus = {
+  options: [],
+
   extraStatsFn: (params: number[]) => {
     const elements = ['anemo', 'cryo', 'electro', 'geo', 'hydro', 'pyro'];
     return elements.map((element) => {
@@ -29,6 +51,8 @@ const Relic_AllElemResistUp: ArtifactSetBonus = {
 };
 
 const Relic_AtkAndExtraAtkUp: ArtifactSetBonus = {
+  options: [],
+
   extraStatsFn: (params: number[]) => {
     return [
       {
@@ -44,6 +68,8 @@ const Relic_AtkAndExtraAtkUp: ArtifactSetBonus = {
 };
 
 const Relic_SkillDamageUp: ArtifactSetBonus = {
+  options: [],
+
   extraStatsFn: (params: number[]) => {
     return [
       {
@@ -55,6 +81,8 @@ const Relic_SkillDamageUp: ArtifactSetBonus = {
 };
 
 const Relic_MeleeAttackUp: ArtifactSetBonus = {
+  options: [],
+
   extraStatsFn: (params: number[]) => {
     // Only for sword, polearm, claymore characters
     // Did not make this an Option because this would likely not want to be disabled
@@ -72,9 +100,13 @@ const Relic_MeleeAttackUp: ArtifactSetBonus = {
 // Swirl Dmg up not yet implemented. Medium priority.
 // Requires reaction dmg to be implemented first.
 // Elemental Res shred implemented through Options
-const Relic_ReactionWindEnhance: ArtifactSetBonus = defaultSetBonus;
+const Relic_ReactionWindEnhance: ArtifactSetBonus = {
+  options: viridescentVenererOptions,
+};
 
 const Relci_RangerAttackUp: ArtifactSetBonus = {
+  options: [],
+
   extraStatsFn: (params: number[]) => {
     // Typo is present in the game data
     // Only for catalyst, bow characters
@@ -91,9 +123,13 @@ const Relci_RangerAttackUp: ArtifactSetBonus = {
 // Reaction Dmg Up not yet implemented. Medium priority
 // Requires reaction dmg to be implemented first
 // Pyro Dmg Bonus implemented through Options
-const Relic_ReactionFireEnhance: ArtifactSetBonus = defaultSetBonus;
+const Relic_ReactionFireEnhance: ArtifactSetBonus = {
+  options: crimsonWitchOptions,
+};
 
 const Relic_ElementalBurstUp: ArtifactSetBonus = {
+  options: [],
+
   extraStatsFn: (params: number[]) => {
     return [
       {
@@ -105,6 +141,8 @@ const Relic_ElementalBurstUp: ArtifactSetBonus = {
 };
 
 const Relic_ElementalBurstUpByChargeEfficiency: ArtifactSetBonus = {
+  options: [],
+
   statMixin: (stats: Stats) => {
     const params = getArtifactSetBonusParams('emblemofseveredfate', 4);
     let burstDmgBonus = params[0] * stats.energyRecharge;
@@ -114,6 +152,70 @@ const Relic_ElementalBurstUpByChargeEfficiency: ArtifactSetBonus = {
 
     stats.burstDmgBonus = burstDmgBonus + (stats.burstDmgBonus ?? 0);
   },
+};
+
+const Relic_GiantKiller: ArtifactSetBonus = {
+  options: braveHeartOptions,
+};
+
+const Relic_LowHPGainExtraCritRate: ArtifactSetBonus = {
+  options: berserkerOptions,
+};
+
+const Relic_SkillEnhanceNormalAtkAndExtraAtk: ArtifactSetBonus = {
+  options: martialArtistOptions,
+};
+
+const Relic_ReactionGainExtraElemMasteryForTeam: ArtifactSetBonus = {
+  options: instructorOptions,
+};
+
+const Relic_CriticUpAgainstIceAndFrozen: ArtifactSetBonus = {
+  options: blizzardStrayerOptions,
+};
+
+const Relic_DamageUpAgainstElectric: ArtifactSetBonus = {
+  options: thundersootherOptions,
+};
+
+const Relic_DamageUpAgainstFireAndBurning: ArtifactSetBonus = {
+  options: lavawalkerOptions,
+};
+
+const Relic_SkillEnhanceCured: ArtifactSetBonus = {
+  options: maidenBelovedOptions,
+};
+
+const Relic_TeamAtkupAfterElementalBurst: ArtifactSetBonus = {
+  options: noblesseObligeOptions,
+};
+
+const Relic_KillEnhanceExtraAtk: ArtifactSetBonus = {
+  options: bloodstainedChivalryOptions,
+};
+
+const Relic_ElementDmgUpAfterCrystalShield: ArtifactSetBonus = {
+  options: archaicPetraOptions,
+};
+
+const Relic_ShieldEnhanceAtk: ArtifactSetBonus = {
+  options: retracingBolideOptions,
+};
+
+const Relic_WaterSkillEnhanceNormalAtkAndExtraAtk: ArtifactSetBonus = {
+  options: heartOfDepthOptions,
+};
+
+const Relic_ShieldCostUpWhenElementalArtHit: ArtifactSetBonus = {
+  options: tenacityOptions,
+};
+
+const Relic_AttackUpWhenNormalAtkAndExtraAtkHit: ArtifactSetBonus = {
+  options: paleFlameOptions,
+};
+
+const Relic_NormalDamageUpIfCostEnergy: ArtifactSetBonus = {
+  options: shimenawaOptions,
 };
 
 export const artifactSetBonuses: Record<string, ArtifactSetBonus> = {
@@ -127,23 +229,23 @@ export const artifactSetBonuses: Record<string, ArtifactSetBonus> = {
   Relic_ElementalBurstUp,
   Relic_ElementalBurstUpByChargeEfficiency,
 
-  // Handled through Options
-  Relic_GiantKiller: defaultSetBonus,
-  Relic_LowHPGainExtraCritRate: defaultSetBonus,
-  Relic_SkillEnhanceNormalAtkAndExtraAtk: defaultSetBonus,
-  Relic_ReactionGainExtraElemMasteryForTeam: defaultSetBonus,
-  Relic_CriticUpAgainstIceAndFrozen: defaultSetBonus,
-  Relic_DamageUpAgainstElectric: defaultSetBonus,
-  Relic_DamageUpAgainstFireAndBurning: defaultSetBonus,
-  Relic_SkillEnhanceCured: defaultSetBonus,
-  Relic_TeamAtkupAfterElementalBurst: defaultSetBonus,
-  Relic_KillEnhanceExtraAtk: defaultSetBonus,
-  Relic_ElementDmgUpAfterCrystalShield: defaultSetBonus,
-  Relic_ShieldEnhanceAtk: defaultSetBonus,
-  Relic_WaterSkillEnhanceNormalAtkAndExtraAtk: defaultSetBonus,
-  Relic_ShieldCostUpWhenElementalArtHit: defaultSetBonus,
-  Relic_AttackUpWhenNormalAtkAndExtraAtkHit: defaultSetBonus,
-  Relic_NormalDamageUpIfCostEnergy: defaultSetBonus,
+  // Options only
+  Relic_GiantKiller,
+  Relic_LowHPGainExtraCritRate,
+  Relic_SkillEnhanceNormalAtkAndExtraAtk,
+  Relic_ReactionGainExtraElemMasteryForTeam,
+  Relic_CriticUpAgainstIceAndFrozen,
+  Relic_DamageUpAgainstElectric,
+  Relic_DamageUpAgainstFireAndBurning,
+  Relic_SkillEnhanceCured,
+  Relic_TeamAtkupAfterElementalBurst,
+  Relic_KillEnhanceExtraAtk,
+  Relic_ElementDmgUpAfterCrystalShield,
+  Relic_ShieldEnhanceAtk,
+  Relic_WaterSkillEnhanceNormalAtkAndExtraAtk,
+  Relic_ShieldCostUpWhenElementalArtHit,
+  Relic_AttackUpWhenNormalAtkAndExtraAtkHit,
+  Relic_NormalDamageUpIfCostEnergy,
 
   // Swirl Dmg up not yet implemented. Medium priority.
   // Requires reaction dmg to be implemented first.
