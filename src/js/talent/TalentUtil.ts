@@ -9,6 +9,7 @@ import {
 import Resistance from '../Resistance';
 import DamageModifier from '../modifier/DamageModifer';
 import { talents } from './Talent';
+import Reaction from '../modifier/Reaction';
 
 // Function to get specified talent
 export function getTalentFn(characterId: string, type: TalentType) {
@@ -72,6 +73,45 @@ function calculateResMultiplier({
     return 1 / (4 * totalRes + 1);
   }
 }
+function calculateAmplifyingMultiplier(
+  reaction: Reaction,
+  triggerElement: Element
+) {
+  if (reaction === Reaction.Melt) {
+    if (triggerElement === Element.Pyro) {
+      return 2;
+    } else if (triggerElement === Element.Cryo) {
+      return 1.5;
+    } else return 1;
+  } else if (reaction === Reaction.Vaporize) {
+    if (triggerElement === Element.Hydro) {
+      return 2;
+    } else if (triggerElement === Element.Pyro) {
+      return 1.5;
+    } else return 1;
+  } else return 1;
+}
+function calculateReactionMultiplier({
+  reaction,
+  stats,
+  reactionBonus,
+  element,
+}: {
+  reaction: Reaction;
+  stats: Stats;
+  reactionBonus: number;
+  element: Element;
+}) {
+  const amplifyingMultiplier = calculateAmplifyingMultiplier(reaction, element);
+  if (amplifyingMultiplier > 1) {
+    const elementalMastery = stats.elementalMastery ?? 0;
+    const baseMultiplier =
+      1 + (2.78 * elementalMastery) / (1400 + elementalMastery) + reactionBonus;
+    return amplifyingMultiplier * baseMultiplier;
+  } else {
+    return 1;
+  }
+}
 export function calculateTotalDamage({
   stats,
   multiplier,
@@ -117,8 +157,21 @@ export function calculateTotalDamage({
     resReduction: modifier.enemyResReduction,
   });
 
-  // TODO: reactionBonus
-  return baseDmg * dmgBonus * crit * enemyDefMultiplier * enemyResMultiplier;
+  const reactionMultiplier = calculateReactionMultiplier({
+    reaction: modifier.reaction,
+    stats,
+    reactionBonus: 0,
+    element,
+  });
+
+  return (
+    baseDmg *
+    dmgBonus *
+    crit *
+    enemyDefMultiplier *
+    enemyResMultiplier *
+    reactionMultiplier
+  );
 }
 function calculateHealing({
   stats,

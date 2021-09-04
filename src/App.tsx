@@ -12,6 +12,7 @@ import { ArtifactType } from './js/artifact/types';
 import Character from './js/character/Character';
 import CritType from './js/modifier/CritType';
 import DamageModifier from './js/modifier/DamageModifer';
+import Reaction from './js/modifier/Reaction';
 import { isModifierApplicable, isStatsApplicable } from './js/option';
 import { ArtifactSetOption } from './js/option/artifactSetOptions';
 import { CharacterOption } from './js/option/characterOptions';
@@ -34,7 +35,7 @@ export type AppState = {
   enemyRes: Resistance;
   critType: CritType;
   flatDmg: number;
-  reaction: string;
+  reaction: Reaction;
   talentAttackLevel: number;
   talentSkillLevel: number;
   talentBurstLevel: number;
@@ -60,7 +61,7 @@ class App extends React.Component<{}, AppState> {
     enemyRes: new Resistance(),
     critType: CritType.None,
     flatDmg: 0,
-    reaction: 'none',
+    reaction: Reaction.None,
     talentAttackLevel: 1,
     talentSkillLevel: 1,
     talentBurstLevel: 1,
@@ -186,6 +187,7 @@ class App extends React.Component<{}, AppState> {
     enemyLevel,
     enemyRes,
     critType,
+    reaction,
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
@@ -195,6 +197,7 @@ class App extends React.Component<{}, AppState> {
     enemyLevel?: number;
     enemyRes?: Resistance;
     critType?: CritType;
+    reaction?: Reaction;
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
@@ -208,7 +211,7 @@ class App extends React.Component<{}, AppState> {
       enemyResReduction: new Resistance(),
       critType: critType ?? this.state.critType,
       flatDmg: this.state.flatDmg,
-      reaction: this.state.reaction,
+      reaction: reaction ?? this.state.reaction,
       talentAttackLevel: talentAttackLevel ?? this.state.talentAttackLevel,
       talentSkillLevel: talentSkillLevel ?? this.state.talentSkillLevel,
       talentBurstLevel: talentBurstLevel ?? this.state.talentBurstLevel,
@@ -311,6 +314,7 @@ class App extends React.Component<{}, AppState> {
     enemyLevel,
     enemyRes,
     critType,
+    reaction,
     characterOptions,
     artifactSetOptions,
   }: {
@@ -322,6 +326,7 @@ class App extends React.Component<{}, AppState> {
     enemyLevel?: number;
     enemyRes?: Resistance;
     critType?: CritType;
+    reaction?: Reaction;
     characterOptions?: CharacterOption[];
     artifactSetOptions?: ArtifactSetOption[];
   }) => {
@@ -339,6 +344,7 @@ class App extends React.Component<{}, AppState> {
       enemyLevel,
       enemyRes,
       critType,
+      reaction,
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
