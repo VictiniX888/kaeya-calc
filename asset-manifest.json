@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/kaeya-calc/static/css/main.d8e67baf.chunk.css",
-    "main.js": "/kaeya-calc/static/js/main.dffc5240.chunk.js",
-    "main.js.map": "/kaeya-calc/static/js/main.dffc5240.chunk.js.map",
-    "runtime-main.js": "/kaeya-calc/static/js/runtime-main.d5357feb.js",
-    "runtime-main.js.map": "/kaeya-calc/static/js/runtime-main.d5357feb.js.map",
-    "static/js/2.a8d3f897.chunk.js": "/kaeya-calc/static/js/2.a8d3f897.chunk.js",
-    "static/js/2.a8d3f897.chunk.js.map": "/kaeya-calc/static/js/2.a8d3f897.chunk.js.map",
-    "static/js/3.50214336.chunk.js": "/kaeya-calc/static/js/3.50214336.chunk.js",
-    "static/js/3.50214336.chunk.js.map": "/kaeya-calc/static/js/3.50214336.chunk.js.map",
+    "main.js": "/kaeya-calc/static/js/main.b3175fd1.chunk.js",
+    "main.js.map": "/kaeya-calc/static/js/main.b3175fd1.chunk.js.map",
+    "runtime-main.js": "/kaeya-calc/static/js/runtime-main.5c700408.js",
+    "runtime-main.js.map": "/kaeya-calc/static/js/runtime-main.5c700408.js.map",
+    "static/js/2.c29e973b.chunk.js": "/kaeya-calc/static/js/2.c29e973b.chunk.js",
+    "static/js/2.c29e973b.chunk.js.map": "/kaeya-calc/static/js/2.c29e973b.chunk.js.map",
+    "static/js/3.de6dbac6.chunk.js": "/kaeya-calc/static/js/3.de6dbac6.chunk.js",
+    "static/js/3.de6dbac6.chunk.js.map": "/kaeya-calc/static/js/3.de6dbac6.chunk.js.map",
     "index.html": "/kaeya-calc/index.html",
     "static/css/main.d8e67baf.chunk.css.map": "/kaeya-calc/static/css/main.d8e67baf.chunk.css.map",
-    "static/js/2.a8d3f897.chunk.js.LICENSE.txt": "/kaeya-calc/static/js/2.a8d3f897.chunk.js.LICENSE.txt"
+    "static/js/2.c29e973b.chunk.js.LICENSE.txt": "/kaeya-calc/static/js/2.c29e973b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.d5357feb.js",
-    "static/js/2.a8d3f897.chunk.js",
+    "static/js/runtime-main.5c700408.js",
+    "static/js/2.c29e973b.chunk.js",
     "static/css/main.d8e67baf.chunk.css",
-    "static/js/main.dffc5240.chunk.js"
+    "static/js/main.b3175fd1.chunk.js"
   ]
 }
