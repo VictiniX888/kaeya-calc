@@ -622,6 +622,20 @@
         }
     },
     {
+        "id": "luxurioussealord",
+        "name": "Luxurious Sea-Lord",
+        "type": "claymore",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 41.067100524902344,
+            "atkBonus": 0.11999999731779099
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk204",
+            "atkBonus": "growthCurveSub201"
+        }
+    },
+    {
         "id": "katsuragikirinagamasa",
         "name": "Katsuragikiri Nagamasa",
         "type": "claymore",
@@ -898,6 +912,20 @@
         }
     },
     {
+        "id": "thecatch",
+        "name": "The Catch",
+        "type": "polearm",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 42.4010009765625,
+            "energyRecharge": 0.10000000149011612
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk201",
+            "energyRecharge": "growthCurveSub201"
+        }
+    },
+    {
         "id": "staffofhoma",
         "name": "Staff of Homa",
         "type": "polearm",
@@ -951,6 +979,20 @@
         "statCurves": {
             "baseAtk": "growthCurveAtk302",
             "critRate": "growthCurveSub301"
+        }
+    },
+    {
+        "id": "engulfinglightning",
+        "name": "Engulfing Lightning",
+        "type": "polearm",
+        "rank": 5,
+        "baseStats": {
+            "baseAtk": 45.9364013671875,
+            "energyRecharge": 0.11999999731779099
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk301",
+            "energyRecharge": "growthCurveSub301"
         }
     },
     {
@@ -1272,6 +1314,20 @@
         }
     },
     {
+        "id": "everlastingmoonglow",
+        "name": "Everlasting Moonglow",
+        "type": "catalyst",
+        "rank": 5,
+        "baseStats": {
+            "baseAtk": 45.9364013671875,
+            "hpBonus": 0.1080000028014183
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk301",
+            "hpBonus": "growthCurveSub301"
+        }
+    },
+    {
         "id": "huntersbow",
         "name": "Hunter's Bow",
         "type": "bow",
@@ -1558,6 +1614,20 @@
         },
         "statCurves": {
             "baseAtk": "growthCurveAtk204",
+            "atkBonus": "growthCurveSub201"
+        }
+    },
+    {
+        "id": "predator",
+        "name": "Predator",
+        "type": "bow",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 42.4010009765625,
+            "atkBonus": 0.09000000357627869
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk201",
             "atkBonus": "growthCurveSub201"
         }
     },

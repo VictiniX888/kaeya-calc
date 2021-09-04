@@ -560,6 +560,22 @@
         }
     },
     {
+        "id": "raiden",
+        "name": "Raiden",
+        "baseStats": {
+            "baseHp": 1004.7992553710938,
+            "baseAtk": 26.254199981689453,
+            "baseDef": 61.445411682128906,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
+        }
+    },
+    {
         "id": "sayu",
         "name": "Sayu",
         "baseStats": {
@@ -573,6 +589,54 @@
             "baseHp": "growthCurveHp4Star",
             "baseAtk": "growthCurveAtk4Star",
             "baseDef": "growthCurveHp4Star"
+        }
+    },
+    {
+        "id": "kokomi",
+        "name": "Kokomi",
+        "baseStats": {
+            "baseHp": 1048.6519775390625,
+            "baseAtk": 18.247600555419922,
+            "baseDef": 51.1546516418457,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
+        }
+    },
+    {
+        "id": "sara",
+        "name": "Sara",
+        "baseStats": {
+            "baseHp": 802.3760986328125,
+            "baseAtk": 16.383359909057617,
+            "baseDef": 52.64699935913086,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp4Star",
+            "baseAtk": "growthCurveAtk4Star",
+            "baseDef": "growthCurveHp4Star"
+        }
+    },
+    {
+        "id": "aloy",
+        "name": "Aloy",
+        "baseStats": {
+            "baseHp": 848.4547729492188,
+            "baseAtk": 18.210359573364258,
+            "baseDef": 52.65039825439453,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp5Star",
+            "baseAtk": "growthCurveAtk5Star",
+            "baseDef": "growthCurveHp5Star"
         }
     }
 ]
