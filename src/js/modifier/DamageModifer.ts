@@ -30,4 +30,6 @@ interface DamageModiferOptional {
   infusionPlunge?: Element;
 
   yoimiyaSkill?: boolean;
+
+  resolveStacks?: number;
 }

@@ -5,6 +5,7 @@ import dilucOptions from './DilucOption';
 import hutaoOptions from './HuTaoOption';
 import kazuhaOptions from './KazuhaOption';
 import noelleOptions from './NoelleOption';
+import raidenOptions from './RaidenOption';
 import sayuOptions from './SayuOption';
 import sucroseOptions from './SucroseOption';
 import ventiOptions from './VentiOption';
@@ -26,5 +27,6 @@ export const characterOptions: Record<string, typeof CharacterOption[]> = {
   kazuha: kazuhaOptions,
   yanfei: yanfeiOptions,
   yoimiya: yoimiyaOptions,
+  raiden: raidenOptions,
   sayu: sayuOptions,
 };

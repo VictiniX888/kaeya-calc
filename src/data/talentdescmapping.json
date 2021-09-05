@@ -153,6 +153,9 @@
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
     "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack",
 
+    "coordinatedAtkDmg": "Coordinated ATK DMG",
+    "musouNoHitotachiDmg": "Musou no Hitotachi DMG",
+
     "fuufuuWindwheelDmg": "Fuufuu Windwheel DMG",
     "fuufuuWhirlwindKickPressDmg": "Fuufuu Whirlwind Kick Press DMG",
     "fuufuuWhirlwindKickHoldDmg": "Fuufuu Whirlwind Kick Hold DMG",
