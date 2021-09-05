@@ -4,6 +4,7 @@ import ArtifactSet from '../js/artifact/ArtifactSet';
 import { ArtifactType, InputStat } from '../js/artifact/types';
 import Character from '../js/character/Character';
 import CritType from '../js/modifier/CritType';
+import Reaction from '../js/modifier/Reaction';
 import { getOptionValue, setOptionValue } from '../js/option';
 import Resistance from '../js/Resistance';
 import { Element } from '../js/talent/types';
@@ -39,6 +40,7 @@ export default interface Save {
     pyro?: number;
     physical?: number;
   };
+  reaction?: Reaction;
 
   characterOptions?: { id?: string; value?: unknown }[];
   artifactSetOptions?: { id?: string; value?: unknown }[];
@@ -110,6 +112,7 @@ export function createSave(label: string, appState: AppState): Save {
       pyro: appState.enemyRes.get(Element.Pyro),
       physical: appState.enemyRes.get(Element.Physical),
     },
+    reaction: appState.reaction,
 
     characterOptions: appState.characterOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
@@ -180,6 +183,7 @@ export function loadSave(
   const enemyRes = save.enemyRes
     ? new Resistance(save.enemyRes)
     : new Resistance();
+  const reaction = save.reaction ?? Reaction.None;
 
   const characterOptions = character.getOptions();
   save.characterOptions?.forEach((option) => {
@@ -215,6 +219,7 @@ export function loadSave(
       critType,
       enemyLevel,
       enemyRes,
+      reaction,
       characterOptions,
       artifactSetOptions,
     },
