@@ -1,12 +1,13 @@
 import { Stats } from '../data/types';
 import Artifact from './artifact/Artifact';
 import Character, { getAscensionLevel } from './character/Character';
-import { talentDescMapping, optionMapping } from './Data';
+import { talentDescMapping, optionMapping, propMapping } from './Data';
 import { StatMixin } from './option/Mixin';
 import Weapon from './weapon/Weapon';
 
 // Returns the string to display as the value of a stat
-export function getStatDisplayValue(value: number, isPercentage: boolean) {
+export function getStatDisplayValue(prop: string, value: number) {
+  const isPercentage = propMapping[prop]?.isPercentage;
   if (value != null && !isNaN(value)) {
     if (isPercentage) {
       return (value * 100).toFixed(1) + '%';

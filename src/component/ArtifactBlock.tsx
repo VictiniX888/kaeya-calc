@@ -1,9 +1,10 @@
 import React from 'react';
 import Artifact, { mainStatProps, subStatProps } from '../js/artifact/Artifact';
 import { propMapping } from '../js/Data';
-import { capitalize } from '../js/Stat';
+import { capitalize, getStatDisplayValue } from '../js/Stat';
 import FloatInput from './FloatInput';
 import InputRow from './InputRow';
+import IntInput from './IntInput';
 import Picker from './Picker';
 
 type ArtifactBlockProps = {
@@ -17,8 +18,13 @@ class ArtifactBlock extends React.Component<ArtifactBlockProps> {
     this.props.updateArtifactState();
   };
 
-  setArtifactMainStatValue = (value: number) => {
-    this.props.artifact.setMainStatValue(value);
+  setArtifactRarity = (rarity: number) => {
+    this.props.artifact.rarity = rarity;
+    this.props.updateArtifactState();
+  };
+
+  setArtifactLevel = (level: number) => {
+    this.props.artifact.level = level;
     this.props.updateArtifactState();
   };
 
@@ -39,15 +45,35 @@ class ArtifactBlock extends React.Component<ArtifactBlockProps> {
       <div className='sub-block'>
         <h3>{capitalize(artifact.type)}</h3>
 
-        <p>Main Stat</p>
+        <InputRow>
+          <IntInput
+            className='level-input'
+            id={`artifact-${artifact.type}-rarity`}
+            label='Rarity:'
+            defaultValue={1}
+            value={artifact.rarity}
+            onInput={this.setArtifactRarity}
+          />
+        </InputRow>
+
+        <InputRow>
+          <IntInput
+            className='level-input'
+            id={`artifact-${artifact.type}-level`}
+            label='Level:'
+            defaultValue={0}
+            value={artifact.level}
+            onInput={this.setArtifactLevel}
+          />
+        </InputRow>
+
         <InputRow>
           <Picker
             id={`artifact-${artifact.type}-main-stat`}
-            label=''
+            label='Main Stat:'
             defaultValue=''
             value={artifact.mainStat.stat}
             onChange={this.setArtifactMainStatProp}
-            isLabelShown={false}
           >
             <Picker.Item label='' value='' />
             {mainStatProps[artifact.type].map((prop) => (
@@ -61,15 +87,12 @@ class ArtifactBlock extends React.Component<ArtifactBlockProps> {
 
           <p>:</p>
 
-          <FloatInput
-            id={`artifact-${artifact.type}-main-stat-value`}
-            label=''
-            defaultValue={NaN}
-            value={artifact.mainStat.rawValue}
-            onInput={this.setArtifactMainStatValue}
-            isLabelShown={false}
-            className='stat-input'
-          />
+          <p>
+            {getStatDisplayValue(
+              artifact.mainStat.stat,
+              artifact.mainStat.value
+            )}
+          </p>
         </InputRow>
 
         <p>Substats</p>

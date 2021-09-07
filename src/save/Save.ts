@@ -50,7 +50,9 @@ export type Saves = Record<string, Save>;
 
 interface ArtifactSave {
   type?: ArtifactType;
-  mainStat?: InputStatSave;
+  rarity?: number;
+  level?: number;
+  mainStat?: string;
   subStats?: InputStatSave[];
 }
 
@@ -83,7 +85,9 @@ export function createSave(label: string, appState: AppState): Save {
     artifacts: appState.artifacts.map((artifact) => {
       return {
         type: artifact.type,
-        mainStat: createInputStatSave(artifact.mainStat),
+        rarity: artifact.rarity,
+        level: artifact.level,
+        mainStat: artifact.mainStat.stat,
         subStats: artifact.subStats.map((subStat) =>
           createInputStatSave(subStat)
         ),
@@ -147,11 +151,11 @@ export function loadSave(
   const artifacts =
     save.artifacts?.map((savedArtifact, i) => {
       const artifactType = savedArtifact.type ?? Object.values(ArtifactType)[i];
-      let artifact = new Artifact(artifactType);
-      artifact.mainStat = new InputStat(
-        savedArtifact.mainStat?.stat ?? '',
-        savedArtifact.mainStat?.value ?? NaN,
-        savedArtifact.mainStat?.rawValue ?? NaN
+      let artifact = new Artifact(
+        artifactType,
+        savedArtifact.rarity ?? 1,
+        savedArtifact.level ?? 0,
+        savedArtifact.mainStat ?? ''
       );
       artifact.subStats =
         savedArtifact.subStats?.map(
@@ -164,7 +168,8 @@ export function loadSave(
         ) ?? artifact.subStats;
 
       return artifact;
-    }) ?? Object.values(ArtifactType).map((type) => new Artifact(type));
+    }) ??
+    Object.values(ArtifactType).map((type) => new Artifact(type, 1, 0, ''));
 
   const artifactSets = save.artifactSets?.map(
     (artifactSet) =>

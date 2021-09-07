@@ -1,10 +1,29 @@
-import { Stats } from '../../data/types';
+import { Stat, Stats } from '../../data/types';
+import { getArtifactMainStatValue } from '../Data';
 import { ArtifactType, InputStat } from './types';
 
 export default class Artifact {
   type: ArtifactType;
 
-  mainStat: InputStat = new InputStat();
+  private _rarity: number;
+  get rarity(): number {
+    return this._rarity;
+  }
+  set rarity(value: number) {
+    this._rarity = value;
+    this.updateMainStat(this.rarity, this.level, this.mainStat.stat);
+  }
+
+  private _level: number;
+  get level(): number {
+    return this._level;
+  }
+  set level(value: number) {
+    this._level = value;
+    this.updateMainStat(this.rarity, this.level, this.mainStat.stat);
+  }
+
+  mainStat: Stat = { stat: '', value: NaN };
 
   subStats: InputStat[] = [
     new InputStat(),
@@ -13,16 +32,31 @@ export default class Artifact {
     new InputStat(),
   ];
 
-  constructor(type: ArtifactType) {
+  constructor(
+    type: ArtifactType,
+    rarity: number,
+    level: number,
+    mainStatProp: string
+  ) {
     this.type = type;
+    this._rarity = rarity;
+    this._level = level;
+    this.mainStat.stat = mainStatProp;
+
+    this.updateMainStat(rarity, level, mainStatProp);
+  }
+
+  updateMainStat(rarity: number, level: number, prop: string) {
+    this.setMainStatValue(getArtifactMainStatValue(rarity, level, prop));
   }
 
   setMainStatProp(prop: string) {
-    this.mainStat.setProp(prop);
+    this.mainStat.stat = prop;
+    this.updateMainStat(this.rarity, this.level, prop);
   }
 
   setMainStatValue(value: number) {
-    this.mainStat.setValue(value);
+    this.mainStat.value = value;
   }
 
   setSubStatProp(i: number, prop: string) {

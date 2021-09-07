@@ -48,7 +48,9 @@ class App extends React.Component<{}, AppState> {
   state: AppState = {
     character: new Character('', 1, false),
     weapon: new Weapon('', 1, false),
-    artifacts: Object.values(ArtifactType).map((type) => new Artifact(type)),
+    artifacts: Object.values(ArtifactType).map(
+      (type) => new Artifact(type, 1, 0, '')
+    ),
 
     artifactSets: [
       new ArtifactSet(''),

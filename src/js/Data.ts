@@ -10,6 +10,7 @@ import weaponStatCurveDataRaw from '../data/weaponstatcurvedata.json';
 import talentDataRaw from '../data/talentdata.json';
 import artifactSetDataRaw from '../data/artifactsetdata.json';
 import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
+import artifactMainStatDataRaw from '../data/artifactmainstatdata.json';
 
 import propMappingRaw from '../data/propmapping.json';
 import talentDescMappingRaw from '../data/talentdescmapping.json';
@@ -48,6 +49,8 @@ const artifactSetData = processArtifactSetData(
 const artifactSetBonusData = processArtifactSetBonusData(
   artifactSetBonusDataRaw as Data.ArtifactSetBonusDataRaw[]
 );
+const artifactMainStatData =
+  artifactMainStatDataRaw as Data.ArtifactMainStatData;
 
 // Pre-processed data, lists
 let sortedCharacterList: string[]; // lazy loading implemented with getSortedCharacterList()
@@ -151,7 +154,7 @@ function processArtifactSetBonusData(rawData: Data.ArtifactSetBonusDataRaw[]) {
 }
 
 // Helper functions for accessing data properties
-function getData(id: string, dataObj: Record<string, any>) {
+function getData<T>(id: string, dataObj: Record<string, T>) {
   return dataObj[id];
 }
 
@@ -231,6 +234,14 @@ export function getArtifactSetBonusData(id: string): Data.ArtifactSetBonusData {
 export function getArtifactSetBonusParams(id: string, pieces: number) {
   const params = getArtifactSetBonusData(id)?.[pieces]?.bonusExtra?.params;
   return params ?? emptyTalentParams;
+}
+
+export function getArtifactMainStatValue(
+  rarity: number,
+  level: number,
+  prop: string
+) {
+  return artifactMainStatData[rarity]?.[level]?.[prop] ?? NaN;
 }
 
 // "Public" functions for getting data collections

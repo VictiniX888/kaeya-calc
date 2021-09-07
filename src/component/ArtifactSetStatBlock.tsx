@@ -28,8 +28,7 @@ class ArtifactSetStatBlock extends React.Component<ArtifactSetStatBlockProps> {
           )
           .map(([prop, value]) => (
             <p key={prop}>
-              {propMapping[prop].name}:{' '}
-              {getStatDisplayValue(value, propMapping[prop].isPercentage)}
+              {propMapping[prop].name}: {getStatDisplayValue(prop, value)}
             </p>
           ))}
       </div>

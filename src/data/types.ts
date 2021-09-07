@@ -7,6 +7,10 @@ export type TalentParams = number[];
 export type TalentData = Record<number, TalentParams>;
 export type ArtifactSetBonusData = Record<number, ArtifactSetBonusSet>;
 
+type ArtifactMainStatPropData = Record<string, number>;
+type ArtifactMainStatLevelData = Record<number, ArtifactMainStatPropData>;
+export type ArtifactMainStatData = Record<number, ArtifactMainStatLevelData>;
+
 export interface Stat {
   stat: string;
   value: number;
@@ -108,6 +112,7 @@ interface PropInfo {
   name: string;
   isPercentage: boolean;
 }
+
 export type PropMapping = Record<string, PropInfo>;
 
 export type LanguageMapping = Record<string, string>;

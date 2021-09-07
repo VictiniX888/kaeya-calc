@@ -21,8 +21,7 @@ class WeaponStatBlock extends React.Component<WeaponStatBlockProps> {
         <p>{weapon.name ?? ''}</p>
         {Object.entries(weapon.stats).map(([prop, value]) => (
           <p key={prop}>
-            {propMapping[prop].name}:{' '}
-            {getStatDisplayValue(value, propMapping[prop].isPercentage)}
+            {propMapping[prop].name}: {getStatDisplayValue(prop, value)}
           </p>
         ))}
       </div>

@@ -19,8 +19,7 @@ class TotalStatBlock extends React.Component<TotalStatBlockProps> {
             // (similar to how it is done in getTotalStatsAt)
             prop !== 'baseAtk' && (
               <p key={prop}>
-                {propMapping[prop].name}:{' '}
-                {getStatDisplayValue(value, propMapping[prop].isPercentage)}
+                {propMapping[prop].name}: {getStatDisplayValue(prop, value)}
               </p>
             )
         )}
