@@ -32,4 +32,6 @@ interface DamageModiferOptional {
   yoimiyaSkill?: boolean;
 
   resolveStacks?: number;
+
+  kokomiBurst?: boolean;
 }

@@ -38,6 +38,7 @@ import yoimiyaTalent from './YoimiyaTalent';
 import sayuTalent from './SayuTalent';
 import kazuhaTalent from './KazuhaTalent';
 import raidenTalent from './RaidenTalent';
+import kokomiTalent from './KokomiTalent';
 
 export default interface Talent {
   attack: (props: TalentProps) => TalentValue[];
@@ -84,4 +85,5 @@ export const talents: Record<string, Talent> = {
   eula: eulaTalent,
   raiden: raidenTalent,
   sayu: sayuTalent,
+  kokomi: kokomiTalent,
 };

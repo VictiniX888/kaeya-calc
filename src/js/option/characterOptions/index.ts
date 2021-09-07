@@ -4,6 +4,7 @@ import chongyunOptions from './ChongyunOption';
 import dilucOptions from './DilucOption';
 import hutaoOptions from './HuTaoOption';
 import kazuhaOptions from './KazuhaOption';
+import kokomiOptions from './KokomiOption';
 import noelleOptions from './NoelleOption';
 import raidenOptions from './RaidenOption';
 import sayuOptions from './SayuOption';
@@ -29,4 +30,5 @@ export const characterOptions: Record<string, typeof CharacterOption[]> = {
   yoimiya: yoimiyaOptions,
   raiden: raidenOptions,
   sayu: sayuOptions,
+  kokomi: kokomiOptions,
 };

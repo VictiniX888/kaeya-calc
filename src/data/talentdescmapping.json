@@ -164,5 +164,7 @@
     "activationDmg": "Skill Activation DMG",
     "activationHealing": "Skill Activation Healing",
     "mujimujiDarumaDmg": "Muji-Muji Daruma DMG",
-    "mujimujiDarumaHealing": "Muji-Muji Daruma Healing"
+    "mujimujiDarumaHealing": "Muji-Muji Daruma Healing",
+
+    "rippleDmg": "Ripple DMG"
 }
