@@ -5,6 +5,7 @@ import {
   skillMultiBase,
   burstBase,
   healingSkillBase,
+  baseAtkBuff,
 } from './TalentUtil';
 import { TalentProps, Element } from './types';
 
@@ -80,14 +81,13 @@ function bennettBurst({ params, stats, modifier }: TalentProps) {
       stats,
       modifier,
     }),
-  ];
 
-  // ATK Bonus
-  let atkBonus = stats.baseAtk * params[3];
-  talentDamage.push({
-    description: 'atkBonus',
-    damage: [atkBonus],
-  });
+    baseAtkBuff({
+      multiplier: params[3],
+      stats,
+      modifier,
+    }),
+  ];
 
   return talentDamage;
 }

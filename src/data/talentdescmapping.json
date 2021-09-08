@@ -166,5 +166,9 @@
     "mujimujiDarumaDmg": "Muji-Muji Daruma DMG",
     "mujimujiDarumaHealing": "Muji-Muji Daruma Healing",
 
-    "rippleDmg": "Ripple DMG"
+    "rippleDmg": "Ripple DMG",
+
+    "tenguJuuraiAmbushDmg": "Tengu Juurai: Ambush DMG",
+    "tenguJuuraiTitanbreakerDmg": "Tengu Juurai: Titanbreaker DMG",
+    "tenguJuuraiStormclusterDmg": "Tengu Juurai: Stormcluster DMG"
 }

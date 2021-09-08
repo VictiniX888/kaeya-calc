@@ -976,3 +976,19 @@ export function shieldBase({
     damage: [dmgAbsorption],
   } as TalentValue;
 }
+
+export function baseAtkBuff({
+  multiplier,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  let atkBonus = stats.baseAtk * multiplier;
+  return {
+    description: 'atkBonus',
+    damage: [atkBonus],
+  };
+}
