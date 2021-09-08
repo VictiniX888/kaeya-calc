@@ -46,7 +46,9 @@ function kokomiAttack({ params, stats, modifier }: TalentProps) {
     });
     const normalBonusDmg = calculateTotalDamage({
       stats,
-      multiplier: burstParams[3],
+      multiplier:
+        burstParams[3] +
+        (modifier.kokomiHealingBonusDmg ?? 0) * stats.healingBonus,
       element: Element.Hydro,
       scalingType: ScalingType.Hp,
       attackType: AttackType.Normal,
@@ -67,7 +69,9 @@ function kokomiAttack({ params, stats, modifier }: TalentProps) {
     });
     const chargedBonusDmg = calculateTotalDamage({
       stats,
-      multiplier: burstParams[4],
+      multiplier:
+        burstParams[4] +
+        (modifier.kokomiHealingBonusDmg ?? 0) * stats.healingBonus,
       element: Element.Hydro,
       scalingType: ScalingType.Hp,
       attackType: AttackType.Charged,

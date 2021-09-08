@@ -34,4 +34,5 @@ interface DamageModiferOptional {
   resolveStacks?: number;
 
   kokomiBurst?: boolean;
+  kokomiHealingBonusDmg?: number;
 }
