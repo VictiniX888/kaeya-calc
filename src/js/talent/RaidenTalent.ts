@@ -1,4 +1,3 @@
-import { Stats } from '../../data/types';
 import Talent from './Talent';
 import {
   attackLightMulti,
@@ -46,32 +45,30 @@ function raidenSkill({ params, stats, modifier }: TalentProps) {
 }
 
 function raidenBurst({ params, stats, modifier }: TalentProps) {
-  let newStats: Stats = { ...stats };
-  const resolveBonus = params[1] + params[2] * (modifier.resolveStacks ?? 0);
-  newStats.dmgBonus = resolveBonus + (newStats.dmgBonus ?? 0);
-
   let talentValues: TalentValue[] = [];
 
   // Musou no Hitotachi
+  const initialResolveBonus = params[1] * (modifier.resolveStacks ?? 0);
   talentValues.push(
     burstBase({
       description: 'musouNoHitotachiDmg',
       element: Element.Electro,
-      multiplier: params[0],
-      stats: newStats,
+      multiplier: params[0] + initialResolveBonus,
+      stats,
       modifier,
     })
   );
 
-  /* Musou Isshin: assuming attacks are not considered normal, charged or plunge DMG */
+  /* Musou Isshin*/
+  const attackResolveBonus = params[2] * (modifier.resolveStacks ?? 0);
   // 1-3 hit
   for (let i = 0; i < 3; i++) {
     talentValues.push(
       burstBase({
         description: `${i + 1}HitDmg`,
         element: Element.Electro,
-        multiplier: params[i + 4],
-        stats: newStats,
+        multiplier: params[i + 4] + attackResolveBonus,
+        stats,
         modifier,
       })
     );
@@ -83,8 +80,8 @@ function raidenBurst({ params, stats, modifier }: TalentProps) {
       description: '4HitDmg',
       hits: 2,
       element: Element.Electro,
-      params: params.slice(7, 9),
-      stats: newStats,
+      params: params.slice(7, 9).map((param) => param + attackResolveBonus),
+      stats,
       modifier,
     })
   );
@@ -94,8 +91,8 @@ function raidenBurst({ params, stats, modifier }: TalentProps) {
     burstBase({
       description: '5HitDmg',
       element: Element.Electro,
-      multiplier: params[9],
-      stats: newStats,
+      multiplier: params[9] + attackResolveBonus,
+      stats,
       modifier,
     })
   );
@@ -106,8 +103,8 @@ function raidenBurst({ params, stats, modifier }: TalentProps) {
       description: 'chargedDmg',
       hits: 2,
       element: Element.Electro,
-      params: params.slice(10, 12),
-      stats: newStats,
+      params: params.slice(10, 12).map((param) => param + attackResolveBonus),
+      stats,
       modifier,
     })
   );
@@ -119,8 +116,8 @@ function raidenBurst({ params, stats, modifier }: TalentProps) {
       burstBase({
         description,
         element: Element.Electro,
-        multiplier: params[13 + i],
-        stats: newStats,
+        multiplier: params[13 + i] + attackResolveBonus,
+        stats,
         modifier,
       })
     );
