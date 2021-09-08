@@ -40,6 +40,7 @@ import kazuhaTalent from './KazuhaTalent';
 import raidenTalent from './RaidenTalent';
 import kokomiTalent from './KokomiTalent';
 import saraTalent from './SaraTalent';
+import aloyTalent from './AloyTalent';
 
 export default interface Talent {
   attack: (props: TalentProps) => TalentValue[];
@@ -88,4 +89,5 @@ export const talents: Record<string, Talent> = {
   sayu: sayuTalent,
   kokomi: kokomiTalent,
   sara: saraTalent,
+  aloy: aloyTalent,
 };

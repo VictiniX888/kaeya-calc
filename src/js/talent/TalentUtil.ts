@@ -635,7 +635,7 @@ export function attackHeavyMulti({
   return talentValues;
 }
 // Used for all debault bow aim shots (include charged shots)
-function aimShotDefault({
+export function aimShotDefault({
   chargedElement,
   params,
   stats,

@@ -1,3 +1,4 @@
+import aloyOptions from './AloyOption';
 import ayakaOptions from './AyakaOption';
 import CharacterOption from './CharacterOption';
 import chongyunOptions from './ChongyunOption';
@@ -31,4 +32,5 @@ export const characterOptions: Record<string, typeof CharacterOption[]> = {
   raiden: raidenOptions,
   sayu: sayuOptions,
   kokomi: kokomiOptions,
+  aloy: aloyOptions,
 };

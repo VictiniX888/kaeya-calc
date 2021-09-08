@@ -170,5 +170,8 @@
 
     "tenguJuuraiAmbushDmg": "Tengu Juurai: Ambush DMG",
     "tenguJuuraiTitanbreakerDmg": "Tengu Juurai: Titanbreaker DMG",
-    "tenguJuuraiStormclusterDmg": "Tengu Juurai: Stormcluster DMG"
+    "tenguJuuraiStormclusterDmg": "Tengu Juurai: Stormcluster DMG",
+
+    "freezeBombDmg": "Freeze Bomb DMG",
+    "chillwaterBombletDmg": "Chillwater Bomblet DMG"
 }
