@@ -57,7 +57,7 @@ interface TalentDataRaw {
   params: TalentParams;
 }
 
-interface PassiveData {
+interface CharacterPassiveData {
   id: string;
   ascensionLevel: number;
   params: TalentParams;
@@ -67,7 +67,7 @@ interface TalentDataSetRaw {
   attack: TalentDataRaw[];
   skill: TalentDataRaw[];
   burst: TalentDataRaw[];
-  passives: PassiveData[];
+  passives: CharacterPassiveData[];
 }
 
 export interface CharacterTalentDataRaw {
@@ -75,16 +75,11 @@ export interface CharacterTalentDataRaw {
   talents: TalentDataSetRaw;
 }
 
-interface PassiveData {
-  params: TalentParams;
-  ascensionLevel: number;
-}
-
 export interface TalentDataSet {
   attack: TalentData;
   skill: TalentData;
   burst: TalentData;
-  passives: PassiveData[];
+  passives: CharacterPassiveData[];
 }
 
 export interface ArtifactSetData {
@@ -105,6 +100,18 @@ export interface ArtifactSetBonusSet {
     type: string;
     params: number[];
   };
+}
+
+export interface WeaponPassiveData {
+  refinement: number;
+  statBonuses: Stat[];
+  passiveId: string;
+  passiveParams: number[];
+}
+
+export interface WeaponPassiveSetData {
+  id: string;
+  passive: Record<number, WeaponPassiveData>;
 }
 
 // Mapping files

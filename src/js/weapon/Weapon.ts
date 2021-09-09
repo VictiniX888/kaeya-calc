@@ -1,16 +1,35 @@
-import { AscensionBonus, StatCurveMapping, Stats } from '../../data/types';
+import {
+  AscensionBonus,
+  StatCurveMapping,
+  Stats,
+  WeaponPassiveData,
+  WeaponPassiveSetData,
+} from '../../data/types';
 import {
   getWeaponData as getData,
   getWeaponAscensionBonusData as getAscensionBonusData,
   getWeaponStatCurveAt as getStatCurveAt,
   getAscensionBonusAt,
+  getWeaponPassiveAt,
+  getWeaponPassiveData,
 } from '../Data';
+import { getOptionValue, setOptionValue } from '../option';
+import { ModifierMixin, StatMixin } from '../option/Mixin';
+import WeaponOption from '../option/weaponOptions/WeaponOption';
+import { WeaponPassive } from '../passive/types';
+import { getWeaponPassiveFn } from '../passive/weaponPassives/WeaponPassive';
 import type { WeaponType } from './types';
 
 export default class Weapon {
-  constructor(id: string, level: number, hasAscended: boolean) {
+  constructor(
+    id: string,
+    level: number,
+    hasAscended: boolean,
+    refinement: number
+  ) {
     this._weaponLevel = level;
     this._hasAscended = hasAscended;
+    this._refinement = refinement;
 
     this.id = id;
   }
@@ -31,6 +50,16 @@ export default class Weapon {
     this.statCurveMapping = data?.statCurves;
     this.ascensionBonuses = getAscensionBonusData(value);
 
+    this.passiveDataSet = getWeaponPassiveData(value);
+    if (this.passiveDataSet !== undefined) {
+      this.passiveData = getWeaponPassiveAt(
+        this.refinement,
+        this.passiveDataSet
+      );
+      this.passive = this.getPassive(this.passiveData);
+      this.passiveOptions = this.getPassiveOptions();
+    }
+
     this.stats = this.getStatsAt(this.weaponLevel, this.hasAscended);
   }
 
@@ -40,6 +69,7 @@ export default class Weapon {
   baseStats?: Stats;
   statCurveMapping?: StatCurveMapping;
   ascensionBonuses?: AscensionBonus[];
+  passiveDataSet?: WeaponPassiveSetData;
 
   private _weaponLevel: number = 1;
   get weaponLevel(): number {
@@ -59,7 +89,23 @@ export default class Weapon {
     this.stats = this.getStatsAt(this.weaponLevel, value);
   }
 
+  private _refinement: number = 1;
+  get refinement(): number {
+    return this._refinement;
+  }
+  set refinement(value: number) {
+    this._refinement = value;
+    if (this.passiveDataSet !== undefined) {
+      this.passiveData = getWeaponPassiveAt(value, this.passiveDataSet);
+      this.passive = this.getPassive(this.passiveData);
+      this.passiveOptions = this.getPassiveOptions(true);
+    }
+  }
+
   stats: Stats = {};
+  passiveData?: WeaponPassiveData;
+  passive?: WeaponPassive;
+  passiveOptions: WeaponOption[] = [];
 
   isDefined() {
     return this.id !== '';
@@ -150,5 +196,61 @@ export default class Weapon {
     }
 
     return weaponStats;
+  }
+
+  // Only returns the extra passive bonuses, excluding the direct stat bonuses
+  // To be called when passive should update (e.g. id or refinement change)
+  getPassive(passiveData?: WeaponPassiveData) {
+    if (passiveData === undefined) {
+      return getWeaponPassiveFn('')([]);
+    }
+
+    return getWeaponPassiveFn(passiveData.passiveId)(passiveData.passiveParams);
+  }
+
+  // getPassive should be called before this if passives are updated
+  getPassiveOptions(shouldKeepValue: boolean = false) {
+    let newOptions = (this.passive?.options ?? []).map(
+      (Option) => new Option()
+    );
+
+    if (shouldKeepValue) {
+      this.passiveOptions.forEach((option) => {
+        let newOption = newOptions.find(
+          (newOption) => newOption.id === option.id
+        );
+        if (newOption !== undefined) {
+          setOptionValue(newOption, getOptionValue(option));
+        }
+      });
+    }
+
+    return newOptions;
+  }
+
+  getPassiveStatMixins(): StatMixin[] {
+    let statMixins = [];
+
+    if (this.passive?.statMixin !== undefined) {
+      statMixins.push(this.passive.statMixin);
+    }
+
+    if (this.passiveData?.statBonuses !== undefined) {
+      this.passiveData.statBonuses.forEach(({ stat, value }) => {
+        statMixins.push((stats: Stats) => {
+          stats[stat] = value + (stats[stat] ?? 0);
+        });
+      });
+    }
+
+    return statMixins;
+  }
+
+  getPassiveModifierMixins(): ModifierMixin[] {
+    if (this.passive?.modifierMixin === undefined) {
+      return [];
+    }
+
+    return [this.passive.modifierMixin];
   }
 }

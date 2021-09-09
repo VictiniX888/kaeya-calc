@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppState } from '../App';
+import WeaponOption from '../js/option/weaponOptions/WeaponOption';
 import Weapon from '../js/weapon/Weapon';
 import Checkbox from './Checkbox';
 import InputRow from './InputRow';
@@ -12,15 +13,22 @@ type WeaponInputBlockProps = {
     state: Pick<AppState, K>,
     callback?: () => void
   ) => void;
-  updateTotalStats: ({ weapon }: { weapon?: Weapon }) => void;
+  updateTotalStats: ({
+    weapon,
+    weaponOptions,
+  }: {
+    weapon?: Weapon;
+    weaponOptions?: WeaponOption[];
+  }) => void;
 };
 
 class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
   setWeaponId = (id: string) => {
     const weapon = this.props.appState.weapon;
     weapon.id = id;
-    this.props.updateTotalStats({ weapon });
-    this.props.setAppState({ weapon });
+    const weaponOptions = weapon.passiveOptions;
+    this.props.updateTotalStats({ weapon, weaponOptions });
+    this.props.setAppState({ weapon, weaponOptions });
   };
 
   setWeaponLevel = (level: number) => {
@@ -35,6 +43,14 @@ class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
     weapon.hasAscended = isAscended;
     this.props.updateTotalStats({ weapon });
     this.props.setAppState({ weapon });
+  };
+
+  setWeaponRefinement = (refinement: number) => {
+    const weapon = this.props.appState.weapon;
+    weapon.refinement = refinement;
+    const weaponOptions = weapon.passiveOptions;
+    this.props.updateTotalStats({ weapon, weaponOptions });
+    this.props.setAppState({ weapon, weaponOptions });
   };
 
   render() {
@@ -66,6 +82,17 @@ class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
             defaultValue={false}
             value={appState.weapon.hasAscended}
             onChange={this.setIsWeaponAscended}
+          />
+        </InputRow>
+
+        <InputRow>
+          <IntInput
+            id='weapon-refinement-input'
+            label='Refinement:'
+            defaultValue={1}
+            value={appState.weapon.refinement}
+            onInput={this.setWeaponRefinement}
+            className='level-input'
           />
         </InputRow>
       </div>

@@ -20,6 +20,7 @@ export default interface Save {
   weaponId?: string;
   weaponLevel?: number;
   weaponHasAscended?: boolean;
+  weaponRefinement?: number;
 
   artifacts?: ArtifactSave[];
 
@@ -43,6 +44,7 @@ export default interface Save {
   reaction?: Reaction;
 
   characterOptions?: { id?: string; value?: unknown }[];
+  weaponOptions?: { id?: string; value?: unknown }[];
   artifactSetOptions?: { id?: string; value?: unknown }[];
 }
 
@@ -81,6 +83,7 @@ export function createSave(label: string, appState: AppState): Save {
     weaponId: appState.weapon.id,
     weaponLevel: appState.weapon.weaponLevel,
     weaponHasAscended: appState.weapon.hasAscended,
+    weaponRefinement: appState.weapon.refinement,
 
     artifacts: appState.artifacts.map((artifact) => {
       return {
@@ -121,6 +124,9 @@ export function createSave(label: string, appState: AppState): Save {
     characterOptions: appState.characterOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
     }),
+    weaponOptions: appState.weaponOptions.map((option) => {
+      return { id: option.id, value: getOptionValue(option) };
+    }),
     artifactSetOptions: appState.artifactSetOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
     }),
@@ -145,7 +151,8 @@ export function loadSave(
   const weapon = new Weapon(
     save.weaponId ?? '',
     save.weaponLevel ?? 1,
-    save.weaponHasAscended ?? false
+    save.weaponHasAscended ?? false,
+    save.weaponRefinement ?? 1
   );
 
   const artifacts =
@@ -200,6 +207,16 @@ export function loadSave(
     }
   });
 
+  const weaponOptions = weapon.passiveOptions;
+  save.weaponOptions?.forEach((option) => {
+    let weaponOption = weaponOptions.find(
+      (weaponOption) => weaponOption.id === option.id
+    );
+    if (weaponOption !== undefined) {
+      setOptionValue(weaponOption, option.value);
+    }
+  });
+
   const artifactSetOptions = artifactSets.flatMap(
     (artifactSet) => artifactSet.options
   );
@@ -226,6 +243,7 @@ export function loadSave(
       enemyRes,
       reaction,
       characterOptions,
+      weaponOptions,
       artifactSetOptions,
     },
 

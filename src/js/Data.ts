@@ -7,6 +7,7 @@ import characterStatCurveDataRaw from '../data/characterstatcurvedata.json';
 import weaponDataRaw from '../data/weapondata.json';
 import weaponAscensionBonusDataRaw from '../data/weaponascensionbonusdata.json';
 import weaponStatCurveDataRaw from '../data/weaponstatcurvedata.json';
+import weaponPassiveDataRaw from '../data/weaponpassivedata.json';
 import talentDataRaw from '../data/talentdata.json';
 import artifactSetDataRaw from '../data/artifactsetdata.json';
 import artifactSetBonusDataRaw from '../data/artifactsetbonusdata.json';
@@ -51,6 +52,10 @@ const artifactSetBonusData = processArtifactSetBonusData(
 );
 const artifactMainStatData =
   artifactMainStatDataRaw as Data.ArtifactMainStatData;
+const weaponPassiveData = weaponPassiveDataRaw as Record<
+  string,
+  Data.WeaponPassiveSetData
+>;
 
 // Pre-processed data, lists
 let sortedCharacterList: string[]; // lazy loading implemented with getSortedCharacterList()
@@ -197,6 +202,10 @@ export function getWeaponStatCurveAt(level: number) {
   return getStatCurveAt(level, weaponStatCurveData);
 }
 
+export function getWeaponPassiveData(id: string) {
+  return getData(id, weaponPassiveData);
+}
+
 export function getAscensionBonusAt(
   level: number,
   ascensionBonuses: Data.AscensionBonus[]
@@ -242,6 +251,13 @@ export function getArtifactMainStatValue(
   prop: string
 ) {
   return artifactMainStatData[rarity]?.[level]?.[prop] ?? NaN;
+}
+
+export function getWeaponPassiveAt(
+  refinement: number,
+  passives: Data.WeaponPassiveSetData
+): Data.WeaponPassiveData | undefined {
+  return passives.passive[refinement];
 }
 
 // "Public" functions for getting data collections

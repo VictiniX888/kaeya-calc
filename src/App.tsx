@@ -18,6 +18,7 @@ import { ArtifactSetOption } from './js/option/artifactSetOptions';
 import { CharacterOption } from './js/option/characterOptions';
 import { ModifierMixin, StatMixin } from './js/option/Mixin';
 import { IModifierApplicable, IStatsApplicable } from './js/option/Option';
+import WeaponOption from './js/option/weaponOptions/WeaponOption';
 import Resistance from './js/Resistance';
 import { getTotalStatsAt } from './js/Stat';
 import { TalentType, TalentValueSet } from './js/talent/types';
@@ -41,13 +42,14 @@ export type AppState = {
   talentBurstLevel: number;
 
   characterOptions: CharacterOption[];
+  weaponOptions: WeaponOption[];
   artifactSetOptions: ArtifactSetOption[];
 };
 
 class App extends React.Component<{}, AppState> {
   state: AppState = {
     character: new Character('', 1, false),
-    weapon: new Weapon('', 1, false),
+    weapon: new Weapon('', 1, false, 1),
     artifacts: Object.values(ArtifactType).map(
       (type) => new Artifact(type, 1, 0, '')
     ),
@@ -69,6 +71,7 @@ class App extends React.Component<{}, AppState> {
     talentBurstLevel: 1,
 
     characterOptions: [],
+    weaponOptions: [],
     artifactSetOptions: [],
   };
 
@@ -83,17 +86,23 @@ class App extends React.Component<{}, AppState> {
   getModifierMixins({
     character,
     characterOptions,
+    weapon,
+    weaponOptions,
     artifactSets,
     artifactSetOptions,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
+    weapon?: Weapon;
+    weaponOptions?: WeaponOption[];
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
   }) {
     if (
       character === undefined &&
       characterOptions === undefined &&
+      weapon === undefined &&
+      weaponOptions === undefined &&
       artifactSets === undefined &&
       artifactSetOptions === undefined
     ) {
@@ -102,6 +111,10 @@ class App extends React.Component<{}, AppState> {
 
     const characterPassiveMixins = (
       character ?? this.state.character
+    ).getPassiveModifierMixins();
+
+    const weaponPassiveMixins = (
+      weapon ?? this.state.weapon
     ).getPassiveModifierMixins();
 
     const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
@@ -116,6 +129,12 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.applyOnModifier);
 
+    const weaponOptionMixins = (weaponOptions ?? this.state.weaponOptions)
+      .filter((option): option is WeaponOption & IModifierApplicable =>
+        isModifierApplicable(option)
+      )
+      .map((option) => option.applyOnModifier);
+
     const artifactSetOptionMixins = (
       artifactSetOptions ?? this.state.artifactSetOptions
     )
@@ -125,8 +144,10 @@ class App extends React.Component<{}, AppState> {
       .map((option) => option.applyOnModifier);
 
     this.modifierMixins = characterPassiveMixins
+      .concat(weaponPassiveMixins)
       .concat(artifactSetMixins)
       .concat(characterOptionMixins)
+      .concat(weaponOptionMixins)
       .concat(artifactSetOptionMixins);
 
     return this.modifierMixins;
@@ -136,17 +157,24 @@ class App extends React.Component<{}, AppState> {
   getStatMixins({
     character,
     characterOptions,
+    weapon,
+    weaponOptions,
     artifactSets,
     artifactSetOptions,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
+    weapon?: Weapon;
+    weaponOptions?: WeaponOption[];
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
   }) {
     if (
       character === undefined &&
       characterOptions === undefined &&
+      weapon === undefined &&
+      weaponOptions === undefined &&
+      artifactSets === undefined &&
       artifactSetOptions === undefined
     ) {
       return this.statMixins;
@@ -154,6 +182,10 @@ class App extends React.Component<{}, AppState> {
 
     const characterPassiveMixins = (
       character ?? this.state.character
+    ).getPassiveStatMixins();
+
+    const weaponPassiveMixins = (
+      weapon ?? this.state.weapon
     ).getPassiveStatMixins();
 
     const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
@@ -168,6 +200,12 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.applyOnStats);
 
+    const weaponOptionMixins = (weaponOptions ?? this.state.weaponOptions)
+      .filter((option): option is WeaponOption & IStatsApplicable =>
+        isModifierApplicable(option)
+      )
+      .map((option) => option.applyOnStats);
+
     const artifactSetOptionMixins = (
       artifactSetOptions ?? this.state.artifactSetOptions
     )
@@ -177,8 +215,10 @@ class App extends React.Component<{}, AppState> {
       .map((option) => option.applyOnStats);
 
     this.statMixins = characterPassiveMixins
+      .concat(weaponPassiveMixins)
       .concat(artifactSetMixins)
       .concat(characterOptionMixins)
+      .concat(weaponOptionMixins)
       .concat(artifactSetOptionMixins);
 
     return this.statMixins;
@@ -266,6 +306,7 @@ class App extends React.Component<{}, AppState> {
     talentSkillLevel,
     talentBurstLevel,
     characterOptions,
+    weaponOptions,
     artifactSetOptions,
   }: {
     character?: Character;
@@ -277,11 +318,14 @@ class App extends React.Component<{}, AppState> {
     talentSkillLevel?: number;
     talentBurstLevel?: number;
     characterOptions?: CharacterOption[];
+    weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
   }) => {
     const statMixins = this.getStatMixins({
       character,
       characterOptions,
+      weapon,
+      weaponOptions,
       artifactSets,
       artifactSetOptions,
     });
@@ -309,6 +353,7 @@ class App extends React.Component<{}, AppState> {
 
   updateTalentValues = ({
     character: newChar,
+    weapon,
     artifactSets,
     talentAttackLevel,
     talentSkillLevel,
@@ -318,9 +363,11 @@ class App extends React.Component<{}, AppState> {
     critType,
     reaction,
     characterOptions,
+    weaponOptions,
     artifactSetOptions,
   }: {
     character?: Character;
+    weapon?: Weapon;
     artifactSets?: ArtifactSet[];
     talentAttackLevel?: number;
     talentSkillLevel?: number;
@@ -330,6 +377,7 @@ class App extends React.Component<{}, AppState> {
     critType?: CritType;
     reaction?: Reaction;
     characterOptions?: CharacterOption[];
+    weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
   }) => {
     const character = newChar ?? this.state.character;
@@ -337,6 +385,8 @@ class App extends React.Component<{}, AppState> {
     const modifierMixins = this.getModifierMixins({
       character,
       characterOptions,
+      weapon,
+      weaponOptions,
       artifactSets,
       artifactSetOptions,
     });
@@ -377,11 +427,17 @@ class App extends React.Component<{}, AppState> {
     this.getStatMixins({
       character: this.state.character,
       characterOptions: this.state.characterOptions,
+      weapon: this.state.weapon,
+      weaponOptions: this.state.weaponOptions,
+      artifactSets: this.state.artifactSets,
       artifactSetOptions: this.state.artifactSetOptions,
     });
     this.getModifierMixins({
       character: this.state.character,
       characterOptions: this.state.characterOptions,
+      weapon: this.state.weapon,
+      weaponOptions: this.state.weaponOptions,
+      artifactSets: this.state.artifactSets,
       artifactSetOptions: this.state.artifactSetOptions,
     });
 
