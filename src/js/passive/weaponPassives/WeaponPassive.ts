@@ -1,6 +1,9 @@
 import { WeaponPassive, WeaponPassiveFn } from '../types';
+import { theCatchPassive } from './TheCatchPassive';
 
-const weaponPassives: Record<string, WeaponPassiveFn> = {};
+const weaponPassives: Record<string, WeaponPassiveFn> = {
+  Weapon_Pole_Mori: theCatchPassive,
+};
 
 function defaultPassiveFn(): WeaponPassive[] {
   return [];

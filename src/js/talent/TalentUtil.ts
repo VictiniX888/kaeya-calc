@@ -10,6 +10,7 @@ import Resistance from '../Resistance';
 import DamageModifier from '../modifier/DamageModifer';
 import { talents } from './Talent';
 import Reaction from '../modifier/Reaction';
+import CritType from '../modifier/CritType';
 
 // Function to get specified talent
 export function getTalentFn(characterId: string, type: TalentType) {
@@ -136,12 +137,14 @@ export function calculateTotalDamage({
   let dmgBonus = getDamageBonus({ stats, element, attackType });
 
   let crit = 1;
-  if (modifier.critType === 'crit') {
+  if (modifier.critType === CritType.Crit) {
     crit += stats.critDmg;
-  } else if (modifier.critType === 'average') {
+  } else if (modifier.critType === CritType.Average) {
     let critRate = stats.critRate;
-    if (attackType === 'charged') {
+    if (attackType === AttackType.Charged) {
       critRate += stats.chargedCritRate ?? 0;
+    } else if (attackType === AttackType.Burst) {
+      critRate += stats.burstCritRate ?? 0;
     }
     crit += Math.min(1, critRate) * stats.critDmg;
   }

@@ -250,6 +250,9 @@ export function getTotalStatsAt(
   if (combinedStats.chargedCritRate !== undefined) {
     totalStats.chargedCritRate = combinedStats.chargedCritRate;
   }
+  if (combinedStats.burstCritRate !== undefined) {
+    totalStats.burstCritRate = combinedStats.burstCritRate;
+  }
 
   return totalStats;
 }
