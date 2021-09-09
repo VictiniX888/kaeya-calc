@@ -5,6 +5,7 @@ import Weapon from '../js/weapon/Weapon';
 import Checkbox from './Checkbox';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
+import OptionInput from './OptionInput';
 import WeaponPicker from './WeaponPicker';
 
 type WeaponInputBlockProps = {
@@ -53,6 +54,12 @@ class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
     this.props.setAppState({ weapon, weaponOptions });
   };
 
+  updateOptions = () => {
+    const { weaponOptions } = this.props.appState;
+    this.props.updateTotalStats({ weaponOptions });
+    this.props.setAppState({ weaponOptions: [...weaponOptions] });
+  };
+
   render() {
     const { appState } = this.props;
     return (
@@ -95,6 +102,14 @@ class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
             className='level-input'
           />
         </InputRow>
+
+        {appState.weaponOptions.map((option) => {
+          return (
+            <InputRow key={option.id}>
+              <OptionInput option={option} updateOptions={this.updateOptions} />
+            </InputRow>
+          );
+        })}
       </div>
     );
   }
