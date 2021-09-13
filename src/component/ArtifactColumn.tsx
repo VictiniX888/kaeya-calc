@@ -1,8 +1,8 @@
 import React from 'react';
+import Col from 'react-bootstrap/esm/Col';
 import { AppState } from '../App';
 import Artifact from '../js/artifact/Artifact';
 import ArtifactBlock from './ArtifactBlock';
-import Column from './Column';
 
 type ArtifactColumnProps = {
   appState: AppState;
@@ -24,7 +24,10 @@ class ArtifactColumn extends React.Component<ArtifactColumnProps> {
     const appState = this.props.appState;
 
     return (
-      <Column className='input-column'>
+      <Col
+        className='input-column no-gutters border-right border-dark'
+        xl='auto'
+      >
         <h2>Artifacts</h2>
         {appState.artifacts.map((artifact) => (
           <ArtifactBlock
@@ -33,7 +36,7 @@ class ArtifactColumn extends React.Component<ArtifactColumnProps> {
             key={artifact.type}
           />
         ))}
-      </Column>
+      </Col>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from 'react-bootstrap/esm/Form';
 
 type CheckboxProps = {
   id: string;
@@ -48,21 +49,20 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   render() {
     const value = this.isControlled() ? this.props.value : this.state.value;
     return (
-      <>
-        <label
-          htmlFor={this.props.id}
-          className={this.isLabelShown() ? '' : 'hidden'}
-        >
-          {this.props.label}
-        </label>
-        <input
+      <div>
+        <Form.Check
           type='checkbox'
-          checked={value}
-          onChange={this.handleChange}
-          className={this.props.className}
+          className={`checkbox ${this.props.className ?? ''}`}
           id={this.props.id}
-        />
-      </>
+        >
+          <Form.Check.Label>{this.props.label}</Form.Check.Label>
+          <Form.Check.Input
+            type='checkbox'
+            checked={value}
+            onChange={this.handleChange}
+          />
+        </Form.Check>
+      </div>
     );
   }
 }

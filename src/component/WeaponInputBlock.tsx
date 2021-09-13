@@ -3,6 +3,7 @@ import { AppState } from '../App';
 import WeaponOption from '../js/option/weaponOptions/WeaponOption';
 import Weapon from '../js/weapon/Weapon';
 import Checkbox from './Checkbox';
+import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
 import OptionInput from './OptionInput';
@@ -63,7 +64,7 @@ class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
   render() {
     const { appState } = this.props;
     return (
-      <div className='input-block'>
+      <InputBlock>
         <InputRow>
           <WeaponPicker
             weaponId={appState.weapon.id}
@@ -110,7 +111,7 @@ class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
             </InputRow>
           );
         })}
-      </div>
+      </InputBlock>
     );
   }
 }

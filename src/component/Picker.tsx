@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from 'react-bootstrap/esm/Form';
 
 type PickerProps = {
   id: string;
@@ -57,20 +58,19 @@ class Picker extends React.Component<PickerProps, PickerState> {
 
     return (
       <>
-        <label
-          htmlFor={this.props.id}
-          className={this.isLabelShown() ? '' : 'hidden'}
-        >
+        <Form.Label htmlFor={this.props.id} srOnly={!this.isLabelShown()}>
           {this.props.label}
-        </label>
-        <select
+        </Form.Label>
+        <Form.Control
+          as='select'
+          size='sm'
           value={selectedValue}
           onChange={this.handleChange}
-          className={this.props.className}
+          className={`picker ${this.props.className ?? ''}`}
           id={this.props.id}
         >
           {this.props.children}
-        </select>
+        </Form.Control>
       </>
     );
   }

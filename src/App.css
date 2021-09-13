@@ -40,9 +40,15 @@ h3 {
 .input-column {
   padding: 0.8em;
 
-  border-right-width: 1px;
-
   background-color: #ccc;
+}
+
+.stat-column {
+  padding: 0;
+}
+
+.talent-column {
+  padding: 0;
 }
 
 .input-block {
@@ -74,34 +80,31 @@ h3 {
   width: 4em;
 }
 
+.save-name-col {
+  max-width: 200px;
+}
+
 label {
   margin-bottom: 0;
 }
 
 input[type='number'] {
-  padding: 0;
-  background-color: transparent;
-  border: 0;
   font-size: 1em;
   font-family: inherit;
+  -moz-appearance: textfield;
 }
 
-input[type='number']:hover,
-input[type='number']:focus-visible {
-  outline: #000 solid 2px;
+.picker {
+  width: auto;
+  max-width: 250px;
 }
 
-input[type='checkbox'] {
-  margin: 0px;
+.checkbox {
+  padding-left: 0;
 }
 
-input[type='checkbox']:focus-visible {
-  outline: #000 solid 2px;
-}
-
-select:focus-visible {
-  outline: #000 solid 2px;
-  outline-offset: -1px;
+.checkbox > input[type='checkbox'] {
+  margin-left: 0.25rem;
 }
 
 .result-block {

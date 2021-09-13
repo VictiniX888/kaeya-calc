@@ -4,6 +4,7 @@ import Character from '../js/character/Character';
 import { CharacterOption } from '../js/option/characterOptions';
 import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
+import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
 import OptionInput from './OptionInput';
@@ -58,7 +59,7 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
     const { appState } = this.props;
 
     return (
-      <div className='input-block'>
+      <InputBlock>
         <InputRow>
           <CharacterPicker
             characterId={appState.character.id}
@@ -94,7 +95,7 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
             </InputRow>
           );
         })}
-      </div>
+      </InputBlock>
     );
   }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from 'react-bootstrap/esm/Form';
 
 type NumberInputProps = {
   id: string;
@@ -56,17 +57,15 @@ class NumberInput extends React.Component<NumberInputProps, NumberInputState> {
 
     return (
       <>
-        <label
-          htmlFor={this.props.id}
-          className={this.isLabelShown() ? '' : 'hidden'}
-        >
+        <Form.Label htmlFor={this.props.id} srOnly={!this.isLabelShown()}>
           {this.props.label}
-        </label>
-        <input
+        </Form.Label>
+        <Form.Control
           type='number'
+          size='sm'
           value={displayString}
           onInput={this.handleInput}
-          className={this.props.className}
+          className={`number-input ${this.props.className ?? ''}`}
           id={this.props.id}
         />
       </>

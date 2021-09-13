@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppState } from '../App';
+import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
 
@@ -39,8 +40,7 @@ class TalentInputBlock extends React.Component<TalentInputBlockProps> {
   render() {
     const { appState } = this.props;
     return (
-      <div className='input-block'>
-        {' '}
+      <InputBlock>
         <InputRow>
           <IntInput
             id='talent-attack-level-input'
@@ -71,7 +71,7 @@ class TalentInputBlock extends React.Component<TalentInputBlockProps> {
             className='level-input'
           />
         </InputRow>
-      </div>
+      </InputBlock>
     );
   }
 }

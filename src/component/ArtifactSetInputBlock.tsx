@@ -3,6 +3,7 @@ import { AppState } from '../App';
 import ArtifactSet from '../js/artifact/ArtifactSet';
 import { ArtifactSetOption } from '../js/option/artifactSetOptions';
 import ArtifactSetPicker from './ArtifactSetPicker';
+import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
 import OptionInput from './OptionInput';
@@ -64,7 +65,7 @@ class ArtifactSetInputBlock extends React.Component<ArtifactSetInputBlockProps> 
     const { artifactSets, artifactSetOptions } = this.props.appState;
 
     return (
-      <div className='input-block'>
+      <InputBlock>
         <InputRow>
           <p>Artifact Sets</p>
         </InputRow>
@@ -97,7 +98,7 @@ class ArtifactSetInputBlock extends React.Component<ArtifactSetInputBlockProps> 
             <OptionInput option={option} updateOptions={this.updateOptions} />
           </InputRow>
         ))}
-      </div>
+      </InputBlock>
     );
   }
 }

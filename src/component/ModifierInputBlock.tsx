@@ -7,6 +7,7 @@ import Resistance from '../js/Resistance';
 import { capitalize } from '../js/Stat';
 import { Element } from '../js/talent/types';
 import FloatInput from './FloatInput';
+import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
 import Picker from './Picker';
@@ -60,7 +61,7 @@ class ModifierInputBlock extends React.Component<ModifierInputBlockProps> {
   render() {
     const { enemyLevel, enemyRes, critType, reaction } = this.props.appState;
     return (
-      <div className='input-block'>
+      <InputBlock>
         <InputRow>
           Crit:
           <ToggleButtonGroup
@@ -124,7 +125,7 @@ class ModifierInputBlock extends React.Component<ModifierInputBlockProps> {
             ))}
           </Picker>
         </InputRow>
-      </div>
+      </InputBlock>
     );
   }
 }

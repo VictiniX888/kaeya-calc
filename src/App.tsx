@@ -1,4 +1,5 @@
 import React from 'react';
+import Container from 'react-bootstrap/esm/Container';
 import './App.css';
 import ArtifactColumn from './component/ArtifactColumn';
 import Column from './component/Column';
@@ -447,7 +448,7 @@ class App extends React.Component<{}, AppState> {
 
   render() {
     return (
-      <div className='app'>
+      <Container className='app px-0' fluid>
         <InputColumn
           appState={this.state}
           setAppState={this.setAppState}
@@ -468,7 +469,7 @@ class App extends React.Component<{}, AppState> {
         />
         <TalentColumn talentValues={this.talentValues} />
         <Column></Column>
-      </div>
+      </Container>
     );
   }
 }

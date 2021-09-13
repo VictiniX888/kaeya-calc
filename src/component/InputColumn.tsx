@@ -1,4 +1,5 @@
 import React from 'react';
+import Col from 'react-bootstrap/esm/Col';
 import { AppState } from '../App';
 import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
@@ -11,7 +12,6 @@ import Resistance from '../js/Resistance';
 import Weapon from '../js/weapon/Weapon';
 import ArtifactSetInputBlock from './ArtifactSetInputBlock';
 import CharacterInputBlock from './CharacterInputBlock';
-import Column from './Column';
 import ModifierInputBlock from './ModifierInputBlock';
 import SaveBlock from './SaveBlock';
 import TalentInputBlock from './TalentInputBlock';
@@ -85,7 +85,10 @@ class InputColumn extends React.Component<InputColumnProps> {
     } = this.props;
 
     return (
-      <Column className='input-column'>
+      <Col
+        className='input-column no-gutters border-right border-dark'
+        xl='auto'
+      >
         <SaveBlock
           appState={appState}
           setAppState={setAppState}
@@ -121,7 +124,7 @@ class InputColumn extends React.Component<InputColumnProps> {
           setAppState={setAppState}
           updateTalentValues={updateTalentValues}
         />
-      </Column>
+      </Col>
     );
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
+import Col from 'react-bootstrap/esm/Col';
 import { AppState } from '../App';
 import { Stats } from '../data/types';
 import ArtifactSetStatBlock from './ArtifactSetStatBlock';
 import CharacterStatBlock from './CharacterStatBlock';
-import Column from './Column';
 import TotalStatBlock from './TotalStatBlock';
 import WeaponStatBlock from './WeaponStatBlock';
 
@@ -18,14 +18,17 @@ class StatColumn extends React.Component<StatColumnProps> {
     const { character, weapon } = this.props.appState;
 
     return (
-      <Column className='stat-column'>
+      <Col
+        className='stat-column no-gutters border-right border-dark'
+        xl='auto'
+      >
         <TotalStatBlock totalStats={this.props.totalStats} />
         <CharacterStatBlock character={character} />
         <WeaponStatBlock weapon={weapon} />
         <ArtifactSetStatBlock
           artifactSetBonuses={this.props.artifactSetBonuses}
         />
-      </Column>
+      </Col>
     );
   }
 }

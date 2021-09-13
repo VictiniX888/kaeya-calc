@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/esm/Button';
+import Col from 'react-bootstrap/esm/Col';
 import Form from 'react-bootstrap/esm/Form';
 import Modal from 'react-bootstrap/esm/Modal';
 import { AppState } from '../App';
@@ -11,6 +12,7 @@ import {
   Saves,
   deleteSave,
 } from '../save/Save';
+import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import Picker from './Picker';
 
@@ -98,18 +100,20 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
 
   render() {
     return (
-      <div className='input-block'>
+      <InputBlock>
         <InputRow>
           <Button variant='secondary' size='sm' onClick={this.onSaveClick}>
             Save
           </Button>
 
-          <Form.Control
-            type='text'
-            size='sm'
-            placeholder='Save label (cannot be empty)'
-            onChange={this.onSaveInputChange}
-          />
+          <Col className='save-name-col'>
+            <Form.Control
+              type='text'
+              size='sm'
+              placeholder='Save label (cannot be empty)'
+              onChange={this.onSaveInputChange}
+            />
+          </Col>
         </InputRow>
 
         <InputRow>
@@ -159,7 +163,7 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
             </Modal>
           </>
         </InputRow>
-      </div>
+      </InputBlock>
     );
   }
 }
