@@ -86,8 +86,10 @@ class InputColumn extends React.Component<InputColumnProps> {
 
     return (
       <Col
+        id='input-column'
         className='input-column no-gutters border-right border-dark'
-        xl='auto'
+        md='auto'
+        xs={12}
       >
         <SaveBlock
           appState={appState}

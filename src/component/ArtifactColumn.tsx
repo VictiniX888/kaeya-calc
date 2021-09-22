@@ -25,8 +25,10 @@ class ArtifactColumn extends React.Component<ArtifactColumnProps> {
 
     return (
       <Col
+        id='artifact-column'
         className='input-column no-gutters border-right border-dark'
-        xl='auto'
+        md='auto'
+        xs={12}
       >
         <h2>Artifacts</h2>
         {appState.artifacts.map((artifact) => (

@@ -1,8 +1,8 @@
-.app {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+html {
+  scroll-padding-top: 53px; /* height of sticky header */
+}
 
+.app {
   font-size: 14px;
 
   height: max(100%, 100vh);

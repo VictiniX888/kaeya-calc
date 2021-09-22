@@ -19,8 +19,10 @@ class StatColumn extends React.Component<StatColumnProps> {
 
     return (
       <Col
+        id='stat-column'
         className='stat-column no-gutters border-right border-dark'
-        xl='auto'
+        md='auto'
+        xs={12}
       >
         <TotalStatBlock totalStats={this.props.totalStats} />
         <CharacterStatBlock character={character} />

@@ -13,8 +13,10 @@ class TalentColumn extends React.Component<TalentColumnProps> {
 
     return (
       <Col
+        id='talent-column'
         className='talent-column no-gutters border-right border-dark'
-        xl='auto'
+        md='auto'
+        xs={12}
       >
         <div className='result-block'>
           <h2>Talents</h2>

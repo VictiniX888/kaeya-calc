@@ -1,8 +1,10 @@
 import React from 'react';
 import Container from 'react-bootstrap/esm/Container';
+import Nav from 'react-bootstrap/esm/Nav';
+import Navbar from 'react-bootstrap/esm/Navbar';
+import Row from 'react-bootstrap/esm/Row';
 import './App.css';
 import ArtifactColumn from './component/ArtifactColumn';
-import Column from './component/Column';
 import InputColumn from './component/InputColumn';
 import StatColumn from './component/StatColumn';
 import TalentColumn from './component/TalentColumn';
@@ -449,26 +451,44 @@ class App extends React.Component<{}, AppState> {
   render() {
     return (
       <Container className='app px-0' fluid>
-        <InputColumn
-          appState={this.state}
-          setAppState={this.setAppState}
-          updateArtifactSetBonuses={this.updateArtifactSetBonuses}
-          updateTotalStats={this.updateTotalStats}
-          updateTalentValues={this.updateTalentValues}
-          refreshApp={this.refreshApp}
-        />
-        <ArtifactColumn
-          appState={this.state}
-          setAppState={this.setAppState}
-          updateTotalStats={this.updateTotalStats}
-        />
-        <StatColumn
-          appState={this.state}
-          totalStats={this.totalStats}
-          artifactSetBonuses={this.artifactSetBonuses}
-        />
-        <TalentColumn talentValues={this.talentValues} />
-        <Column></Column>
+        <Navbar sticky='top' bg='light' className='d-md-none'>
+          <Nav>
+            <Nav.Item>
+              <Nav.Link href='#input-column'>Input</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href='#artifact-column'>Artifacts</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href='#stat-column'>Stats</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href='#talent-column'>Talents</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Navbar>
+
+        <Row className='mx-0'>
+          <InputColumn
+            appState={this.state}
+            setAppState={this.setAppState}
+            updateArtifactSetBonuses={this.updateArtifactSetBonuses}
+            updateTotalStats={this.updateTotalStats}
+            updateTalentValues={this.updateTalentValues}
+            refreshApp={this.refreshApp}
+          />
+          <ArtifactColumn
+            appState={this.state}
+            setAppState={this.setAppState}
+            updateTotalStats={this.updateTotalStats}
+          />
+          <StatColumn
+            appState={this.state}
+            totalStats={this.totalStats}
+            artifactSetBonuses={this.artifactSetBonuses}
+          />
+          <TalentColumn talentValues={this.talentValues} />
+        </Row>
       </Container>
     );
   }
