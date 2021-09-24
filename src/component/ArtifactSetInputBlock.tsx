@@ -32,6 +32,7 @@ class ArtifactSetInputBlock extends React.Component<ArtifactSetInputBlockProps> 
     );
     this.props.updateArtifactSetBonuses({
       artifactSets,
+      artifactSetOptions,
     });
     this.props.setAppState({
       artifactSets: [...artifactSets],
