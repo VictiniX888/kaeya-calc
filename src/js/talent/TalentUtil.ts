@@ -187,13 +187,17 @@ function calculateHealing({
   flatHealing: number;
   scalingType?: ScalingType;
 }) {
-  // TODO: Add healing bonus
-  return calculateBaseDamage({
+  const baseHealing = calculateBaseDamage({
     stats,
     multiplier,
     scalingType,
     flatDmg: flatHealing,
   });
+
+  // Incoming healing bonus is ignored because the healer's
+  // incoming healing bonus is not necessarily the same as the
+  // character being healed
+  return baseHealing * (1 + (stats.healingBonus ?? 0));
 }
 // Used for calculting hp of summons/shield
 function calculateHp({
