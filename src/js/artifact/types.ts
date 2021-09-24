@@ -2,7 +2,7 @@ import type { Stat } from '../../data/types';
 import { propMapping } from '../Data';
 import { ArtifactSetOption } from '../option/artifactSetOptions';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
-import { convertStatValue } from '../Stat';
+import { convertStatToDisplayValue, convertStatValue } from '../Stat';
 
 export class InputStat implements Stat {
   stat: string;
@@ -25,10 +25,20 @@ export class InputStat implements Stat {
     }
   }
 
-  setValue(value: number) {
+  setInputValue(value: number) {
     this.rawValue = value;
     if (this.stat !== '') {
       this.value = convertStatValue(value, propMapping[this.stat].isPercentage);
+    }
+  }
+
+  setValue(value: number) {
+    this.value = value;
+    if (this.stat !== '') {
+      this.rawValue = convertStatToDisplayValue(
+        value,
+        propMapping[this.stat].isPercentage
+      );
     }
   }
 }

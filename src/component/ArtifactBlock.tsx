@@ -34,7 +34,7 @@ class ArtifactBlock extends React.Component<ArtifactBlockProps> {
   };
 
   setArtifactSubStatValue = (i: number) => (value: number) => {
-    this.props.artifact.setSubStatValue(i, value);
+    this.props.artifact.setSubStatInputValue(i, value);
     this.props.updateArtifactState();
   };
 

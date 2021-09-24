@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/esm/Row';
 import './App.css';
 import ArtifactColumn from './component/ArtifactColumn';
 import InputColumn from './component/InputColumn';
+import OptimizerColumn from './component/OptimizerColumn';
 import StatColumn from './component/StatColumn';
 import TalentColumn from './component/TalentColumn';
 import { Stats } from './data/types';
@@ -263,7 +264,7 @@ class App extends React.Component<{}, AppState> {
     };
 
     // Apply modifier mixins
-    modifierMixins?.forEach((mixin) => mixin(modifier));
+    (modifierMixins ?? this.modifierMixins).forEach((mixin) => mixin(modifier));
 
     return modifier;
   }
@@ -488,6 +489,14 @@ class App extends React.Component<{}, AppState> {
             artifactSetBonuses={this.artifactSetBonuses}
           />
           <TalentColumn talentValues={this.talentValues} />
+          <OptimizerColumn
+            appState={this.state}
+            setAppState={this.setAppState}
+            updateTotalStats={this.updateTotalStats}
+            artifactSetBonuses={this.artifactSetBonuses}
+            damageModifier={this.getDamageModifier()}
+            statMixins={this.statMixins}
+          />
         </Row>
       </Container>
     );

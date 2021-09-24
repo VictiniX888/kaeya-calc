@@ -63,6 +63,10 @@ export default class Artifact {
     this.subStats[i].setProp(prop);
   }
 
+  setSubStatInputValue(i: number, value: number) {
+    this.subStats[i].setInputValue(value);
+  }
+
   setSubStatValue(i: number, value: number) {
     this.subStats[i].setValue(value);
   }
