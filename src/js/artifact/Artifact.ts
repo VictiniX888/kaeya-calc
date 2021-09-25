@@ -120,9 +120,7 @@ export default class Artifact {
     this.subStats.forEach((subStat) => {
       if (subStat.stat !== '') {
         if (!isNaN(subStat.value)) {
-          stats[subStat.stat] = subStat.value;
-        } else {
-          stats[subStat.stat] = NaN;
+          stats[subStat.stat] = subStat.value + (stats[subStat.stat] ?? 0);
         }
       }
     });
