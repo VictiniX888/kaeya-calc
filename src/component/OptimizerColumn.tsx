@@ -41,7 +41,7 @@ class OptimizerColumn extends React.Component<
     const result = optimizeSubstats(
       // Temporary arguments
       ['atkBonus', 'critRate', 'critDmg'],
-      45,
+      20,
       TalentType.Attack,
       '1HitDmg',
       this.props.appState,
