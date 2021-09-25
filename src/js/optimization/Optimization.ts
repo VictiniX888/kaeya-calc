@@ -53,7 +53,6 @@ export function optimizeSubstats(
     maxRolls,
     appState.artifacts.map((artifact) => artifact.mainStat.stat)
   );
-  console.log(combinations);
 
   combinations.forEach((combination) => {
     const artifacts = generateBaseArtifacts(appState.artifacts);
