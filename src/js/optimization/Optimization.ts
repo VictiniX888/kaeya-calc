@@ -6,7 +6,7 @@ import { StatMixin } from '../option/Mixin';
 import { getTotalStatsAt } from '../Stat';
 import { TalentType } from '../talent/types';
 
-type RollDistribution = {
+export type RollDistribution = {
   stat: string;
   rolls: number;
 };

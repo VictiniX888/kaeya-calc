@@ -132,7 +132,8 @@ input[type='number'] {
 
 .result-block > p,
 .result-block > img,
-.sub-block > p {
+.sub-block > p,
+.input-column > p {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }

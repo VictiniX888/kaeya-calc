@@ -4,8 +4,12 @@ import Col from 'react-bootstrap/esm/Col';
 import { AppState } from '../App';
 import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
+import { propMapping } from '../js/Data';
 import DamageModifier from '../js/modifier/DamageModifer';
-import { optimizeSubstats } from '../js/optimization/Optimization';
+import {
+  optimizeSubstats,
+  RollDistribution,
+} from '../js/optimization/Optimization';
 import { StatMixin } from '../js/option/Mixin';
 import { TalentType } from '../js/talent/types';
 
@@ -21,12 +25,23 @@ type OptimizerColumnProps = {
   statMixins: StatMixin[];
 };
 
-class OptimizerColumn extends React.Component<OptimizerColumnProps> {
+type OptimizerColumnState = {
+  substatRolls: RollDistribution[];
+};
+
+class OptimizerColumn extends React.Component<
+  OptimizerColumnProps,
+  OptimizerColumnState
+> {
+  state: OptimizerColumnState = {
+    substatRolls: [],
+  };
+
   onOptimizeClick = () => {
     const result = optimizeSubstats(
       // Temporary arguments
-      ['atkBonus', 'flatAtk', 'critRate', 'critDmg'],
-      25,
+      ['atkBonus', 'critRate', 'critDmg'],
+      45,
       TalentType.Attack,
       '1HitDmg',
       this.props.appState,
@@ -37,6 +52,7 @@ class OptimizerColumn extends React.Component<OptimizerColumnProps> {
 
     this.props.updateTotalStats({ artifacts: result.artifacts });
     this.props.setAppState({ artifacts: result.artifacts });
+    this.setState({ substatRolls: result.subStatRolls });
   };
 
   render() {
@@ -50,6 +66,12 @@ class OptimizerColumn extends React.Component<OptimizerColumnProps> {
         <Button variant='secondary' size='sm' onClick={this.onOptimizeClick}>
           Optimize
         </Button>
+
+        {this.state.substatRolls.map(({ stat, rolls }) => (
+          <p key={stat}>
+            {propMapping[stat].name}: {rolls}
+          </p>
+        ))}
       </Col>
     );
   }
