@@ -17,7 +17,7 @@ type SubstatOptimzerResult = {
 };
 
 // Average substat rolls, as per KQM guidelines
-const substats: Record<string, number> = {
+export const substats: Record<string, number> = {
   hpBonus: 0.0496,
   flatHp: 253.94,
   atkBonus: 0.0496,

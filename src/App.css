@@ -43,6 +43,11 @@ h3 {
   background-color: #ccc;
 }
 
+.artifact-column {
+  padding: 0;
+  background-color: #ccc;
+}
+
 .stat-column {
   padding: 0;
 }
@@ -55,6 +60,10 @@ h3 {
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
+}
+
+.input-block:last-child {
+  margin-bottom: 0;
 }
 
 .input-row {
@@ -82,6 +91,21 @@ h3 {
 
 .save-name-col {
   max-width: 200px;
+}
+
+.artifact-heading {
+  padding: 0.8em;
+}
+
+.optimizer-card .card-header {
+  padding: 0.8em;
+}
+
+.optimizer-card .card-body {
+  padding-top: 0;
+  padding-bottom: 0.8em;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
 }
 
 label {
@@ -133,7 +157,7 @@ input[type='number'] {
 .result-block > p,
 .result-block > img,
 .sub-block > p,
-.input-column > p {
+.optimizer-card p {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }

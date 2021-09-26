@@ -1,8 +1,12 @@
 import React from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import { AppState } from '../App';
+import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
+import DamageModifier from '../js/modifier/DamageModifer';
+import { StatMixin } from '../js/option/Mixin';
 import ArtifactBlock from './ArtifactBlock';
+import OptimizerBlock from './OptimizerBlock';
 
 type ArtifactColumnProps = {
   appState: AppState;
@@ -11,6 +15,9 @@ type ArtifactColumnProps = {
     callback?: () => void
   ) => void;
   updateTotalStats: ({ artifacts }: { artifacts?: Artifact[] }) => void;
+  artifactSetBonuses: Stats;
+  damageModifier: DamageModifier;
+  statMixins: StatMixin[];
 };
 
 class ArtifactColumn extends React.Component<ArtifactColumnProps> {
@@ -26,18 +33,23 @@ class ArtifactColumn extends React.Component<ArtifactColumnProps> {
     return (
       <Col
         id='artifact-column'
-        className='input-column no-gutters border-right border-dark'
+        className='artifact-column no-gutters border-right border-dark'
         md='auto'
         xs={12}
       >
-        <h2>Artifacts</h2>
-        {appState.artifacts.map((artifact) => (
-          <ArtifactBlock
-            artifact={artifact}
-            updateArtifactState={this.updateArtifactState}
-            key={artifact.type}
-          />
-        ))}
+        <div className='artifact-heading'>
+          <h2>Artifacts</h2>
+        </div>
+        <OptimizerBlock {...this.props} />
+        <div className='result-block'>
+          {appState.artifacts.map((artifact) => (
+            <ArtifactBlock
+              artifact={artifact}
+              updateArtifactState={this.updateArtifactState}
+              key={artifact.type}
+            />
+          ))}
+        </div>
       </Col>
     );
   }
