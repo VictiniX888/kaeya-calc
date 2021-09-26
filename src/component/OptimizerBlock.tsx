@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/esm/Card';
 import { AppState } from '../App';
 import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
-import { propMapping } from '../js/Data';
+import { propMapping, talentDescMapping } from '../js/Data';
 import DamageModifier from '../js/modifier/DamageModifer';
 import {
   optimizeSubstats,
@@ -13,10 +13,12 @@ import {
   substats,
 } from '../js/optimization/Optimization';
 import { StatMixin } from '../js/option/Mixin';
-import { TalentType } from '../js/talent/types';
+import { capitalize } from '../js/Stat';
+import { TalentType, TalentValueSet } from '../js/talent/types';
 import Checkbox from './Checkbox';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
+import Picker from './Picker';
 
 type OptimizerBlockProps = {
   appState: AppState;
@@ -28,11 +30,14 @@ type OptimizerBlockProps = {
   artifactSetBonuses: Stats;
   damageModifier: DamageModifier;
   statMixins: StatMixin[];
+  talentValues: TalentValueSet;
 };
 
 type OptimizerBlockState = {
   maxRolls: number;
   selectedSubstats: string[];
+  targetTalentType?: TalentType;
+  targetTalentId: string;
   substatRolls: RollDistribution[];
 };
 
@@ -43,6 +48,7 @@ class OptimizerBlock extends React.Component<
   state: OptimizerBlockState = {
     substatRolls: [],
     selectedSubstats: [],
+    targetTalentId: '',
     maxRolls: 20,
   };
 
@@ -68,22 +74,38 @@ class OptimizerBlock extends React.Component<
     }
   };
 
-  onOptimizeClick = () => {
-    const result = optimizeSubstats(
-      // Temporary arguments
-      this.state.selectedSubstats,
-      this.state.maxRolls,
-      TalentType.Attack,
-      '1HitDmg',
-      this.props.appState,
-      this.props.artifactSetBonuses,
-      this.props.damageModifier,
-      this.props.statMixins
-    );
+  setTargetTalentType = (value: string) => {
+    if (value === '') {
+      this.setState({ targetTalentType: undefined });
+    } else {
+      this.setState({ targetTalentType: value as TalentType });
+    }
+  };
 
-    this.props.updateTotalStats({ artifacts: result.artifacts });
-    this.props.setAppState({ artifacts: result.artifacts });
-    this.setState({ substatRolls: result.subStatRolls });
+  setTargetTalentId = (value: string) => {
+    this.setState({ targetTalentId: value });
+  };
+
+  onOptimizeClick = () => {
+    if (
+      this.state.targetTalentType !== undefined &&
+      this.state.targetTalentId !== ''
+    ) {
+      const result = optimizeSubstats(
+        this.state.selectedSubstats,
+        this.state.maxRolls,
+        this.state.targetTalentType,
+        this.state.targetTalentId,
+        this.props.appState,
+        this.props.artifactSetBonuses,
+        this.props.damageModifier,
+        this.props.statMixins
+      );
+
+      this.props.updateTotalStats({ artifacts: result.artifacts });
+      this.props.setAppState({ artifacts: result.artifacts });
+      this.setState({ substatRolls: result.subStatRolls });
+    }
   };
 
   render() {
@@ -101,13 +123,13 @@ class OptimizerBlock extends React.Component<
           <Accordion.Collapse eventKey='0'>
             <Card.Body>
               <div className='input-block'>
-                <p>Fixed substats: 20</p>
+                <p>Fixed Substats: 20</p>
 
                 <InputRow>
                   <IntInput
                     className='level-input'
                     id={'optimizer-liquid-substats'}
-                    label='Liquid substats:'
+                    label='Liquid Substats:'
                     defaultValue={20}
                     value={this.state.maxRolls}
                     onInput={this.setMaxRolls}
@@ -128,6 +150,54 @@ class OptimizerBlock extends React.Component<
                     />
                   </InputRow>
                 ))}
+              </div>
+
+              <div className='input-block'>
+                <InputRow>
+                  <Picker
+                    id={`optimizer-target-talent-type`}
+                    label='Target Talent Type:'
+                    defaultValue=''
+                    value={this.state.targetTalentType ?? ''}
+                    onChange={this.setTargetTalentType}
+                  >
+                    <Picker.Item value='' label='' />
+                    <Picker.Item
+                      value={TalentType.Attack}
+                      label={capitalize(TalentType.Attack)}
+                    />
+                    <Picker.Item
+                      value={TalentType.Skill}
+                      label={capitalize(TalentType.Skill)}
+                    />
+                    <Picker.Item
+                      value={TalentType.Burst}
+                      label={capitalize(TalentType.Burst)}
+                    />
+                  </Picker>
+                </InputRow>
+
+                <InputRow>
+                  <Picker
+                    id={`optimizer-target-talent-id`}
+                    label='Target Talent Name:'
+                    defaultValue=''
+                    value={this.state.targetTalentId ?? ''}
+                    onChange={this.setTargetTalentId}
+                  >
+                    <Picker.Item value='' label='' />
+                    {this.state.targetTalentType
+                      ? this.props.talentValues[
+                          this.state.targetTalentType
+                        ].map(({ description }) => (
+                          <Picker.Item
+                            value={description}
+                            label={talentDescMapping[description]}
+                          />
+                        ))
+                      : null}
+                  </Picker>
+                </InputRow>
               </div>
 
               <div className='input-block'>

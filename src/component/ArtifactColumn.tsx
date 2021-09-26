@@ -5,6 +5,7 @@ import { Stats } from '../data/types';
 import Artifact from '../js/artifact/Artifact';
 import DamageModifier from '../js/modifier/DamageModifer';
 import { StatMixin } from '../js/option/Mixin';
+import { TalentValueSet } from '../js/talent/types';
 import ArtifactBlock from './ArtifactBlock';
 import OptimizerBlock from './OptimizerBlock';
 
@@ -18,6 +19,7 @@ type ArtifactColumnProps = {
   artifactSetBonuses: Stats;
   damageModifier: DamageModifier;
   statMixins: StatMixin[];
+  talentValues: TalentValueSet;
 };
 
 class ArtifactColumn extends React.Component<ArtifactColumnProps> {

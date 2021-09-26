@@ -484,6 +484,7 @@ class App extends React.Component<{}, AppState> {
             artifactSetBonuses={this.artifactSetBonuses}
             damageModifier={this.getDamageModifier()}
             statMixins={this.statMixins}
+            talentValues={this.talentValues}
           />
           <StatColumn
             appState={this.state}
