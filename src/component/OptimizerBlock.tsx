@@ -191,6 +191,7 @@ class OptimizerBlock extends React.Component<
                           this.state.targetTalentType
                         ].map(({ description }) => (
                           <Picker.Item
+                            key={description}
                             value={description}
                             label={talentDescMapping[description]}
                           />
