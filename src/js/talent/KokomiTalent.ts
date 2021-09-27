@@ -48,7 +48,7 @@ function kokomiAttack({ params, stats, modifier }: TalentProps) {
       stats,
       multiplier:
         burstParams[3] +
-        (modifier.kokomiHealingBonusDmg ?? 0) * stats.healingBonus,
+        (modifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0),
       element: Element.Hydro,
       scalingType: ScalingType.Hp,
       attackType: AttackType.Normal,
@@ -71,7 +71,7 @@ function kokomiAttack({ params, stats, modifier }: TalentProps) {
       stats,
       multiplier:
         burstParams[4] +
-        (modifier.kokomiHealingBonusDmg ?? 0) * stats.healingBonus,
+        (modifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0),
       element: Element.Hydro,
       scalingType: ScalingType.Hp,
       attackType: AttackType.Charged,
