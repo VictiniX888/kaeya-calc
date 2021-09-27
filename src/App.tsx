@@ -205,7 +205,7 @@ class App extends React.Component<{}, AppState> {
 
     const weaponOptionMixins = (weaponOptions ?? this.state.weaponOptions)
       .filter((option): option is WeaponOption & IStatsApplicable =>
-        isModifierApplicable(option)
+        isStatsApplicable(option)
       )
       .map((option) => option.applyOnStats);
 
