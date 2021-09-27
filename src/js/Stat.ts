@@ -55,10 +55,22 @@ export function getOptionName(id: string) {
   return optionMapping[id];
 }
 
-// Returns a Number representing the inputed value of a stat
+// Returns a Number representing the inputted value of a stat
 export function convertStatValue(value: number, isPercentage: boolean) {
   if (isPercentage) {
     return value / 100;
+  } else {
+    return value;
+  }
+}
+
+// Returns a number representing the value to display (e.g. in stat inputs)
+export function convertStatToDisplayValue(
+  value: number,
+  isPercentage: boolean
+) {
+  if (isPercentage) {
+    return value * 100;
   } else {
     return value;
   }

@@ -263,7 +263,7 @@ class App extends React.Component<{}, AppState> {
     };
 
     // Apply modifier mixins
-    modifierMixins?.forEach((mixin) => mixin(modifier));
+    (modifierMixins ?? this.modifierMixins).forEach((mixin) => mixin(modifier));
 
     return modifier;
   }
@@ -481,6 +481,10 @@ class App extends React.Component<{}, AppState> {
             appState={this.state}
             setAppState={this.setAppState}
             updateTotalStats={this.updateTotalStats}
+            artifactSetBonuses={this.artifactSetBonuses}
+            damageModifier={this.getDamageModifier()}
+            statMixins={this.statMixins}
+            talentValues={this.talentValues}
           />
           <StatColumn
             appState={this.state}
