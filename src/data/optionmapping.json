@@ -20,6 +20,9 @@
     "aloyAscension1": "Received Coil (10s)",
     "aloyAscension4": "Rushing Ice Time (seconds)",
 
+    "solarPearlNormalAttack": "Normal Attack Hit (6s)",
+    "solarPearlSkillBurst": "Skill/Burst Hit (6s)",
+
     "braveHeart4Pc": "Brave Heart 4pc (Enemy HP>50%)",
     "berserker4Pc": "Berserker 4pc (HP<70%)",
     "martialArtist4Pc": "Martial Artist 4pc (Use Skill)",
