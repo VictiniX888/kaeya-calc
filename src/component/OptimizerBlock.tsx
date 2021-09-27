@@ -16,6 +16,7 @@ import { StatMixin } from '../js/option/Mixin';
 import { capitalize } from '../js/Stat';
 import { TalentType, TalentValueSet } from '../js/talent/types';
 import Checkbox from './Checkbox';
+import FloatInput from './FloatInput';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
 import Picker from './Picker';
@@ -36,6 +37,7 @@ type OptimizerBlockProps = {
 type OptimizerBlockState = {
   maxRolls: number;
   selectedSubstats: string[];
+  erThreshold: number;
   targetTalentType?: TalentType;
   targetTalentId: string;
   substatRolls: RollDistribution[];
@@ -48,6 +50,7 @@ class OptimizerBlock extends React.Component<
   state: OptimizerBlockState = {
     substatRolls: [],
     selectedSubstats: [],
+    erThreshold: 100,
     targetTalentId: '',
     maxRolls: 20,
   };
@@ -74,6 +77,14 @@ class OptimizerBlock extends React.Component<
     }
   };
 
+  setErThreshold = (value: number) => {
+    if (isNaN(value)) {
+      this.setState({ erThreshold: 0 });
+    } else {
+      this.setState({ erThreshold: value });
+    }
+  };
+
   setTargetTalentType = (value: string) => {
     if (value === '') {
       this.setState({ targetTalentType: undefined });
@@ -94,6 +105,7 @@ class OptimizerBlock extends React.Component<
       const result = optimizeSubstats(
         this.state.selectedSubstats,
         this.state.maxRolls,
+        this.state.erThreshold / 100,
         this.state.targetTalentType,
         this.state.targetTalentId,
         this.props.appState,
@@ -150,6 +162,19 @@ class OptimizerBlock extends React.Component<
                     />
                   </InputRow>
                 ))}
+              </div>
+
+              <div className='input-block'>
+                <InputRow>
+                  <FloatInput
+                    className='stat-input'
+                    id={'optimizer-er-threshold'}
+                    label='ER Threshold:'
+                    defaultValue={100}
+                    value={this.state.erThreshold}
+                    onInput={this.setErThreshold}
+                  />
+                </InputRow>
               </div>
 
               <div className='input-block'>

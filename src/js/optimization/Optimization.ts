@@ -37,6 +37,7 @@ export const substats: Record<string, number> = {
 export function optimizeSubstats(
   possibleStats: string[],
   maxRolls: number,
+  erThreshold: number,
   optimizeTalentType: TalentType,
   optimizeTalentId: string,
   appState: AppState,
@@ -48,13 +49,53 @@ export function optimizeSubstats(
   let optimalSubstatRolls: RollDistribution[] = [];
   let optimalArtifacts: Artifact[] = appState.artifacts;
 
+  // Roll ER to reach threshold
+  const baseArtifacts = generateBaseArtifacts(appState.artifacts);
+  const baseTotalStats = getTotalStatsAt(
+    appState.character,
+    appState.weapon,
+    artifactSetBonuses,
+    baseArtifacts,
+    appState.talentAttackLevel,
+    appState.talentSkillLevel,
+    appState.talentBurstLevel,
+    statMixins
+  );
+  const baseEr = baseTotalStats.energyRecharge ?? 0;
+
+  let baseErRolls = Math.ceil((erThreshold - baseEr) / substats.energyRecharge);
+
+  const erMainStatCount = baseArtifacts
+    .map((artifact) => artifact.mainStat.stat)
+    .filter((mainStat) => mainStat === 'energyRecharge').length;
+
+  if (baseErRolls < 0) {
+    baseErRolls = 0;
+  } else if (baseErRolls > 2 * (5 - erMainStatCount)) {
+    baseErRolls = 2 * (5 - erMainStatCount);
+  }
+
+  // Generate all combinations
   const combinations = generateRollCombinationsKqm(
     possibleStats,
-    maxRolls,
-    appState.artifacts.map((artifact) => artifact.mainStat.stat)
+    maxRolls - baseErRolls,
+    appState.artifacts.map((artifact) => artifact.mainStat.stat),
+    baseErRolls
   );
 
   combinations.forEach((combination) => {
+    // Add in ER threshold rolls
+    if (baseErRolls > 0) {
+      const erDistribution = combination.find(
+        ({ stat }) => stat === 'energyRecharge'
+      );
+      if (erDistribution === undefined) {
+        combination.push({ stat: 'energyRecharge', rolls: baseErRolls });
+      } else {
+        erDistribution.rolls += baseErRolls;
+      }
+    }
+
     const artifacts = generateBaseArtifacts(appState.artifacts);
 
     addRollsToArtifacts(combination, artifacts);
@@ -101,7 +142,8 @@ export function optimizeSubstats(
 function generateRollCombinationsKqm(
   possibleStats: string[],
   maxRolls: number,
-  mainStats: string[]
+  mainStats: string[],
+  baseErRolls: number
 ): RollDistribution[][] {
   if (possibleStats.length === 0 || maxRolls === 0) {
     return [];
@@ -110,7 +152,10 @@ function generateRollCombinationsKqm(
   const sameMainStatCount = mainStats.filter(
     (mainStat) => possibleStats[0] === mainStat
   ).length;
-  const currentMaxRolls = Math.min((5 - sameMainStatCount) * 2, maxRolls);
+  let currentMaxRolls = Math.min((5 - sameMainStatCount) * 2, maxRolls);
+  if (possibleStats[0] === 'energyRecharge') {
+    currentMaxRolls -= baseErRolls;
+  }
 
   const combinations: RollDistribution[][] = [];
 
@@ -120,7 +165,8 @@ function generateRollCombinationsKqm(
     const backCombinations = generateRollCombinationsKqm(
       possibleStats.slice(1),
       maxRolls - i,
-      mainStats
+      mainStats,
+      baseErRolls
     );
 
     if (backCombinations.length === 0) {
