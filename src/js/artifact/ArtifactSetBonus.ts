@@ -18,6 +18,7 @@ import shimenawaOptions from '../option/artifactSetOptions/ShimenawaOption';
 import tenacityOptions from '../option/artifactSetOptions/TenacityOption';
 import thundersootherOptions from '../option/artifactSetOptions/ThundersootherOption';
 import viridescentVenererOptions from '../option/artifactSetOptions/ViridescentVenererOption';
+import { Priority } from '../option/Mixin';
 import { ArtifactSetBonus } from './types';
 
 // Placeholder function
@@ -143,14 +144,17 @@ const Relic_ElementalBurstUp: ArtifactSetBonus = {
 const Relic_ElementalBurstUpByChargeEfficiency: ArtifactSetBonus = {
   options: [],
 
-  statMixin: (stats: Stats) => {
-    const params = getArtifactSetBonusParams('emblemofseveredfate', 4);
-    let burstDmgBonus = params[0] * stats.energyRecharge;
-    if (burstDmgBonus > params[1]) {
-      burstDmgBonus = params[1];
-    }
+  statMixin: {
+    priority: Priority.Last,
+    apply: (stats: Stats) => {
+      const params = getArtifactSetBonusParams('emblemofseveredfate', 4);
+      let burstDmgBonus = params[0] * stats.energyRecharge;
+      if (burstDmgBonus > params[1]) {
+        burstDmgBonus = params[1];
+      }
 
-    stats.burstDmgBonus = burstDmgBonus + (stats.burstDmgBonus ?? 0);
+      stats.burstDmgBonus = burstDmgBonus + (stats.burstDmgBonus ?? 0);
+    },
   },
 };
 

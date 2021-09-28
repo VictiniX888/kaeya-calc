@@ -13,11 +13,13 @@ class BlizzardStrayer4PcCryoOption
     super('blizzardStrayer4PcCryo', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value) {
-      const params = getArtifactSetBonusParams('blizzardstrayer', 4);
-      stats.critRate = params[0] + (stats.critRate ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value) {
+        const params = getArtifactSetBonusParams('blizzardstrayer', 4);
+        stats.critRate = params[0] + (stats.critRate ?? 0);
+      }
+    },
   };
 }
 
@@ -31,11 +33,13 @@ class BlizzardStrayer4PcFrozenOption
     super('blizzardStrayer4PcFrozen', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value) {
-      const params = getArtifactSetBonusParams('blizzardstrayer', 4);
-      stats.critRate = params[1] + (stats.critRate ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value) {
+        const params = getArtifactSetBonusParams('blizzardstrayer', 4);
+        stats.critRate = params[1] + (stats.critRate ?? 0);
+      }
+    },
   };
 }
 

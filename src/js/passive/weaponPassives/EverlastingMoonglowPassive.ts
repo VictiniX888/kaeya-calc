@@ -8,9 +8,11 @@ export function everlastingMoonglowPassive(
   return {
     id: 'everlastingMoonglow',
     options: [],
-    modifierMixin: (modifier: DamageModifier, stats: Stats) => {
-      modifier.normalAttackFlatDmg =
-        params[1] * (stats.flatHp ?? 0) + (modifier.normalAttackFlatDmg ?? 0);
+    modifierMixin: {
+      apply: (modifier: DamageModifier, stats: Stats) => {
+        modifier.normalAttackFlatDmg =
+          params[1] * (stats.flatHp ?? 0) + (modifier.normalAttackFlatDmg ?? 0);
+      },
     },
   };
 }

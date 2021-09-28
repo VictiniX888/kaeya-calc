@@ -14,10 +14,12 @@ class ElementalAbsoprtionOption
     super('elementalAbsorption');
   }
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value !== '') {
-      modifier.elementalAbsorption = this.value as Element;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value !== '') {
+        modifier.elementalAbsorption = this.value as Element;
+      }
+    },
   };
 }
 

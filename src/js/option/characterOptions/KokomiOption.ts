@@ -12,10 +12,12 @@ class KokomiOptionBurst
     super('kokomiBurst');
   }
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value) {
-      modifier.kokomiBurst = true;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value) {
+        modifier.kokomiBurst = true;
+      }
+    },
   };
 }
 

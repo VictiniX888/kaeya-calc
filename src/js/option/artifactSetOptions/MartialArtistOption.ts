@@ -13,12 +13,14 @@ class MartialArtist4PcOption
     super('martialArtist4Pc', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value) {
-      const params = getArtifactSetBonusParams('martialartist', 4);
-      stats.normalDmgBonus = params[2] + (stats.normalDmgBonus ?? 0);
-      stats.chargedDmgBonus = params[2] + (stats.chargedDmgBonus ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value) {
+        const params = getArtifactSetBonusParams('martialartist', 4);
+        stats.normalDmgBonus = params[2] + (stats.normalDmgBonus ?? 0);
+        stats.chargedDmgBonus = params[2] + (stats.chargedDmgBonus ?? 0);
+      }
+    },
   };
 }
 

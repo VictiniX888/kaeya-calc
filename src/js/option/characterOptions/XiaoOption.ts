@@ -19,29 +19,33 @@ class XiaoOptionBurst
     super('xiaoBurst');
   }
 
-  applyOnStats = (
-    stats: Stats,
-    _talentAttackLevel: number,
-    _talentSkillLevel: number,
-    talentBurstLevel: number
-  ) => {
-    if (this.value) {
-      let burstParams = getTalentStatsAt(
-        TalentType.Burst,
-        talentBurstLevel,
-        getTalentData('xiao')
-      );
+  statMixin = {
+    apply: (
+      stats: Stats,
+      _talentAttackLevel: number,
+      _talentSkillLevel: number,
+      talentBurstLevel: number
+    ) => {
+      if (this.value) {
+        let burstParams = getTalentStatsAt(
+          TalentType.Burst,
+          talentBurstLevel,
+          getTalentData('xiao')
+        );
 
-      stats.normalDmgBonus = burstParams[0] + (stats.normalDmgBonus ?? 0);
-      stats.chargedDmgBonus = burstParams[0] + (stats.chargedDmgBonus ?? 0);
-      stats.plungeDmgBonus = burstParams[0] + (stats.plungeDmgBonus ?? 0);
-    }
+        stats.normalDmgBonus = burstParams[0] + (stats.normalDmgBonus ?? 0);
+        stats.chargedDmgBonus = burstParams[0] + (stats.chargedDmgBonus ?? 0);
+        stats.plungeDmgBonus = burstParams[0] + (stats.plungeDmgBonus ?? 0);
+      }
+    },
   };
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value) {
-      modifier.infusion = Element.Anemo;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value) {
+        modifier.infusion = Element.Anemo;
+      }
+    },
   };
 }
 

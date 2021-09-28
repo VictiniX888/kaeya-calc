@@ -22,9 +22,9 @@ export interface IOptionNumber {
 }
 
 export interface IStatsApplicable {
-  applyOnStats: StatMixin;
+  statMixin: StatMixin;
 }
 
 export interface IModifierApplicable {
-  applyOnModifier: ModifierMixin;
+  modifierMixin: ModifierMixin;
 }

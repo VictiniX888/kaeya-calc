@@ -13,11 +13,13 @@ class YoimiyaOptionSkill
     super('yoimiyaSkill');
   }
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value) {
-      modifier.infusion = Element.Pyro;
-      modifier.yoimiyaSkill = true;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value) {
+        modifier.infusion = Element.Pyro;
+        modifier.yoimiyaSkill = true;
+      }
+    },
   };
 }
 

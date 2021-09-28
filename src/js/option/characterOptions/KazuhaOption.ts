@@ -14,10 +14,12 @@ class KazuhaOptionInfusion
     super('infusionAnemoPlunge');
   }
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value) {
-      modifier.infusionPlunge = Element.Anemo;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value) {
+        modifier.infusionPlunge = Element.Anemo;
+      }
+    },
   };
 }
 

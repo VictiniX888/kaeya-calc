@@ -13,17 +13,19 @@ class PaleFlame4PcOption
     super('paleFlame4Pc', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    const params = getArtifactSetBonusParams('paleflame', 4);
+  statMixin = {
+    apply: (stats: Stats) => {
+      const params = getArtifactSetBonusParams('paleflame', 4);
 
-    if (this.value >= 1) {
-      stats.atkBonus = params[0] + (stats.atkBonus ?? 0);
-    }
+      if (this.value >= 1) {
+        stats.atkBonus = params[0] + (stats.atkBonus ?? 0);
+      }
 
-    if (this.value >= 2) {
-      stats.atkBonus = params[0] + (stats.atkBonus ?? 0);
-      stats.physicalDmgBonus = params[3] + (stats.physicalDmgBonus ?? 0);
-    }
+      if (this.value >= 2) {
+        stats.atkBonus = params[0] + (stats.atkBonus ?? 0);
+        stats.physicalDmgBonus = params[3] + (stats.physicalDmgBonus ?? 0);
+      }
+    },
   };
 }
 

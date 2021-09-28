@@ -19,29 +19,34 @@ class HuTaoOptionSkill
     super('paramitaPapilioState');
   }
 
-  applyOnStats = (
-    stats: Stats,
-    _talentAttackLevel: number,
-    talentSkillLevel: number,
-    _talentBurstLevel: number
-  ) => {
-    if (this.value) {
-      let skillParams = getTalentStatsAt(
-        TalentType.Skill,
-        talentSkillLevel,
-        getTalentData('hutao')
-      );
+  statMixin = {
+    apply: (
+      stats: Stats,
+      _talentAttackLevel: number,
+      talentSkillLevel: number,
+      _talentBurstLevel: number
+    ) => {
+      if (this.value) {
+        let skillParams = getTalentStatsAt(
+          TalentType.Skill,
+          talentSkillLevel,
+          getTalentData('hutao')
+        );
 
-      const totalHp =
-        (stats.baseHp ?? 0) * (1 + (stats.hpBonus ?? 0)) + (stats.flatHp ?? 0);
-      stats.flatAtk = (stats.flatAtk ?? 0) + totalHp * skillParams[1];
-    }
+        const totalHp =
+          (stats.baseHp ?? 0) * (1 + (stats.hpBonus ?? 0)) +
+          (stats.flatHp ?? 0);
+        stats.flatAtk = (stats.flatAtk ?? 0) + totalHp * skillParams[1];
+      }
+    },
   };
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value) {
-      modifier.infusion = Element.Pyro;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value) {
+        modifier.infusion = Element.Pyro;
+      }
+    },
   };
 }
 

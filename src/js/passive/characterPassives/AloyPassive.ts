@@ -18,10 +18,12 @@ export function aloyAscension1(params: TalentParams): CharacterPassive {
       super('aloyAscension1');
     }
 
-    applyOnStats = (stats: Stats) => {
-      if (this.value) {
-        stats.atkBonus = params[0] * 2 + (stats.atkBonus ?? 0);
-      }
+    statMixin = {
+      apply: (stats: Stats) => {
+        if (this.value) {
+          stats.atkBonus = params[0] * 2 + (stats.atkBonus ?? 0);
+        }
+      },
     };
   }
 
@@ -42,16 +44,18 @@ export function aloyAscension4(params: TalentParams): CharacterPassive {
       super('aloyAscension4');
     }
 
-    applyOnStats = (stats: Stats) => {
-      if (this.value > 0) {
-        let stacks = this.value;
-        if (stacks > 10) {
-          stacks = 10;
-        }
+    statMixin = {
+      apply: (stats: Stats) => {
+        if (this.value > 0) {
+          let stacks = this.value;
+          if (stacks > 10) {
+            stacks = 10;
+          }
 
-        const cryoDmgBonus = params[0] * stacks;
-        stats.cryoDmgBonus = cryoDmgBonus + (stats.cryoDmgBonus ?? 0);
-      }
+          const cryoDmgBonus = params[0] * stacks;
+          stats.cryoDmgBonus = cryoDmgBonus + (stats.cryoDmgBonus ?? 0);
+        }
+      },
     };
   }
 

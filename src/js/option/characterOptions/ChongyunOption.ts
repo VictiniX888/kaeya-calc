@@ -13,10 +13,12 @@ class ChongyunOptionInfusion
     super('infusionCryo'); // set ID
   }
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value) {
-      modifier.infusion = Element.Cryo;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value) {
+        modifier.infusion = Element.Cryo;
+      }
+    },
   };
 }
 

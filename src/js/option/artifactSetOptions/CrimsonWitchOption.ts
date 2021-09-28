@@ -13,17 +13,19 @@ class CrimsonWitch4PcOption
     super('crimsonWitch4PcStacks', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value > 0) {
-      const setBonusData = getArtifactSetBonusData('crimsonwitchofflames');
-      const param = setBonusData[2].bonuses.find(
-        ({ stat }) => stat === 'pyroDmgBonus'
-      )?.value!!;
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value > 0) {
+        const setBonusData = getArtifactSetBonusData('crimsonwitchofflames');
+        const param = setBonusData[2].bonuses.find(
+          ({ stat }) => stat === 'pyroDmgBonus'
+        )?.value!!;
 
-      let stacks = this.value;
-      if (stacks > 3) stacks = 3;
-      stats.pyroDmgBonus = stacks * (param / 2) + (stats.pyroDmgBonus ?? 0);
-    }
+        let stacks = this.value;
+        if (stacks > 3) stacks = 3;
+        stats.pyroDmgBonus = stacks * (param / 2) + (stats.pyroDmgBonus ?? 0);
+      }
+    },
   };
 }
 

@@ -14,11 +14,13 @@ export function solarPearlPassive(params: TalentParams): WeaponPassive {
       super('solarPearlNormalAttack');
     }
 
-    applyOnStats = (stats: Stats) => {
-      if (this.value) {
-        stats.skillDmgBonus = params[0] + (stats.skillDmgBonus ?? 0);
-        stats.burstDmgBonus = params[0] + (stats.burstDmgBonus ?? 0);
-      }
+    statMixin = {
+      apply: (stats: Stats) => {
+        if (this.value) {
+          stats.skillDmgBonus = params[0] + (stats.skillDmgBonus ?? 0);
+          stats.burstDmgBonus = params[0] + (stats.burstDmgBonus ?? 0);
+        }
+      },
     };
   }
 
@@ -32,10 +34,12 @@ export function solarPearlPassive(params: TalentParams): WeaponPassive {
       super('solarPearlSkillBurst');
     }
 
-    applyOnStats = (stats: Stats) => {
-      if (this.value) {
-        stats.normalDmgBonus = params[0] + (stats.normalDmgBonus ?? 0);
-      }
+    statMixin = {
+      apply: (stats: Stats) => {
+        if (this.value) {
+          stats.normalDmgBonus = params[0] + (stats.normalDmgBonus ?? 0);
+        }
+      },
     };
   }
 

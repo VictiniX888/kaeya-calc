@@ -19,33 +19,37 @@ class AloyOptionCoil
     super('coil');
   }
 
-  applyOnStats = (
-    stats: Stats,
-    _talentAttackLevel: number,
-    talentSkillLevel: number,
-    _talentBurstLevel: number
-  ) => {
-    if (this.value > 0) {
-      const skillParams = getTalentStatsAt(
-        TalentType.Skill,
-        talentSkillLevel,
-        getTalentData('aloy')
-      );
+  statMixin = {
+    apply: (
+      stats: Stats,
+      _talentAttackLevel: number,
+      talentSkillLevel: number,
+      _talentBurstLevel: number
+    ) => {
+      if (this.value > 0) {
+        const skillParams = getTalentStatsAt(
+          TalentType.Skill,
+          talentSkillLevel,
+          getTalentData('aloy')
+        );
 
-      if (this.value >= 4) {
-        // Rushing Ice state
-        stats.normalDmgBonus = skillParams[7] + (stats.normalDmgBonus ?? 0);
-      } else {
-        stats.normalDmgBonus =
-          skillParams[this.value + 3] + (stats.normalDmgBonus ?? 0);
+        if (this.value >= 4) {
+          // Rushing Ice state
+          stats.normalDmgBonus = skillParams[7] + (stats.normalDmgBonus ?? 0);
+        } else {
+          stats.normalDmgBonus =
+            skillParams[this.value + 3] + (stats.normalDmgBonus ?? 0);
+        }
       }
-    }
+    },
   };
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value >= 4) {
-      modifier.infusion = Element.Cryo;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value >= 4) {
+        modifier.infusion = Element.Cryo;
+      }
+    },
   };
 }
 

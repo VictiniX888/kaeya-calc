@@ -39,15 +39,13 @@ export function isNumberOption(
 export function isStatsApplicable(
   option: Option
 ): option is Option & IStatsApplicable {
-  return (option as unknown as IStatsApplicable).applyOnStats !== undefined;
+  return (option as unknown as IStatsApplicable).statMixin !== undefined;
 }
 
 export function isModifierApplicable(
   option: Option
 ): option is Option & IModifierApplicable {
-  return (
-    (option as unknown as IModifierApplicable).applyOnModifier !== undefined
-  );
+  return (option as unknown as IModifierApplicable).modifierMixin !== undefined;
 }
 
 export function getOptionValue(option: Option) {

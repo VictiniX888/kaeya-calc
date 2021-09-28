@@ -14,12 +14,14 @@ class ArchaicPetra4PcOption
     super('archaicPetra4Pc', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value !== '') {
-      const params = getArtifactSetBonusParams('archaicpetra', 4);
-      stats[`${this.value}DmgBonus`] =
-        params[0] + (stats[`${this.value}DmgBonus`] ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value !== '') {
+        const params = getArtifactSetBonusParams('archaicpetra', 4);
+        stats[`${this.value}DmgBonus`] =
+          params[0] + (stats[`${this.value}DmgBonus`] ?? 0);
+      }
+    },
   };
 }
 

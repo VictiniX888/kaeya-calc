@@ -162,7 +162,7 @@ export function getTotalStatsAt(
 
   // Apply stat mixins
   statMixins.forEach((mixin) =>
-    mixin(
+    mixin.apply(
       combinedStats,
       talentAttackLevel,
       talentSkillLevel,

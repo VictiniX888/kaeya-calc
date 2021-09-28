@@ -13,11 +13,13 @@ class Thundersoother4PcOption
     super('thundersoother4Pc', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value) {
-      const params = getArtifactSetBonusParams('thundersoother', 4);
-      stats.dmgBonus = params[0] + (stats.dmgBonus ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value) {
+        const params = getArtifactSetBonusParams('thundersoother', 4);
+        stats.dmgBonus = params[0] + (stats.dmgBonus ?? 0);
+      }
+    },
   };
 }
 

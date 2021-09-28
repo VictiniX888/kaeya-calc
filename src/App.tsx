@@ -19,7 +19,7 @@ import Reaction from './js/modifier/Reaction';
 import { isModifierApplicable, isStatsApplicable } from './js/option';
 import { ArtifactSetOption } from './js/option/artifactSetOptions';
 import { CharacterOption } from './js/option/characterOptions';
-import { ModifierMixin, StatMixin } from './js/option/Mixin';
+import { ModifierMixin, Priority, StatMixin } from './js/option/Mixin';
 import { IModifierApplicable, IStatsApplicable } from './js/option/Option';
 import WeaponOption from './js/option/weaponOptions/WeaponOption';
 import Resistance from './js/Resistance';
@@ -130,13 +130,13 @@ class App extends React.Component<{}, AppState> {
       .filter((option): option is CharacterOption & IModifierApplicable =>
         isModifierApplicable(option)
       )
-      .map((option) => option.applyOnModifier);
+      .map((option) => option.modifierMixin);
 
     const weaponOptionMixins = (weaponOptions ?? this.state.weaponOptions)
       .filter((option): option is WeaponOption & IModifierApplicable =>
         isModifierApplicable(option)
       )
-      .map((option) => option.applyOnModifier);
+      .map((option) => option.modifierMixin);
 
     const artifactSetOptionMixins = (
       artifactSetOptions ?? this.state.artifactSetOptions
@@ -144,14 +144,28 @@ class App extends React.Component<{}, AppState> {
       .filter((option): option is ArtifactSetOption & IModifierApplicable =>
         isModifierApplicable(option)
       )
-      .map((option) => option.applyOnModifier);
+      .map((option) => option.modifierMixin);
 
-    this.modifierMixins = characterPassiveMixins
+    const unarrangedMixins = characterPassiveMixins
       .concat(weaponPassiveMixins)
       .concat(artifactSetMixins)
       .concat(characterOptionMixins)
       .concat(weaponOptionMixins)
       .concat(artifactSetOptionMixins);
+    const groupedMixins = new Map<Priority, ModifierMixin[]>();
+    unarrangedMixins.forEach((mixin) => {
+      const priority = mixin.priority ?? Priority.Normal;
+      const array = groupedMixins.get(priority);
+      if (!array) {
+        groupedMixins.set(priority, [mixin]);
+      } else {
+        array.push(mixin);
+      }
+    });
+
+    this.modifierMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
+      groupedMixins.get(Priority.Last) ?? []
+    );
 
     return this.modifierMixins;
   }
@@ -201,13 +215,13 @@ class App extends React.Component<{}, AppState> {
       .filter((option): option is CharacterOption & IStatsApplicable =>
         isStatsApplicable(option)
       )
-      .map((option) => option.applyOnStats);
+      .map((option) => option.statMixin);
 
     const weaponOptionMixins = (weaponOptions ?? this.state.weaponOptions)
       .filter((option): option is WeaponOption & IStatsApplicable =>
         isStatsApplicable(option)
       )
-      .map((option) => option.applyOnStats);
+      .map((option) => option.statMixin);
 
     const artifactSetOptionMixins = (
       artifactSetOptions ?? this.state.artifactSetOptions
@@ -215,14 +229,28 @@ class App extends React.Component<{}, AppState> {
       .filter((option): option is ArtifactSetOption & IStatsApplicable =>
         isStatsApplicable(option)
       )
-      .map((option) => option.applyOnStats);
+      .map((option) => option.statMixin);
 
-    this.statMixins = characterPassiveMixins
+    const unarrangedMixins = characterPassiveMixins
       .concat(weaponPassiveMixins)
       .concat(artifactSetMixins)
       .concat(characterOptionMixins)
       .concat(weaponOptionMixins)
       .concat(artifactSetOptionMixins);
+    const groupedMixins = new Map<Priority, StatMixin[]>();
+    unarrangedMixins.forEach((mixin) => {
+      const priority = mixin.priority ?? Priority.Normal;
+      const array = groupedMixins.get(priority);
+      if (!array) {
+        groupedMixins.set(priority, [mixin]);
+      } else {
+        array.push(mixin);
+      }
+    });
+
+    this.statMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
+      groupedMixins.get(Priority.Last) ?? []
+    );
 
     return this.statMixins;
   }
@@ -264,7 +292,7 @@ class App extends React.Component<{}, AppState> {
 
     // Apply modifier mixins
     (modifierMixins ?? this.modifierMixins).forEach((mixin) =>
-      mixin(modifier, this.totalStats)
+      mixin.apply(modifier, this.totalStats)
     );
 
     return modifier;

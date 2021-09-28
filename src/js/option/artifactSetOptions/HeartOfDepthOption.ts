@@ -13,12 +13,14 @@ class HeartOfDepth4PcOption
     super('heartOfDepth4Pc', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value) {
-      const params = getArtifactSetBonusParams('heartofdepth', 4);
-      stats.normalDmgBonus = params[0] + (stats.normalDmgBonus ?? 0);
-      stats.chargedDmgBonus = params[0] + (stats.chargedDmgBonus ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value) {
+        const params = getArtifactSetBonusParams('heartofdepth', 4);
+        stats.normalDmgBonus = params[0] + (stats.normalDmgBonus ?? 0);
+        stats.chargedDmgBonus = params[0] + (stats.chargedDmgBonus ?? 0);
+      }
+    },
   };
 }
 

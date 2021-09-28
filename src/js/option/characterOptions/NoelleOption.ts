@@ -19,31 +19,35 @@ class NoelleOptionBurst
     super('noelleBurst');
   }
 
-  applyOnStats = (
-    stats: Stats,
-    _talentAttackLevel: number,
-    _talentSkillLevel: number,
-    talentBurstLevel: number
-  ) => {
-    if (this.value) {
-      let burstParams = getTalentStatsAt(
-        TalentType.Burst,
-        talentBurstLevel,
-        getTalentData('noelle')
-      );
+  statMixin = {
+    apply: (
+      stats: Stats,
+      _talentAttackLevel: number,
+      _talentSkillLevel: number,
+      talentBurstLevel: number
+    ) => {
+      if (this.value) {
+        let burstParams = getTalentStatsAt(
+          TalentType.Burst,
+          talentBurstLevel,
+          getTalentData('noelle')
+        );
 
-      const totalDef =
-        (stats.baseDef ?? 0) * (1 + (stats.defBonus ?? 0)) +
-        (stats.flatDef ?? 0);
+        const totalDef =
+          (stats.baseDef ?? 0) * (1 + (stats.defBonus ?? 0)) +
+          (stats.flatDef ?? 0);
 
-      stats.flatAtk = (stats.flatAtk ?? 0) + totalDef * burstParams[2];
-    }
+        stats.flatAtk = (stats.flatAtk ?? 0) + totalDef * burstParams[2];
+      }
+    },
   };
 
-  applyOnModifier = (modifier: DamageModifier) => {
-    if (this.value) {
-      modifier.infusion = Element.Geo;
-    }
+  modifierMixin = {
+    apply: (modifier: DamageModifier) => {
+      if (this.value) {
+        modifier.infusion = Element.Geo;
+      }
+    },
   };
 }
 

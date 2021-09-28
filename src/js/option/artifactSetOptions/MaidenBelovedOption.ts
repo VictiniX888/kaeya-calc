@@ -13,11 +13,13 @@ class MaidenBeloved4PcOption
     super('maidenBeloved4Pc', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value) {
-      const params = getArtifactSetBonusParams('maidenbeloved', 4);
-      stats.healedBonus = params[0] + (stats.healedBonus ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value) {
+        const params = getArtifactSetBonusParams('maidenbeloved', 4);
+        stats.healedBonus = params[0] + (stats.healedBonus ?? 0);
+      }
+    },
   };
 }
 

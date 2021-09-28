@@ -13,11 +13,13 @@ class NoblesseOblige4PcOption
     super('noblesseOblige4Pc', 4);
   }
 
-  applyOnStats = (stats: Stats) => {
-    if (this.value) {
-      const params = getArtifactSetBonusParams('noblesseoblige', 4);
-      stats.atkBonus = params[0] + (stats.atkBonus ?? 0);
-    }
+  statMixin = {
+    apply: (stats: Stats) => {
+      if (this.value) {
+        const params = getArtifactSetBonusParams('noblesseoblige', 4);
+        stats.atkBonus = params[0] + (stats.atkBonus ?? 0);
+      }
+    },
   };
 }
 
