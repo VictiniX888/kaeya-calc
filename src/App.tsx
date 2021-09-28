@@ -263,7 +263,9 @@ class App extends React.Component<{}, AppState> {
     };
 
     // Apply modifier mixins
-    (modifierMixins ?? this.modifierMixins).forEach((mixin) => mixin(modifier));
+    (modifierMixins ?? this.modifierMixins).forEach((mixin) =>
+      mixin(modifier, this.totalStats)
+    );
 
     return modifier;
   }

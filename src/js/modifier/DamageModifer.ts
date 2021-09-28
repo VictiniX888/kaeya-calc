@@ -22,6 +22,8 @@ interface DamageModifierBase {
 }
 
 interface DamageModiferOptional {
+  normalAttackFlatDmg?: number;
+
   infusion?: Element;
   elementalAbsorption?: Element;
 

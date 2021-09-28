@@ -9,4 +9,5 @@ export type StatMixin = (
   ascensionLevel: number
 ) => void;
 
-export type ModifierMixin = (modifier: DamageModifier) => void;
+// Do not modify stats here, use StatMixin for that purpose
+export type ModifierMixin = (modifier: DamageModifier, stats: Stats) => void;

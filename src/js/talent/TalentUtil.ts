@@ -128,11 +128,17 @@ export function calculateTotalDamage({
   attackType: AttackType;
   modifier: DamageModifier;
 }) {
+  let flatDmg = modifier.flatDmg;
+  if (attackType === AttackType.Normal) {
+    // Handle Everlasting Moonglow passive
+    flatDmg += modifier.normalAttackFlatDmg ?? 0;
+  }
+
   let baseDmg = calculateBaseDamage({
     stats,
     multiplier,
     scalingType,
-    flatDmg: modifier.flatDmg,
+    flatDmg,
   });
   let dmgBonus = getDamageBonus({ stats, element, attackType });
 
