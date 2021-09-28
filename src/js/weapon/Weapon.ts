@@ -237,8 +237,10 @@ export default class Weapon {
 
     if (this.passiveData?.statBonuses !== undefined) {
       this.passiveData.statBonuses.forEach(({ stat, value }) => {
-        statMixins.push((stats: Stats) => {
-          stats[stat] = value + (stats[stat] ?? 0);
+        statMixins.push({
+          apply: (stats: Stats) => {
+            stats[stat] = value + (stats[stat] ?? 0);
+          },
         });
       });
     }
