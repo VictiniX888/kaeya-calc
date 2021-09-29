@@ -130,8 +130,11 @@ export function calculateTotalDamage({
 }) {
   let flatDmg = modifier.flatDmg;
   if (attackType === AttackType.Normal) {
-    // Handle Everlasting Moonglow passive
     flatDmg += modifier.normalAttackFlatDmg ?? 0;
+  } else if (attackType === AttackType.Charged) {
+    flatDmg += modifier.chargedAttackFlatDmg ?? 0;
+  } else if (attackType === AttackType.Skill) {
+    flatDmg += modifier.skillFlatDmg ?? 0;
   }
 
   let baseDmg = calculateBaseDamage({

@@ -23,6 +23,8 @@ interface DamageModifierBase {
 
 interface DamageModiferOptional {
   normalAttackFlatDmg?: number;
+  chargedAttackFlatDmg?: number;
+  skillFlatDmg?: number;
 
   infusion?: Element;
   elementalAbsorption?: Element;

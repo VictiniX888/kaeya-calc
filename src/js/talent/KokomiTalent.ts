@@ -3,10 +3,7 @@ import Talent from './Talent';
 import {
   attackLightDefault,
   calculateTotalDamage,
-  chargedAttackDefault,
   healingSkillBase,
-  normalAttackDefault,
-  plungeAttackDefault,
   skillBase,
 } from './TalentUtil';
 import {
@@ -27,82 +24,39 @@ const kokomiTalent: Talent = {
 export default kokomiTalent;
 
 function kokomiAttack({ params, stats, modifier }: TalentProps) {
-  if (modifier.kokomiBurst) {
-    let talentValues = [];
+  let newModifier = { ...modifier };
 
+  if (newModifier.kokomiBurst) {
     const burstParams = getTalentStatsAt(
       TalentType.Burst,
-      modifier.talentBurstLevel,
+      newModifier.talentBurstLevel,
       getTalentData('kokomi')
     );
 
-    // Normal attacks
-    let normalAttackDmg = normalAttackDefault({
-      hits: 3,
-      element: Element.Hydro,
-      params,
-      stats,
-      modifier,
-    });
-    const normalBonusDmg = calculateTotalDamage({
-      stats,
-      multiplier:
-        burstParams[3] +
-        (modifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0),
-      element: Element.Hydro,
-      scalingType: ScalingType.Hp,
-      attackType: AttackType.Normal,
-      modifier,
-    });
-    normalAttackDmg.forEach(
-      (talentValue) => (talentValue.damage[0] += normalBonusDmg)
-    );
+    const normalAttackBonusDmg =
+      (burstParams[3] +
+        (newModifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0)) *
+      stats.flatHp;
 
-    talentValues.push(...normalAttackDmg);
+    newModifier.normalAttackFlatDmg =
+      normalAttackBonusDmg + (newModifier.normalAttackFlatDmg ?? 0);
 
-    // Charged attacks
-    let chargedAttackDmg = chargedAttackDefault({
-      element: Element.Hydro,
-      params: params.slice(3, 4),
-      stats,
-      modifier,
-    });
-    const chargedBonusDmg = calculateTotalDamage({
-      stats,
-      multiplier:
-        burstParams[4] +
-        (modifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0),
-      element: Element.Hydro,
-      scalingType: ScalingType.Hp,
-      attackType: AttackType.Charged,
-      modifier,
-    });
-    chargedAttackDmg.forEach(
-      (talentValue) => (talentValue.damage[0] += chargedBonusDmg)
-    );
+    const chargedAttackBonusDmg =
+      (burstParams[4] +
+        (newModifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0)) *
+      stats.flatHp;
 
-    talentValues.push(...chargedAttackDmg);
-
-    // Plunge attacks
-    talentValues.push(
-      ...plungeAttackDefault({
-        element: Element.Hydro,
-        params: params.slice(5, 8),
-        stats,
-        modifier,
-      })
-    );
-
-    return talentValues;
-  } else {
-    return attackLightDefault({
-      normalHits: 3,
-      element: Element.Hydro,
-      params,
-      stats,
-      modifier,
-    });
+    newModifier.chargedAttackFlatDmg =
+      chargedAttackBonusDmg + (newModifier.chargedAttackFlatDmg ?? 0);
   }
+
+  return attackLightDefault({
+    normalHits: 3,
+    element: Element.Hydro,
+    params,
+    stats,
+    modifier: newModifier,
+  });
 }
 
 function kokomiSkill({ params, stats, modifier }: TalentProps) {
@@ -117,42 +71,27 @@ function kokomiSkill({ params, stats, modifier }: TalentProps) {
     })
   );
 
-  if (modifier.kokomiBurst) {
+  let newModifier = { ...modifier };
+
+  if (newModifier.kokomiBurst) {
     const burstParams = getTalentStatsAt(
       TalentType.Burst,
-      modifier.talentBurstLevel,
+      newModifier.talentBurstLevel,
       getTalentData('kokomi')
     );
 
-    let rippleDmg = skillBase({
-      description: 'rippleDmg',
-      element: Element.Hydro,
-      multiplier: params[2],
-      stats,
-      modifier,
-    });
-    const bonusDmg = calculateTotalDamage({
-      stats,
-      multiplier: burstParams[8],
-      element: Element.Hydro,
-      scalingType: ScalingType.Hp,
-      attackType: AttackType.Skill,
-      modifier,
-    });
-    rippleDmg.damage[0] += bonusDmg;
-
-    talentValues.push(rippleDmg);
-  } else {
-    talentValues.push(
-      skillBase({
-        description: 'rippleDmg',
-        element: Element.Hydro,
-        multiplier: params[2],
-        stats,
-        modifier,
-      })
-    );
+    const skillBonusDmg = burstParams[8] * stats.flatHp;
+    newModifier.skillFlatDmg = skillBonusDmg + (newModifier.skillFlatDmg ?? 0);
   }
+
+  let rippleDmg = skillBase({
+    description: 'rippleDmg',
+    element: Element.Hydro,
+    multiplier: params[2],
+    stats,
+    modifier: newModifier,
+  });
+  talentValues.push(rippleDmg);
 
   return talentValues;
 }
