@@ -25,6 +25,7 @@
     "solarPearlSkillBurst": "Skill/Burst Hit (6s)",
     "engulfingLightningEnergyRecharge": "Use Burst (12s)",
     "dragonsBanePassive": "Enemy Affected by Hydro/Pyro",
+    "staffOfHomaAtkBonus": "HP<50%",
 
     "braveHeart4Pc": "Brave Heart 4pc (Enemy HP>50%)",
     "berserker4Pc": "Berserker 4pc (HP<70%)",
