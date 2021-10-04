@@ -36,7 +36,12 @@ class HuTaoOptionSkill
         const totalHp =
           (stats.baseHp ?? 0) * (1 + (stats.hpBonus ?? 0)) +
           (stats.flatHp ?? 0);
-        stats.flatAtk = (stats.flatAtk ?? 0) + totalHp * skillParams[1];
+        let flatAtkBonus = totalHp * skillParams[1];
+        if (flatAtkBonus > stats.baseAtk * skillParams[6]) {
+          flatAtkBonus = stats.baseAtk * skillParams[6];
+        }
+
+        stats.flatAtk = flatAtkBonus + (stats.flatAtk ?? 0);
       }
     },
   };
