@@ -126,6 +126,27 @@ const Relci_RangerAttackUp: ArtifactSetBonus = {
 // Pyro Dmg Bonus implemented through Options
 const Relic_ReactionFireEnhance: ArtifactSetBonus = {
   options: crimsonWitchOptions,
+
+  extraStatsFn: (params: number[]) => {
+    return [
+      {
+        stat: 'overloadDmgBonus',
+        value: params[0],
+      },
+      {
+        stat: 'burningDmgBonus',
+        value: params[0],
+      },
+      {
+        stat: 'vaporizeDmgBonus',
+        value: params[1],
+      },
+      {
+        stat: 'meltDmgBonus',
+        value: params[2],
+      },
+    ];
+  },
 };
 
 const Relic_ElementalBurstUp: ArtifactSetBonus = {

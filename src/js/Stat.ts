@@ -266,6 +266,19 @@ export function getTotalStatsAt(
     totalStats.burstCritRate = combinedStats.burstCritRate;
   }
 
+  if (combinedStats.overloadDmgBonus !== undefined) {
+    totalStats.overloadDmgBonus = combinedStats.overloadDmgBonus;
+  }
+  if (combinedStats.burningDmgBonus !== undefined) {
+    totalStats.burningDmgBonus = combinedStats.burningDmgBonus;
+  }
+  if (combinedStats.vaporizeDmgBonus !== undefined) {
+    totalStats.vaporizeDmgBonus = combinedStats.vaporizeDmgBonus;
+  }
+  if (combinedStats.meltDmgBonus !== undefined) {
+    totalStats.meltDmgBonus = combinedStats.meltDmgBonus;
+  }
+
   return totalStats;
 }
 

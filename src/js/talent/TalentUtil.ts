@@ -74,7 +74,7 @@ function calculateResMultiplier({
     return 1 / (4 * totalRes + 1);
   }
 }
-function calculateAmplifyingMultiplier(
+function calculateAmplifyingStrengthMultiplier(
   reaction: Reaction,
   triggerElement: Element
 ) {
@@ -92,23 +92,39 @@ function calculateAmplifyingMultiplier(
     } else return 1;
   } else return 1;
 }
-function calculateReactionMultiplier({
+function calculateAmplifyingReactionMultiplier({
   reaction,
   stats,
-  reactionBonus,
   element,
 }: {
   reaction: Reaction;
   stats: Stats;
-  reactionBonus: number;
   element: Element;
 }) {
-  const amplifyingMultiplier = calculateAmplifyingMultiplier(reaction, element);
-  if (amplifyingMultiplier > 1) {
+  const amplifyingStrength = calculateAmplifyingStrengthMultiplier(
+    reaction,
+    element
+  );
+
+  if (amplifyingStrength > 1) {
+    // Caulculate reactionbonus
+    let reactionBonus = 0;
+    switch (reaction) {
+      case Reaction.Vaporize:
+        reactionBonus = stats.vaporizeDmgBonus ?? 0;
+        break;
+      case Reaction.Melt:
+        reactionBonus = stats.meltDmgBonus ?? 0;
+        break;
+      default:
+        break;
+    }
+
+    // Calculate amplifying reaction multiplier
     const elementalMastery = stats.elementalMastery ?? 0;
     const baseMultiplier =
       1 + (2.78 * elementalMastery) / (1400 + elementalMastery) + reactionBonus;
-    return amplifyingMultiplier * baseMultiplier;
+    return amplifyingStrength * baseMultiplier;
   } else {
     return 1;
   }
@@ -169,10 +185,9 @@ export function calculateTotalDamage({
     resReduction: modifier.enemyResReduction,
   });
 
-  const reactionMultiplier = calculateReactionMultiplier({
+  const reactionMultiplier = calculateAmplifyingReactionMultiplier({
     reaction: modifier.reaction,
     stats,
-    reactionBonus: 0,
     element,
   });
 

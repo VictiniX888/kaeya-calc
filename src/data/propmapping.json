@@ -148,5 +148,22 @@
   "burstCritRate": {
     "name": "Burst Crit Rate",
     "isPercentage": true
+  },
+
+  "overloadDmgBonus": {
+    "name": "Overload DMG Bonus",
+    "isPercentage": true
+  },
+  "burningDmgBonus": {
+    "name": "Burning DMG Bonus",
+    "isPercentage": true
+  },
+  "vaporizeDmgBonus": {
+    "name": "Vaporize DMG Bonus",
+    "isPercentage": true
+  },
+  "meltDmgBonus": {
+    "name": "Melt Dmg Bonus",
+    "isPercentage": true
   }
 }
