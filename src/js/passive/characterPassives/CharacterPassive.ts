@@ -1,11 +1,13 @@
 import { CharacterPassive, CharacterPassiveFn } from '../types';
 import { aloyAscension1, aloyAscension4 } from './AloyPassive';
+import { beidouAscension4 } from './BeidouPassive';
 import { hutaoAscension4 } from './HuTaoPassive';
 import { kokomiAscension0, kokomiAscension4 } from './KokomiPassive';
 import { raidenAscension4 } from './RaidenPassive';
 import { yoimiyaAscension1 } from './YoimiyaPassive';
 
 const characterPassives: Record<string, CharacterPassiveFn> = {
+  Beidou_PermanentSkill_2: beidouAscension4,
   Hutao_PermanentSkill_2: hutaoAscension4,
   Yoimiya_PermanentSkill_1: yoimiyaAscension1,
   Shougun_PermanentSkill_2: raidenAscension4,

@@ -2,6 +2,7 @@ import { WeaponPassive, WeaponPassiveFn } from '../types';
 import { dragonsBanePassive } from './DragonsBanePassive';
 import { engulfingLightningPassive } from './EngulfingLightningPassive';
 import { everlastingMoonglowPassive } from './EverlastingMoonglowPassive';
+import { luxuriousSeaLordPassive } from './LuxuriousSeaLordPassive';
 import { solarPearlPassive } from './SolarPearlPassive';
 import { staffOfHomaPassive } from './StaffOfHomaPassive';
 import { theCatchPassive } from './TheCatchPassive';
@@ -12,6 +13,9 @@ const weaponPassives: Record<string, WeaponPassiveFn> = {
   Weapon_Pole_Homa: staffOfHomaPassive,
   Weapon_Pole_Mori: theCatchPassive,
   Weapon_Pole_Narukami: engulfingLightningPassive,
+
+  // Claymore
+  Weapon_Claymore_MillenniaTuna: luxuriousSeaLordPassive,
 
   // Catalyst
   Weapon_Catalyst_NormalAttackAndSkillAttack: solarPearlPassive,
