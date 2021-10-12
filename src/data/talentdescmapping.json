@@ -1,4 +1,9 @@
 {
+    "attack": "Attack",
+    "skill": "Skill",
+    "burst": "Burst",
+
+
     "dmg": "DMG",
     "skillDmg": "DMG",
     "burstDmg": "DMG",

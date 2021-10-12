@@ -1,15 +1,5 @@
-import Talent from './Talent';
-import { TalentValue } from './types';
+import { Talents } from './types';
 
-const defaultTalent: Talent = {
-  attack: defaultTalentFn,
-  skill: defaultTalentFn,
-  burst: defaultTalentFn,
-};
+const defaultTalents: Talents = {};
 
-export default defaultTalent;
-
-// Placeholder function
-export function defaultTalentFn(): TalentValue[] {
-  return [];
-}
+export default defaultTalents;

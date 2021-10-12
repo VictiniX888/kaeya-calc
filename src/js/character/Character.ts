@@ -4,10 +4,8 @@ import {
   getCharacterStatCurveAt as getStatCurveAt,
   getAscensionBonusAt,
   getTalentData,
-  getTalentStatsAt,
 } from '../Data';
 
-import { getTalentFn } from '../talent';
 import { getCharacterOptions } from '../option';
 
 import type {
@@ -16,12 +14,12 @@ import type {
   Stats,
   TalentDataSet,
 } from '../../data/types';
-import type DamageModifier from '../modifier/DamageModifer';
-import type { TalentType } from '../talent/types';
+import type { Talents } from '../talent/types';
 import { getCharacterPassiveFn } from '../passive/characterPassives/CharacterPassive';
 import { CharacterOption } from '../option/characterOptions';
 import { CharacterPassive } from '../passive/types';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
+import { getAllTalentFns } from '../talent/Talent';
 
 export default class Character {
   constructor(id: string, level: number, hasAscended: boolean) {
@@ -47,6 +45,7 @@ export default class Character {
     this.ascensionBonuses = getAscensionBonusData(value);
 
     this.talents = getTalentData(value);
+    this.talentFns = this.getTalentFns(value);
 
     this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
     this.characterOptions = this.getCharacterOptions();
@@ -60,6 +59,7 @@ export default class Character {
   statCurveMapping?: StatCurveMapping;
   ascensionBonuses?: AscensionBonus[];
   talents?: TalentDataSet;
+  talentFns?: Talents;
 
   private _level: number = 1;
   get level(): number {
@@ -164,33 +164,8 @@ export default class Character {
     return innateStats;
   }
 
-  // Return an Object with description and damage properties
-  getTalentDamageAt({
-    type,
-    talentLevel,
-    totalStats,
-    modifier,
-  }: {
-    type: TalentType;
-    talentLevel: number;
-    totalStats: Stats;
-    modifier: DamageModifier;
-  }) {
-    if (this.talents === undefined) {
-      return [];
-    }
-
-    const params = getTalentStatsAt(type, talentLevel, this.talents);
-
-    let damageFn = getTalentFn(this.id, type);
-
-    let damage = damageFn({
-      params,
-      stats: totalStats,
-      modifier,
-    });
-
-    return damage;
+  getTalentFns(characterId: string): Talents | undefined {
+    return getAllTalentFns(characterId);
   }
 
   getCharacterOptions() {

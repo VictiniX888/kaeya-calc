@@ -1,21 +1,9 @@
 import { Stats, TalentParams } from '../../data/types';
-import {
-  AttackType,
-  Element,
-  ScalingType,
-  TalentType,
-  TalentValue,
-} from './types';
+import { AttackType, Element, ScalingType, TalentValue } from './types';
 import Resistance from '../Resistance';
 import DamageModifier from '../modifier/DamageModifer';
-import { talents } from './Talent';
 import Reaction from '../modifier/Reaction';
 import CritType from '../modifier/CritType';
-
-// Function to get specified talent
-export function getTalentFn(characterId: string, type: TalentType) {
-  return talents[characterId]?.[type] ?? talents.defaultTalent[type];
-}
 
 // Functions to calculate Talent Values
 function getDamageBonus({
@@ -34,6 +22,7 @@ function getDamageBonus({
 
   return dmgBonus;
 }
+
 function calculateBaseDamage({
   stats,
   multiplier,
@@ -55,6 +44,7 @@ function calculateBaseDamage({
     return NaN;
   }
 }
+
 function calculateResMultiplier({
   element,
   res = new Resistance(),
@@ -74,6 +64,7 @@ function calculateResMultiplier({
     return 1 / (4 * totalRes + 1);
   }
 }
+
 function calculateAmplifyingStrengthMultiplier(
   reaction: Reaction,
   triggerElement: Element
@@ -92,6 +83,7 @@ function calculateAmplifyingStrengthMultiplier(
     } else return 1;
   } else return 1;
 }
+
 function calculateAmplifyingReactionMultiplier({
   reaction,
   stats,
@@ -129,6 +121,7 @@ function calculateAmplifyingReactionMultiplier({
     return 1;
   }
 }
+
 export function calculateTotalDamage({
   stats,
   multiplier,
@@ -200,6 +193,7 @@ export function calculateTotalDamage({
     reactionMultiplier
   );
 }
+
 function calculateHealing({
   stats,
   multiplier,
@@ -223,6 +217,7 @@ function calculateHealing({
   // character being healed
   return baseHealing * (1 + (stats.healingBonus ?? 0));
 }
+
 // Used for calculting hp of summons/shield
 function calculateHp({
   stats,
@@ -245,6 +240,7 @@ function calculateHp({
     return NaN;
   }
 }
+
 // Used for calculating total shield strength
 function calculateDmgAbsorption({
   stats,
@@ -281,6 +277,94 @@ function calculateDmgAbsorption({
 
   return dmgAbsorption;
 }
+
+export function normalAttackSingle({
+  element = Element.Physical,
+  multiplier,
+  stats,
+  modifier,
+}: {
+  element?: Element;
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  element = modifier.infusion ?? element;
+
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.Normal,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+export function chargedAttackMulti({
+  hits,
+  element = Element.Physical,
+  params,
+  stats,
+  modifier,
+}: {
+  hits: number;
+  element?: Element;
+  params: TalentParams;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  element = modifier.infusion ?? element;
+
+  const damages = [];
+  for (let i = 0; i < hits; i++) {
+    const damage = calculateTotalDamage({
+      stats,
+      multiplier: params[i],
+      element,
+      attackType: AttackType.Charged,
+      modifier,
+    });
+    damages.push(damage);
+  }
+
+  return {
+    damage: damages,
+    element,
+  };
+}
+
+export function plungeAttack({
+  element = Element.Physical,
+  multiplier,
+  stats,
+  modifier,
+}: {
+  element?: Element;
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  element = modifier.infusionPlunge ?? modifier.infusion ?? element;
+
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.Plunge,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
 // Used for all default normal attacks
 export function normalAttackDefault({
   hits,
@@ -306,13 +390,14 @@ export function normalAttackDefault({
     });
 
     talentValues.push({
-      description: `${i + 1}HitDmg`,
       damage: [damage],
+      element,
     });
   }
 
   return talentValues;
 }
+
 // Used for all normal attacks with multiple damage instances in 1 hit e.g. polearms
 export function normalAttackMulti({
   hits = [],
@@ -342,13 +427,14 @@ export function normalAttackMulti({
     }
 
     return {
-      description: `${i + 1}HitDmg`,
       damage: damages,
+      element,
     } as TalentValue;
   });
 
   return talentValues;
 }
+
 // Used for all 1-hit charged attacks
 export function chargedAttackDefault({
   element,
@@ -371,13 +457,14 @@ export function chargedAttackDefault({
 
   return [
     {
-      description: 'chargedDmg',
       damage: [damage],
+      element,
     },
   ] as TalentValue[];
 }
+
 // Used for multi-hit charged attacks
-export function chargedAttackMulti({
+export function _chargedAttackMulti({
   hits,
   element,
   params,
@@ -404,11 +491,12 @@ export function chargedAttackMulti({
 
   return [
     {
-      description: `chargedDmg`,
       damage: damages,
+      element,
     },
   ] as TalentValue[];
 }
+
 // Used for all default claymore charged attacks
 export function chargedAttackHeavy({
   element = Element.Physical,
@@ -432,11 +520,12 @@ export function chargedAttackHeavy({
     });
 
     return {
-      description: description,
       damage: [damage],
+      element,
     } as TalentValue;
   });
 }
+
 // Used for all default plunge attacks
 export function plungeAttackDefault({
   element,
@@ -460,11 +549,12 @@ export function plungeAttackDefault({
     });
 
     return {
-      description: description,
       damage: [damage],
+      element,
     } as TalentValue;
   });
 }
+
 // Used for all default sword/polearm/catalyst attacks
 export function attackLightDefault({
   normalHits,
@@ -511,6 +601,7 @@ export function attackLightDefault({
 
   return talentValues;
 }
+
 // Used for all default sword/polearm attacks with multi damage instances
 export function attackLightMulti({
   normalHits = [],
@@ -550,7 +641,7 @@ export function attackLightMulti({
     );
   } else {
     talentValues.push(
-      ...chargedAttackMulti({
+      ..._chargedAttackMulti({
         hits: chargedHits,
         element,
         params: params.slice(
@@ -574,6 +665,7 @@ export function attackLightMulti({
 
   return talentValues;
 }
+
 // Used for all default claymore attacks
 export function attackHeavyDefault({
   normalHits,
@@ -620,6 +712,7 @@ export function attackHeavyDefault({
 
   return talentValues;
 }
+
 // Used for all claymore attacks with multi damage instances
 export function attackHeavyMulti({
   normalHits = [],
@@ -665,6 +758,7 @@ export function attackHeavyMulti({
 
   return talentValues;
 }
+
 // Used for all debault bow aim shots (include charged shots)
 export function aimShotDefault({
   chargedElement,
@@ -687,8 +781,8 @@ export function aimShotDefault({
     modifier,
   });
   talentValues.push({
-    description: 'aimShotDmg',
     damage: [damage],
+    element: Element.Physical,
   });
 
   damage = calculateTotalDamage({
@@ -699,12 +793,13 @@ export function aimShotDefault({
     modifier,
   });
   talentValues.push({
-    description: 'chargedAimShotDmg',
     damage: [damage],
+    element: chargedElement,
   });
 
   return talentValues;
 }
+
 // Used for all default bow attacks
 export function attackBowDefault({
   normalHits,
@@ -751,6 +846,7 @@ export function attackBowDefault({
 
   return talentValues;
 }
+
 // Base function for all damage skills. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
 export function skillBase({
@@ -775,10 +871,11 @@ export function skillBase({
   });
 
   return {
-    description,
     damage: [damage],
+    element,
   } as TalentValue;
 }
+
 // Used for all default skill that only does 1-hit elemental dmg
 export function skillDefault({
   element,
@@ -801,6 +898,7 @@ export function skillDefault({
     }),
   ];
 }
+
 // Base function for damage skills with multiple damage instances
 export function skillMultiBase({
   description,
@@ -832,10 +930,11 @@ export function skillMultiBase({
   }
 
   return {
-    description,
     damage: damages,
+    element,
   } as TalentValue;
 }
+
 // Base function for all damage bursts. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
 export function burstBase({
@@ -860,10 +959,11 @@ export function burstBase({
   });
 
   return {
-    description,
     damage: [damage],
+    element,
   } as TalentValue;
 }
+
 // Used for all default burst that only does 1-hit elemental dmg
 export function burstDefault({
   element,
@@ -886,6 +986,7 @@ export function burstDefault({
     }),
   ];
 }
+
 // Base function for bursts with multiple damage instances
 export function burstMultiBase({
   description,
@@ -917,10 +1018,11 @@ export function burstMultiBase({
   }
 
   return {
-    description,
     damage: damages,
+    element,
   } as TalentValue;
 }
+
 // Base function for all healing skills. Returns an object representing a single line to be displayed.
 // The returned object should always be added into an array to construct the list of talent damage.
 export function healingSkillBase({
@@ -944,10 +1046,10 @@ export function healingSkillBase({
   });
 
   return {
-    description,
     damage: [damage],
   } as TalentValue;
 }
+
 // Base function for all shields/summon HP
 export function hpBase({
   description,
@@ -972,10 +1074,10 @@ export function hpBase({
   });
 
   return {
-    description,
     damage: [hp],
   } as TalentValue;
 }
+
 export function shieldBase({
   description,
   multiplier,
@@ -1003,7 +1105,6 @@ export function shieldBase({
   });
 
   return {
-    description,
     damage: [dmgAbsorption],
   } as TalentValue;
 }
@@ -1019,7 +1120,6 @@ export function baseAtkBuff({
 }): TalentValue {
   let atkBonus = stats.baseAtk * multiplier;
   return {
-    description: 'atkBonus',
     damage: [atkBonus],
   };
 }

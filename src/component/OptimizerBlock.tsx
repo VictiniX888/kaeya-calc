@@ -212,13 +212,13 @@ class OptimizerBlock extends React.Component<
                   >
                     <Picker.Item value='' label='' />
                     {this.state.targetTalentType
-                      ? this.props.talentValues[
-                          this.state.targetTalentType
-                        ].map(({ description }) => (
+                      ? Object.keys(
+                          this.props.talentValues[this.state.targetTalentType]
+                        ).map((id) => (
                           <Picker.Item
-                            key={description}
-                            value={description}
-                            label={talentDescMapping[description]}
+                            key={id}
+                            value={id}
+                            label={talentDescMapping[id]}
                           />
                         ))
                       : null}

@@ -4,7 +4,7 @@ import {
   calculateTotalDamage,
   skillBase,
   normalAttackMulti,
-  chargedAttackMulti,
+  _chargedAttackMulti,
   burstBase,
 } from './TalentUtil';
 import { TalentProps, AttackType, Element } from './types';
@@ -77,7 +77,7 @@ function tartagliaSkill({ params, stats, modifier }: TalentProps) {
   );
 
   talentDamage.push(
-    ...chargedAttackMulti({
+    ..._chargedAttackMulti({
       hits: 2,
       element: Element.Hydro,
       params: params.slice(8, 10),

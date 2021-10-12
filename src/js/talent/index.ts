@@ -1,1 +1,1 @@
-export { getTalentFn } from './TalentUtil';
+export { getTalentFn } from './Talent';

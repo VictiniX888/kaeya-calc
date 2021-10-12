@@ -1,19 +1,18 @@
-import { Stats, TalentParams } from '../../data/types';
+import { Stats } from '../../data/types';
 import DamageModifier from '../modifier/DamageModifer';
 
-export interface TalentValue {
-  description: string;
-  damage: number[];
-}
+export type TalentFn = (props: TalentProps) => TalentValue;
 
-export interface TalentValueSet {
-  attack: TalentValue[];
-  skill: TalentValue[];
-  burst: TalentValue[];
+export type Talents = Record<string, Record<string, TalentFn>>;
+
+export type TalentValueSet = Record<string, Record<string, TalentValue>>;
+
+export interface TalentValue {
+  damage: number[];
+  element?: Element;
 }
 
 export interface TalentProps {
-  params: TalentParams;
   stats: Stats;
   modifier: DamageModifier;
 }

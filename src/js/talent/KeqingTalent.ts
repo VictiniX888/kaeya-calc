@@ -1,7 +1,7 @@
 import Talent from './Talent';
 import {
   calculateTotalDamage,
-  chargedAttackMulti,
+  _chargedAttackMulti,
   plungeAttackDefault,
   skillBase,
   skillMultiBase,
@@ -68,7 +68,7 @@ function keqingAttack({ params, stats, modifier }: TalentProps) {
 
   // Charged attack
   talentDamage.push(
-    ...chargedAttackMulti({
+    ..._chargedAttackMulti({
       hits: 2,
       element: Element.Physical,
       params: params.slice(6, 8),

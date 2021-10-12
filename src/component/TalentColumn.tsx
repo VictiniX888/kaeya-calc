@@ -1,5 +1,5 @@
 import React from 'react';
-import { TalentType, TalentValueSet } from '../js/talent/types';
+import { TalentValueSet } from '../js/talent/types';
 import TalentBlock from './TalentBlock';
 import Col from 'react-bootstrap/esm/Col';
 
@@ -9,7 +9,7 @@ type TalentColumnProps = {
 
 class TalentColumn extends React.Component<TalentColumnProps> {
   render() {
-    const { attack, skill, burst } = this.props.talentValues;
+    const talentValues = this.props.talentValues;
 
     return (
       <Col
@@ -20,9 +20,9 @@ class TalentColumn extends React.Component<TalentColumnProps> {
       >
         <div className='result-block'>
           <h2>Talents</h2>
-          <TalentBlock type={TalentType.Attack} talentValues={attack} />
-          <TalentBlock type={TalentType.Skill} talentValues={skill} />
-          <TalentBlock type={TalentType.Burst} talentValues={burst} />
+          {Object.entries(talentValues).map(([type, values]) => (
+            <TalentBlock type={type} talentValues={values} />
+          ))}
         </div>
       </Col>
     );

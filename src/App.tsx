@@ -24,7 +24,7 @@ import { IModifierApplicable, IStatsApplicable } from './js/option/Option';
 import WeaponOption from './js/option/weaponOptions/WeaponOption';
 import Resistance from './js/Resistance';
 import { getTotalStatsAt } from './js/Stat';
-import { TalentType, TalentValueSet } from './js/talent/types';
+import { TalentValue, TalentValueSet } from './js/talent/types';
 import Weapon from './js/weapon/Weapon';
 
 export type AppState = {
@@ -80,7 +80,7 @@ class App extends React.Component<{}, AppState> {
 
   artifactSetBonuses: Stats = {};
   totalStats: Stats = {};
-  talentValues: TalentValueSet = { attack: [], skill: [], burst: [] };
+  talentValues: TalentValueSet = {};
 
   modifierMixins: ModifierMixin[] = [];
   statMixins: StatMixin[] = [];
@@ -424,7 +424,7 @@ class App extends React.Component<{}, AppState> {
       artifactSetOptions,
     });
 
-    const damageModifer = this.getDamageModifier({
+    const damageModifier = this.getDamageModifier({
       characterLevel: newChar?.level,
       enemyLevel,
       enemyRes,
@@ -436,24 +436,18 @@ class App extends React.Component<{}, AppState> {
       modifierMixins,
     });
 
-    this.talentValues.attack = character.getTalentDamageAt({
-      type: TalentType.Attack,
-      talentLevel: talentAttackLevel ?? this.state.talentAttackLevel,
-      totalStats: this.totalStats,
-      modifier: damageModifer,
-    });
-    this.talentValues.skill = character.getTalentDamageAt({
-      type: TalentType.Skill,
-      talentLevel: talentSkillLevel ?? this.state.talentSkillLevel,
-      totalStats: this.totalStats,
-      modifier: damageModifer,
-    });
-    this.talentValues.burst = character.getTalentDamageAt({
-      type: TalentType.Burst,
-      talentLevel: talentBurstLevel ?? this.state.talentBurstLevel,
-      totalStats: this.totalStats,
-      modifier: damageModifer,
-    });
+    this.talentValues = {};
+    if (character.talentFns !== undefined) {
+      Object.entries(character.talentFns).forEach(([type, fns]) => {
+        this.talentValues[type] = Object.entries(fns).reduce(
+          (acc, [id, fn]) => {
+            acc[id] = fn({ stats: this.totalStats, modifier: damageModifier });
+            return acc;
+          },
+          {} as Record<string, TalentValue>
+        );
+      });
+    }
   };
 
   refreshApp = () => {

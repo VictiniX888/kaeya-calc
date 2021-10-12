@@ -112,17 +112,11 @@ export function optimizeSubstats(
     );
 
     // Calculate talent damage
-    const talentValues = appState.character.getTalentDamageAt({
-      type: optimizeTalentType,
-      talentLevel: appState.talentAttackLevel,
-      totalStats: totalStats,
-      modifier: damageModifier,
-    });
-
     const talentDmg =
-      talentValues.find(
-        (talentValue) => talentValue.description === optimizeTalentId
-      )?.damage?.[0] ?? 0;
+      appState.character.talentFns?.[optimizeTalentType]?.[optimizeTalentId]?.({
+        stats: totalStats,
+        modifier: damageModifier,
+      })?.damage?.[0] ?? 0;
 
     // Update optimal rolls
     if (talentDmg > maxDmg) {

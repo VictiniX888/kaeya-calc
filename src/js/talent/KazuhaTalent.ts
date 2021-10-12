@@ -2,7 +2,7 @@ import Talent from './Talent';
 import {
   burstBase,
   calculateTotalDamage,
-  chargedAttackMulti,
+  _chargedAttackMulti,
   plungeAttackDefault,
   skillBase,
 } from './TalentUtil';
@@ -83,7 +83,7 @@ function kazuhaAttack({ params, stats, modifier }: TalentProps) {
 
   // Charged attack
   talentValues.push(
-    ...chargedAttackMulti({
+    ..._chargedAttackMulti({
       hits: 2,
       element: Element.Physical,
       params: params.slice(6, 8),
