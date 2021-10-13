@@ -1,26 +1,20 @@
 import { getTalentData } from '../../Data';
 import {
   normalAttackSingle,
-  chargedAttackMulti,
+  chargedAttackSingle,
   plungeAttack,
   skillSingle,
   burstSingle,
 } from '../../talent/TalentUtil';
-import {
-  TalentProps,
-  TalentFn,
-  Talents,
-  Element,
-  ScalingType,
-} from '../../talent/types';
+import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
 
 const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('albedo');
+} = getTalentData('chongyun');
 
-const albedoAttack: Record<string, TalentFn> = {
+const chongyunAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][0],
@@ -49,17 +43,16 @@ const albedoAttack: Record<string, TalentFn> = {
       modifier,
     }),
 
-  '5HitDmg': ({ stats, modifier }: TalentProps) =>
-    normalAttackSingle({
+  chargedSpinDmg: ({ stats, modifier }: TalentProps) =>
+    chargedAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][4],
       stats,
       modifier,
     }),
 
-  chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackMulti({
-      hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(5, 7),
+  chargedFinalDmg: ({ stats, modifier }: TalentProps) =>
+    chargedAttackSingle({
+      multiplier: attackParams[modifier.talentAttackLevel][5],
       stats,
       modifier,
     }),
@@ -86,47 +79,30 @@ const albedoAttack: Record<string, TalentFn> = {
     }),
 };
 
-const albedoSkill: Record<string, TalentFn> = {
+const chongyunSkill: Record<string, TalentFn> = {
   skillDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: skillParams[modifier.talentSkillLevel][0],
       stats,
       modifier,
     }),
-
-  transientBlossomDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Geo,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
-      scalingType: ScalingType.Defense,
-      stats,
-      modifier,
-    }),
 };
 
-const albedoBurst: Record<string, TalentFn> = {
+const chongyunBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
-
-  fatalBlossomDmg: ({ stats, modifier }: TalentProps) =>
-    burstSingle({
-      element: Element.Geo,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
-      stats,
-      modifier,
-    }),
 };
 
-const albedoTalents: Talents = {
-  attack: albedoAttack,
-  skill: albedoSkill,
-  burst: albedoBurst,
+const chongyunTalents: Talents = {
+  attack: chongyunAttack,
+  skill: chongyunSkill,
+  burst: chongyunBurst,
 };
 
-export default albedoTalents;
+export default chongyunTalents;

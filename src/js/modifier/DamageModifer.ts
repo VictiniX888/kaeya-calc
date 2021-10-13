@@ -27,11 +27,12 @@ interface DamageModiferOptional {
   skillFlatDmg?: number;
 
   infusion?: Element;
+  infusionNormal?: Element;
+  infusionPlunge?: Element;
+
   elementalAbsorption?: Element;
 
   dionaHoldSkill?: boolean;
-
-  infusionPlunge?: Element;
 
   yoimiyaSkill?: boolean;
 

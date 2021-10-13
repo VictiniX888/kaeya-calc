@@ -3,24 +3,19 @@ import {
   normalAttackSingle,
   chargedAttackMulti,
   plungeAttack,
+  normalAttackMulti,
   skillSingle,
   burstSingle,
 } from '../../talent/TalentUtil';
-import {
-  TalentProps,
-  TalentFn,
-  Talents,
-  Element,
-  ScalingType,
-} from '../../talent/types';
+import { Element, TalentFn, TalentProps, Talents } from '../../talent/types';
 
 const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('albedo');
+} = getTalentData('ayaka');
 
-const albedoAttack: Record<string, TalentFn> = {
+const ayakaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][0],
@@ -43,90 +38,82 @@ const albedoAttack: Record<string, TalentFn> = {
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
-    normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+    normalAttackMulti({
+      hits: 3,
+      params: Array(3).fill(attackParams[modifier.talentAttackLevel][3]),
       stats,
       modifier,
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
       modifier,
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackMulti({
-      hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(5, 7),
+      hits: 3,
+      params: Array(3).fill(attackParams[modifier.talentAttackLevel][7]),
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: attackParams[modifier.talentAttackLevel][9],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: attackParams[modifier.talentAttackLevel][10],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: attackParams[modifier.talentAttackLevel][11],
       stats,
       modifier,
     }),
 };
 
-const albedoSkill: Record<string, TalentFn> = {
+const ayakaSkill: Record<string, TalentFn> = {
   skillDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: skillParams[modifier.talentSkillLevel][0],
       stats,
       modifier,
     }),
-
-  transientBlossomDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Geo,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
-      scalingType: ScalingType.Defense,
-      stats,
-      modifier,
-    }),
 };
 
-const albedoBurst: Record<string, TalentFn> = {
-  burstDmg: ({ stats, modifier }: TalentProps) =>
+const ayakaBurst: Record<string, TalentFn> = {
+  cuttingDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
 
-  fatalBlossomDmg: ({ stats, modifier }: TalentProps) =>
+  bloomDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: burstParams[modifier.talentBurstLevel][1],
       stats,
       modifier,
     }),
 };
 
-const albedoTalents: Talents = {
-  attack: albedoAttack,
-  skill: albedoSkill,
-  burst: albedoBurst,
+const ayakaTalents: Talents = {
+  attack: ayakaAttack,
+  skill: ayakaSkill,
+  burst: ayakaBurst,
 };
 
-export default albedoTalents;
+export default ayakaTalents;

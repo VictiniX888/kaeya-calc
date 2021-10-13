@@ -1,26 +1,22 @@
 import { getTalentData } from '../../Data';
 import {
+  burstSingle,
+  chargedAttackSingle,
+  healingValue,
+  normalAttackMulti,
   normalAttackSingle,
-  chargedAttackMulti,
   plungeAttack,
   skillSingle,
-  burstSingle,
 } from '../../talent/TalentUtil';
-import {
-  TalentProps,
-  TalentFn,
-  Talents,
-  Element,
-  ScalingType,
-} from '../../talent/types';
+import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
 
 const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('albedo');
+} = getTalentData('hutao');
 
-const albedoAttack: Record<string, TalentFn> = {
+const hutaoAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][0],
@@ -50,83 +46,97 @@ const albedoAttack: Record<string, TalentFn> = {
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
+    normalAttackMulti({
+      hits: 2,
+      params: attackParams[modifier.talentAttackLevel].slice(4, 6),
+      stats,
+      modifier,
+    }),
+
+  '6HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
       modifier,
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackMulti({
-      hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(5, 7),
+    chargedAttackSingle({
+      multiplier: attackParams[modifier.talentAttackLevel][7],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: attackParams[modifier.talentAttackLevel][9],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: attackParams[modifier.talentAttackLevel][10],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: attackParams[modifier.talentAttackLevel][11],
       stats,
       modifier,
     }),
 };
 
-const albedoSkill: Record<string, TalentFn> = {
-  skillDmg: ({ stats, modifier }: TalentProps) =>
+const hutaoSkill: Record<string, TalentFn> = {
+  bloodBlossomDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Geo,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
-      stats,
-      modifier,
-    }),
-
-  transientBlossomDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Geo,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
-      scalingType: ScalingType.Defense,
+      element: Element.Pyro,
+      multiplier: skillParams[modifier.talentSkillLevel][2],
       stats,
       modifier,
     }),
 };
 
-const albedoBurst: Record<string, TalentFn> = {
+const hutaoBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Pyro,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
 
-  fatalBlossomDmg: ({ stats, modifier }: TalentProps) =>
+  burstDmgLowHp: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Pyro,
       multiplier: burstParams[modifier.talentBurstLevel][1],
+      stats,
+      modifier,
+    }),
+
+  hpRegen: ({ stats, modifier }: TalentProps) =>
+    healingValue({
+      multiplier: burstParams[modifier.talentBurstLevel][2],
+      flatHealing: 0,
+      stats,
+      modifier,
+    }),
+
+  hpRegenLowHp: ({ stats, modifier }: TalentProps) =>
+    healingValue({
+      multiplier: burstParams[modifier.talentBurstLevel][3],
+      flatHealing: 0,
       stats,
       modifier,
     }),
 };
 
-const albedoTalents: Talents = {
-  attack: albedoAttack,
-  skill: albedoSkill,
-  burst: albedoBurst,
+const hutaoTalents: Talents = {
+  attack: hutaoAttack,
+  skill: hutaoSkill,
+  burst: hutaoBurst,
 };
 
-export default albedoTalents;
+export default hutaoTalents;

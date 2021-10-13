@@ -1,1 +1,0 @@
-export { getTalentFn } from './Talent';

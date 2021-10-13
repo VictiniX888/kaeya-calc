@@ -1,26 +1,23 @@
 import { getTalentData } from '../../Data';
 import {
-  normalAttackSingle,
-  chargedAttackMulti,
-  plungeAttack,
-  skillSingle,
+  aimShot,
+  aimShotCharged,
   burstSingle,
+  healingValue,
+  normalAttackSingle,
+  plungeAttack,
+  shieldHpValue,
+  skillSingle,
 } from '../../talent/TalentUtil';
-import {
-  TalentProps,
-  TalentFn,
-  Talents,
-  Element,
-  ScalingType,
-} from '../../talent/types';
+import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
 
 const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('albedo');
+} = getTalentData('diona');
 
-const albedoAttack: Record<string, TalentFn> = {
+const dionaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][0],
@@ -56,10 +53,17 @@ const albedoAttack: Record<string, TalentFn> = {
       modifier,
     }),
 
-  chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackMulti({
-      hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(5, 7),
+  aimShotDmg: ({ stats, modifier }: TalentProps) =>
+    aimShot({
+      multiplier: attackParams[modifier.talentAttackLevel][6],
+      stats,
+      modifier,
+    }),
+
+  chargedAimShotDmg: ({ stats, modifier }: TalentProps) =>
+    aimShotCharged({
+      element: Element.Cryo,
+      multiplier: attackParams[modifier.talentAttackLevel][7],
       stats,
       modifier,
     }),
@@ -86,47 +90,64 @@ const albedoAttack: Record<string, TalentFn> = {
     }),
 };
 
-const albedoSkill: Record<string, TalentFn> = {
-  skillDmg: ({ stats, modifier }: TalentProps) =>
+const dionaSkill: Record<string, TalentFn> = {
+  icyPawDmgPerPaw: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: skillParams[modifier.talentSkillLevel][0],
       stats,
       modifier,
     }),
 
-  transientBlossomDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Geo,
+  shieldHpPress: ({ stats, modifier }: TalentProps) =>
+    shieldHpValue({
       multiplier: skillParams[modifier.talentSkillLevel][1],
-      scalingType: ScalingType.Defense,
+      flatBonus: skillParams[modifier.talentSkillLevel][2],
+      element: Element.Cryo,
       stats,
       modifier,
     }),
+
+  shieldHpHold: ({ stats, modifier }: TalentProps) =>
+    shieldHpValue({
+      multiplier: skillParams[modifier.talentSkillLevel][1],
+      flatBonus: skillParams[modifier.talentSkillLevel][2],
+      element: Element.Cryo,
+      stats,
+      modifier: { ...modifier, dionaHoldSkill: true },
+    }),
 };
 
-const albedoBurst: Record<string, TalentFn> = {
+const dionaBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
 
-  fatalBlossomDmg: ({ stats, modifier }: TalentProps) =>
+  continuousFieldDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Cryo,
       multiplier: burstParams[modifier.talentBurstLevel][1],
+      stats,
+      modifier,
+    }),
+
+  hpRegenContinuousTime: ({ stats, modifier }: TalentProps) =>
+    healingValue({
+      multiplier: burstParams[modifier.talentBurstLevel][2],
+      flatHealing: burstParams[modifier.talentBurstLevel][3],
       stats,
       modifier,
     }),
 };
 
-const albedoTalents: Talents = {
-  attack: albedoAttack,
-  skill: albedoSkill,
-  burst: albedoBurst,
+const dionaTalents: Talents = {
+  attack: dionaAttack,
+  skill: dionaSkill,
+  burst: dionaBurst,
 };
 
-export default albedoTalents;
+export default dionaTalents;

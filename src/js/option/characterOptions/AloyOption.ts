@@ -47,7 +47,7 @@ class AloyOptionCoil
   modifierMixin = {
     apply: (modifier: DamageModifier) => {
       if (this.value >= 4) {
-        modifier.infusion = Element.Cryo;
+        modifier.infusionNormal = Element.Cryo;
       }
     },
   };

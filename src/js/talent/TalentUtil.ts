@@ -5,7 +5,8 @@ import DamageModifier from '../modifier/DamageModifer';
 import Reaction from '../modifier/Reaction';
 import CritType from '../modifier/CritType';
 
-// Functions to calculate Talent Values
+// Helper functions
+
 function getDamageBonus({
   stats,
   element,
@@ -278,18 +279,20 @@ function calculateDmgAbsorption({
   return dmgAbsorption;
 }
 
+// Functions to calculate Talent Values
+
+// Used for all single-hit normal attacks
 export function normalAttackSingle({
-  element = Element.Physical,
   multiplier,
   stats,
   modifier,
 }: {
-  element?: Element;
   multiplier: number;
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
-  element = modifier.infusion ?? element;
+  const element =
+    modifier.infusionNormal ?? modifier.infusion ?? Element.Physical;
 
   const damage = calculateTotalDamage({
     stats,
@@ -305,20 +308,104 @@ export function normalAttackSingle({
   };
 }
 
-export function chargedAttackMulti({
+// Used for all multi-hit normal attacks
+export function normalAttackMulti({
   hits,
-  element = Element.Physical,
   params,
   stats,
   modifier,
 }: {
   hits: number;
-  element?: Element;
+  params: number[];
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const element =
+    modifier.infusionNormal ?? modifier.infusion ?? Element.Physical;
+
+  const damages = [];
+  for (let i = 0; i < hits; i++) {
+    const damage = calculateTotalDamage({
+      stats,
+      multiplier: params[i],
+      element,
+      attackType: AttackType.Normal,
+      modifier,
+    });
+    damages.push(damage);
+  }
+
+  return {
+    damage: damages,
+    element,
+  };
+}
+
+// Used for all catalyst normal attacks (element cannot be overriden)
+export function normalAttackCatalyst({
+  element,
+  multiplier,
+  stats,
+  modifier,
+}: {
+  element: Element;
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.Normal,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+// Used for single-hit charged attacks
+export function chargedAttackSingle({
+  multiplier,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const element = modifier.infusion ?? Element.Physical;
+
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.Charged,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+// Used for all multi-hit charged attacks
+export function chargedAttackMulti({
+  hits,
+  params,
+  stats,
+  modifier,
+}: {
+  hits: number;
   params: TalentParams;
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
-  element = modifier.infusion ?? element;
+  const element = modifier.infusion ?? Element.Physical;
 
   const damages = [];
   for (let i = 0; i < hits; i++) {
@@ -338,18 +425,96 @@ export function chargedAttackMulti({
   };
 }
 
-export function plungeAttack({
-  element = Element.Physical,
+// Used for catalyst charged attacks (element cannot be overriden)
+export function chargedAttackCatalyst({
+  element,
   multiplier,
   stats,
   modifier,
 }: {
-  element?: Element;
+  element: Element;
   multiplier: number;
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
-  element = modifier.infusionPlunge ?? modifier.infusion ?? element;
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.Charged,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+// Used for uncharged aim shots
+export function aimShot({
+  multiplier,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const element = modifier.infusion ?? Element.Physical;
+
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.Normal,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+// Used for charged aim shots
+export function aimShotCharged({
+  element,
+  multiplier,
+  stats,
+  modifier,
+}: {
+  element: Element;
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier: multiplier,
+    element,
+    attackType: AttackType.Charged,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+// Used for all plunge attacks
+export function plungeAttack({
+  multiplier,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const element =
+    modifier.infusionPlunge ?? modifier.infusion ?? Element.Physical;
 
   const damage = calculateTotalDamage({
     stats,
@@ -365,6 +530,197 @@ export function plungeAttack({
   };
 }
 
+// Used for all single-hit skill dmg
+export function skillSingle({
+  element,
+  multiplier,
+  scalingType,
+  stats,
+  modifier,
+}: {
+  element: Element;
+  multiplier: number;
+  scalingType?: ScalingType;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    scalingType,
+    attackType: AttackType.Skill,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+// Used for all multi-hit skills
+export function skillMulti({
+  hits,
+  element,
+  params,
+  stats,
+  modifier,
+}: {
+  hits: number;
+  element: Element;
+  params: TalentParams;
+  stats: Stats;
+  modifier: DamageModifier;
+}) {
+  const damages = [];
+
+  for (let i = 0; i < hits; i++) {
+    damages.push(
+      calculateTotalDamage({
+        element,
+        multiplier: params[i],
+        attackType: AttackType.Skill,
+        stats,
+        modifier,
+      })
+    );
+  }
+
+  return {
+    damage: damages,
+    element,
+  };
+}
+
+// Used for all single-hit burst dmg
+export function burstSingle({
+  element,
+  multiplier,
+  scalingType,
+  stats,
+  modifier,
+}: {
+  element: Element;
+  multiplier: number;
+  scalingType?: ScalingType;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const damage = calculateTotalDamage({
+    element,
+    multiplier,
+    scalingType,
+    attackType: AttackType.Burst,
+    stats,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+// Used for healing skills/bursts
+export function healingValue({
+  multiplier,
+  flatHealing,
+  scalingType = ScalingType.Hp,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  flatHealing: number;
+  scalingType?: ScalingType;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const healing = calculateHealing({
+    stats,
+    multiplier,
+    flatHealing,
+    scalingType,
+  });
+
+  return {
+    damage: [healing],
+  };
+}
+
+// Used for all summons HP
+export function hpValue({
+  multiplier,
+  flatBonus,
+  scalingType = ScalingType.Hp,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  flatBonus: number;
+  scalingType?: ScalingType;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const hp = calculateHp({
+    stats,
+    multiplier,
+    flatBonus,
+    scalingType,
+  });
+
+  return {
+    damage: [hp],
+  };
+}
+
+// Used for all shields
+export function shieldHpValue({
+  multiplier,
+  flatBonus,
+  element,
+  scalingType = ScalingType.Hp,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  flatBonus: number;
+  element: Element;
+  scalingType?: ScalingType;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const dmgAbsorption = calculateDmgAbsorption({
+    stats,
+    multiplier,
+    flatBonus,
+    element,
+    scalingType,
+    modifier,
+  });
+
+  return {
+    damage: [dmgAbsorption],
+  };
+}
+
+// Used for Bennett and Sara's ATK buffs
+export function atkBuffValue({
+  multiplier,
+  stats,
+  modifier,
+}: {
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const atkBonus = stats.baseAtk * multiplier;
+  return {
+    damage: [atkBonus],
+  };
+}
+
+/* Deprecated
 // Used for all default normal attacks
 export function normalAttackDefault({
   hits,
@@ -1123,3 +1479,4 @@ export function baseAtkBuff({
     damage: [atkBonus],
   };
 }
+*/

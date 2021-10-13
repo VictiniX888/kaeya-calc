@@ -1,26 +1,22 @@
 import { getTalentData } from '../../Data';
 import {
+  aimShot,
+  aimShotCharged,
+  burstSingle,
+  hpValue,
   normalAttackSingle,
-  chargedAttackMulti,
   plungeAttack,
   skillSingle,
-  burstSingle,
 } from '../../talent/TalentUtil';
-import {
-  TalentProps,
-  TalentFn,
-  Talents,
-  Element,
-  ScalingType,
-} from '../../talent/types';
+import { TalentProps, Element, TalentFn, Talents } from '../../talent/types';
 
 const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('albedo');
+} = getTalentData('amber');
 
-const albedoAttack: Record<string, TalentFn> = {
+const amberAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][0],
@@ -56,77 +52,86 @@ const albedoAttack: Record<string, TalentFn> = {
       modifier,
     }),
 
-  chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackMulti({
-      hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(5, 7),
+  aimShotDmg: ({ stats, modifier }: TalentProps) =>
+    aimShot({
+      multiplier: attackParams[modifier.talentAttackLevel][5],
+      stats,
+      modifier,
+    }),
+
+  chargedAimShotDmg: ({ stats, modifier }: TalentProps) =>
+    aimShotCharged({
+      element: Element.Pyro,
+      multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: attackParams[modifier.talentAttackLevel][7],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: attackParams[modifier.talentAttackLevel][8],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: attackParams[modifier.talentAttackLevel][9],
       stats,
       modifier,
     }),
 };
 
-const albedoSkill: Record<string, TalentFn> = {
-  skillDmg: ({ stats, modifier }: TalentProps) =>
+const amberSkill: Record<string, TalentFn> = {
+  explosionDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Geo,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
-      stats,
-      modifier,
-    }),
-
-  transientBlossomDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Geo,
+      element: Element.Pyro,
       multiplier: skillParams[modifier.talentSkillLevel][1],
-      scalingType: ScalingType.Defense,
+      stats,
+      modifier,
+    }),
+
+  baronBunnyHp: ({ stats, modifier }: TalentProps) =>
+    hpValue({
+      multiplier: skillParams[modifier.talentSkillLevel][0],
+      flatBonus: 0,
       stats,
       modifier,
     }),
 };
 
-const albedoBurst: Record<string, TalentFn> = {
-  burstDmg: ({ stats, modifier }: TalentProps) =>
+const amberBurst: Record<string, TalentFn> = {
+  dmgPerWave: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Pyro,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
 
-  fatalBlossomDmg: ({ stats, modifier }: TalentProps) =>
-    burstSingle({
-      element: Element.Geo,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+  totalDmg: ({ stats, modifier }: TalentProps) => {
+    const talentValue = burstSingle({
+      element: Element.Pyro,
+      multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
-    }),
+    });
+    talentValue.damage[0] *= 18;
+    return talentValue;
+  },
 };
 
-const albedoTalents: Talents = {
-  attack: albedoAttack,
-  skill: albedoSkill,
-  burst: albedoBurst,
+const amberTalents: Talents = {
+  attack: amberAttack,
+  skill: amberSkill,
+  burst: amberBurst,
 };
 
-export default albedoTalents;
+export default amberTalents;

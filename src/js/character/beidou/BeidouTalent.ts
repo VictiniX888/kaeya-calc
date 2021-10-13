@@ -1,26 +1,21 @@
 import { getTalentData } from '../../Data';
 import {
   normalAttackSingle,
-  chargedAttackMulti,
   plungeAttack,
+  chargedAttackSingle,
+  shieldHpValue,
   skillSingle,
   burstSingle,
 } from '../../talent/TalentUtil';
-import {
-  TalentProps,
-  TalentFn,
-  Talents,
-  Element,
-  ScalingType,
-} from '../../talent/types';
+import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
 
 const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('albedo');
+} = getTalentData('beidou');
 
-const albedoAttack: Record<string, TalentFn> = {
+const beidouAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][0],
@@ -56,77 +51,91 @@ const albedoAttack: Record<string, TalentFn> = {
       modifier,
     }),
 
-  chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackMulti({
-      hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(5, 7),
+  chargedSpinDmg: ({ stats, modifier }: TalentProps) =>
+    chargedAttackSingle({
+      multiplier: attackParams[modifier.talentAttackLevel][5],
+      stats,
+      modifier,
+    }),
+
+  chargedFinalDmg: ({ stats, modifier }: TalentProps) =>
+    chargedAttackSingle({
+      multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: attackParams[modifier.talentAttackLevel][9],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: attackParams[modifier.talentAttackLevel][10],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: attackParams[modifier.talentAttackLevel][11],
       stats,
       modifier,
     }),
 };
 
-const albedoSkill: Record<string, TalentFn> = {
-  skillDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Geo,
+const beidouSkill: Record<string, TalentFn> = {
+  shieldHp: ({ stats, modifier }: TalentProps) =>
+    shieldHpValue({
       multiplier: skillParams[modifier.talentSkillLevel][0],
+      flatBonus: skillParams[modifier.talentSkillLevel][1],
+      element: Element.Electro,
       stats,
       modifier,
     }),
 
-  transientBlossomDmg: ({ stats, modifier }: TalentProps) =>
+  baseDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Geo,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
-      scalingType: ScalingType.Defense,
+      element: Element.Electro,
+      multiplier: skillParams[modifier.talentSkillLevel][2],
+      stats,
+      modifier,
+    }),
+
+  dmgBonusOnHitTaken: ({ stats, modifier }: TalentProps) =>
+    skillSingle({
+      element: Element.Electro,
+      multiplier: skillParams[modifier.talentSkillLevel][3],
       stats,
       modifier,
     }),
 };
 
-const albedoBurst: Record<string, TalentFn> = {
-  burstDmg: ({ stats, modifier }: TalentProps) =>
+const beidouBurst: Record<string, TalentFn> = {
+  skillDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Electro,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
 
-  fatalBlossomDmg: ({ stats, modifier }: TalentProps) =>
+  lightningDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Geo,
+      element: Element.Electro,
       multiplier: burstParams[modifier.talentBurstLevel][1],
       stats,
       modifier,
     }),
 };
 
-const albedoTalents: Talents = {
-  attack: albedoAttack,
-  skill: albedoSkill,
-  burst: albedoBurst,
+const beidouTalents: Talents = {
+  attack: beidouAttack,
+  skill: beidouSkill,
+  burst: beidouBurst,
 };
 
-export default albedoTalents;
+export default beidouTalents;
