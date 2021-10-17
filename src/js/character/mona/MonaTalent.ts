@@ -1,5 +1,6 @@
 import { getTalentData } from '../../Data';
 import {
+  burstSingle,
   chargedAttackCatalyst,
   healingValue,
   normalAttackCatalyst,
@@ -12,9 +13,9 @@ const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('barbara');
+} = getTalentData('mona');
 
-const barbaraAttack: Record<string, TalentFn> = {
+const monaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackCatalyst({
       element: Element.Hydro,
@@ -80,46 +81,38 @@ const barbaraAttack: Record<string, TalentFn> = {
     }),
 };
 
-const barbaraSkill: Record<string, TalentFn> = {
-  hpRegenContinuous: ({ stats, modifier }: TalentProps) =>
-    healingValue({
-      multiplier: skillParams[modifier.talentSkillLevel][0],
-      flatHealing: skillParams[modifier.talentSkillLevel][1],
-      stats,
-      modifier,
-    }),
-
-  hpRegenOnHit: ({ stats, modifier }: TalentProps) =>
-    healingValue({
-      multiplier: skillParams[modifier.talentSkillLevel][2],
-      flatHealing: skillParams[modifier.talentSkillLevel][3],
-      stats,
-      modifier,
-    }),
-
-  dropletDmg: ({ stats, modifier }: TalentProps) =>
+const monaSkill: Record<string, TalentFn> = {
+  dot: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][4],
+      multiplier: skillParams[modifier.talentSkillLevel][0],
+      stats,
+      modifier,
+    }),
+
+  explosionDmg: ({ stats, modifier }: TalentProps) =>
+    skillSingle({
+      element: Element.Hydro,
+      multiplier: skillParams[modifier.talentSkillLevel][1],
       stats,
       modifier,
     }),
 };
 
-const barbaraBurst: Record<string, TalentFn> = {
-  hpRegen: ({ stats, modifier }: TalentProps) =>
-    healingValue({
-      multiplier: burstParams[modifier.talentBurstLevel][0],
-      flatHealing: burstParams[modifier.talentBurstLevel][1],
+const monaBurst: Record<string, TalentFn> = {
+  explosionDmg: ({ stats, modifier }: TalentProps) =>
+    burstSingle({
+      element: Element.Hydro,
+      multiplier: burstParams[modifier.talentBurstLevel][1],
       stats,
       modifier,
     }),
 };
 
-const barbaraTalents: Talents = {
-  attack: barbaraAttack,
-  skill: barbaraSkill,
-  burst: barbaraBurst,
+const monaTalents: Talents = {
+  attack: monaAttack,
+  skill: monaSkill,
+  burst: monaBurst,
 };
 
-export default barbaraTalents;
+export default monaTalents;

@@ -16,6 +16,12 @@ import ganyuTalents from '../character/ganyu/GanyuTalent';
 import hutaoTalents from '../character/hutao/HutaoTalent';
 import jeanTalents from '../character/jean/JeanTalent';
 import kaeyaTalents from '../character/kaeya/KaeyaTalent';
+import kazuhaTalents from '../character/kazuha/KazuhaTalent';
+import keqingTalents from '../character/keqing/KeqingTalent';
+import kleeTalents from '../character/klee/KleeTalent';
+import kokomiTalents from '../character/kokomi/KokomiTalent';
+import lisaTalents from '../character/lisa/LisaTalent';
+import monaTalents from '../character/mona/MonaTalent';
 
 const talents: Record<string, Talents> = {
   albedo: albedoTalents,
@@ -34,6 +40,12 @@ const talents: Record<string, Talents> = {
   hutao: hutaoTalents,
   jean: jeanTalents,
   kaeya: kaeyaTalents,
+  kazuha: kazuhaTalents,
+  keqing: keqingTalents,
+  klee: kleeTalents,
+  kokomi: kokomiTalents,
+  lisa: lisaTalents,
+  mona: monaTalents,
 };
 
 export function getAllTalentFns(characterId: string): Talents | undefined {

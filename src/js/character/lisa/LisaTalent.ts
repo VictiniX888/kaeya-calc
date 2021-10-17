@@ -1,7 +1,7 @@
 import { getTalentData } from '../../Data';
 import {
+  burstSingle,
   chargedAttackCatalyst,
-  healingValue,
   normalAttackCatalyst,
   plungeAttackCatalyst,
   skillSingle,
@@ -12,12 +12,12 @@ const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('barbara');
+} = getTalentData('lisa');
 
-const barbaraAttack: Record<string, TalentFn> = {
+const lisaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][0],
       stats,
       modifier,
@@ -25,7 +25,7 @@ const barbaraAttack: Record<string, TalentFn> = {
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][1],
       stats,
       modifier,
@@ -33,7 +33,7 @@ const barbaraAttack: Record<string, TalentFn> = {
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][2],
       stats,
       modifier,
@@ -41,7 +41,7 @@ const barbaraAttack: Record<string, TalentFn> = {
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][3],
       stats,
       modifier,
@@ -49,7 +49,7 @@ const barbaraAttack: Record<string, TalentFn> = {
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][4],
       stats,
       modifier,
@@ -57,7 +57,7 @@ const barbaraAttack: Record<string, TalentFn> = {
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
       modifier,
@@ -65,7 +65,7 @@ const barbaraAttack: Record<string, TalentFn> = {
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][7],
       stats,
       modifier,
@@ -73,53 +73,69 @@ const barbaraAttack: Record<string, TalentFn> = {
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttackCatalyst({
-      element: Element.Hydro,
+      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][8],
       stats,
       modifier,
     }),
 };
 
-const barbaraSkill: Record<string, TalentFn> = {
-  hpRegenContinuous: ({ stats, modifier }: TalentProps) =>
-    healingValue({
-      multiplier: skillParams[modifier.talentSkillLevel][0],
-      flatHealing: skillParams[modifier.talentSkillLevel][1],
-      stats,
-      modifier,
-    }),
-
-  hpRegenOnHit: ({ stats, modifier }: TalentProps) =>
-    healingValue({
-      multiplier: skillParams[modifier.talentSkillLevel][2],
-      flatHealing: skillParams[modifier.talentSkillLevel][3],
-      stats,
-      modifier,
-    }),
-
-  dropletDmg: ({ stats, modifier }: TalentProps) =>
+const lisaSkill: Record<string, TalentFn> = {
+  pressDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][4],
+      element: Element.Electro,
+      multiplier: skillParams[modifier.talentSkillLevel][5],
+      stats,
+      modifier,
+    }),
+
+  holdDmgStack0: ({ stats, modifier }: TalentProps) =>
+    skillSingle({
+      element: Element.Electro,
+      multiplier: skillParams[modifier.talentSkillLevel][0],
+      stats,
+      modifier,
+    }),
+
+  holdDmgStack1: ({ stats, modifier }: TalentProps) =>
+    skillSingle({
+      element: Element.Electro,
+      multiplier: skillParams[modifier.talentSkillLevel][1],
+      stats,
+      modifier,
+    }),
+
+  holdDmgStack2: ({ stats, modifier }: TalentProps) =>
+    skillSingle({
+      element: Element.Electro,
+      multiplier: skillParams[modifier.talentSkillLevel][2],
+      stats,
+      modifier,
+    }),
+
+  holdDmgStack3: ({ stats, modifier }: TalentProps) =>
+    skillSingle({
+      element: Element.Electro,
+      multiplier: skillParams[modifier.talentSkillLevel][3],
       stats,
       modifier,
     }),
 };
 
-const barbaraBurst: Record<string, TalentFn> = {
-  hpRegen: ({ stats, modifier }: TalentProps) =>
-    healingValue({
+const lisaBurst: Record<string, TalentFn> = {
+  burstDmg: ({ stats, modifier }: TalentProps) =>
+    burstSingle({
+      element: Element.Electro,
       multiplier: burstParams[modifier.talentBurstLevel][0],
-      flatHealing: burstParams[modifier.talentBurstLevel][1],
       stats,
       modifier,
     }),
 };
 
-const barbaraTalents: Talents = {
-  attack: barbaraAttack,
-  skill: barbaraSkill,
-  burst: barbaraBurst,
+const lisaTalents: Talents = {
+  attack: lisaAttack,
+  skill: lisaSkill,
+  burst: lisaBurst,
 };
 
-export default barbaraTalents;
+export default lisaTalents;

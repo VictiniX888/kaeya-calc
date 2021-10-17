@@ -14,6 +14,7 @@ import ventiOptions from './VentiOption';
 import xiaoOptions from './XiaoOption';
 import yanfeiOptions from './YanfeiOption';
 import yoimiyaOptions from './YoimiyaOption';
+import monaOptions from './MonaOption';
 
 export { default as CharacterOption } from './CharacterOption';
 
@@ -33,4 +34,5 @@ export const characterOptions: Record<string, typeof CharacterOption[]> = {
   sayu: sayuOptions,
   kokomi: kokomiOptions,
   aloy: aloyOptions,
+  mona: monaOptions,
 };

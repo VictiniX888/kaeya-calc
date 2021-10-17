@@ -503,7 +503,7 @@ export function aimShotCharged({
   };
 }
 
-// Used for all plunge attacks
+// Used for all physical plunge attacks
 export function plungeAttack({
   multiplier,
   stats,
@@ -516,6 +516,31 @@ export function plungeAttack({
   const element =
     modifier.infusionPlunge ?? modifier.infusion ?? Element.Physical;
 
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.Plunge,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
+    element,
+  };
+}
+
+export function plungeAttackCatalyst({
+  element,
+  multiplier,
+  stats,
+  modifier,
+}: {
+  element: Element;
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
   const damage = calculateTotalDamage({
     stats,
     multiplier,
@@ -618,6 +643,40 @@ export function burstSingle({
 
   return {
     damage: [damage],
+    element,
+  };
+}
+
+// Used for all multi-hit bursts
+export function burstMulti({
+  hits,
+  element,
+  params,
+  stats,
+  modifier,
+}: {
+  hits: number;
+  element: Element;
+  params: TalentParams;
+  stats: Stats;
+  modifier: DamageModifier;
+}) {
+  const damages = [];
+
+  for (let i = 0; i < hits; i++) {
+    damages.push(
+      calculateTotalDamage({
+        element,
+        multiplier: params[i],
+        attackType: AttackType.Burst,
+        stats,
+        modifier,
+      })
+    );
+  }
+
+  return {
+    damage: damages,
     element,
   };
 }
