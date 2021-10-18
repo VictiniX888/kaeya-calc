@@ -22,6 +22,10 @@ import kleeTalents from '../character/klee/KleeTalent';
 import kokomiTalents from '../character/kokomi/KokomiTalent';
 import lisaTalents from '../character/lisa/LisaTalent';
 import monaTalents from '../character/mona/MonaTalent';
+import ningguangTalents from '../character/ningguang/NingguangTalent';
+import noelleTalents from '../character/noelle/NoelleTalent';
+import qiqiTalents from '../character/qiqi/QiqiTalent';
+import raidenTalents from '../character/raiden/RaidenTalent';
 
 const talents: Record<string, Talents> = {
   albedo: albedoTalents,
@@ -46,6 +50,10 @@ const talents: Record<string, Talents> = {
   kokomi: kokomiTalents,
   lisa: lisaTalents,
   mona: monaTalents,
+  ningguang: ningguangTalents,
+  noelle: noelleTalents,
+  qiqi: qiqiTalents,
+  raiden: raidenTalents,
 };
 
 export function getAllTalentFns(characterId: string): Talents | undefined {

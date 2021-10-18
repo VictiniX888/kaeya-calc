@@ -2,7 +2,6 @@ import { getTalentData } from '../../Data';
 import {
   burstSingle,
   chargedAttackCatalyst,
-  healingValue,
   normalAttackCatalyst,
   plungeAttackCatalyst,
   skillSingle,
