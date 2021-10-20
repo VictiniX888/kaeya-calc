@@ -1,10 +1,10 @@
 import { getTalentData } from '../../Data';
 import {
   burstSingle,
-  chargedAttackCatalyst,
+  chargedAttackSingle,
   hpValue,
-  normalAttackCatalyst,
-  plungeAttackCatalyst,
+  normalAttackSingle,
+  plungeAttack,
   skillSingle,
 } from '../../talent/TalentUtil';
 import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
@@ -17,7 +17,7 @@ const {
 
 const ningguangAttack: Record<string, TalentFn> = {
   normalAtkDmg: ({ stats, modifier }: TalentProps) =>
-    normalAttackCatalyst({
+    normalAttackSingle({
       element: Element.Geo,
       multiplier: attackParams[modifier.talentAttackLevel][0],
       stats,
@@ -25,7 +25,7 @@ const ningguangAttack: Record<string, TalentFn> = {
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackCatalyst({
+    chargedAttackSingle({
       element: Element.Geo,
       multiplier: attackParams[modifier.talentAttackLevel][1],
       stats,
@@ -33,7 +33,7 @@ const ningguangAttack: Record<string, TalentFn> = {
     }),
 
   starJadeDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackCatalyst({
+    chargedAttackSingle({
       element: Element.Geo,
       multiplier: attackParams[modifier.talentAttackLevel][2],
       stats,
@@ -41,7 +41,7 @@ const ningguangAttack: Record<string, TalentFn> = {
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
-    plungeAttackCatalyst({
+    plungeAttack({
       element: Element.Geo,
       multiplier: attackParams[modifier.talentAttackLevel][4],
       stats,
@@ -49,7 +49,7 @@ const ningguangAttack: Record<string, TalentFn> = {
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
-    plungeAttackCatalyst({
+    plungeAttack({
       element: Element.Geo,
       multiplier: attackParams[modifier.talentAttackLevel][5],
       stats,
@@ -57,7 +57,7 @@ const ningguangAttack: Record<string, TalentFn> = {
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
-    plungeAttackCatalyst({
+    plungeAttack({
       element: Element.Geo,
       multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,

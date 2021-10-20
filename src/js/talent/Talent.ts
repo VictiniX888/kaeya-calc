@@ -26,6 +26,15 @@ import ningguangTalents from '../character/ningguang/NingguangTalent';
 import noelleTalents from '../character/noelle/NoelleTalent';
 import qiqiTalents from '../character/qiqi/QiqiTalent';
 import raidenTalents from '../character/raiden/RaidenTalent';
+import razorTalents from '../character/razor/RazorTalent';
+import rosariaTalents from '../character/rosaria/RosariaTalent';
+import saraTalents from '../character/sara/SaraTalent';
+import sayuTalents from '../character/sayu/SayuTalent';
+import sucroseTalents from '../character/sucrose/SucroseTalent';
+import tartagliaTalents from '../character/tartaglia/TartagliaTalent';
+import ventiTalents from '../character/venti/VentiTalent';
+import xianglingTalents from '../character/xiangling/XianglingTalent';
+import xiaoTalents from '../character/xiao/XiaoTalent';
 
 const talents: Record<string, Talents> = {
   albedo: albedoTalents,
@@ -54,6 +63,15 @@ const talents: Record<string, Talents> = {
   noelle: noelleTalents,
   qiqi: qiqiTalents,
   raiden: raidenTalents,
+  razor: razorTalents,
+  rosaria: rosariaTalents,
+  sara: saraTalents,
+  sayu: sayuTalents,
+  sucrose: sucroseTalents,
+  tartaglia: tartagliaTalents,
+  venti: ventiTalents,
+  xiangling: xianglingTalents,
+  xiao: xiaoTalents,
 };
 
 export function getAllTalentFns(characterId: string): Talents | undefined {

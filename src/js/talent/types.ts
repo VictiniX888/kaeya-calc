@@ -34,6 +34,7 @@ export enum Element {
 }
 
 export enum AttackType {
+  None = 'none',
   Normal = 'normal',
   Charged = 'charged',
   Plunge = 'plunge',

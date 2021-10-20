@@ -283,16 +283,18 @@ function calculateDmgAbsorption({
 
 // Used for all single-hit normal attacks
 export function normalAttackSingle({
+  element,
   multiplier,
   stats,
   modifier,
 }: {
+  element?: Element;
   multiplier: number;
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
-  const element =
-    modifier.infusionNormal ?? modifier.infusion ?? Element.Physical;
+  element =
+    element ?? modifier.infusionNormal ?? modifier.infusion ?? Element.Physical;
 
   const damage = calculateTotalDamage({
     stats,
@@ -311,17 +313,19 @@ export function normalAttackSingle({
 // Used for all multi-hit normal attacks
 export function normalAttackMulti({
   hits,
+  element,
   params,
   stats,
   modifier,
 }: {
   hits: number;
+  element?: Element;
   params: number[];
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
-  const element =
-    modifier.infusionNormal ?? modifier.infusion ?? Element.Physical;
+  element =
+    element ?? modifier.infusionNormal ?? modifier.infusion ?? Element.Physical;
 
   const damages = [];
   for (let i = 0; i < hits; i++) {
@@ -341,43 +345,19 @@ export function normalAttackMulti({
   };
 }
 
-// Used for all catalyst normal attacks (element cannot be overriden)
-export function normalAttackCatalyst({
+// Used for single-hit charged attacks
+export function chargedAttackSingle({
   element,
   multiplier,
   stats,
   modifier,
 }: {
-  element: Element;
+  element?: Element;
   multiplier: number;
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
-  const damage = calculateTotalDamage({
-    stats,
-    multiplier,
-    element,
-    attackType: AttackType.Normal,
-    modifier,
-  });
-
-  return {
-    damage: [damage],
-    element,
-  };
-}
-
-// Used for single-hit charged attacks
-export function chargedAttackSingle({
-  multiplier,
-  stats,
-  modifier,
-}: {
-  multiplier: number;
-  stats: Stats;
-  modifier: DamageModifier;
-}): TalentValue {
-  const element = modifier.infusion ?? Element.Physical;
+  element = element ?? modifier.infusion ?? Element.Physical;
 
   const damage = calculateTotalDamage({
     stats,
@@ -396,16 +376,18 @@ export function chargedAttackSingle({
 // Used for all multi-hit charged attacks
 export function chargedAttackMulti({
   hits,
+  element,
   params,
   stats,
   modifier,
 }: {
   hits: number;
+  element?: Element;
   params: TalentParams;
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
-  const element = modifier.infusion ?? Element.Physical;
+  element = element ?? modifier.infusion ?? Element.Physical;
 
   const damages = [];
   for (let i = 0; i < hits; i++) {
@@ -421,32 +403,6 @@ export function chargedAttackMulti({
 
   return {
     damage: damages,
-    element,
-  };
-}
-
-// Used for catalyst charged attacks (element cannot be overriden)
-export function chargedAttackCatalyst({
-  element,
-  multiplier,
-  stats,
-  modifier,
-}: {
-  element: Element;
-  multiplier: number;
-  stats: Stats;
-  modifier: DamageModifier;
-}): TalentValue {
-  const damage = calculateTotalDamage({
-    stats,
-    multiplier,
-    element,
-    attackType: AttackType.Charged,
-    modifier,
-  });
-
-  return {
-    damage: [damage],
     element,
   };
 }
@@ -505,42 +461,19 @@ export function aimShotCharged({
 
 // Used for all physical plunge attacks
 export function plungeAttack({
-  multiplier,
-  stats,
-  modifier,
-}: {
-  multiplier: number;
-  stats: Stats;
-  modifier: DamageModifier;
-}): TalentValue {
-  const element =
-    modifier.infusionPlunge ?? modifier.infusion ?? Element.Physical;
-
-  const damage = calculateTotalDamage({
-    stats,
-    multiplier,
-    element,
-    attackType: AttackType.Plunge,
-    modifier,
-  });
-
-  return {
-    damage: [damage],
-    element,
-  };
-}
-
-export function plungeAttackCatalyst({
   element,
   multiplier,
   stats,
   modifier,
 }: {
-  element: Element;
+  element?: Element;
   multiplier: number;
   stats: Stats;
   modifier: DamageModifier;
 }): TalentValue {
+  element =
+    element ?? modifier.infusionPlunge ?? modifier.infusion ?? Element.Physical;
+
   const damage = calculateTotalDamage({
     stats,
     multiplier,
@@ -677,6 +610,32 @@ export function burstMulti({
 
   return {
     damage: damages,
+    element,
+  };
+}
+
+// Used for damage that does not have an AttackType
+export function typelessAttack({
+  element,
+  multiplier,
+  stats,
+  modifier,
+}: {
+  element: Element;
+  multiplier: number;
+  stats: Stats;
+  modifier: DamageModifier;
+}): TalentValue {
+  const damage = calculateTotalDamage({
+    stats,
+    multiplier,
+    element,
+    attackType: AttackType.None,
+    modifier,
+  });
+
+  return {
+    damage: [damage],
     element,
   };
 }

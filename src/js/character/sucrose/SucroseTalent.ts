@@ -12,12 +12,12 @@ const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('klee');
+} = getTalentData('sucrose');
 
-const kleeAttack: Record<string, TalentFn> = {
+const sucroseAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Pyro,
+      element: Element.Anemo,
       multiplier: attackParams[modifier.talentAttackLevel][0],
       stats,
       modifier,
@@ -25,7 +25,7 @@ const kleeAttack: Record<string, TalentFn> = {
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Pyro,
+      element: Element.Anemo,
       multiplier: attackParams[modifier.talentAttackLevel][1],
       stats,
       modifier,
@@ -33,77 +33,92 @@ const kleeAttack: Record<string, TalentFn> = {
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Pyro,
+      element: Element.Anemo,
       multiplier: attackParams[modifier.talentAttackLevel][2],
+      stats,
+      modifier,
+    }),
+
+  '4HitDmg': ({ stats, modifier }: TalentProps) =>
+    normalAttackSingle({
+      element: Element.Anemo,
+      multiplier: attackParams[modifier.talentAttackLevel][3],
       stats,
       modifier,
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      element: Element.Anemo,
+      multiplier: attackParams[modifier.talentAttackLevel][4],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      element: Element.Anemo,
+      multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      element: Element.Anemo,
+      multiplier: attackParams[modifier.talentAttackLevel][7],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      element: Element.Anemo,
+      multiplier: attackParams[modifier.talentAttackLevel][8],
       stats,
       modifier,
     }),
 };
 
-const kleeSkill: Record<string, TalentFn> = {
-  jumpyDumptyDmg: ({ stats, modifier }: TalentProps) =>
+const sucroseSkill: Record<string, TalentFn> = {
+  skillDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Pyro,
+      element: Element.Anemo,
       multiplier: skillParams[modifier.talentSkillLevel][0],
       stats,
       modifier,
     }),
-
-  mineDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Pyro,
-      multiplier: skillParams[modifier.talentSkillLevel][3],
-      stats,
-      modifier,
-    }),
 };
 
-const kleeBurst: Record<string, TalentFn> = {
-  sparksNSplashDmg: ({ stats, modifier }: TalentProps) =>
+const sucroseBurst: Record<string, TalentFn> = {
+  dot: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Pyro,
+      element: Element.Anemo,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
+
+  dotElementalAbsorption: ({ stats, modifier }: TalentProps) => {
+    if (modifier.elementalAbsorption !== undefined) {
+      return burstSingle({
+        element: modifier.elementalAbsorption,
+        multiplier: burstParams[modifier.talentBurstLevel][1],
+        stats,
+        modifier,
+      });
+    } else {
+      return {
+        damage: [NaN],
+      };
+    }
+  },
 };
 
-const kleeTalents: Talents = {
-  attack: kleeAttack,
-  skill: kleeSkill,
-  burst: kleeBurst,
+const sucroseTalents: Talents = {
+  attack: sucroseAttack,
+  skill: sucroseSkill,
+  burst: sucroseBurst,
 };
 
-export default kleeTalents;
+export default sucroseTalents;

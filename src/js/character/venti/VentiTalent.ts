@@ -1,10 +1,11 @@
 import { getTalentData } from '../../Data';
 import {
-  burstSingle,
-  chargedAttackSingle,
   normalAttackSingle,
   plungeAttack,
   skillSingle,
+  burstSingle,
+  aimShot,
+  aimShotCharged,
 } from '../../talent/TalentUtil';
 import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
 
@@ -12,12 +13,11 @@ const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('lisa');
+} = getTalentData('venti');
 
-const lisaAttack: Record<string, TalentFn> = {
+const ventiAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][0],
       stats,
       modifier,
@@ -25,7 +25,6 @@ const lisaAttack: Record<string, TalentFn> = {
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][1],
       stats,
       modifier,
@@ -33,7 +32,6 @@ const lisaAttack: Record<string, TalentFn> = {
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][2],
       stats,
       modifier,
@@ -41,101 +39,109 @@ const lisaAttack: Record<string, TalentFn> = {
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Electro,
       multiplier: attackParams[modifier.talentAttackLevel][3],
       stats,
       modifier,
     }),
 
-  chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackSingle({
-      element: Element.Electro,
+  '5HitDmg': ({ stats, modifier }: TalentProps) =>
+    normalAttackSingle({
       multiplier: attackParams[modifier.talentAttackLevel][4],
+      stats,
+      modifier,
+    }),
+
+  '6HitDmg': ({ stats, modifier }: TalentProps) =>
+    normalAttackSingle({
+      multiplier: attackParams[modifier.talentAttackLevel][5],
+      stats,
+      modifier,
+    }),
+
+  aimShotDmg: ({ stats, modifier }: TalentProps) =>
+    aimShot({
+      multiplier: attackParams[modifier.talentAttackLevel][6],
+      stats,
+      modifier,
+    }),
+
+  chargedAimShotDmg: ({ stats, modifier }: TalentProps) =>
+    aimShotCharged({
+      element: Element.Anemo,
+      multiplier: attackParams[modifier.talentAttackLevel][7],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Electro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: attackParams[modifier.talentAttackLevel][8],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Electro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: attackParams[modifier.talentAttackLevel][9],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Electro,
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: attackParams[modifier.talentAttackLevel][10],
       stats,
       modifier,
     }),
 };
 
-const lisaSkill: Record<string, TalentFn> = {
+const ventiSkill: Record<string, TalentFn> = {
   pressDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][5],
-      stats,
-      modifier,
-    }),
-
-  holdDmgStack0: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Electro,
+      element: Element.Anemo,
       multiplier: skillParams[modifier.talentSkillLevel][0],
       stats,
       modifier,
     }),
 
-  holdDmgStack1: ({ stats, modifier }: TalentProps) =>
+  holdDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
-      element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
-      stats,
-      modifier,
-    }),
-
-  holdDmgStack2: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Electro,
+      element: Element.Anemo,
       multiplier: skillParams[modifier.talentSkillLevel][2],
       stats,
       modifier,
     }),
-
-  holdDmgStack3: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][3],
-      stats,
-      modifier,
-    }),
 };
 
-const lisaBurst: Record<string, TalentFn> = {
-  burstDmg: ({ stats, modifier }: TalentProps) =>
+const ventiBurst: Record<string, TalentFn> = {
+  dot: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Electro,
+      element: Element.Anemo,
       multiplier: burstParams[modifier.talentBurstLevel][0],
       stats,
       modifier,
     }),
+
+  dotElementalAbsorption: ({ stats, modifier }: TalentProps) => {
+    if (modifier.elementalAbsorption !== undefined) {
+      return burstSingle({
+        element: modifier.elementalAbsorption,
+        multiplier: burstParams[modifier.talentBurstLevel][1],
+        stats,
+        modifier,
+      });
+    } else {
+      return {
+        damage: [NaN],
+      };
+    }
+  },
 };
 
-const lisaTalents: Talents = {
-  attack: lisaAttack,
-  skill: lisaSkill,
-  burst: lisaBurst,
+const ventiTalents: Talents = {
+  attack: ventiAttack,
+  skill: ventiSkill,
+  burst: ventiBurst,
 };
 
-export default lisaTalents;
+export default ventiTalents;

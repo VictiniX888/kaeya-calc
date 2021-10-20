@@ -3,10 +3,10 @@ import { getTalentData } from '../../Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import {
   burstSingle,
-  chargedAttackCatalyst,
+  chargedAttackSingle,
   healingValue,
-  normalAttackCatalyst,
-  plungeAttackCatalyst,
+  normalAttackSingle,
+  plungeAttack,
   skillSingle,
 } from '../../talent/TalentUtil';
 import {
@@ -25,7 +25,7 @@ const {
 
 const kokomiAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
-    normalAttackCatalyst({
+    normalAttackSingle({
       element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][0],
       stats,
@@ -33,7 +33,7 @@ const kokomiAttack: Record<string, TalentFn> = {
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
-    normalAttackCatalyst({
+    normalAttackSingle({
       element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][1],
       stats,
@@ -41,7 +41,7 @@ const kokomiAttack: Record<string, TalentFn> = {
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
-    normalAttackCatalyst({
+    normalAttackSingle({
       element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][2],
       stats,
@@ -49,7 +49,7 @@ const kokomiAttack: Record<string, TalentFn> = {
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
-    chargedAttackCatalyst({
+    chargedAttackSingle({
       element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][3],
       stats,
@@ -57,7 +57,7 @@ const kokomiAttack: Record<string, TalentFn> = {
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
-    plungeAttackCatalyst({
+    plungeAttack({
       element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][5],
       stats,
@@ -65,7 +65,7 @@ const kokomiAttack: Record<string, TalentFn> = {
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
-    plungeAttackCatalyst({
+    plungeAttack({
       element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
@@ -73,7 +73,7 @@ const kokomiAttack: Record<string, TalentFn> = {
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
-    plungeAttackCatalyst({
+    plungeAttack({
       element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][7],
       stats,

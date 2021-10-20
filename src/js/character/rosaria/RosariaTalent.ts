@@ -1,10 +1,12 @@
 import { getTalentData } from '../../Data';
 import {
-  burstSingle,
-  chargedAttackSingle,
   normalAttackSingle,
+  chargedAttackSingle,
   plungeAttack,
-  skillSingle,
+  burstSingle,
+  normalAttackMulti,
+  skillMulti,
+  burstMulti,
 } from '../../talent/TalentUtil';
 import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
 
@@ -12,12 +14,11 @@ const {
   attack: attackParams,
   skill: skillParams,
   burst: burstParams,
-} = getTalentData('mona');
+} = getTalentData('rosaria');
 
-const monaAttack: Record<string, TalentFn> = {
+const rosariaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][0],
       stats,
       modifier,
@@ -25,93 +26,97 @@ const monaAttack: Record<string, TalentFn> = {
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
-    normalAttackSingle({
-      element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+    normalAttackMulti({
+      hits: 2,
+      params: Array(2).fill(attackParams[modifier.talentAttackLevel][2]),
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      element: Element.Hydro,
       multiplier: attackParams[modifier.talentAttackLevel][3],
+      stats,
+      modifier,
+    }),
+
+  '5HitDmg': ({ stats, modifier }: TalentProps) =>
+    normalAttackMulti({
+      hits: 2,
+      params: attackParams[modifier.talentAttackLevel].slice(4, 6),
       stats,
       modifier,
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: attackParams[modifier.talentAttackLevel][6],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: attackParams[modifier.talentAttackLevel][8],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: attackParams[modifier.talentAttackLevel][9],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: attackParams[modifier.talentAttackLevel][10],
       stats,
       modifier,
     }),
 };
 
-const monaSkill: Record<string, TalentFn> = {
-  dot: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
-      stats,
-      modifier,
-    }),
-
-  explosionDmg: ({ stats, modifier }: TalentProps) =>
-    skillSingle({
-      element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+const rosariaSkill: Record<string, TalentFn> = {
+  skillDmg: ({ stats, modifier }: TalentProps) =>
+    skillMulti({
+      hits: 2,
+      element: Element.Cryo,
+      params: skillParams[modifier.talentSkillLevel].slice(0, 2),
       stats,
       modifier,
     }),
 };
 
-const monaBurst: Record<string, TalentFn> = {
-  explosionDmg: ({ stats, modifier }: TalentProps) =>
+const rosariaBurst: Record<string, TalentFn> = {
+  burstDmg: ({ stats, modifier }: TalentProps) =>
+    burstMulti({
+      hits: 2,
+      element: Element.Cryo,
+      params: burstParams[modifier.talentBurstLevel].slice(0, 2),
+      stats,
+      modifier,
+    }),
+
+  iceLanceDot: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Hydro,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      element: Element.Cryo,
+      multiplier: burstParams[modifier.talentBurstLevel][2],
       stats,
       modifier,
     }),
 };
 
-const monaTalents: Talents = {
-  attack: monaAttack,
-  skill: monaSkill,
-  burst: monaBurst,
+const rosariaTalents: Talents = {
+  attack: rosariaAttack,
+  skill: rosariaSkill,
+  burst: rosariaBurst,
 };
 
-export default monaTalents;
+export default rosariaTalents;
