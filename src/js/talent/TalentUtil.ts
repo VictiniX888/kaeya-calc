@@ -423,7 +423,7 @@ export function aimShot({
     stats,
     multiplier,
     element,
-    attackType: AttackType.Normal,
+    attackType: AttackType.Charged,
     modifier,
   });
 
