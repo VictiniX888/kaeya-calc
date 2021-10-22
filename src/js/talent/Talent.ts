@@ -35,6 +35,11 @@ import tartagliaTalents from '../character/tartaglia/TartagliaTalent';
 import ventiTalents from '../character/venti/VentiTalent';
 import xianglingTalents from '../character/xiangling/XianglingTalent';
 import xiaoTalents from '../character/xiao/XiaoTalent';
+import xingqiuTalents from '../character/xingqiu/XingqiuTalent';
+import xinyanTalents from '../character/xinyan/XinyanTalent';
+import yanfeiTalents from '../character/yanfei/YanfeiTalent';
+import yoimiyaTalents from '../character/yoimiya/YoimiyaTalent';
+import zhongliTalents from '../character/zhongli/ZhongliTalent';
 
 const talents: Record<string, Talents> = {
   albedo: albedoTalents,
@@ -72,6 +77,11 @@ const talents: Record<string, Talents> = {
   venti: ventiTalents,
   xiangling: xianglingTalents,
   xiao: xiaoTalents,
+  xingqiu: xingqiuTalents,
+  xinyan: xinyanTalents,
+  yanfei: yanfeiTalents,
+  yoimiya: yoimiyaTalents,
+  zhongli: zhongliTalents,
 };
 
 export function getAllTalentFns(characterId: string): Talents | undefined {

@@ -16,7 +16,7 @@ class YoimiyaOptionSkill
   modifierMixin = {
     apply: (modifier: DamageModifier) => {
       if (this.value) {
-        modifier.infusion = Element.Pyro;
+        modifier.infusionNormal = Element.Pyro;
         modifier.yoimiyaSkill = true;
       }
     },
