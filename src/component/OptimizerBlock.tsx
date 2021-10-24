@@ -4,17 +4,17 @@ import Button from 'react-bootstrap/esm/Button';
 import Card from 'react-bootstrap/esm/Card';
 import { AppState } from '../App';
 import { Stats } from '../data/types';
-import Artifact from '../js/artifact/Artifact';
-import { propMapping, talentDescMapping } from '../js/Data';
-import DamageModifier from '../js/modifier/DamageModifer';
+import Artifact from '../artifact/Artifact';
+import { propMapping, talentDescMapping } from '../data/Data';
+import DamageModifier from '../modifier/DamageModifer';
 import {
   optimizeSubstats,
   RollDistribution,
   substats,
-} from '../js/optimization/Optimization';
-import { StatMixin } from '../js/option/Mixin';
-import { capitalize } from '../js/Stat';
-import { TalentType, TalentValueSet } from '../js/talent/types';
+} from '../optimization/Optimization';
+import { StatMixin } from '../option/Mixin';
+import { capitalize } from '../stat/Stat';
+import { TalentType, TalentValueSet } from '../talent/types';
 import Checkbox from './Checkbox';
 import FloatInput from './FloatInput';
 import InputRow from './InputRow';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stats } from '../data/types';
-import { propMapping } from '../js/Data';
-import { getStatDisplayValue } from '../js/Stat';
+import { propMapping } from '../data/Data';
+import { getStatDisplayValue } from '../stat/Stat';
 
 type TotalStatBlockProps = {
   totalStats: Stats;

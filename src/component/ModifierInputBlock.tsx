@@ -1,11 +1,11 @@
 import React from 'react';
 import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { AppState } from '../App';
-import CritType from '../js/modifier/CritType';
-import Reaction from '../js/modifier/Reaction';
-import Resistance from '../js/Resistance';
-import { capitalize } from '../js/Stat';
-import { Element } from '../js/talent/types';
+import CritType from '../modifier/CritType';
+import Reaction from '../modifier/Reaction';
+import Resistance from '../stat/Resistance';
+import { capitalize } from '../stat/Stat';
+import { Element } from '../talent/types';
 import FloatInput from './FloatInput';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';

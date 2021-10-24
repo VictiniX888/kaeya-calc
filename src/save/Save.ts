@@ -1,14 +1,14 @@
 import { AppState } from '../App';
-import Artifact from '../js/artifact/Artifact';
-import ArtifactSet from '../js/artifact/ArtifactSet';
-import { ArtifactType, InputStat } from '../js/artifact/types';
-import Character from '../js/character/Character';
-import CritType from '../js/modifier/CritType';
-import Reaction from '../js/modifier/Reaction';
-import { getOptionValue, setOptionValue } from '../js/option';
-import Resistance from '../js/Resistance';
-import { Element } from '../js/talent/types';
-import Weapon from '../js/weapon/Weapon';
+import Artifact from '../artifact/Artifact';
+import ArtifactSet from '../artifact/ArtifactSet';
+import { ArtifactType, InputStat } from '../artifact/types';
+import Character from '../character/Character';
+import CritType from '../modifier/CritType';
+import Reaction from '../modifier/Reaction';
+import { getOptionValue, setOptionValue } from '../option';
+import Resistance from '../stat/Resistance';
+import { Element } from '../talent/types';
+import Weapon from '../weapon/Weapon';
 
 export default interface Save {
   label: string;

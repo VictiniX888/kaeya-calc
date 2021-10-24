@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppState } from '../App';
-import ArtifactSet from '../js/artifact/ArtifactSet';
-import { ArtifactSetOption } from '../js/option/artifactSetOptions';
+import ArtifactSet from '../artifact/ArtifactSet';
+import { ArtifactSetOption } from '../option/artifactSetOptions';
 import ArtifactSetPicker from './ArtifactSetPicker';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';

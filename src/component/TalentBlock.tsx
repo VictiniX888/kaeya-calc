@@ -1,7 +1,7 @@
 import React from 'react';
-import { talentDescMapping } from '../js/Data';
-import { getDamageDisplayValue } from '../js/Stat';
-import { TalentValue } from '../js/talent/types';
+import { talentDescMapping } from '../data/Data';
+import { getDamageDisplayValue } from '../stat/Stat';
+import { TalentValue } from '../talent/types';
 
 type TalentBlockProps = {
   type: string;

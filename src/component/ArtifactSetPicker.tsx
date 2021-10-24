@@ -1,7 +1,7 @@
 import React from 'react';
 import Picker from './Picker';
 
-import * as data from '../js/Data';
+import * as data from '../data/Data';
 
 type ArtifactSetPickerProps = {
   index: number;

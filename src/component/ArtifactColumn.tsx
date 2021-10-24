@@ -2,10 +2,10 @@ import React from 'react';
 import Col from 'react-bootstrap/esm/Col';
 import { AppState } from '../App';
 import { Stats } from '../data/types';
-import Artifact from '../js/artifact/Artifact';
-import DamageModifier from '../js/modifier/DamageModifer';
-import { StatMixin } from '../js/option/Mixin';
-import { TalentValueSet } from '../js/talent/types';
+import Artifact from '../artifact/Artifact';
+import DamageModifier from '../modifier/DamageModifer';
+import { StatMixin } from '../option/Mixin';
+import { TalentValueSet } from '../talent/types';
 import ArtifactBlock from './ArtifactBlock';
 import OptimizerBlock from './OptimizerBlock';
 

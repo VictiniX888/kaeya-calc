@@ -1,7 +1,7 @@
 import React from 'react';
-import { propMapping } from '../js/Data';
-import { getStatDisplayValue } from '../js/Stat';
-import Weapon from '../js/weapon/Weapon';
+import { propMapping } from '../data/Data';
+import { getStatDisplayValue } from '../stat/Stat';
+import Weapon from '../weapon/Weapon';
 
 type WeaponStatBlockProps = {
   weapon: Weapon;

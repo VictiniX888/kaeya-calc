@@ -3,13 +3,9 @@ import Option, {
   isBooleanOption,
   isPickerOption,
   isNumberOption,
-} from '../js/option';
-import {
-  IOptionBoolean,
-  IOptionNumber,
-  IOptionPicker,
-} from '../js/option/Option';
-import { capitalize, getOptionName } from '../js/Stat';
+} from '../option';
+import { IOptionBoolean, IOptionNumber, IOptionPicker } from '../option/Option';
+import { capitalize, getOptionName } from '../stat/Stat';
 import Checkbox from './Checkbox';
 import IntInput from './IntInput';
 import Picker from './Picker';

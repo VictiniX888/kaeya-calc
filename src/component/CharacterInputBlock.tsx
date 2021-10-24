@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppState } from '../App';
-import Character from '../js/character/Character';
-import { CharacterOption } from '../js/option/characterOptions';
+import Character from '../character/Character';
+import { CharacterOption } from '../option/characterOptions';
 import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
 import InputBlock from './InputBlock';

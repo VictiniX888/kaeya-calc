@@ -1,7 +1,7 @@
 import React from 'react';
-import Artifact, { mainStatProps, subStatProps } from '../js/artifact/Artifact';
-import { propMapping } from '../js/Data';
-import { capitalize, getStatDisplayValue } from '../js/Stat';
+import Artifact, { mainStatProps, subStatProps } from '../artifact/Artifact';
+import { propMapping } from '../data/Data';
+import { capitalize, getStatDisplayValue } from '../stat/Stat';
 import FloatInput from './FloatInput';
 import InputRow from './InputRow';
 import IntInput from './IntInput';

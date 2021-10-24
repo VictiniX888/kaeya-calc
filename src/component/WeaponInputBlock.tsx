@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppState } from '../App';
-import WeaponOption from '../js/option/weaponOptions/WeaponOption';
-import Weapon from '../js/weapon/Weapon';
+import WeaponOption from '../option/weaponOptions/WeaponOption';
+import Weapon from '../weapon/Weapon';
 import Checkbox from './Checkbox';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';

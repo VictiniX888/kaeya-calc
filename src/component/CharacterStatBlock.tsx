@@ -1,7 +1,7 @@
 import React from 'react';
-import Character from '../js/character/Character';
-import { propMapping } from '../js/Data';
-import { getStatDisplayValue } from '../js/Stat';
+import Character from '../character/Character';
+import { propMapping } from '../data/Data';
+import { getStatDisplayValue } from '../stat/Stat';
 
 type CharacterStatBlockProps = {
   character: Character;

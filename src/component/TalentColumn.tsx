@@ -1,5 +1,5 @@
 import React from 'react';
-import { TalentValueSet } from '../js/talent/types';
+import { TalentValueSet } from '../talent/types';
 import TalentBlock from './TalentBlock';
 import Col from 'react-bootstrap/esm/Col';
 
