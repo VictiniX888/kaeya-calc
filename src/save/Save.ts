@@ -2,7 +2,7 @@ import { AppState } from '../App';
 import Artifact from '../artifact/Artifact';
 import ArtifactSet from '../artifact/ArtifactSet';
 import { ArtifactType, InputStat } from '../artifact/types';
-import Character from '../character/Character';
+import { initCharacter } from '../character/CharacterUtil';
 import CritType from '../modifier/CritType';
 import Reaction from '../modifier/Reaction';
 import { getOptionValue, setOptionValue } from '../option';
@@ -143,10 +143,10 @@ export function loadSave(
   ) => void,
   refreshApp: () => void
 ) {
-  const character = new Character(
-    save.characterId ?? '',
-    save.characterLevel ?? 1,
-    save.characterHasAscended ?? false
+  const character = initCharacter(
+    save.characterId,
+    save.characterLevel,
+    save.characterHasAscended
   );
   const weapon = new Weapon(
     save.weaponId ?? '',

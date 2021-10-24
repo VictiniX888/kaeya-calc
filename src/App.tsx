@@ -13,6 +13,7 @@ import Artifact from './artifact/Artifact';
 import ArtifactSet from './artifact/ArtifactSet';
 import { ArtifactType } from './artifact/types';
 import Character from './character/Character';
+import { initCharacter } from './character/CharacterUtil';
 import CritType from './modifier/CritType';
 import DamageModifier from './modifier/DamageModifer';
 import Reaction from './modifier/Reaction';
@@ -51,7 +52,7 @@ export type AppState = {
 
 class App extends React.Component<{}, AppState> {
   state: AppState = {
-    character: new Character('', 1, false),
+    character: initCharacter(),
     weapon: new Weapon('', 1, false, 1),
     artifacts: Object.values(ArtifactType).map(
       (type) => new Artifact(type, 1, 0, '')
@@ -437,17 +438,12 @@ class App extends React.Component<{}, AppState> {
     });
 
     this.talentValues = {};
-    if (character.talentFns !== undefined) {
-      Object.entries(character.talentFns).forEach(([type, fns]) => {
-        this.talentValues[type] = Object.entries(fns).reduce(
-          (acc, [id, fn]) => {
-            acc[id] = fn({ stats: this.totalStats, modifier: damageModifier });
-            return acc;
-          },
-          {} as Record<string, TalentValue>
-        );
-      });
-    }
+    Object.entries(character.talentFns).forEach(([type, fns]) => {
+      this.talentValues[type] = Object.entries(fns).reduce((acc, [id, fn]) => {
+        acc[id] = fn({ stats: this.totalStats, modifier: damageModifier });
+        return acc;
+      }, {} as Record<string, TalentValue>);
+    });
   };
 
   refreshApp = () => {

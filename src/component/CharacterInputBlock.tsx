@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppState } from '../App';
 import Character from '../character/Character';
+import { initCharacter } from '../character/CharacterUtil';
 import { CharacterOption } from '../option/characterOptions';
 import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
@@ -26,8 +27,8 @@ type CharacterInputBlockProps = {
 
 class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
   setCharacterId = (id: string) => {
-    const character = this.props.appState.character;
-    character.id = id;
+    const { level, hasAscended } = this.props.appState.character;
+    const character = initCharacter(id, level, hasAscended);
     const characterOptions = character.getOptions();
     this.props.updateTotalStats({ character, characterOptions });
     this.props.setAppState({ character, characterOptions });

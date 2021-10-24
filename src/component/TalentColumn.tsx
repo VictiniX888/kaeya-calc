@@ -21,7 +21,7 @@ class TalentColumn extends React.Component<TalentColumnProps> {
         <div className='result-block'>
           <h2>Talents</h2>
           {Object.entries(talentValues).map(([type, values]) => (
-            <TalentBlock type={type} talentValues={values} />
+            <TalentBlock key={type} type={type} talentValues={values} />
           ))}
         </div>
       </Col>
