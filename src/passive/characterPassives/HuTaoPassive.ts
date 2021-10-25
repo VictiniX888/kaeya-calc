@@ -1,5 +1,5 @@
 import { Stats, TalentParams } from '../../data/types';
-import { CharacterOption } from '../../option/characterOptions';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { IOptionBoolean, IStatsApplicable } from '../../option/Option';
 import { CharacterPassive } from '../types';
 

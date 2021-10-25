@@ -1,8 +1,8 @@
 import DamageModifier from '../../modifier/DamageModifer';
 import { Element } from '../../talent/types';
-import { IModifierApplicable, IOptionBoolean } from '../Option';
-import CharacterOption from './CharacterOption';
-import ElementalAbsoprtionOption from './ElementalAbsorptionOption';
+import { IModifierApplicable, IOptionBoolean } from '../../option/Option';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
+import ElementalAbsoprtionOption from '../../option/characterOptions/ElementalAbsorptionOption';
 
 class KazuhaOptionInfusion
   extends CharacterOption

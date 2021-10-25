@@ -1,4 +1,4 @@
-import CharacterOption from './CharacterOption';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { getTalentStatsAt, getTalentData } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import { Element, TalentType } from '../../talent/types';
@@ -6,7 +6,7 @@ import {
   IOptionBoolean,
   IStatsApplicable,
   IModifierApplicable,
-} from '../Option';
+} from '../../option/Option';
 import { Stats } from '../../data/types';
 
 class HuTaoOptionSkill

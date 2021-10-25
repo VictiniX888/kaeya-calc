@@ -1,6 +1,6 @@
 import DamageModifier from '../../modifier/DamageModifer';
-import { IModifierApplicable, IOptionBoolean } from '../Option';
-import CharacterOption from './CharacterOption';
+import { IModifierApplicable, IOptionBoolean } from '../../option/Option';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 
 class KokomiOptionBurst
   extends CharacterOption

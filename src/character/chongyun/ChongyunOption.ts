@@ -1,7 +1,7 @@
 import DamageModifier from '../../modifier/DamageModifer';
 import { Element } from '../../talent/types';
-import { IModifierApplicable, IOptionBoolean } from '../Option';
-import CharacterOption from './CharacterOption';
+import { IModifierApplicable, IOptionBoolean } from '../../option/Option';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 
 class ChongyunOptionInfusion
   extends CharacterOption

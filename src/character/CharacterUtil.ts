@@ -7,7 +7,6 @@ import Beidou from './beidou/Beidou';
 import Bennett from './bennett/Bennett';
 import Character from './Character';
 import Chongyun from './chongyun/Chongyun';
-import CharacterDefault from './default/CharacterDefault';
 import Diluc from './diluc/Diluc';
 import Diona from './diona/Diona';
 import Eula from './eula/Eula';
@@ -41,13 +40,7 @@ import Yanfei from './yanfei/Yanfei';
 import Yoimiya from './yoimiya/Yoimiya';
 import Zhongli from './zhongli/Zhongli';
 
-type CharacterConstructor = new (
-  id: string,
-  level?: number,
-  hasAscended?: boolean
-) => Character;
-
-const characters: Record<string, CharacterConstructor> = {
+const characters: Record<string, typeof Character> = {
   albedo: Albedo,
   aloy: Aloy,
   amber: Amber,
@@ -90,8 +83,8 @@ const characters: Record<string, CharacterConstructor> = {
   zhongli: Zhongli,
 };
 
-export function getCharacterConstructor(id: string): CharacterConstructor {
-  return characters[id] ?? CharacterDefault;
+export function getCharacterConstructor(id: string): typeof Character {
+  return characters[id] ?? Character;
 }
 
 export function initCharacter(

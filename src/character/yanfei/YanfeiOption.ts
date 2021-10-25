@@ -1,6 +1,6 @@
-import CharacterOption from './CharacterOption';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { getTalentStatsAt, getTalentData } from '../../data/Data';
-import { IOptionBoolean, IStatsApplicable } from '../Option';
+import { IOptionBoolean, IStatsApplicable } from '../../option/Option';
 import { Stats } from '../../data/types';
 import { TalentType } from '../../talent/types';
 

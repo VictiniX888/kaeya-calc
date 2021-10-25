@@ -7,8 +7,8 @@ import {
   IOptionBoolean,
   IOptionNumber,
   IStatsApplicable,
-} from '../Option';
-import CharacterOption from './CharacterOption';
+} from '../../option/Option';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 
 class RaidenOptionSkill
   extends CharacterOption

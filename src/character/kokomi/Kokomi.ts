@@ -1,6 +1,8 @@
 import { Talents } from '../../talent/types';
 import Character from '../Character';
 import kokomiTalents from './KokomiTalent';
+import kokomiOptions from './KokomiOption';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 
 export default class Kokomi extends Character {
   constructor(_id: string, level?: number, hasAscended?: boolean) {
@@ -9,5 +11,9 @@ export default class Kokomi extends Character {
 
   getTalentFns(): Talents {
     return kokomiTalents;
+  }
+
+  getCharacterOptionConstuctors(): typeof CharacterOption[] {
+    return kokomiOptions;
   }
 }

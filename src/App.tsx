@@ -19,7 +19,6 @@ import DamageModifier from './modifier/DamageModifer';
 import Reaction from './modifier/Reaction';
 import { isModifierApplicable, isStatsApplicable } from './option';
 import { ArtifactSetOption } from './option/artifactSetOptions';
-import { CharacterOption } from './option/characterOptions';
 import { ModifierMixin, Priority, StatMixin } from './option/Mixin';
 import { IModifierApplicable, IStatsApplicable } from './option/Option';
 import WeaponOption from './option/weaponOptions/WeaponOption';
@@ -27,6 +26,7 @@ import Resistance from './stat/Resistance';
 import { getTotalStatsAt } from './stat/Stat';
 import { TalentValue, TalentValueSet } from './talent/types';
 import Weapon from './weapon/Weapon';
+import CharacterOption from './option/characterOptions/CharacterOption';
 
 export type AppState = {
   character: Character;

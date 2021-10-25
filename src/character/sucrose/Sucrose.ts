@@ -1,5 +1,7 @@
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
+import sucroseOptions from './SucroseOption';
 import sucroseTalents from './SucroseTalent';
 
 export default class Sucrose extends Character {
@@ -9,5 +11,9 @@ export default class Sucrose extends Character {
 
   getTalentFns(): Talents {
     return sucroseTalents;
+  }
+
+  getCharacterOptionConstuctors(): typeof CharacterOption[] {
+    return sucroseOptions;
   }
 }

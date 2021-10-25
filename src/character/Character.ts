@@ -6,8 +6,6 @@ import {
   getTalentData,
 } from '../data/Data';
 
-import { getCharacterOptions } from '../option';
-
 import type {
   AscensionBonus,
   StatCurveMapping,
@@ -16,11 +14,11 @@ import type {
 } from '../data/types';
 import type { Talents } from '../talent/types';
 import { getCharacterPassiveFn } from '../passive/characterPassives/CharacterPassive';
-import { CharacterOption } from '../option/characterOptions';
+import CharacterOption from '../option/characterOptions/CharacterOption';
 import { CharacterPassive } from '../passive/types';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
 
-export default abstract class Character {
+export default class Character {
   constructor(id: string, level: number = 1, hasAscended: boolean = false) {
     this._level = level;
     this._hasAscended = hasAscended;
@@ -163,10 +161,18 @@ export default abstract class Character {
     return innateStats;
   }
 
-  abstract getTalentFns(): Talents;
+  // Override in derived classes
+  getTalentFns(): Talents {
+    return {};
+  }
 
-  getCharacterOptions() {
-    return getCharacterOptions(this.id).map((Option) => new Option());
+  // Override in derived classes if character has base options
+  getCharacterOptionConstuctors(): typeof CharacterOption[] {
+    return [];
+  }
+
+  getCharacterOptions(): CharacterOption[] {
+    return this.getCharacterOptionConstuctors().map((Option) => new Option());
   }
 
   getPassives(ascensionLevel: number): CharacterPassive[] {

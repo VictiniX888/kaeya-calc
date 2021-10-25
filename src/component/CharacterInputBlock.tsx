@@ -2,7 +2,7 @@ import React from 'react';
 import { AppState } from '../App';
 import Character from '../character/Character';
 import { initCharacter } from '../character/CharacterUtil';
-import { CharacterOption } from '../option/characterOptions';
+import CharacterOption from '../option/characterOptions/CharacterOption';
 import CharacterPicker from './CharacterPicker';
 import Checkbox from './Checkbox';
 import InputBlock from './InputBlock';

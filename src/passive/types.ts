@@ -1,5 +1,5 @@
 import { TalentParams } from '../data/types';
-import { CharacterOption } from '../option/characterOptions';
+import CharacterOption from '../option/characterOptions/CharacterOption';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
 import WeaponOption from '../option/weaponOptions/WeaponOption';
 

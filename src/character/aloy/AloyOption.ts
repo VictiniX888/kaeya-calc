@@ -1,4 +1,4 @@
-import CharacterOption from './CharacterOption';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { Stats } from '../../data/types';
 import { getTalentData, getTalentStatsAt } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
@@ -7,7 +7,7 @@ import {
   IOptionNumber,
   IStatsApplicable,
   IModifierApplicable,
-} from '../Option';
+} from '../../option/Option';
 
 class AloyOptionCoil
   extends CharacterOption

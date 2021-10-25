@@ -1,5 +1,7 @@
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
+import ayakaOptions from './AyakaOption';
 import ayakaTalents from './AyakaTalent';
 
 export default class Ayaka extends Character {
@@ -9,5 +11,9 @@ export default class Ayaka extends Character {
 
   getTalentFns(): Talents {
     return ayakaTalents;
+  }
+
+  getCharacterOptionConstuctors(): typeof CharacterOption[] {
+    return ayakaOptions;
   }
 }

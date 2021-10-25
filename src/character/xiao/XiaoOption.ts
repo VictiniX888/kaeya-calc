@@ -1,22 +1,22 @@
-import CharacterOption from './CharacterOption';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { getTalentStatsAt, getTalentData } from '../../data/Data';
-import DamageModifier from '../../modifier/DamageModifer';
-import { Element, TalentType } from '../../talent/types';
 import {
+  IModifierApplicable,
   IOptionBoolean,
   IStatsApplicable,
-  IModifierApplicable,
-} from '../Option';
+} from '../../option/Option';
 import { Stats } from '../../data/types';
+import { Element, TalentType } from '../../talent/types';
+import DamageModifier from '../../modifier/DamageModifer';
 
-class NoelleOptionBurst
+class XiaoOptionBurst
   extends CharacterOption
   implements IOptionBoolean, IStatsApplicable, IModifierApplicable
 {
   value = false;
 
   constructor() {
-    super('noelleBurst');
+    super('xiaoBurst');
   }
 
   statMixin = {
@@ -30,14 +30,12 @@ class NoelleOptionBurst
         let burstParams = getTalentStatsAt(
           TalentType.Burst,
           talentBurstLevel,
-          getTalentData('noelle')
+          getTalentData('xiao')
         );
 
-        const totalDef =
-          (stats.baseDef ?? 0) * (1 + (stats.defBonus ?? 0)) +
-          (stats.flatDef ?? 0);
-
-        stats.flatAtk = (stats.flatAtk ?? 0) + totalDef * burstParams[2];
+        stats.normalDmgBonus = burstParams[0] + (stats.normalDmgBonus ?? 0);
+        stats.chargedDmgBonus = burstParams[0] + (stats.chargedDmgBonus ?? 0);
+        stats.plungeDmgBonus = burstParams[0] + (stats.plungeDmgBonus ?? 0);
       }
     },
   };
@@ -45,11 +43,11 @@ class NoelleOptionBurst
   modifierMixin = {
     apply: (modifier: DamageModifier) => {
       if (this.value) {
-        modifier.infusion = Element.Geo;
+        modifier.infusion = Element.Anemo;
       }
     },
   };
 }
 
-const noelleOptions = [NoelleOptionBurst];
-export default noelleOptions;
+const xiaoOptions = [XiaoOptionBurst];
+export default xiaoOptions;

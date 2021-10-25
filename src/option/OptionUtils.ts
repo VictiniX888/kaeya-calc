@@ -1,5 +1,4 @@
 import { artifactSetOptions } from './artifactSetOptions';
-import { characterOptions } from './characterOptions';
 import Option, {
   IModifierApplicable,
   IOptionBoolean,
@@ -9,10 +8,6 @@ import Option, {
 } from './Option';
 
 const defaultOptions: typeof Option[] = [];
-
-export function getCharacterOptions(id: string) {
-  return characterOptions[id] ?? defaultOptions;
-}
 
 export function getArtifactSetOptions(id: string) {
   return artifactSetOptions[id] ?? defaultOptions;

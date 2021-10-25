@@ -1,27 +1,26 @@
 import DamageModifier from '../../modifier/DamageModifer';
 import { Element } from '../../talent/types';
-import { IModifierApplicable, IOptionBoolean } from '../Option';
-import CharacterOption from './CharacterOption';
+import { IModifierApplicable, IOptionBoolean } from '../../option/Option';
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 
-class YoimiyaOptionSkill
+class AyakaOptionInfusion
   extends CharacterOption
   implements IOptionBoolean, IModifierApplicable
 {
   value = false;
 
   constructor() {
-    super('yoimiyaSkill');
+    super('infusionCryo');
   }
 
   modifierMixin = {
     apply: (modifier: DamageModifier) => {
       if (this.value) {
-        modifier.infusionNormal = Element.Pyro;
-        modifier.yoimiyaSkill = true;
+        modifier.infusion = Element.Cryo;
       }
     },
   };
 }
 
-const yoimiyaOptions = [YoimiyaOptionSkill];
-export default yoimiyaOptions;
+const ayakaOptions = [AyakaOptionInfusion];
+export default ayakaOptions;

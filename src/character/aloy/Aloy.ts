@@ -1,5 +1,7 @@
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
+import aloyOptions from './AloyOption';
 import aloyTalents from './AloyTalent';
 
 export default class Aloy extends Character {
@@ -9,5 +11,9 @@ export default class Aloy extends Character {
 
   getTalentFns(): Talents {
     return aloyTalents;
+  }
+
+  getCharacterOptionConstuctors(): typeof CharacterOption[] {
+    return aloyOptions;
   }
 }

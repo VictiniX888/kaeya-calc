@@ -1,5 +1,7 @@
+import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
+import yanfeiOptions from './YanfeiOption';
 import yanfeiTalents from './YanfeiTalent';
 
 export default class Yanfei extends Character {
@@ -9,5 +11,9 @@ export default class Yanfei extends Character {
 
   getTalentFns(): Talents {
     return yanfeiTalents;
+  }
+
+  getCharacterOptionConstuctors(): typeof CharacterOption[] {
+    return yanfeiOptions;
   }
 }
