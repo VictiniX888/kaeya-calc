@@ -1,7 +1,9 @@
 import CharacterOption from '../../option/characterOptions/CharacterOption';
+import { CharacterPassive } from '../../passive/types';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
 import aloyOptions from './AloyOption';
+import aloyPassives from './AloyPassive';
 import aloyTalents from './AloyTalent';
 
 export default class Aloy extends Character {
@@ -15,5 +17,9 @@ export default class Aloy extends Character {
 
   getCharacterOptionConstuctors(): typeof CharacterOption[] {
     return aloyOptions;
+  }
+
+  getAllPassives(): CharacterPassive[] {
+    return aloyPassives;
   }
 }

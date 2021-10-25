@@ -1,5 +1,7 @@
+import { CharacterPassive } from '../../passive/types';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
+import beidouPassives from './BeidouPassive';
 import beidouTalents from './BeidouTalent';
 
 export default class Beidou extends Character {
@@ -9,5 +11,9 @@ export default class Beidou extends Character {
 
   getTalentFns(): Talents {
     return beidouTalents;
+  }
+
+  getAllPassives(): CharacterPassive[] {
+    return beidouPassives;
   }
 }

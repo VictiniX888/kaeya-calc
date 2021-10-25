@@ -10,6 +10,7 @@ interface Passive {
 }
 
 export interface CharacterPassive extends Passive {
+  ascensionLevel: number;
   options: typeof CharacterOption[];
 }
 

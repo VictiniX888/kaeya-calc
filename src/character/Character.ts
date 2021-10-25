@@ -13,7 +13,6 @@ import type {
   TalentDataSet,
 } from '../data/types';
 import type { Talents } from '../talent/types';
-import { getCharacterPassiveFn } from '../passive/characterPassives/CharacterPassive';
 import CharacterOption from '../option/characterOptions/CharacterOption';
 import { CharacterPassive } from '../passive/types';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
@@ -175,18 +174,16 @@ export default class Character {
     return this.getCharacterOptionConstuctors().map((Option) => new Option());
   }
 
+  // Override in derived classes
+  getAllPassives(): CharacterPassive[] {
+    return [];
+  }
+
+  // Returns passives that character should have based on their current ascension
   getPassives(ascensionLevel: number): CharacterPassive[] {
-    if (this.talents === undefined) {
-      return [];
-    }
-
-    const passiveDatas = this.talents.passives;
-
-    return passiveDatas
-      .filter((passiveData) => ascensionLevel >= passiveData.ascensionLevel)
-      .flatMap((passiveData) =>
-        getCharacterPassiveFn(passiveData.id)(passiveData.params)
-      );
+    return this.getAllPassives().filter(
+      (passive) => ascensionLevel >= passive.ascensionLevel
+    );
   }
 
   // getPassives should be called before this if passives are updated
