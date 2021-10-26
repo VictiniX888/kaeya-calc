@@ -1,10 +1,11 @@
-import { Stats, TalentParams } from '../../data/types';
+import { getWeaponPassiveParams } from '../../data/Data';
+import { Stats } from '../../data/types';
 import DamageModifier from '../../modifier/DamageModifer';
-import { WeaponPassive } from '../types';
+import { WeaponPassive } from '../../passive/types';
 
-export function everlastingMoonglowPassive(
-  params: TalentParams
-): WeaponPassive {
+export function everlastingMoonglowPassive(refinement: number): WeaponPassive {
+  const params = getWeaponPassiveParams('everlastingmoonglow', refinement);
+
   return {
     id: 'everlastingMoonglow',
     options: [],

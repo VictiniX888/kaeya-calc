@@ -1,10 +1,13 @@
-import { Stats, TalentParams } from '../../data/types';
+import { getWeaponPassiveParams } from '../../data/Data';
+import { Stats } from '../../data/types';
 import { Priority } from '../../option/Mixin';
 import { IOptionBoolean, IStatsApplicable } from '../../option/Option';
 import WeaponOption from '../../option/weaponOptions/WeaponOption';
-import { WeaponPassive } from '../types';
+import { WeaponPassive } from '../../passive/types';
 
-export function staffOfHomaPassive(params: TalentParams): WeaponPassive {
+export function staffOfHomaPassive(refinement: number): WeaponPassive {
+  const params = getWeaponPassiveParams('staffofhoma', refinement);
+
   class StaffOfHomaOption
     extends WeaponOption
     implements IOptionBoolean, IStatsApplicable

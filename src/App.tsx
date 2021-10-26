@@ -28,6 +28,7 @@ import Weapon from './weapon/Weapon';
 import CharacterOption from './option/characterOptions/CharacterOption';
 import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
 import { initArtifactSet } from './artifact/ArtifactSetUtil';
+import { initWeapon } from './weapon/WeaponUtil';
 
 export type AppState = {
   character: Character;
@@ -54,7 +55,7 @@ export type AppState = {
 class App extends React.Component<{}, AppState> {
   state: AppState = {
     character: initCharacter(),
-    weapon: new Weapon('', 1, false, 1),
+    weapon: initWeapon(),
     artifacts: Object.values(ArtifactType).map(
       (type) => new Artifact(type, 1, 0, '')
     ),

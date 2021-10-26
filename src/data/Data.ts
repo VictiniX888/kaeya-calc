@@ -206,6 +206,10 @@ export function getWeaponPassiveData(id: string) {
   return getData(id, weaponPassiveData);
 }
 
+export function getWeaponPassiveParams(id: string, refinement: number) {
+  return getWeaponPassiveData(id).passive[refinement]?.passiveParams ?? [];
+}
+
 export function getAscensionBonusAt(
   level: number,
   ascensionBonuses: Data.AscensionBonus[]

@@ -8,7 +8,7 @@ import Reaction from '../modifier/Reaction';
 import { getOptionValue, setOptionValue } from '../option';
 import Resistance from '../stat/Resistance';
 import { Element } from '../talent/types';
-import Weapon from '../weapon/Weapon';
+import { initWeapon } from '../weapon/WeaponUtil';
 
 export default interface Save {
   label: string;
@@ -148,11 +148,11 @@ export function loadSave(
     save.characterLevel,
     save.characterHasAscended
   );
-  const weapon = new Weapon(
-    save.weaponId ?? '',
-    save.weaponLevel ?? 1,
-    save.weaponHasAscended ?? false,
-    save.weaponRefinement ?? 1
+  const weapon = initWeapon(
+    save.weaponId,
+    save.weaponLevel,
+    save.weaponHasAscended,
+    save.weaponRefinement
   );
 
   const artifacts =

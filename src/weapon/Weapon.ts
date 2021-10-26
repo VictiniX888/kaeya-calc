@@ -17,15 +17,14 @@ import { getOptionValue, setOptionValue } from '../option';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
 import WeaponOption from '../option/weaponOptions/WeaponOption';
 import { WeaponPassive } from '../passive/types';
-import { getWeaponPassiveFn } from '../passive/weaponPassives/WeaponPassive';
 import type { WeaponType } from './types';
 
 export default class Weapon {
   constructor(
     id: string,
-    level: number,
-    hasAscended: boolean,
-    refinement: number
+    level: number = 1,
+    hasAscended: boolean = false,
+    refinement: number = 1
   ) {
     this._weaponLevel = level;
     this._hasAscended = hasAscended;
@@ -56,9 +55,9 @@ export default class Weapon {
         this.refinement,
         this.passiveDataSet
       );
-      this.passive = this.getPassive(this.passiveData);
-      this.passiveOptions = this.getPassiveOptions();
     }
+    this.passive = this.getPassive(this.refinement);
+    this.passiveOptions = this.getPassiveOptions();
 
     this.stats = this.getStatsAt(this.weaponLevel, this.hasAscended);
   }
@@ -97,7 +96,7 @@ export default class Weapon {
     this._refinement = value;
     if (this.passiveDataSet !== undefined) {
       this.passiveData = getWeaponPassiveAt(value, this.passiveDataSet);
-      this.passive = this.getPassive(this.passiveData);
+      this.passive = this.getPassive(value);
       this.passiveOptions = this.getPassiveOptions(true);
     }
   }
@@ -198,14 +197,11 @@ export default class Weapon {
     return weaponStats;
   }
 
+  // Override in derived classes to implement special passives
   // Only returns the extra passive bonuses, excluding the direct stat bonuses
   // To be called when passive should update (e.g. id or refinement change)
-  getPassive(passiveData?: WeaponPassiveData) {
-    if (passiveData === undefined) {
-      return getWeaponPassiveFn('')([]);
-    }
-
-    return getWeaponPassiveFn(passiveData.passiveId)(passiveData.passiveParams);
+  getPassive(_refinement: number): WeaponPassive | undefined {
+    return;
   }
 
   // getPassive should be called before this if passives are updated

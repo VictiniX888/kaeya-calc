@@ -2,6 +2,7 @@ import React from 'react';
 import { AppState } from '../App';
 import WeaponOption from '../option/weaponOptions/WeaponOption';
 import Weapon from '../weapon/Weapon';
+import { initWeapon } from '../weapon/WeaponUtil';
 import Checkbox from './Checkbox';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';
@@ -26,8 +27,8 @@ type WeaponInputBlockProps = {
 
 class WeaponInputBlock extends React.Component<WeaponInputBlockProps> {
   setWeaponId = (id: string) => {
-    const weapon = this.props.appState.weapon;
-    weapon.id = id;
+    const { weaponLevel, hasAscended, refinement } = this.props.appState.weapon;
+    const weapon = initWeapon(id, weaponLevel, hasAscended, refinement);
     const weaponOptions = weapon.passiveOptions;
     this.props.updateTotalStats({ weapon, weaponOptions });
     this.props.setAppState({ weapon, weaponOptions });

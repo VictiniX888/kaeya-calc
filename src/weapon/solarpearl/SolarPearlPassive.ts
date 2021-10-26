@@ -1,9 +1,12 @@
-import { Stats, TalentParams } from '../../data/types';
+import { getWeaponPassiveParams } from '../../data/Data';
+import { Stats } from '../../data/types';
 import { IOptionBoolean, IStatsApplicable } from '../../option/Option';
 import WeaponOption from '../../option/weaponOptions/WeaponOption';
-import { WeaponPassive } from '../types';
+import { WeaponPassive } from '../../passive/types';
 
-export function solarPearlPassive(params: TalentParams): WeaponPassive {
+export function solarPearlPassive(refinement: number): WeaponPassive {
+  const params = getWeaponPassiveParams('solarpearl', refinement);
+
   class SolarPearlOptionNormalAttack
     extends WeaponOption
     implements IOptionBoolean, IStatsApplicable
