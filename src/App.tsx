@@ -18,7 +18,6 @@ import CritType from './modifier/CritType';
 import DamageModifier from './modifier/DamageModifer';
 import Reaction from './modifier/Reaction';
 import { isModifierApplicable, isStatsApplicable } from './option';
-import { ArtifactSetOption } from './option/artifactSetOptions';
 import { ModifierMixin, Priority, StatMixin } from './option/Mixin';
 import { IModifierApplicable, IStatsApplicable } from './option/Option';
 import WeaponOption from './option/weaponOptions/WeaponOption';
@@ -27,6 +26,8 @@ import { getTotalStatsAt } from './stat/Stat';
 import { TalentValue, TalentValueSet } from './talent/types';
 import Weapon from './weapon/Weapon';
 import CharacterOption from './option/characterOptions/CharacterOption';
+import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
+import { initArtifactSet } from './artifact/ArtifactSetUtil';
 
 export type AppState = {
   character: Character;
@@ -58,11 +59,7 @@ class App extends React.Component<{}, AppState> {
       (type) => new Artifact(type, 1, 0, '')
     ),
 
-    artifactSets: [
-      new ArtifactSet(''),
-      new ArtifactSet(''),
-      new ArtifactSet(''),
-    ],
+    artifactSets: [initArtifactSet(), initArtifactSet(), initArtifactSet()],
 
     enemyLevel: 1,
     enemyDefReduction: 0,

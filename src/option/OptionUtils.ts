@@ -1,4 +1,3 @@
-import { artifactSetOptions } from './artifactSetOptions';
 import Option, {
   IModifierApplicable,
   IOptionBoolean,
@@ -6,12 +5,6 @@ import Option, {
   IOptionPicker,
   IStatsApplicable,
 } from './Option';
-
-const defaultOptions: typeof Option[] = [];
-
-export function getArtifactSetOptions(id: string) {
-  return artifactSetOptions[id] ?? defaultOptions;
-}
 
 export function isBooleanOption(
   option: Option

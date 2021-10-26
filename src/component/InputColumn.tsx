@@ -6,7 +6,6 @@ import Artifact from '../artifact/Artifact';
 import ArtifactSet from '../artifact/ArtifactSet';
 import Character from '../character/Character';
 import CritType from '../modifier/CritType';
-import { ArtifactSetOption } from '../option/artifactSetOptions';
 import Resistance from '../stat/Resistance';
 import Weapon from '../weapon/Weapon';
 import ArtifactSetInputBlock from './ArtifactSetInputBlock';
@@ -16,6 +15,7 @@ import SaveBlock from './SaveBlock';
 import TalentInputBlock from './TalentInputBlock';
 import WeaponInputBlock from './WeaponInputBlock';
 import CharacterOption from '../option/characterOptions/CharacterOption';
+import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
 
 type InputColumnProps = {
   appState: AppState;

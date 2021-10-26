@@ -1,7 +1,8 @@
 import React from 'react';
 import { AppState } from '../App';
 import ArtifactSet from '../artifact/ArtifactSet';
-import { ArtifactSetOption } from '../option/artifactSetOptions';
+import { initArtifactSet } from '../artifact/ArtifactSetUtil';
+import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
 import ArtifactSetPicker from './ArtifactSetPicker';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';
@@ -26,7 +27,7 @@ type ArtifactSetInputBlockProps = {
 class ArtifactSetInputBlock extends React.Component<ArtifactSetInputBlockProps> {
   setArtifactSetId = (i: number) => (id: string) => {
     const { artifactSets } = this.props.appState;
-    artifactSets[i].id = id;
+    artifactSets[i] = initArtifactSet(id, artifactSets[i].pieces);
     const artifactSetOptions = artifactSets.flatMap(
       (artifactSet) => artifactSet.options
     );

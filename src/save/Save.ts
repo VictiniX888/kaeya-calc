@@ -1,6 +1,6 @@
 import { AppState } from '../App';
 import Artifact from '../artifact/Artifact';
-import ArtifactSet from '../artifact/ArtifactSet';
+import { initArtifactSet } from '../artifact/ArtifactSetUtil';
 import { ArtifactType, InputStat } from '../artifact/types';
 import { initCharacter } from '../character/CharacterUtil';
 import CritType from '../modifier/CritType';
@@ -178,13 +178,9 @@ export function loadSave(
     }) ??
     Object.values(ArtifactType).map((type) => new Artifact(type, 1, 0, ''));
 
-  const artifactSets = save.artifactSets?.map(
-    (artifactSet) =>
-      new ArtifactSet(
-        artifactSet.artifactSetId ?? '',
-        artifactSet.artifactSetPieces ?? 0
-      )
-  ) ?? [new ArtifactSet(''), new ArtifactSet(''), new ArtifactSet('')];
+  const artifactSets = save.artifactSets?.map((artifactSet) =>
+    initArtifactSet(artifactSet.artifactSetId, artifactSet.artifactSetPieces)
+  ) ?? [initArtifactSet(), initArtifactSet(), initArtifactSet()];
 
   const talentAttackLevel = save.talentAttackLevel ?? 1;
   const talentSkillLevel = save.talentSkillLevel ?? 1;

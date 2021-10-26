@@ -83,7 +83,7 @@ const characters: Record<string, typeof Character> = {
   zhongli: Zhongli,
 };
 
-export function getCharacterConstructor(id: string): typeof Character {
+function getCharacterConstructor(id: string): typeof Character {
   return characters[id] ?? Character;
 }
 

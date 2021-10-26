@@ -1,16 +1,15 @@
 import { getArtifactSetData, getArtifactSetBonusData } from '../data/Data';
-import { artifactSetBonuses as extraBonuses } from './ArtifactSetBonus';
 import {
   ArtifactSetBonusData,
   ArtifactSetBonusSet,
   Stats,
 } from '../data/types';
-import { ArtifactSetOption } from '../option/artifactSetOptions';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
 import { ArtifactSetBonus } from './types';
+import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
 
 export default class ArtifactSet {
-  constructor(id: string, pieces?: number) {
+  constructor(id: string, pieces: number = 0) {
     if (pieces !== undefined) this._pieces = pieces;
     this.id = id;
   }
@@ -30,8 +29,8 @@ export default class ArtifactSet {
     this.setBonusData = getArtifactSetBonusData(value);
 
     this.setBonusSets = this.getSetBonusSetsAt(this.pieces);
+    this.setBonuses = this.getSetBonusesAt(this.pieces);
     this.stats = this.getStats();
-    this.setBonuses = this.getSetBonuses();
     this.options = this.getOptions(this.pieces);
   }
 
@@ -48,8 +47,8 @@ export default class ArtifactSet {
     this._pieces = value;
 
     this.setBonusSets = this.getSetBonusSetsAt(this.pieces);
+    this.setBonuses = this.getSetBonusesAt(this.pieces);
     this.stats = this.getStats();
-    this.setBonuses = this.getSetBonuses();
     this.options = this.getOptions(this.pieces, prevPieces);
   }
 
@@ -57,6 +56,18 @@ export default class ArtifactSet {
   stats: Stats = {};
   setBonusSets: ArtifactSetBonusSet[] = [];
   setBonuses: ArtifactSetBonus[] = [];
+
+  // Override in derived classes to implement special set bonuses
+  getAllSetBonuses(): ArtifactSetBonus[] {
+    return [];
+  }
+
+  // Returns all special set bonuses that are active for given pieces
+  getSetBonusesAt(pieces: number): ArtifactSetBonus[] {
+    return this.getAllSetBonuses().filter(
+      (setBonus) => pieces >= setBonus.pieces
+    );
+  }
 
   getSetBonusSetsAt(pieces: number): ArtifactSetBonusSet[] {
     if (this.bonusThresholds === undefined) return [];
@@ -80,24 +91,18 @@ export default class ArtifactSet {
           stats[statBonus.stat] = statBonus.value;
         }
       });
+    });
 
-      // Special bonuses, has to be handled individually
-      let extraBonus = setBonus?.bonusExtra;
-      if (extraBonus !== undefined && extraBonus.type !== '') {
-        let extraBonusSet =
-          extraBonuses[extraBonus.type] ?? extraBonuses['defaultSetBonus'];
+    // Special bonus stats, has to be handled individually
+    let extraStats = this.setBonuses.flatMap(
+      (setBonus) => setBonus.extraStats ?? []
+    );
 
-        let params = extraBonus.params;
-
-        let extraStats = extraBonusSet.extraStatsFn?.(params) ?? [];
-
-        extraStats.forEach((statBonus) => {
-          if (stats[statBonus.stat] !== undefined) {
-            stats[statBonus.stat] += statBonus.value;
-          } else {
-            stats[statBonus.stat] = statBonus.value;
-          }
-        });
+    extraStats.forEach((statBonus) => {
+      if (stats[statBonus.stat] !== undefined) {
+        stats[statBonus.stat] += statBonus.value;
+      } else {
+        stats[statBonus.stat] = statBonus.value;
       }
     });
 
@@ -106,31 +111,25 @@ export default class ArtifactSet {
 
   getOptions(pieces: number, prevPieces?: number) {
     if (prevPieces === undefined || isNaN(prevPieces)) {
-      const options = this.setBonuses.flatMap((setBonus) => setBonus.options);
+      const options = this.setBonuses.flatMap(
+        (setBonus) => setBonus.options ?? []
+      );
       return options.map((Option) => new Option());
     } else if (pieces === prevPieces) {
       return this.options;
     } else if (pieces > prevPieces) {
       const oldOptionIds = this.options.map(({ id }) => id);
       const newOptions = this.setBonuses
-        .flatMap((setBonus) => setBonus.options)
+        .flatMap((setBonus) => setBonus.options ?? [])
         .map((Option) => new Option())
         .filter(({ id }) => !oldOptionIds.includes(id));
       return this.options.concat(newOptions);
     } else {
       const keptOptionIds = this.setBonuses
-        .flatMap((setBonus) => setBonus.options)
+        .flatMap((setBonus) => setBonus.options ?? [])
         .map((Option) => new Option().id);
       return this.options.filter(({ id }) => keptOptionIds.includes(id));
     }
-  }
-
-  getSetBonuses(): ArtifactSetBonus[] {
-    const setBonusSets = this.setBonusSets;
-    return setBonusSets.map((setBonusSet) => {
-      const setBonusType = setBonusSet?.bonusExtra.type;
-      return extraBonuses[setBonusType] ?? extraBonuses['defaultSetBonus'];
-    });
   }
 
   getStatMixins(): StatMixin[] {
