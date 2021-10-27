@@ -8,6 +8,7 @@ import {
   IModifierApplicable,
 } from '../../option/Option';
 import { Stats } from '../../data/types';
+import { Priority } from '../../option/Mixin';
 
 class NoelleOptionBurst
   extends CharacterOption
@@ -20,6 +21,7 @@ class NoelleOptionBurst
   }
 
   statMixin = {
+    priority: Priority.Last,
     apply: (
       stats: Stats,
       _talentAttackLevel: number,
