@@ -48,6 +48,7 @@ export default class Character {
     const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
     this.passives = this.getPassives(ascensionLevel);
     this.passiveOptions = this.getPassiveOptions(ascensionLevel);
+    this.teamOptions = this.getTeamOptions();
   }
 
   name?: string;
@@ -95,6 +96,7 @@ export default class Character {
   passives: CharacterPassive[] = [];
   characterOptions: CharacterOption[] = [];
   passiveOptions: CharacterOption[] = [];
+  teamOptions: CharacterOption[] = [];
 
   isDefined() {
     return this.id !== '';
@@ -236,6 +238,11 @@ export default class Character {
     return this.passives
       .map(({ modifierMixin }) => modifierMixin)
       .filter((mixin): mixin is ModifierMixin => mixin !== undefined);
+  }
+
+  // Override in derived classes to implement team buffs
+  getTeamOptions(): CharacterOption[] {
+    return [];
   }
 }
 

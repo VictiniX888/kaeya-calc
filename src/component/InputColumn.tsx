@@ -16,6 +16,7 @@ import TalentInputBlock from './TalentInputBlock';
 import WeaponInputBlock from './WeaponInputBlock';
 import CharacterOption from '../option/characterOptions/CharacterOption';
 import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
+import TeamInputBlock from './TeamInputBlock';
 
 type InputColumnProps = {
   appState: AppState;
@@ -38,6 +39,7 @@ type InputColumnProps = {
     talentBurstLevel,
     characterOptions,
     artifactSetOptions,
+    teamOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
@@ -48,6 +50,7 @@ type InputColumnProps = {
     talentBurstLevel?: number;
     characterOptions?: CharacterOption[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
   }) => void;
   updateTalentValues: ({
     character,
@@ -125,6 +128,12 @@ class InputColumn extends React.Component<InputColumnProps> {
           appState={appState}
           setAppState={setAppState}
           updateTalentValues={updateTalentValues}
+        />
+
+        <TeamInputBlock
+          appState={appState}
+          setAppState={setAppState}
+          updateTotalStats={updateTotalStats}
         />
       </Col>
     );

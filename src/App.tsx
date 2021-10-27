@@ -29,6 +29,7 @@ import CharacterOption from './option/characterOptions/CharacterOption';
 import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
 import { initArtifactSet } from './artifact/ArtifactSetUtil';
 import { initWeapon } from './weapon/WeaponUtil';
+import Option from './option/Option';
 
 export type AppState = {
   character: Character;
@@ -47,9 +48,12 @@ export type AppState = {
   talentSkillLevel: number;
   talentBurstLevel: number;
 
+  teamCharacters: Character[];
+
   characterOptions: CharacterOption[];
   weaponOptions: WeaponOption[];
   artifactSetOptions: ArtifactSetOption[];
+  teamOptions: CharacterOption[];
 };
 
 class App extends React.Component<{}, AppState> {
@@ -72,9 +76,12 @@ class App extends React.Component<{}, AppState> {
     talentSkillLevel: 1,
     talentBurstLevel: 1,
 
+    teamCharacters: [initCharacter(), initCharacter(), initCharacter()],
+
     characterOptions: [],
     weaponOptions: [],
     artifactSetOptions: [],
+    teamOptions: [],
   };
 
   artifactSetBonuses: Stats = {};
@@ -92,6 +99,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions,
     artifactSets,
     artifactSetOptions,
+    teamOptions,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
@@ -99,6 +107,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions?: WeaponOption[];
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
   }) {
     if (
       character === undefined &&
@@ -106,7 +115,8 @@ class App extends React.Component<{}, AppState> {
       weapon === undefined &&
       weaponOptions === undefined &&
       artifactSets === undefined &&
-      artifactSetOptions === undefined
+      artifactSetOptions === undefined &&
+      teamOptions === undefined
     ) {
       return this.modifierMixins;
     }
@@ -145,12 +155,19 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.modifierMixin);
 
+    const teamOptionMixins = (teamOptions ?? this.state.teamOptions)
+      .filter((option): option is CharacterOption & IModifierApplicable =>
+        isModifierApplicable(option)
+      )
+      .map((option) => option.modifierMixin);
+
     const unarrangedMixins = characterPassiveMixins
       .concat(weaponPassiveMixins)
       .concat(artifactSetMixins)
       .concat(characterOptionMixins)
       .concat(weaponOptionMixins)
-      .concat(artifactSetOptionMixins);
+      .concat(artifactSetOptionMixins)
+      .concat(teamOptionMixins);
     const groupedMixins = new Map<Priority, ModifierMixin[]>();
     unarrangedMixins.forEach((mixin) => {
       const priority = mixin.priority ?? Priority.Normal;
@@ -177,6 +194,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions,
     artifactSets,
     artifactSetOptions,
+    teamOptions,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
@@ -184,6 +202,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions?: WeaponOption[];
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
   }) {
     if (
       character === undefined &&
@@ -191,7 +210,8 @@ class App extends React.Component<{}, AppState> {
       weapon === undefined &&
       weaponOptions === undefined &&
       artifactSets === undefined &&
-      artifactSetOptions === undefined
+      artifactSetOptions === undefined &&
+      teamOptions === undefined
     ) {
       return this.statMixins;
     }
@@ -230,12 +250,19 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.statMixin);
 
+    const teamOptionMixins = (teamOptions ?? this.state.teamOptions)
+      .filter((option): option is CharacterOption & IStatsApplicable =>
+        isStatsApplicable(option)
+      )
+      .map((option) => option.statMixin);
+
     const unarrangedMixins = characterPassiveMixins
       .concat(weaponPassiveMixins)
       .concat(artifactSetMixins)
       .concat(characterOptionMixins)
       .concat(weaponOptionMixins)
-      .concat(artifactSetOptionMixins);
+      .concat(artifactSetOptionMixins)
+      .concat(teamOptionMixins);
     const groupedMixins = new Map<Priority, StatMixin[]>();
     unarrangedMixins.forEach((mixin) => {
       const priority = mixin.priority ?? Priority.Normal;
@@ -340,6 +367,7 @@ class App extends React.Component<{}, AppState> {
     characterOptions,
     weaponOptions,
     artifactSetOptions,
+    teamOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
@@ -352,6 +380,7 @@ class App extends React.Component<{}, AppState> {
     characterOptions?: CharacterOption[];
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
   }) => {
     const statMixins = this.getStatMixins({
       character,
@@ -360,6 +389,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions,
       artifactSets,
       artifactSetOptions,
+      teamOptions,
     });
 
     this.totalStats = getTotalStatsAt(
@@ -380,6 +410,7 @@ class App extends React.Component<{}, AppState> {
       talentBurstLevel,
       characterOptions,
       artifactSetOptions,
+      teamOptions,
     });
   };
 
@@ -397,6 +428,7 @@ class App extends React.Component<{}, AppState> {
     characterOptions,
     weaponOptions,
     artifactSetOptions,
+    teamOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
@@ -411,6 +443,7 @@ class App extends React.Component<{}, AppState> {
     characterOptions?: CharacterOption[];
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
   }) => {
     const character = newChar ?? this.state.character;
 
@@ -421,6 +454,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions,
       artifactSets,
       artifactSetOptions,
+      teamOptions,
     });
 
     const damageModifier = this.getDamageModifier({
@@ -452,6 +486,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions: this.state.weaponOptions,
       artifactSets: this.state.artifactSets,
       artifactSetOptions: this.state.artifactSetOptions,
+      teamOptions: this.state.teamOptions,
     });
     this.getModifierMixins({
       character: this.state.character,
@@ -460,6 +495,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions: this.state.weaponOptions,
       artifactSets: this.state.artifactSets,
       artifactSetOptions: this.state.artifactSetOptions,
+      teamOptions: this.state.teamOptions,
     });
 
     this.updateArtifactSetBonuses({});

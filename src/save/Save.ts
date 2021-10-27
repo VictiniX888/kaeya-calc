@@ -43,9 +43,12 @@ export default interface Save {
   };
   reaction?: Reaction;
 
+  teamCharacterIds?: string[];
+
   characterOptions?: { id?: string; value?: unknown }[];
   weaponOptions?: { id?: string; value?: unknown }[];
   artifactSetOptions?: { id?: string; value?: unknown }[];
+  teamOptions?: { id?: string; value?: unknown }[];
 }
 
 export type Saves = Record<string, Save>;
@@ -121,6 +124,8 @@ export function createSave(label: string, appState: AppState): Save {
     },
     reaction: appState.reaction,
 
+    teamCharacterIds: appState.teamCharacters.map((character) => character.id),
+
     characterOptions: appState.characterOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
     }),
@@ -128,6 +133,9 @@ export function createSave(label: string, appState: AppState): Save {
       return { id: option.id, value: getOptionValue(option) };
     }),
     artifactSetOptions: appState.artifactSetOptions.map((option) => {
+      return { id: option.id, value: getOptionValue(option) };
+    }),
+    teamOptions: appState.teamOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
     }),
   };
@@ -193,6 +201,10 @@ export function loadSave(
     : new Resistance();
   const reaction = save.reaction ?? Reaction.None;
 
+  const teamCharacters = save.teamCharacterIds?.map((id) =>
+    initCharacter(id)
+  ) ?? [initCharacter(), initCharacter(), initCharacter()];
+
   const characterOptions = character.getOptions();
   save.characterOptions?.forEach((option) => {
     let characterOption = characterOptions.find(
@@ -225,6 +237,18 @@ export function loadSave(
     }
   });
 
+  const teamOptions = teamCharacters.flatMap(
+    (character) => character.teamOptions
+  );
+  save.teamOptions?.forEach((option) => {
+    let teamOption = teamOptions.find(
+      (teamOption) => teamOption.id === option.id
+    );
+    if (teamOption !== undefined) {
+      setOptionValue(teamOption, option.value);
+    }
+  });
+
   setAppState(
     {
       character,
@@ -238,9 +262,11 @@ export function loadSave(
       enemyLevel,
       enemyRes,
       reaction,
+      teamCharacters,
       characterOptions,
       weaponOptions,
       artifactSetOptions,
+      teamOptions,
     },
 
     // Update stats and talents
