@@ -6,6 +6,7 @@ import LuxuriousSeaLord from './luxurioussealord/LuxuriousSeaLord';
 import SolarPearl from './solarpearl/SolarPearl';
 import StaffOfHoma from './staffofhoma/StaffOfHoma';
 import TheCatch from './thecatch/TheCatch';
+import Whiteblind from './whiteblind/Whiteblind';
 
 const weapons: Record<string, typeof Weapon> = {
   // Polearm
@@ -20,6 +21,7 @@ const weapons: Record<string, typeof Weapon> = {
 
   // Claymore
   luxurioussealord: LuxuriousSeaLord,
+  whiteblind: Whiteblind,
 };
 
 function getWeaponConstructor(id: string): typeof Weapon {
