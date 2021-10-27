@@ -241,8 +241,14 @@ export default class Character {
   }
 
   // Override in derived classes to implement team buffs
-  getTeamOptions(): CharacterOption[] {
+  getTeamOptionConstructors(): typeof CharacterOption[] {
     return [];
+  }
+
+  getTeamOptions(): CharacterOption[] {
+    return this.getTeamOptionConstructors().flatMap((Option) =>
+      new Option().unroll()
+    );
   }
 }
 

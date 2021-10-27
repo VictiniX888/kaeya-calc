@@ -41,7 +41,7 @@ class TeamInputBlock extends React.Component<TeamInputBlockProps> {
   };
 
   render() {
-    const { teamCharacters, teamOptions } = this.props.appState;
+    const { teamCharacters } = this.props.appState;
 
     return (
       <InputBlock>

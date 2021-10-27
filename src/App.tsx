@@ -29,7 +29,6 @@ import CharacterOption from './option/characterOptions/CharacterOption';
 import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
 import { initArtifactSet } from './artifact/ArtifactSetUtil';
 import { initWeapon } from './weapon/WeaponUtil';
-import Option from './option/Option';
 
 export type AppState = {
   character: Character;
