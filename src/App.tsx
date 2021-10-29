@@ -8,6 +8,7 @@ import ArtifactColumn from './component/ArtifactColumn';
 import InputColumn from './component/InputColumn';
 import StatColumn from './component/StatColumn';
 import TalentColumn from './component/TalentColumn';
+import DPSColumn from './component/DPSColumn';
 import { Stats } from './data/types';
 import Artifact from './artifact/Artifact';
 import ArtifactSet from './artifact/ArtifactSet';
@@ -280,7 +281,7 @@ class App extends React.Component<{}, AppState> {
     return this.statMixins;
   }
 
-  getDamageModifier({
+  getDamageModifier = ({
     characterLevel,
     enemyLevel,
     enemyRes,
@@ -300,7 +301,7 @@ class App extends React.Component<{}, AppState> {
     talentSkillLevel?: number;
     talentBurstLevel?: number;
     modifierMixins?: ModifierMixin[];
-  } = {}): DamageModifier {
+  } = {}): DamageModifier => {
     const modifier: DamageModifier = {
       characterLevel: characterLevel ?? this.state.character.level,
       enemyLevel: enemyLevel ?? this.state.enemyLevel,
@@ -321,7 +322,7 @@ class App extends React.Component<{}, AppState> {
     );
 
     return modifier;
-  }
+  };
 
   setAppState = <K extends keyof AppState>(
     state: Pick<AppState, K>,
@@ -545,6 +546,7 @@ class App extends React.Component<{}, AppState> {
             artifactSetBonuses={this.artifactSetBonuses}
           />
           <TalentColumn talentValues={this.talentValues} />
+          <DPSColumn talentValues={this.talentValues} />
         </Row>
       </Container>
     );
