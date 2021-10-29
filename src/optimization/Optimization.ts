@@ -4,7 +4,6 @@ import Artifact from '../artifact/Artifact';
 import DamageModifier from '../modifier/DamageModifer';
 import { StatMixin } from '../option/Mixin';
 import { getTotalStatsAt } from '../stat/Stat';
-import { TalentType } from '../talent/types';
 
 export type RollDistribution = {
   stat: string;
@@ -38,7 +37,7 @@ export function optimizeSubstats(
   possibleStats: string[],
   maxRolls: number,
   erThreshold: number,
-  optimizeTalentType: TalentType,
+  optimizeTalentType: string,
   optimizeTalentId: string,
   appState: AppState,
   artifactSetBonuses: Stats,

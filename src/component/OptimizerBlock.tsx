@@ -13,8 +13,7 @@ import {
   substats,
 } from '../optimization/Optimization';
 import { StatMixin } from '../option/Mixin';
-import { capitalize } from '../stat/Stat';
-import { TalentType, TalentValueSet } from '../talent/types';
+import { TalentValueSet } from '../talent/types';
 import Checkbox from './Checkbox';
 import FloatInput from './FloatInput';
 import InputRow from './InputRow';
@@ -38,7 +37,7 @@ type OptimizerBlockState = {
   maxRolls: number;
   selectedSubstats: string[];
   erThreshold: number;
-  targetTalentType?: TalentType;
+  targetTalentType: string;
   targetTalentId: string;
   substatRolls: RollDistribution[];
 };
@@ -51,6 +50,7 @@ class OptimizerBlock extends React.Component<
     substatRolls: [],
     selectedSubstats: [],
     erThreshold: 100,
+    targetTalentType: '',
     targetTalentId: '',
     maxRolls: 20,
   };
@@ -86,11 +86,7 @@ class OptimizerBlock extends React.Component<
   };
 
   setTargetTalentType = (value: string) => {
-    if (value === '') {
-      this.setState({ targetTalentType: undefined });
-    } else {
-      this.setState({ targetTalentType: value as TalentType });
-    }
+    this.setState({ targetTalentType: value });
   };
 
   setTargetTalentId = (value: string) => {
@@ -183,22 +179,17 @@ class OptimizerBlock extends React.Component<
                     id={`optimizer-target-talent-type`}
                     label='Target Talent Type:'
                     defaultValue=''
-                    value={this.state.targetTalentType ?? ''}
+                    value={this.state.targetTalentType}
                     onChange={this.setTargetTalentType}
                   >
                     <Picker.Item value='' label='' />
-                    <Picker.Item
-                      value={TalentType.Attack}
-                      label={capitalize(TalentType.Attack)}
-                    />
-                    <Picker.Item
-                      value={TalentType.Skill}
-                      label={capitalize(TalentType.Skill)}
-                    />
-                    <Picker.Item
-                      value={TalentType.Burst}
-                      label={capitalize(TalentType.Burst)}
-                    />
+                    {Object.keys(this.props.talentValues).map((type) => (
+                      <Picker.Item
+                        key={type}
+                        value={type}
+                        label={talentDescMapping[type]}
+                      />
+                    ))}
                   </Picker>
                 </InputRow>
 
@@ -207,21 +198,19 @@ class OptimizerBlock extends React.Component<
                     id={`optimizer-target-talent-id`}
                     label='Target Talent Name:'
                     defaultValue=''
-                    value={this.state.targetTalentId ?? ''}
+                    value={this.state.targetTalentId}
                     onChange={this.setTargetTalentId}
                   >
                     <Picker.Item value='' label='' />
-                    {this.state.targetTalentType
-                      ? Object.keys(
-                          this.props.talentValues[this.state.targetTalentType]
-                        ).map((id) => (
-                          <Picker.Item
-                            key={id}
-                            value={id}
-                            label={talentDescMapping[id]}
-                          />
-                        ))
-                      : null}
+                    {Object.keys(
+                      this.props.talentValues[this.state.targetTalentType] ?? {}
+                    ).map((id) => (
+                      <Picker.Item
+                        key={id}
+                        value={id}
+                        label={talentDescMapping[id]}
+                      />
+                    ))}
                   </Picker>
                 </InputRow>
               </div>
