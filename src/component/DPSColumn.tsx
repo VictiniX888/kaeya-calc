@@ -3,7 +3,6 @@ import Col from 'react-bootstrap/esm/Col';
 import InputRow from './InputRow';
 import FloatInput from './FloatInput';
 import { TalentValue, TalentValueSet } from '../talent/types';
-import Option from '../option/Option';
 import DPSAttackInput from './DPSAttackInput';
 
 export type Attack = {
@@ -11,7 +10,7 @@ export type Attack = {
   talentId: string;
   multiplier: number;
   talentValue: TalentValue;
-  options: Option[];
+  label: string;
 };
 
 const defaultAttack: Attack = {
@@ -19,7 +18,7 @@ const defaultAttack: Attack = {
   talentId: '',
   multiplier: 1,
   talentValue: { damage: [NaN] },
-  options: [],
+  label: '',
 };
 
 type DPSColumnProps = {
@@ -58,13 +57,25 @@ class DPSColumn extends React.Component<DPSColumnProps, DPSColumnState> {
       (acc, attack) =>
         acc +
         attack.talentValue.damage.reduce(
-          (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0)
+          (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0),
+          0
         ) *
-          attack.multiplier,
+          (!isNaN(attack.multiplier) ? attack.multiplier : 0),
       0
     );
     this.dps = this.dpr / this.state.rotationTime;
 
+    this.setState({ rotation });
+  };
+
+  setAttackLabel = (label: string, i: number) => {
+    const rotation = this.state.rotation;
+
+    if (i >= rotation.length) {
+      return;
+    }
+
+    rotation[i] = { ...rotation[i], label };
     this.setState({ rotation });
   };
 
@@ -99,7 +110,9 @@ class DPSColumn extends React.Component<DPSColumnProps, DPSColumnState> {
 
         {this.state.rotation.map((attack, i) => (
           <DPSAttackInput
+            key={i}
             setAttack={this.setAttack}
+            setAttackLabel={this.setAttackLabel}
             attack={attack}
             index={i}
             talentValues={this.props.talentValues}
@@ -108,6 +121,7 @@ class DPSColumn extends React.Component<DPSColumnProps, DPSColumnState> {
 
         <DPSAttackInput
           setAttack={this.setAttack}
+          setAttackLabel={this.setAttackLabel}
           attack={{ ...defaultAttack }}
           index={this.state.rotation.length}
           talentValues={this.props.talentValues}

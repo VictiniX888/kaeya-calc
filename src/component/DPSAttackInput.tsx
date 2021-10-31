@@ -6,9 +6,12 @@ import { talentDescMapping } from '../data/Data';
 import { getDamageDisplayValue } from '../stat/Stat';
 import IntInput from './IntInput';
 import { TalentValueSet } from '../talent/types';
+import Form from 'react-bootstrap/esm/Form';
+import Col from 'react-bootstrap/esm/Col';
 
 type DPSAttackInputProps = {
   setAttack: (attack: Attack, i: number) => void;
+  setAttackLabel: (label: string, i: number) => void;
   attack: Attack;
   index: number;
   talentValues: TalentValueSet;
@@ -32,6 +35,10 @@ class DPSAttackInput extends React.Component<DPSAttackInputProps> {
   setMultiplier = (multiplier: number) => {
     const attack = { ...this.props.attack, multiplier };
     this.props.setAttack(attack, this.props.index);
+  };
+
+  onLabelInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.setAttackLabel(e.target.value, this.props.index);
   };
 
   render() {
@@ -81,6 +88,15 @@ class DPSAttackInput extends React.Component<DPSAttackInputProps> {
           onInput={this.setMultiplier}
           className='level-input'
         />
+
+        <Col className='dps-label-col'>
+          <Form.Control
+            type='text'
+            size='sm'
+            value={this.props.attack.label}
+            onChange={this.onLabelInputChange}
+          />
+        </Col>
       </InputRow>
     );
   }

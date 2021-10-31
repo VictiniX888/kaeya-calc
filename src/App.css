@@ -93,6 +93,10 @@ h3 {
   max-width: 200px;
 }
 
+.dps-label-col {
+  max-width: 200px;
+}
+
 .artifact-heading {
   padding: 0.8em;
 }
