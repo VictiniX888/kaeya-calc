@@ -50,10 +50,12 @@ h3 {
 
 .stat-column {
   padding: 0;
+  background-color: #eee;
 }
 
 .talent-column {
   padding: 0;
+  background-color: #eee;
 }
 
 .input-block {

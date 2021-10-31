@@ -522,7 +522,7 @@ class App extends React.Component<{}, AppState> {
           </Nav>
         </Navbar>
 
-        <Row className='mx-0'>
+        <Row className='mx-0 flex-md-nowrap'>
           <InputColumn
             appState={this.state}
             setAppState={this.setAppState}
