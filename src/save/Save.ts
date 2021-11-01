@@ -9,6 +9,9 @@ import { getOptionValue, setOptionValue } from '../option';
 import Resistance from '../stat/Resistance';
 import { Element } from '../talent/types';
 import { initWeapon } from '../weapon/WeaponUtil';
+import { Attack } from '../component/DPSColumn';
+import Option from '../option/Option';
+import ReactionOption from '../option/characterOptions/ReactionOption';
 
 export default interface Save {
   label: string;
@@ -49,6 +52,9 @@ export default interface Save {
   weaponOptions?: { id?: string; value?: unknown }[];
   artifactSetOptions?: { id?: string; value?: unknown }[];
   teamOptions?: { id?: string; value?: unknown }[];
+
+  rotationTime?: number;
+  rotation?: AttackSave[];
 }
 
 export type Saves = Record<string, Save>;
@@ -65,6 +71,13 @@ interface InputStatSave {
   stat?: string;
   value?: number;
   rawValue?: number;
+}
+
+interface AttackSave {
+  talentType?: string;
+  talentId?: string;
+  multiplier?: number;
+  options?: { id?: string; value?: unknown }[];
 }
 
 function createInputStatSave({
@@ -137,6 +150,18 @@ export function createSave(label: string, appState: AppState): Save {
     }),
     teamOptions: appState.teamOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
+    }),
+
+    rotationTime: appState.rotationTime,
+    rotation: appState.rotation.map((attack) => {
+      return {
+        talentType: attack.talentType,
+        talentId: attack.talentId,
+        multiplier: attack.multiplier,
+        options: attack.options.map((option) => {
+          return { id: option.id, value: getOptionValue(option) };
+        }),
+      };
     }),
   };
 
@@ -249,6 +274,41 @@ export function loadSave(
     }
   });
 
+  const allOptions = [
+    ...characterOptions,
+    ...weaponOptions,
+    ...artifactSetOptions,
+    ...teamOptions,
+  ];
+
+  const rotationTime = save.rotationTime ?? 0;
+  const rotation: Attack[] =
+    save.rotation?.map((attackSave) => {
+      return {
+        talentType: attackSave.talentType ?? '',
+        talentId: attackSave.talentId ?? '',
+        multiplier: attackSave.multiplier ?? 1,
+        talentValue: { damage: [NaN] },
+        options:
+          attackSave.options
+            ?.map(({ id, value }) => {
+              const OptionConstructor = allOptions.find(
+                (option) => option.id === id
+              )?.constructor as { new (): Option };
+              let option;
+              if (OptionConstructor !== undefined) {
+                option = new OptionConstructor();
+                setOptionValue(option, value);
+              } else if (id === 'reaction') {
+                option = new ReactionOption();
+                setOptionValue(option, value);
+              }
+              return option;
+            })
+            ?.filter((option): option is Option => option !== undefined) ?? [],
+      };
+    }) ?? [];
+
   setAppState(
     {
       character,
@@ -267,6 +327,8 @@ export function loadSave(
       weaponOptions,
       artifactSetOptions,
       teamOptions,
+      rotationTime,
+      rotation,
     },
 
     // Update stats and talents
