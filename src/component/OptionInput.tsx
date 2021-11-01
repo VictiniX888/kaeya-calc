@@ -13,6 +13,7 @@ import Picker from './Picker';
 type OptionInputProps = {
   option: Option;
   updateOptions: () => void;
+  isLabelShown?: boolean;
 };
 
 class OptionInput extends React.Component<OptionInputProps> {
@@ -42,6 +43,7 @@ class OptionInput extends React.Component<OptionInputProps> {
           defaultValue={option.value}
           value={option.value}
           onChange={this.handleBooleanChange(option)}
+          isLabelShown={this.props.isLabelShown}
         />
       );
     } else if (isPickerOption(option)) {
@@ -52,6 +54,7 @@ class OptionInput extends React.Component<OptionInputProps> {
           defaultValue={option.value}
           value={option.value}
           onChange={this.handlePickerChange(option)}
+          isLabelShown={this.props.isLabelShown}
         >
           <Picker.Item label='' value='' />
           {option.choices.map((choice) => (
@@ -71,6 +74,7 @@ class OptionInput extends React.Component<OptionInputProps> {
           defaultValue={option.value}
           value={option.value}
           onInput={this.handleNumberChange(option)}
+          isLabelShown={this.props.isLabelShown}
           className='level-input'
         />
       );

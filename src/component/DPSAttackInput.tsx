@@ -6,98 +6,111 @@ import { talentDescMapping } from '../data/Data';
 import { getDamageDisplayValue } from '../stat/Stat';
 import IntInput from './IntInput';
 import { TalentValueSet } from '../talent/types';
-import Form from 'react-bootstrap/esm/Form';
-import Col from 'react-bootstrap/esm/Col';
+import DPSOptionInput from './DPSOptionInput';
+import Option from '../option';
 
 type DPSAttackInputProps = {
-  setAttack: (attack: Attack, i: number) => void;
-  setAttackLabel: (label: string, i: number) => void;
+  setAttack: (attack: Attack) => void;
   attack: Attack;
   index: number;
   talentValues: TalentValueSet;
+  options: Option[];
 };
 
 class DPSAttackInput extends React.Component<DPSAttackInputProps> {
   setTalentType = (type: string) => {
     const attack = { ...this.props.attack, talentType: type };
-    attack.talentValue = { damage: [NaN] };
-    this.props.setAttack(attack, this.props.index);
+    this.props.setAttack(attack);
   };
 
   setTalentId = (id: string) => {
     const attack = { ...this.props.attack, talentId: id };
-    attack.talentValue = this.props.talentValues[attack.talentType]?.[
-      attack.talentId
-    ] ?? { damage: [NaN] };
-    this.props.setAttack(attack, this.props.index);
+    this.props.setAttack(attack);
   };
 
   setMultiplier = (multiplier: number) => {
     const attack = { ...this.props.attack, multiplier };
-    this.props.setAttack(attack, this.props.index);
+    this.props.setAttack(attack);
   };
 
-  onLabelInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.setAttackLabel(e.target.value, this.props.index);
+  setOption = (i: number) => (option?: Option) => {
+    const options = [...this.props.attack.options];
+
+    if (option === undefined) {
+      options.splice(i, 1);
+    } else {
+      options[i] = option;
+    }
+
+    this.props.setAttack({ ...this.props.attack, options });
   };
 
   render() {
     return (
-      <InputRow>
-        <Picker
-          id={`dps-talent-type-${this.props.index}`}
-          label=''
-          defaultValue=''
-          value={this.props.attack.talentType}
-          onChange={this.setTalentType}
-          isLabelShown={false}
-        >
-          <Picker.Item value='' label='' />
-          {Object.keys(this.props.talentValues).map((type) => (
-            <Picker.Item
-              key={type}
-              value={type}
-              label={talentDescMapping[type]}
-            />
-          ))}
-        </Picker>
+      <>
+        <InputRow>
+          <Picker
+            id={`dps-talent-type-${this.props.index}`}
+            label=''
+            defaultValue=''
+            value={this.props.attack.talentType}
+            onChange={this.setTalentType}
+            isLabelShown={false}
+          >
+            <Picker.Item value='' label='' />
+            {Object.keys(this.props.talentValues).map((type) => (
+              <Picker.Item
+                key={type}
+                value={type}
+                label={talentDescMapping[type]}
+              />
+            ))}
+          </Picker>
 
-        <Picker
-          id={`dps-talent-id-${this.props.index}`}
-          label=''
-          defaultValue=''
-          value={this.props.attack.talentId}
-          onChange={this.setTalentId}
-          isLabelShown={false}
-        >
-          <Picker.Item value='' label='' />
-          {Object.keys(
-            this.props.talentValues[this.props.attack.talentType] ?? {}
-          ).map((id) => (
-            <Picker.Item key={id} value={id} label={talentDescMapping[id]} />
-          ))}
-        </Picker>
+          <Picker
+            id={`dps-talent-id-${this.props.index}`}
+            label=''
+            defaultValue=''
+            value={this.props.attack.talentId}
+            onChange={this.setTalentId}
+            isLabelShown={false}
+          >
+            <Picker.Item value='' label='' />
+            {Object.keys(
+              this.props.talentValues[this.props.attack.talentType] ?? {}
+            ).map((id) => (
+              <Picker.Item key={id} value={id} label={talentDescMapping[id]} />
+            ))}
+          </Picker>
 
-        {getDamageDisplayValue(this.props.attack.talentValue.damage)}
+          {getDamageDisplayValue(this.props.attack.talentValue.damage)}
 
-        <IntInput
-          id={`dps-attack-multiplier-${this.props.index}`}
-          label='x'
-          defaultValue={1}
-          value={this.props.attack.multiplier}
-          onInput={this.setMultiplier}
-          className='level-input'
-        />
-
-        <Col className='dps-label-col'>
-          <Form.Control
-            type='text'
-            size='sm'
-            value={this.props.attack.label}
-            onChange={this.onLabelInputChange}
+          <IntInput
+            id={`dps-attack-multiplier-${this.props.index}`}
+            label='x'
+            defaultValue={1}
+            value={this.props.attack.multiplier}
+            onInput={this.setMultiplier}
+            className='level-input'
           />
-        </Col>
-      </InputRow>
+        </InputRow>
+
+        {this.props.attack.options.map((option, i) => (
+          <DPSOptionInput
+            key={i}
+            setOption={this.setOption(i)}
+            options={this.props.options}
+            option={option}
+            index={i}
+          />
+        ))}
+
+        <DPSOptionInput
+          setOption={this.setOption(this.props.attack.options.length)}
+          options={this.props.options}
+          index={this.props.attack.options.length}
+        />
+      </>
     );
   }
 }

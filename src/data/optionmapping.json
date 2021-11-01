@@ -1,4 +1,6 @@
 {
+    "reaction": "Reaction",
+    
     "infusion": "Infusion",
     "infusionPyro": "Pyro Infusion",
     "infusionCryo": "Cryo Infusion",

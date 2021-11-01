@@ -4,13 +4,25 @@ import InputRow from './InputRow';
 import FloatInput from './FloatInput';
 import { TalentValue, TalentValueSet } from '../talent/types';
 import DPSAttackInput from './DPSAttackInput';
+import { AppState } from '../App';
+import DamageModifier from '../modifier/DamageModifer';
+import { ModifierMixin, StatMixin } from '../option/Mixin';
+import { Stats } from '../data/types';
+import {
+  calculateTalentValue,
+  initializeAllOptions,
+} from '../dps/DPSCalculator';
+import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
+import CharacterOption from '../option/characterOptions/CharacterOption';
+import WeaponOption from '../option/weaponOptions/WeaponOption';
+import Option from '../option/Option';
 
 export type Attack = {
   talentType: string;
   talentId: string;
   multiplier: number;
   talentValue: TalentValue;
-  label: string;
+  options: Option[];
 };
 
 const defaultAttack: Attack = {
@@ -18,40 +30,71 @@ const defaultAttack: Attack = {
   talentId: '',
   multiplier: 1,
   talentValue: { damage: [NaN] },
-  label: '',
+  options: [],
 };
 
 type DPSColumnProps = {
+  appState: AppState;
+  setAppState: <K extends keyof AppState>(
+    state: Pick<AppState, K>,
+    callback?: () => void
+  ) => void;
+  artifactSetBonuses: Stats;
+  getDamageModifier: ({
+    modifierMixins,
+  }: {
+    modifierMixins: ModifierMixin[];
+  }) => DamageModifier;
+  getStatMixins: ({
+    characterOptions,
+    weaponOptions,
+    artifactSetOptions,
+    teamOptions,
+    updateCache,
+  }: {
+    characterOptions?: CharacterOption[];
+    weaponOptions?: WeaponOption[];
+    artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
+    updateCache?: boolean;
+  }) => StatMixin[];
+  getModifierMixins: ({
+    characterOptions,
+    weaponOptions,
+    artifactSetOptions,
+    teamOptions,
+    updateCache,
+  }: {
+    characterOptions?: CharacterOption[];
+    weaponOptions?: WeaponOption[];
+    artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
+    updateCache?: boolean;
+  }) => ModifierMixin[];
   talentValues: TalentValueSet;
 };
 
-type DPSColumnState = {
-  rotationTime: number;
-  rotation: Attack[];
-};
-
-class DPSColumn extends React.Component<DPSColumnProps, DPSColumnState> {
-  state: DPSColumnState = {
-    rotationTime: 0,
-    rotation: [],
-  };
-
+class DPSColumn extends React.Component<DPSColumnProps> {
   dpr: number = 0;
   dps: number = NaN;
 
-  setRotationTime = (time: number) => {
-    this.dps = this.dpr / time;
-    this.setState({ rotationTime: time });
+  updateTalentValue = (attack: Attack) => {
+    attack.talentValue = calculateTalentValue(
+      attack.talentType,
+      attack.talentId,
+      attack.options,
+      this.props.appState,
+      this.props.artifactSetBonuses,
+      this.props.getDamageModifier,
+      this.props.getStatMixins,
+      this.props.getModifierMixins
+    );
   };
 
-  setAttack = (attack: Attack, i: number) => {
-    const rotation = this.state.rotation;
+  updateTalentValues = () => {
+    const rotation = this.props.appState.rotation;
 
-    if (attack.talentType === '') {
-      rotation.splice(i, 1);
-    } else {
-      rotation[i] = attack;
-    }
+    rotation.forEach((attack) => this.updateTalentValue(attack));
 
     this.dpr = rotation.reduce(
       (acc, attack) =>
@@ -63,23 +106,38 @@ class DPSColumn extends React.Component<DPSColumnProps, DPSColumnState> {
           (!isNaN(attack.multiplier) ? attack.multiplier : 0),
       0
     );
-    this.dps = this.dpr / this.state.rotationTime;
-
-    this.setState({ rotation });
+    this.dps = this.dpr / this.props.appState.rotationTime;
   };
 
-  setAttackLabel = (label: string, i: number) => {
-    const rotation = this.state.rotation;
+  setRotationTime = (time: number) => {
+    this.props.setAppState({ rotationTime: time });
+  };
 
-    if (i >= rotation.length) {
-      return;
+  setAttack = (i: number) => (attack: Attack) => {
+    const rotation = this.props.appState.rotation;
+
+    if (attack.talentType === '') {
+      rotation.splice(i, 1);
+    } else {
+      rotation[i] = attack;
     }
 
-    rotation[i] = { ...rotation[i], label };
-    this.setState({ rotation });
+    this.props.setAppState({ rotation });
   };
 
   render() {
+    this.updateTalentValues();
+
+    const { characterOptions, weaponOptions, artifactSetOptions, teamOptions } =
+      initializeAllOptions(this.props.appState);
+
+    const allOptions = [
+      ...characterOptions,
+      ...weaponOptions,
+      ...artifactSetOptions,
+      ...teamOptions,
+    ];
+
     return (
       <Col
         id='dps-column'
@@ -94,7 +152,7 @@ class DPSColumn extends React.Component<DPSColumnProps, DPSColumnState> {
             id='rotation-time-input'
             label='Rotation Time:'
             defaultValue={0}
-            value={this.state.rotationTime}
+            value={this.props.appState.rotationTime}
             onInput={this.setRotationTime}
             className='level-input'
           />
@@ -108,23 +166,23 @@ class DPSColumn extends React.Component<DPSColumnProps, DPSColumnState> {
           <p>DPS: {isFinite(this.dps) ? this.dps.toFixed(0) : '-'}</p>
         </InputRow>
 
-        {this.state.rotation.map((attack, i) => (
+        {this.props.appState.rotation.map((attack, i) => (
           <DPSAttackInput
             key={i}
-            setAttack={this.setAttack}
-            setAttackLabel={this.setAttackLabel}
+            setAttack={this.setAttack(i)}
             attack={attack}
             index={i}
             talentValues={this.props.talentValues}
+            options={allOptions}
           />
         ))}
 
         <DPSAttackInput
-          setAttack={this.setAttack}
-          setAttackLabel={this.setAttackLabel}
+          setAttack={this.setAttack(this.props.appState.rotation.length)}
           attack={{ ...defaultAttack }}
-          index={this.state.rotation.length}
+          index={this.props.appState.rotation.length}
           talentValues={this.props.talentValues}
+          options={allOptions}
         />
       </Col>
     );

@@ -131,6 +131,7 @@ input[type='number'] {
 
 .checkbox {
   padding-left: 0;
+  margin-right: calc(0.25rem + 13px);
 }
 
 .checkbox > input[type='checkbox'] {

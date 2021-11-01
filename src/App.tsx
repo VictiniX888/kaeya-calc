@@ -8,7 +8,7 @@ import ArtifactColumn from './component/ArtifactColumn';
 import InputColumn from './component/InputColumn';
 import StatColumn from './component/StatColumn';
 import TalentColumn from './component/TalentColumn';
-import DPSColumn from './component/DPSColumn';
+import DPSColumn, { Attack } from './component/DPSColumn';
 import { Stats } from './data/types';
 import Artifact from './artifact/Artifact';
 import ArtifactSet from './artifact/ArtifactSet';
@@ -54,6 +54,9 @@ export type AppState = {
   weaponOptions: WeaponOption[];
   artifactSetOptions: ArtifactSetOption[];
   teamOptions: CharacterOption[];
+
+  rotationTime: number;
+  rotation: Attack[];
 };
 
 class App extends React.Component<{}, AppState> {
@@ -82,6 +85,9 @@ class App extends React.Component<{}, AppState> {
     weaponOptions: [],
     artifactSetOptions: [],
     teamOptions: [],
+
+    rotationTime: 0,
+    rotation: [],
   };
 
   artifactSetBonuses: Stats = {};
@@ -92,7 +98,7 @@ class App extends React.Component<{}, AppState> {
   statMixins: StatMixin[] = [];
 
   // Gets all modifier mixins and updates cache (modifierMixins)
-  getModifierMixins({
+  getModifierMixins = ({
     character,
     characterOptions,
     weapon,
@@ -100,6 +106,7 @@ class App extends React.Component<{}, AppState> {
     artifactSets,
     artifactSetOptions,
     teamOptions,
+    updateCache = true,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
@@ -108,7 +115,8 @@ class App extends React.Component<{}, AppState> {
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
     teamOptions?: CharacterOption[];
-  }) {
+    updateCache?: boolean;
+  }) => {
     if (
       character === undefined &&
       characterOptions === undefined &&
@@ -179,15 +187,19 @@ class App extends React.Component<{}, AppState> {
       }
     });
 
-    this.modifierMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
+    const modifierMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
       groupedMixins.get(Priority.Last) ?? []
     );
 
-    return this.modifierMixins;
-  }
+    if (updateCache) {
+      this.modifierMixins = modifierMixins;
+    }
+
+    return modifierMixins;
+  };
 
   // Gets all stat mixins and updates cache (statMixins)
-  getStatMixins({
+  getStatMixins = ({
     character,
     characterOptions,
     weapon,
@@ -195,6 +207,7 @@ class App extends React.Component<{}, AppState> {
     artifactSets,
     artifactSetOptions,
     teamOptions,
+    updateCache = true,
   }: {
     character?: Character;
     characterOptions?: CharacterOption[];
@@ -203,7 +216,8 @@ class App extends React.Component<{}, AppState> {
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
     teamOptions?: CharacterOption[];
-  }) {
+    updateCache?: boolean;
+  }) => {
     if (
       character === undefined &&
       characterOptions === undefined &&
@@ -274,12 +288,16 @@ class App extends React.Component<{}, AppState> {
       }
     });
 
-    this.statMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
+    const statMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
       groupedMixins.get(Priority.Last) ?? []
     );
 
-    return this.statMixins;
-  }
+    if (updateCache) {
+      this.statMixins = statMixins;
+    }
+
+    return statMixins;
+  };
 
   getDamageModifier = ({
     characterLevel,
@@ -546,7 +564,15 @@ class App extends React.Component<{}, AppState> {
             artifactSetBonuses={this.artifactSetBonuses}
           />
           <TalentColumn talentValues={this.talentValues} />
-          <DPSColumn talentValues={this.talentValues} />
+          <DPSColumn
+            appState={this.state}
+            setAppState={this.setAppState}
+            artifactSetBonuses={this.artifactSetBonuses}
+            getDamageModifier={this.getDamageModifier}
+            getStatMixins={this.getStatMixins}
+            getModifierMixins={this.getModifierMixins}
+            talentValues={this.talentValues}
+          />
         </Row>
       </Container>
     );

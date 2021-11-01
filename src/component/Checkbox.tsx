@@ -55,7 +55,12 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           className={`checkbox ${this.props.className ?? ''}`}
           id={this.props.id}
         >
-          <Form.Check.Label>{this.props.label}</Form.Check.Label>
+          {this.isLabelShown() ? (
+            <Form.Check.Label>{this.props.label}</Form.Check.Label>
+          ) : (
+            <Form.Check.Label></Form.Check.Label>
+          )}
+
           <Form.Check.Input
             type='checkbox'
             checked={value}
