@@ -544,6 +544,22 @@
         }
     },
     {
+        "id": "thoma",
+        "name": "Thoma",
+        "baseStats": {
+            "baseHp": 866.2014770507812,
+            "baseAtk": 16.917600631713867,
+            "baseDef": 62.9474983215332,
+            "critDmg": 0.5,
+            "critRate": 0.05000000074505806
+        },
+        "statCurves": {
+            "baseHp": "growthCurveHp4Star",
+            "baseAtk": "growthCurveAtk4Star",
+            "baseDef": "growthCurveHp4Star"
+        }
+    },
+    {
         "id": "eula",
         "name": "Eula",
         "baseStats": {

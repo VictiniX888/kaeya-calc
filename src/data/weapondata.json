@@ -650,6 +650,20 @@
         }
     },
     {
+        "id": "akuoumaru",
+        "name": "Akuoumaru",
+        "type": "claymore",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 42.4010009765625,
+            "atkBonus": 0.09000000357627869
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk201",
+            "atkBonus": "growthCurveSub201"
+        }
+    },
+    {
         "id": "skywardpride",
         "name": "Skyward Pride",
         "type": "claymore",
@@ -923,6 +937,20 @@
         "statCurves": {
             "baseAtk": "growthCurveAtk201",
             "energyRecharge": "growthCurveSub201"
+        }
+    },
+    {
+        "id": "wavebreakersfin",
+        "name": "Wavebreaker's Fin",
+        "type": "polearm",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 45.06869888305664,
+            "atkBonus": 0.029999999329447746
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk203",
+            "atkBonus": "growthCurveSub201"
         }
     },
     {
@@ -1632,6 +1660,20 @@
         }
     },
     {
+        "id": "mouunsmoon",
+        "name": "Mouun's Moon",
+        "type": "bow",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 43.734901428222656,
+            "atkBonus": 0.05999999865889549
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk202",
+            "atkBonus": "growthCurveSub201"
+        }
+    },
+    {
         "id": "skywardharp",
         "name": "Skyward Harp",
         "type": "bow",
@@ -1671,6 +1713,20 @@
         "statCurves": {
             "baseAtk": "growthCurveAtk301",
             "energyRecharge": "growthCurveSub301"
+        }
+    },
+    {
+        "id": "polarstar",
+        "name": "Polar Star",
+        "type": "bow",
+        "rank": 5,
+        "baseStats": {
+            "baseAtk": 45.9364013671875,
+            "critRate": 0.07199999690055847
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk301",
+            "critRate": "growthCurveSub301"
         }
     },
     {

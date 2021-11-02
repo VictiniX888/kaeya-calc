@@ -36,6 +36,8 @@ interface DamageModiferOptional {
 
   yoimiyaSkill?: boolean;
 
+  thomaHpBonusDmg?: number;
+
   resolveStacks?: number;
 
   kokomiBurst?: boolean;

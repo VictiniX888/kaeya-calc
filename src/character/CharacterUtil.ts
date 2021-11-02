@@ -31,6 +31,7 @@ import Sara from './sara/Sara';
 import Sayu from './sayu/Sayu';
 import Sucrose from './sucrose/Sucrose';
 import Tartaglia from './tartaglia/Tartaglia';
+import Thoma from './thoma/Thoma';
 import Venti from './venti/Venti';
 import Xiangling from './xiangling/Xiangling';
 import Xiao from './xiao/Xiao';
@@ -73,6 +74,7 @@ const characters: Record<string, typeof Character> = {
   sayu: Sayu,
   sucrose: Sucrose,
   tartaglia: Tartaglia,
+  thoma: Thoma,
   venti: Venti,
   xiangling: Xiangling,
   xiao: Xiao,

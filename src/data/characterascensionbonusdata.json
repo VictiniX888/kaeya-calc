@@ -2312,6 +2312,74 @@
         ]
     },
     {
+        "characterId": "thoma",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                    "baseHp": 0.0,
+                    "baseDef": 0.0,
+                    "baseAtk": 0.0,
+                    "atkBonus": 0.0
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseHp": 647.0968017578125,
+                    "baseDef": 47.025001525878906,
+                    "baseAtk": 12.638609886169434,
+                    "atkBonus": 0.0
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseHp": 1106.876220703125,
+                    "baseDef": 80.4375,
+                    "baseAtk": 21.618675231933594,
+                    "atkBonus": 0.05999999865889549
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseHp": 1719.915283203125,
+                    "baseDef": 124.98750305175781,
+                    "baseAtk": 33.59209442138672,
+                    "atkBonus": 0.11999999731779099
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseHp": 2179.694580078125,
+                    "baseDef": 158.39999389648438,
+                    "baseAtk": 42.57215881347656,
+                    "atkBonus": 0.11999999731779099
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseHp": 2639.473876953125,
+                    "baseDef": 191.8125,
+                    "baseAtk": 51.552223205566406,
+                    "atkBonus": 0.18000000715255737
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseHp": 3099.253173828125,
+                    "baseDef": 225.22500610351562,
+                    "baseAtk": 60.532291412353516,
+                    "atkBonus": 0.23999999463558197
+                }
+            }
+        ]
+    },
+    {
         "characterId": "eula",
         "ascensionBonusSet": [
             {

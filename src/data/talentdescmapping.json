@@ -36,6 +36,7 @@
     "shieldHpLevel1": "Shield Level 1 DMG Absorption",
     "shieldHpLevel2": "Shield Level 2 DMG Absorption",
     "shieldHpLevel3": "Shield Level 3 DMG Absorption",
+    "shieldHpMax": "Max Shield DMG Absorption",
 
     "baseDmg": "Base DMG",
     "dmgBonusOnHitTaken": "DMG Bonus On Hit Taken",
@@ -153,6 +154,8 @@
 
     "kindlingArrowDmg": "Kindling Arrow DMG",
     "aurousBlazeExplosionDmg": "Aurous Blaze Explosion DMG",
+
+    "fieryCollapseDmg": "Fiery Collapse DMG",
 
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
     "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
