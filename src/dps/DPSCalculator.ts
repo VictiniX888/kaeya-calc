@@ -118,6 +118,9 @@ export function initializeAllOptions(appState: AppState) {
         appState.character.hasAscended
       )
     ),
+    ...appState.character.getConstellationsOptions(
+      appState.character.constellationLevel
+    ),
   ];
   appState.characterOptions.forEach((option) => {
     let characterOption = characterOptions.find(
