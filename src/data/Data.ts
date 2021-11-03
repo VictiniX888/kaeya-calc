@@ -225,7 +225,7 @@ export function getTalentData(id: string) {
 
 const emptyTalentParams: number[] = Array(19).fill(NaN);
 
-export function getTalentStatsAt(
+export function getTalentParams(
   type: TalentType,
   level: number,
   talents: Data.TalentDataSet

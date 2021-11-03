@@ -1,5 +1,5 @@
 import CharacterOption from '../../option/characterOptions/CharacterOption';
-import { getTalentStatsAt, getTalentData } from '../../data/Data';
+import { getTalentParams, getTalentData } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import { Element, TalentType } from '../../talent/types';
 import {
@@ -29,7 +29,7 @@ class NoelleOptionBurst
       talentBurstLevel: number
     ) => {
       if (this.value) {
-        let burstParams = getTalentStatsAt(
+        let burstParams = getTalentParams(
           TalentType.Burst,
           talentBurstLevel,
           getTalentData('noelle')

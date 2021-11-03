@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   chargedAttackSingle,
@@ -8,25 +8,35 @@ import {
   skillMulti,
   burstMulti,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('rosaria');
+const talentData = getTalentData('rosaria');
 
 const rosariaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -34,14 +44,24 @@ const rosariaAttack: Record<string, TalentFn> = {
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackMulti({
       hits: 2,
-      params: Array(2).fill(attackParams[modifier.talentAttackLevel][2]),
+      params: Array(2).fill(
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[2]
+      ),
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
@@ -49,35 +69,55 @@ const rosariaAttack: Record<string, TalentFn> = {
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackMulti({
       hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(4, 6),
+      params: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      ).slice(4, 6),
       stats,
       modifier,
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
@@ -88,7 +128,11 @@ const rosariaSkill: Record<string, TalentFn> = {
     skillMulti({
       hits: 2,
       element: Element.Cryo,
-      params: skillParams[modifier.talentSkillLevel].slice(0, 2),
+      params: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      ).slice(0, 2),
       stats,
       modifier,
     }),
@@ -99,7 +143,11 @@ const rosariaBurst: Record<string, TalentFn> = {
     burstMulti({
       hits: 2,
       element: Element.Cryo,
-      params: burstParams[modifier.talentBurstLevel].slice(0, 2),
+      params: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      ).slice(0, 2),
       stats,
       modifier,
     }),
@@ -107,7 +155,11 @@ const rosariaBurst: Record<string, TalentFn> = {
   iceLanceDot: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Cryo,
-      multiplier: burstParams[modifier.talentBurstLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),

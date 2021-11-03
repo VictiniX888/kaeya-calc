@@ -1,5 +1,5 @@
 import { Stats } from '../../data/types';
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import {
   burstSingle,
@@ -15,19 +15,20 @@ import {
   Talents,
   TalentFn,
   ScalingType,
+  TalentType,
 } from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('kokomi');
+const talentData = getTalentData('kokomi');
 
 const kokomiAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier: getKokomiNormalAttackModifier(stats, modifier),
     }),
@@ -35,7 +36,11 @@ const kokomiAttack: Record<string, TalentFn> = {
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier: getKokomiNormalAttackModifier(stats, modifier),
     }),
@@ -43,7 +48,11 @@ const kokomiAttack: Record<string, TalentFn> = {
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier: getKokomiNormalAttackModifier(stats, modifier),
     }),
@@ -51,7 +60,11 @@ const kokomiAttack: Record<string, TalentFn> = {
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier: getKokomiChargedAttackModifier(stats, modifier),
     }),
@@ -59,7 +72,11 @@ const kokomiAttack: Record<string, TalentFn> = {
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
@@ -67,7 +84,11 @@ const kokomiAttack: Record<string, TalentFn> = {
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
@@ -75,7 +96,11 @@ const kokomiAttack: Record<string, TalentFn> = {
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
@@ -84,8 +109,16 @@ const kokomiAttack: Record<string, TalentFn> = {
 const kokomiSkill: Record<string, TalentFn> = {
   hpRegen: ({ stats, modifier }: TalentProps) =>
     healingValue({
-      multiplier: skillParams[modifier.talentSkillLevel][0],
-      flatHealing: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
+      flatHealing: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -93,7 +126,11 @@ const kokomiSkill: Record<string, TalentFn> = {
   rippleDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[2],
       stats,
       modifier: getKokomiSkillModifier(stats, modifier),
     }),
@@ -103,7 +140,11 @@ const kokomiBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Hydro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       scalingType: ScalingType.Hp,
       stats,
       modifier,
@@ -111,8 +152,16 @@ const kokomiBurst: Record<string, TalentFn> = {
 
   hpRegenOnHit: ({ stats, modifier }: TalentProps) =>
     healingValue({
-      multiplier: burstParams[modifier.talentBurstLevel][1],
-      flatHealing: burstParams[modifier.talentBurstLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
+      flatHealing: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -138,7 +187,11 @@ function getKokomiNormalAttackModifier(
 
   const newModifier = { ...modifier };
   const normalAttackBonusDmg =
-    (burstParams[newModifier.talentBurstLevel][3] +
+    (getTalentParams(
+      TalentType.Burst,
+      newModifier.talentBurstLevel,
+      talentData
+    )[3] +
       (newModifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0)) *
     stats.flatHp;
 
@@ -158,7 +211,11 @@ function getKokomiChargedAttackModifier(
 
   const newModifier = { ...modifier };
   const chargedAttackBonusDmg =
-    (burstParams[newModifier.talentBurstLevel][4] +
+    (getTalentParams(
+      TalentType.Burst,
+      newModifier.talentBurstLevel,
+      talentData
+    )[4] +
       (newModifier.kokomiHealingBonusDmg ?? 0) * (stats.healingBonus ?? 0)) *
     stats.flatHp;
 
@@ -178,7 +235,11 @@ function getKokomiSkillModifier(
 
   const newModifier = { ...modifier };
   const skillBonusDmg =
-    burstParams[newModifier.talentBurstLevel][8] * stats.flatHp;
+    getTalentParams(
+      TalentType.Burst,
+      newModifier.talentBurstLevel,
+      talentData
+    )[8] * stats.flatHp;
   newModifier.skillFlatDmg = skillBonusDmg + (newModifier.skillFlatDmg ?? 0);
 
   return newModifier;

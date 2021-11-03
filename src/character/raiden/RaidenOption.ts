@@ -1,5 +1,5 @@
 import { Stats } from '../../data/types';
-import { getTalentStatsAt, getTalentData } from '../../data/Data';
+import { getTalentParams, getTalentData } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import { TalentType } from '../../talent/types';
 import {
@@ -28,7 +28,7 @@ class RaidenOptionSkill
       _talentBurstLevel: number
     ) => {
       if (this.value) {
-        const params = getTalentStatsAt(
+        const params = getTalentParams(
           TalentType.Skill,
           talentSkillLevel,
           getTalentData('raiden')

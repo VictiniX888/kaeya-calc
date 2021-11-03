@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   plungeAttack,
@@ -10,60 +10,90 @@ import {
   normalAttackMulti,
   chargedAttackMulti,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('tartaglia');
+const talentData = getTalentData('tartaglia');
 
 const tartagliaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
 
   '6HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
 
   aimShotDmg: ({ stats, modifier }: TalentProps) =>
     aimShot({
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
@@ -71,28 +101,44 @@ const tartagliaAttack: Record<string, TalentFn> = {
   chargedAimShotDmg: ({ stats, modifier }: TalentProps) =>
     aimShotCharged({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][11],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[11],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][12],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[12],
       stats,
       modifier,
     }),
@@ -100,7 +146,11 @@ const tartagliaAttack: Record<string, TalentFn> = {
   riptideFlashDmg: ({ stats, modifier }: TalentProps) =>
     typelessAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
@@ -108,7 +158,11 @@ const tartagliaAttack: Record<string, TalentFn> = {
   riptideBurstDmg: ({ stats, modifier }: TalentProps) =>
     typelessAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
@@ -118,7 +172,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
   stanceChangeDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -126,7 +184,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -134,7 +196,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -142,7 +208,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
@@ -150,7 +220,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
@@ -158,7 +232,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
@@ -167,7 +245,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
     normalAttackMulti({
       hits: 2,
       element: Element.Hydro,
-      params: skillParams[modifier.talentSkillLevel].slice(6, 8),
+      params: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      ).slice(6, 8),
       stats,
       modifier,
     }),
@@ -176,7 +258,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
     chargedAttackMulti({
       hits: 2,
       element: Element.Hydro,
-      params: skillParams[modifier.talentSkillLevel].slice(8, 10),
+      params: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      ).slice(8, 10),
       stats,
       modifier,
     }),
@@ -184,7 +270,11 @@ const tartagliaSkill: Record<string, TalentFn> = {
   riptideSlashDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
@@ -194,7 +284,11 @@ const tartagliaBurst: Record<string, TalentFn> = {
   burstDmgMelee: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Hydro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -202,7 +296,11 @@ const tartagliaBurst: Record<string, TalentFn> = {
   burstDmgRanged: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Hydro,
-      multiplier: burstParams[modifier.talentBurstLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -210,7 +308,11 @@ const tartagliaBurst: Record<string, TalentFn> = {
   riptideBlastDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Hydro,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),

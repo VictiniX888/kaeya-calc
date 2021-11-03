@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   aimShot,
   aimShotCharged,
@@ -8,53 +8,79 @@ import {
   plungeAttack,
   skillSingle,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, TalentFn, Talents } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  TalentFn,
+  Talents,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('sara');
+const talentData = getTalentData('sara');
 
 const saraAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
 
   aimShotDmg: ({ stats, modifier }: TalentProps) =>
     aimShot({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
@@ -62,28 +88,44 @@ const saraAttack: Record<string, TalentFn> = {
   chargedAimShotDmg: ({ stats, modifier }: TalentProps) =>
     aimShotCharged({
       element: Element.Electro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
@@ -93,14 +135,22 @@ const saraSkill: Record<string, TalentFn> = {
   tenguJuuraiAmbushDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   atkBonus: ({ stats, modifier }: TalentProps) =>
     atkBuffValue({
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -110,7 +160,11 @@ const saraBurst: Record<string, TalentFn> = {
   tenguJuuraiTitanbreakerDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Electro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -118,7 +172,11 @@ const saraBurst: Record<string, TalentFn> = {
   tenguJuuraiStormclusterDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Electro,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),

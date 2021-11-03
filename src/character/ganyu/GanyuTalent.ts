@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   plungeAttack,
@@ -8,60 +8,90 @@ import {
   aimShotCharged,
   hpValue,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('ganyu');
+const talentData = getTalentData('ganyu');
 
 const ganyuAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
 
   '6HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
 
   aimShotDmg: ({ stats, modifier }: TalentProps) =>
     aimShot({
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
@@ -69,7 +99,11 @@ const ganyuAttack: Record<string, TalentFn> = {
   aimShotChargeLevel1: ({ stats, modifier }: TalentProps) =>
     aimShotCharged({
       element: Element.Cryo,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
@@ -77,7 +111,11 @@ const ganyuAttack: Record<string, TalentFn> = {
   frostflakeArrowDmg: ({ stats, modifier }: TalentProps) =>
     aimShotCharged({
       element: Element.Cryo,
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
@@ -85,28 +123,44 @@ const ganyuAttack: Record<string, TalentFn> = {
   frostflakeArrowBloomDmg: ({ stats, modifier }: TalentProps) =>
     aimShotCharged({
       element: Element.Cryo,
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][11],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[11],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][12],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[12],
       stats,
       modifier,
     }),
@@ -116,14 +170,22 @@ const ganyuSkill: Record<string, TalentFn> = {
   skillDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Cryo,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   iceLotusHp: ({ stats, modifier }: TalentProps) =>
     hpValue({
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       flatBonus: 0,
       stats,
       modifier,
@@ -134,7 +196,11 @@ const ganyuBurst: Record<string, TalentFn> = {
   iceShardDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Cryo,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),

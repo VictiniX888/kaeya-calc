@@ -1,6 +1,6 @@
 import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { Stats } from '../../data/types';
-import { getTalentData, getTalentStatsAt } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import { Element, TalentType } from '../../talent/types';
 import {
@@ -27,7 +27,7 @@ class AloyOptionCoil
       _talentBurstLevel: number
     ) => {
       if (this.value > 0) {
-        const skillParams = getTalentStatsAt(
+        const skillParams = getTalentParams(
           TalentType.Skill,
           talentSkillLevel,
           getTalentData('aloy')

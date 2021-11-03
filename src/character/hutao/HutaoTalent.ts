@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   burstSingle,
   chargedAttackSingle,
@@ -8,39 +8,57 @@ import {
   plungeAttack,
   skillSingle,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('hutao');
+const talentData = getTalentData('hutao');
 
 const hutaoAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
@@ -48,42 +66,66 @@ const hutaoAttack: Record<string, TalentFn> = {
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackMulti({
       hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(4, 6),
+      params: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      ).slice(4, 6),
       stats,
       modifier,
     }),
 
   '6HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][11],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[11],
       stats,
       modifier,
     }),
@@ -93,7 +135,11 @@ const hutaoSkill: Record<string, TalentFn> = {
   bloodBlossomDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Pyro,
-      multiplier: skillParams[modifier.talentSkillLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -103,7 +149,11 @@ const hutaoBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Pyro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -111,14 +161,22 @@ const hutaoBurst: Record<string, TalentFn> = {
   burstDmgLowHp: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Pyro,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   hpRegen: ({ stats, modifier }: TalentProps) =>
     healingValue({
-      multiplier: burstParams[modifier.talentBurstLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[2],
       flatHealing: 0,
       stats,
       modifier,
@@ -126,7 +184,11 @@ const hutaoBurst: Record<string, TalentFn> = {
 
   hpRegenLowHp: ({ stats, modifier }: TalentProps) =>
     healingValue({
-      multiplier: burstParams[modifier.talentBurstLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[3],
       flatHealing: 0,
       stats,
       modifier,

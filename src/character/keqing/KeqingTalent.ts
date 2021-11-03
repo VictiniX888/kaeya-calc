@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   plungeAttack,
@@ -9,32 +9,46 @@ import {
   burstMulti,
   chargedAttackMulti,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('keqing');
+const talentData = getTalentData('keqing');
 
 const keqingAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -42,14 +56,22 @@ const keqingAttack: Record<string, TalentFn> = {
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackMulti({
       hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(3, 5),
+      params: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      ).slice(3, 5),
       stats,
       modifier,
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
@@ -57,28 +79,44 @@ const keqingAttack: Record<string, TalentFn> = {
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackMulti({
       hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(6, 8),
+      params: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      ).slice(6, 8),
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][11],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[11],
       stats,
       modifier,
     }),
@@ -88,7 +126,11 @@ const keqingSkill: Record<string, TalentFn> = {
   lightningStilettoDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -96,7 +138,11 @@ const keqingSkill: Record<string, TalentFn> = {
   slashingDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -105,7 +151,13 @@ const keqingSkill: Record<string, TalentFn> = {
     skillMulti({
       hits: 2,
       element: Element.Electro,
-      params: Array(2).fill(skillParams[modifier.talentSkillLevel][2]),
+      params: Array(2).fill(
+        getTalentParams(
+          TalentType.Skill,
+          modifier.talentSkillLevel,
+          talentData
+        )[2]
+      ),
       stats,
       modifier,
     }),
@@ -115,7 +167,11 @@ const keqingBurst: Record<string, TalentFn> = {
   burstInitDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Electro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -124,7 +180,13 @@ const keqingBurst: Record<string, TalentFn> = {
     burstMulti({
       hits: 8,
       element: Element.Electro,
-      params: Array(8).fill(burstParams[modifier.talentBurstLevel][1]),
+      params: Array(8).fill(
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[1]
+      ),
       stats,
       modifier,
     }),
@@ -132,7 +194,11 @@ const keqingBurst: Record<string, TalentFn> = {
   lastAttackDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Electro,
-      multiplier: burstParams[modifier.talentBurstLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),

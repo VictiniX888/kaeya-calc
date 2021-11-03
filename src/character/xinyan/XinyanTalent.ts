@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   chargedAttackSingle,
@@ -13,74 +13,107 @@ import {
   Talents,
   TalentFn,
   ScalingType,
+  TalentType,
 } from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('xinyan');
+const talentData = getTalentData('xinyan');
 
 const xinyanAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
 
   chargedSpinDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
 
   chargedFinalDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
@@ -90,15 +123,27 @@ const xinyanSkill: Record<string, TalentFn> = {
   swingDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Pyro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   shieldHpLevel1: ({ stats, modifier }: TalentProps) =>
     shieldHpValue({
-      multiplier: skillParams[modifier.talentSkillLevel][1],
-      flatBonus: skillParams[modifier.talentSkillLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
+      flatBonus: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[2],
       element: Element.Pyro,
       scalingType: ScalingType.Defense,
       stats,
@@ -107,8 +152,16 @@ const xinyanSkill: Record<string, TalentFn> = {
 
   shieldHpLevel2: ({ stats, modifier }: TalentProps) =>
     shieldHpValue({
-      multiplier: skillParams[modifier.talentSkillLevel][3],
-      flatBonus: skillParams[modifier.talentSkillLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[3],
+      flatBonus: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[4],
       element: Element.Pyro,
       scalingType: ScalingType.Defense,
       stats,
@@ -117,8 +170,16 @@ const xinyanSkill: Record<string, TalentFn> = {
 
   shieldHpLevel3: ({ stats, modifier }: TalentProps) =>
     shieldHpValue({
-      multiplier: skillParams[modifier.talentSkillLevel][5],
-      flatBonus: skillParams[modifier.talentSkillLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[5],
+      flatBonus: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[6],
       element: Element.Pyro,
       scalingType: ScalingType.Defense,
       stats,
@@ -128,7 +189,11 @@ const xinyanSkill: Record<string, TalentFn> = {
   dot: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Pyro,
-      multiplier: skillParams[modifier.talentSkillLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
@@ -138,7 +203,11 @@ const xinyanBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Physical,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -146,7 +215,11 @@ const xinyanBurst: Record<string, TalentFn> = {
   pyroDot: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Pyro,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),

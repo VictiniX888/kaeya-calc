@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   chargedAttackSingle,
@@ -6,74 +6,112 @@ import {
   skillSingle,
   burstSingle,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('razor');
+const talentData = getTalentData('razor');
 
 const razorAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
 
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
 
   chargedSpinDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
 
   chargedFinalDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
@@ -83,7 +121,11 @@ const razorSkill: Record<string, TalentFn> = {
   pressDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -91,7 +133,11 @@ const razorSkill: Record<string, TalentFn> = {
   holdDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -101,7 +147,11 @@ const razorBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Electro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -110,8 +160,16 @@ const razorBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        attackParams[modifier.talentAttackLevel][0] *
-        burstParams[modifier.talentBurstLevel][1],
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[0] *
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[1],
       stats,
       modifier,
     }),
@@ -120,8 +178,16 @@ const razorBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        attackParams[modifier.talentAttackLevel][1] *
-        burstParams[modifier.talentBurstLevel][1],
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[1] *
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[1],
       stats,
       modifier,
     }),
@@ -130,8 +196,16 @@ const razorBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        attackParams[modifier.talentAttackLevel][2] *
-        burstParams[modifier.talentBurstLevel][1],
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[2] *
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[1],
       stats,
       modifier,
     }),
@@ -140,8 +214,16 @@ const razorBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        attackParams[modifier.talentAttackLevel][3] *
-        burstParams[modifier.talentBurstLevel][1],
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[3] *
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[1],
       stats,
       modifier,
     }),

@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import {
   normalAttackSingle,
@@ -9,32 +9,46 @@ import {
   normalAttackMulti,
   burstMulti,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('raiden');
+const talentData = getTalentData('raiden');
 
 const raidenAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -42,42 +56,66 @@ const raidenAttack: Record<string, TalentFn> = {
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackMulti({
       hits: 2,
-      params: attackParams[modifier.talentAttackLevel].slice(3, 5),
+      params: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      ).slice(3, 5),
       stats,
       modifier,
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
 
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
@@ -87,7 +125,11 @@ const raidenSkill: Record<string, TalentFn> = {
   skillDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -95,7 +137,11 @@ const raidenSkill: Record<string, TalentFn> = {
   coordinatedAtkDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Electro,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -106,8 +152,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][0] +
-        getInitialResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[0] + getInitialResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -116,8 +165,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][4] +
-        getAttackResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[4] + getAttackResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -126,8 +178,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][5] +
-        getAttackResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[5] + getAttackResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -136,8 +191,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][6] +
-        getAttackResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[6] + getAttackResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -146,7 +204,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstMulti({
       hits: 2,
       element: Element.Electro,
-      params: burstParams[modifier.talentBurstLevel]
+      params: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )
         .slice(7, 9)
         .map((multiplier) => multiplier + getAttackResolveBonus(modifier)),
       stats,
@@ -157,8 +219,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][9] +
-        getAttackResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[9] + getAttackResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -167,7 +232,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstMulti({
       hits: 2,
       element: Element.Electro,
-      params: burstParams[modifier.talentBurstLevel]
+      params: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )
         .slice(10, 12)
         .map((multiplier) => multiplier + getAttackResolveBonus(modifier)),
       stats,
@@ -178,8 +247,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][13] +
-        getAttackResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[13] + getAttackResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -188,8 +260,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][14] +
-        getAttackResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[14] + getAttackResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -198,8 +273,11 @@ const raidenBurst: Record<string, TalentFn> = {
     burstSingle({
       element: Element.Electro,
       multiplier:
-        burstParams[modifier.talentBurstLevel][15] +
-        getAttackResolveBonus(modifier),
+        getTalentParams(
+          TalentType.Burst,
+          modifier.talentBurstLevel,
+          talentData
+        )[15] + getAttackResolveBonus(modifier),
       stats,
       modifier,
     }),
@@ -217,12 +295,20 @@ export default raidenTalents;
 
 function getInitialResolveBonus(modifier: DamageModifier): number {
   return (
-    burstParams[modifier.talentBurstLevel][1] * (modifier.resolveStacks ?? 0)
+    getTalentParams(
+      TalentType.Burst,
+      modifier.talentBurstLevel,
+      talentData
+    )[1] * (modifier.resolveStacks ?? 0)
   );
 }
 
 function getAttackResolveBonus(modifier: DamageModifier): number {
   return (
-    burstParams[modifier.talentBurstLevel][2] * (modifier.resolveStacks ?? 0)
+    getTalentParams(
+      TalentType.Burst,
+      modifier.talentBurstLevel,
+      talentData
+    )[2] * (modifier.resolveStacks ?? 0)
   );
 }

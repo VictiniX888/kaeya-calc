@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   burstSingle,
   chargedAttackSingle,
@@ -6,19 +6,25 @@ import {
   plungeAttack,
   skillSingle,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  Talents,
+  TalentFn,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('mona');
+const talentData = getTalentData('mona');
 
 const monaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -26,7 +32,11 @@ const monaAttack: Record<string, TalentFn> = {
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -34,7 +44,11 @@ const monaAttack: Record<string, TalentFn> = {
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -42,7 +56,11 @@ const monaAttack: Record<string, TalentFn> = {
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
@@ -50,7 +68,11 @@ const monaAttack: Record<string, TalentFn> = {
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
@@ -58,7 +80,11 @@ const monaAttack: Record<string, TalentFn> = {
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
@@ -66,7 +92,11 @@ const monaAttack: Record<string, TalentFn> = {
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
@@ -74,7 +104,11 @@ const monaAttack: Record<string, TalentFn> = {
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Hydro,
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
@@ -84,7 +118,11 @@ const monaSkill: Record<string, TalentFn> = {
   dot: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -92,7 +130,11 @@ const monaSkill: Record<string, TalentFn> = {
   explosionDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Hydro,
-      multiplier: skillParams[modifier.talentSkillLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -102,7 +144,11 @@ const monaBurst: Record<string, TalentFn> = {
   explosionDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Hydro,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),

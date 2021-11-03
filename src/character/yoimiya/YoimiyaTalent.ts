@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import {
   aimShot,
@@ -8,13 +8,15 @@ import {
   normalAttackSingle,
   plungeAttack,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, TalentFn, Talents } from '../../talent/types';
+import {
+  TalentProps,
+  Element,
+  TalentFn,
+  Talents,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('yoimiya');
+const talentData = getTalentData('yoimiya');
 
 const yoimiyaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
@@ -22,7 +24,11 @@ const yoimiyaAttack: Record<string, TalentFn> = {
       hits: 2,
       params: Array(2).fill(
         getYoimiyaNormalAttackMultiplier(
-          attackParams[modifier.talentAttackLevel][0],
+          getTalentParams(
+            TalentType.Attack,
+            modifier.talentAttackLevel,
+            talentData
+          )[0],
           modifier
         )
       ),
@@ -33,7 +39,11 @@ const yoimiyaAttack: Record<string, TalentFn> = {
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: getYoimiyaNormalAttackMultiplier(
-        attackParams[modifier.talentAttackLevel][1],
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[1],
         modifier
       ),
       stats,
@@ -43,7 +53,11 @@ const yoimiyaAttack: Record<string, TalentFn> = {
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: getYoimiyaNormalAttackMultiplier(
-        attackParams[modifier.talentAttackLevel][2],
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[2],
         modifier
       ),
       stats,
@@ -55,7 +69,11 @@ const yoimiyaAttack: Record<string, TalentFn> = {
       hits: 2,
       params: Array(2).fill(
         getYoimiyaNormalAttackMultiplier(
-          attackParams[modifier.talentAttackLevel][3],
+          getTalentParams(
+            TalentType.Attack,
+            modifier.talentAttackLevel,
+            talentData
+          )[3],
           modifier
         )
       ),
@@ -66,7 +84,11 @@ const yoimiyaAttack: Record<string, TalentFn> = {
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       multiplier: getYoimiyaNormalAttackMultiplier(
-        attackParams[modifier.talentAttackLevel][4],
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[4],
         modifier
       ),
       stats,
@@ -75,7 +97,11 @@ const yoimiyaAttack: Record<string, TalentFn> = {
 
   aimShotDmg: ({ stats, modifier }: TalentProps) =>
     aimShot({
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
@@ -83,7 +109,11 @@ const yoimiyaAttack: Record<string, TalentFn> = {
   chargedAimShotDmg: ({ stats, modifier }: TalentProps) =>
     aimShotCharged({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
@@ -91,28 +121,44 @@ const yoimiyaAttack: Record<string, TalentFn> = {
   kindlingArrowDmg: ({ stats, modifier }: TalentProps) =>
     aimShotCharged({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][8],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[8],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
@@ -122,7 +168,11 @@ const yoimiyaBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Pyro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -130,7 +180,11 @@ const yoimiyaBurst: Record<string, TalentFn> = {
   aurousBlazeExplosionDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Pyro,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -153,5 +207,8 @@ function getYoimiyaNormalAttackMultiplier(
     return multiplier;
   }
 
-  return multiplier * skillParams[modifier.talentSkillLevel][3];
+  return (
+    multiplier *
+    getTalentParams(TalentType.Skill, modifier.talentSkillLevel, talentData)[3]
+  );
 }

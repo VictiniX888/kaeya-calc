@@ -1,7 +1,7 @@
 import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { IOptionBoolean, IStatsApplicable } from '../../option/Option';
 import { Stats } from '../../data/types';
-import { getTalentStatsAt, getTalentData } from '../../data/Data';
+import { getTalentParams, getTalentData } from '../../data/Data';
 import { TalentType } from '../../talent/types';
 
 class MonaOptionOmen
@@ -22,7 +22,7 @@ class MonaOptionOmen
       talentBurstLevel: number
     ) => {
       if (this.value) {
-        const burstParams = getTalentStatsAt(
+        const burstParams = getTalentParams(
           TalentType.Burst,
           talentBurstLevel,
           getTalentData('mona')

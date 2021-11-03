@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   chargedAttackSingle,
@@ -6,19 +6,19 @@ import {
   skillSingle,
   burstSingle,
 } from '../../talent/TalentUtil';
-import { TalentProps, Element, Talents, TalentFn } from '../../talent/types';
+import { TalentProps, Element, Talents, TalentFn, TalentType } from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('yanfei');
+const talentData = getTalentData('yanfei');
 
 const yanfeiAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -26,7 +26,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
@@ -34,7 +38,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -42,7 +50,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   chargedDmgSeal0: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][3],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[3],
       stats,
       modifier,
     }),
@@ -50,7 +62,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   chargedDmgSeal1: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][4],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[4],
       stats,
       modifier,
     }),
@@ -58,7 +74,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   chargedDmgSeal2: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][5],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[5],
       stats,
       modifier,
     }),
@@ -66,7 +86,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   chargedDmgSeal3: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
@@ -74,7 +98,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   chargedDmgSeal4: ({ stats, modifier }: TalentProps) =>
     chargedAttackSingle({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][7],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[7],
       stats,
       modifier,
     }),
@@ -82,7 +110,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][15],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[15],
       stats,
       modifier,
     }),
@@ -90,7 +122,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][16],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[16],
       stats,
       modifier,
     }),
@@ -98,7 +134,11 @@ const yanfeiAttack: Record<string, TalentFn> = {
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
       element: Element.Pyro,
-      multiplier: attackParams[modifier.talentAttackLevel][17],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[17],
       stats,
       modifier,
     }),
@@ -108,7 +148,11 @@ const yanfeiSkill: Record<string, TalentFn> = {
   skillDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Pyro,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -118,7 +162,11 @@ const yanfeiBurst: Record<string, TalentFn> = {
   burstDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Pyro,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),

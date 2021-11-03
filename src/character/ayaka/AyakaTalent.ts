@@ -1,4 +1,4 @@
-import { getTalentData } from '../../data/Data';
+import { getTalentData, getTalentParams } from '../../data/Data';
 import {
   normalAttackSingle,
   chargedAttackMulti,
@@ -7,32 +7,46 @@ import {
   skillSingle,
   burstSingle,
 } from '../../talent/TalentUtil';
-import { Element, TalentFn, TalentProps, Talents } from '../../talent/types';
+import {
+  Element,
+  TalentFn,
+  TalentProps,
+  Talents,
+  TalentType,
+} from '../../talent/types';
 
-const {
-  attack: attackParams,
-  skill: skillParams,
-  burst: burstParams,
-} = getTalentData('ayaka');
+const talentData = getTalentData('ayaka');
 
 const ayakaAttack: Record<string, TalentFn> = {
   '1HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
 
   '2HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),
 
   '3HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][2],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[2],
       stats,
       modifier,
     }),
@@ -40,14 +54,24 @@ const ayakaAttack: Record<string, TalentFn> = {
   '4HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackMulti({
       hits: 3,
-      params: Array(3).fill(attackParams[modifier.talentAttackLevel][3]),
+      params: Array(3).fill(
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[3]
+      ),
       stats,
       modifier,
     }),
 
   '5HitDmg': ({ stats, modifier }: TalentProps) =>
     normalAttackSingle({
-      multiplier: attackParams[modifier.talentAttackLevel][6],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[6],
       stats,
       modifier,
     }),
@@ -55,28 +79,46 @@ const ayakaAttack: Record<string, TalentFn> = {
   chargedDmg: ({ stats, modifier }: TalentProps) =>
     chargedAttackMulti({
       hits: 3,
-      params: Array(3).fill(attackParams[modifier.talentAttackLevel][7]),
+      params: Array(3).fill(
+        getTalentParams(
+          TalentType.Attack,
+          modifier.talentAttackLevel,
+          talentData
+        )[7]
+      ),
       stats,
       modifier,
     }),
 
   plungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][9],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[9],
       stats,
       modifier,
     }),
 
   lowPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][10],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[10],
       stats,
       modifier,
     }),
 
   highPlungeDmg: ({ stats, modifier }: TalentProps) =>
     plungeAttack({
-      multiplier: attackParams[modifier.talentAttackLevel][11],
+      multiplier: getTalentParams(
+        TalentType.Attack,
+        modifier.talentAttackLevel,
+        talentData
+      )[11],
       stats,
       modifier,
     }),
@@ -86,7 +128,11 @@ const ayakaSkill: Record<string, TalentFn> = {
   skillDmg: ({ stats, modifier }: TalentProps) =>
     skillSingle({
       element: Element.Cryo,
-      multiplier: skillParams[modifier.talentSkillLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Skill,
+        modifier.talentSkillLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -96,7 +142,11 @@ const ayakaBurst: Record<string, TalentFn> = {
   cuttingDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Cryo,
-      multiplier: burstParams[modifier.talentBurstLevel][0],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[0],
       stats,
       modifier,
     }),
@@ -104,7 +154,11 @@ const ayakaBurst: Record<string, TalentFn> = {
   bloomDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
       element: Element.Cryo,
-      multiplier: burstParams[modifier.talentBurstLevel][1],
+      multiplier: getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[1],
       stats,
       modifier,
     }),

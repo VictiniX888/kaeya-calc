@@ -1,5 +1,5 @@
 import CharacterOption from '../../option/characterOptions/CharacterOption';
-import { getTalentStatsAt, getTalentData } from '../../data/Data';
+import { getTalentParams, getTalentData } from '../../data/Data';
 import DamageModifier from '../../modifier/DamageModifer';
 import { Element, TalentType } from '../../talent/types';
 import {
@@ -29,7 +29,7 @@ class HuTaoOptionSkill
       _talentBurstLevel: number
     ) => {
       if (this.value) {
-        let skillParams = getTalentStatsAt(
+        let skillParams = getTalentParams(
           TalentType.Skill,
           talentSkillLevel,
           getTalentData('hutao')
