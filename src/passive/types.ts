@@ -16,3 +16,7 @@ export interface CharacterPassive extends Passive {
 export interface WeaponPassive extends Passive {
   options: typeof WeaponOption[];
 }
+
+export interface TeamPassive extends Passive {
+  options?: typeof CharacterOption[];
+}

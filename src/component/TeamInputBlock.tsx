@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { AppState } from '../App';
+import Character from '../character/Character';
 import { initCharacter } from '../character/CharacterUtil';
 import CharacterOption from '../option/characterOptions/CharacterOption';
 import CharacterPicker from './CharacterPicker';
@@ -14,8 +15,10 @@ type TeamInputBlockProps = {
     callback?: () => void
   ) => void;
   updateTotalStats: ({
+    teamCharacters,
     teamOptions,
   }: {
+    teamCharacters?: Character[];
     teamOptions?: CharacterOption[];
   }) => void;
 };
@@ -27,7 +30,7 @@ class TeamInputBlock extends React.Component<TeamInputBlockProps> {
     const teamOptions = teamCharacters.flatMap(
       (character) => character.teamOptions
     );
-    this.props.updateTotalStats({ teamOptions });
+    this.props.updateTotalStats({ teamCharacters, teamOptions });
     this.props.setAppState({
       teamCharacters: [...teamCharacters],
       teamOptions,

@@ -1,8 +1,8 @@
-import CharacterOption from '../../option/characterOptions/CharacterOption';
+import { TeamPassive } from '../../passive/types';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
 import zhongliTalents from './ZhongliTalent';
-import zhongliTeamOptions from './ZhongliTeamOption';
+import zhongliTeamPassive from './ZhongliTeamPassive';
 
 export default class Zhongli extends Character {
   constructor(
@@ -18,7 +18,7 @@ export default class Zhongli extends Character {
     return zhongliTalents;
   }
 
-  getTeamOptionConstructors(): typeof CharacterOption[] {
-    return zhongliTeamOptions;
+  getTeamPassive(): TeamPassive {
+    return zhongliTeamPassive;
   }
 }

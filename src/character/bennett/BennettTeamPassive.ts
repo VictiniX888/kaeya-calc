@@ -6,6 +6,7 @@ import {
 import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { Stats } from '../../data/types';
 import { getOptionValue } from '../../option/OptionUtils';
+import { TeamPassive } from '../../passive/types';
 
 class BennettOptionAtkBuff extends CharacterOption implements IOptionNumber {
   value = 0;
@@ -35,5 +36,8 @@ class BennettOptionBurst
   };
 }
 
-const bennettTeamOptions = [BennettOptionBurst];
-export default bennettTeamOptions;
+const bennettTeamPassive: TeamPassive = {
+  id: 'bennettTeamPassive',
+  options: [BennettOptionBurst],
+};
+export default bennettTeamPassive;

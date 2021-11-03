@@ -14,7 +14,7 @@ import type {
 } from '../data/types';
 import type { Talents } from '../talent/types';
 import CharacterOption from '../option/characterOptions/CharacterOption';
-import { CharacterPassive } from '../passive/types';
+import { CharacterPassive, TeamPassive } from '../passive/types';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
 import Constellation from '../constellation/Constellation';
 
@@ -335,13 +335,23 @@ export default class Character {
   }
 
   // Override in derived classes to implement team buffs
-  getTeamOptionConstructors(): typeof CharacterOption[] {
-    return [];
+  getTeamPassive(): TeamPassive | undefined {
+    return undefined;
+  }
+
+  getTeamStatMixin(): StatMixin | undefined {
+    return this.getTeamPassive()?.statMixin;
+  }
+
+  getTeamModifierMixin(): ModifierMixin | undefined {
+    return this.getTeamPassive()?.modifierMixin;
   }
 
   getTeamOptions(): CharacterOption[] {
-    return this.getTeamOptionConstructors().flatMap((Option) =>
-      new Option().unroll()
+    const teamPassive = this.getTeamPassive();
+
+    return (
+      teamPassive?.options?.flatMap((Option) => new Option().unroll()) ?? []
     );
   }
 }

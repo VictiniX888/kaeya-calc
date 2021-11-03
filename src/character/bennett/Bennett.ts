@@ -1,8 +1,8 @@
-import CharacterOption from '../../option/characterOptions/CharacterOption';
+import { TeamPassive } from '../../passive/types';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
 import bennettTalents from './BennettTalent';
-import bennettTeamOptions from './BennettTeamOption';
+import bennettTeamPassive from './BennettTeamPassive';
 
 export default class Bennett extends Character {
   constructor(
@@ -18,7 +18,7 @@ export default class Bennett extends Character {
     return bennettTalents;
   }
 
-  getTeamOptionConstructors(): typeof CharacterOption[] {
-    return bennettTeamOptions;
+  getTeamPassive(): TeamPassive {
+    return bennettTeamPassive;
   }
 }

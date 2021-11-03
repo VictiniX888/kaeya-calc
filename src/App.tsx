@@ -109,6 +109,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions,
     artifactSets,
     artifactSetOptions,
+    teamCharacters,
     teamOptions,
     updateCache = true,
   }: {
@@ -118,6 +119,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions?: WeaponOption[];
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamCharacters?: Character[];
     teamOptions?: CharacterOption[];
     updateCache?: boolean;
   }) => {
@@ -148,6 +150,10 @@ class App extends React.Component<{}, AppState> {
     const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
       (artifactSet) => artifactSet.getModifierMixins()
     );
+
+    const teamPassiveMixins = (teamCharacters ?? this.state.teamCharacters)
+      .map((character) => character.getTeamModifierMixin())
+      .filter((mixin): mixin is ModifierMixin => mixin !== undefined);
 
     const characterOptionMixins = (
       characterOptions ?? this.state.characterOptions
@@ -182,6 +188,7 @@ class App extends React.Component<{}, AppState> {
       ...characterConstellationMixins,
       ...weaponPassiveMixins,
       ...artifactSetMixins,
+      ...teamPassiveMixins,
       ...characterOptionMixins,
       ...weaponOptionMixins,
       ...artifactSetOptionMixins,
@@ -217,6 +224,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions,
     artifactSets,
     artifactSetOptions,
+    teamCharacters,
     teamOptions,
     updateCache = true,
   }: {
@@ -226,6 +234,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions?: WeaponOption[];
     artifactSets?: ArtifactSet[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamCharacters?: Character[];
     teamOptions?: CharacterOption[];
     updateCache?: boolean;
   }) => {
@@ -256,6 +265,10 @@ class App extends React.Component<{}, AppState> {
     const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
       (artifactSet) => artifactSet.getStatMixins()
     );
+
+    const teamPassiveMixins = (teamCharacters ?? this.state.teamCharacters)
+      .map((character) => character.getTeamStatMixin())
+      .filter((mixin): mixin is StatMixin => mixin !== undefined);
 
     const characterOptionMixins = (
       characterOptions ?? this.state.characterOptions
@@ -290,6 +303,7 @@ class App extends React.Component<{}, AppState> {
       ...characterConstellationMixins,
       ...weaponPassiveMixins,
       ...artifactSetMixins,
+      ...teamPassiveMixins,
       ...characterOptionMixins,
       ...weaponOptionMixins,
       ...artifactSetOptionMixins,
@@ -411,6 +425,7 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel,
     talentSkillLevel,
     talentBurstLevel,
+    teamCharacters,
     characterOptions,
     weaponOptions,
     artifactSetOptions,
@@ -424,6 +439,7 @@ class App extends React.Component<{}, AppState> {
     talentAttackLevel?: number;
     talentSkillLevel?: number;
     talentBurstLevel?: number;
+    teamCharacters?: Character[];
     characterOptions?: CharacterOption[];
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
@@ -436,6 +452,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions,
       artifactSets,
       artifactSetOptions,
+      teamCharacters,
       teamOptions,
     });
 
@@ -455,6 +472,7 @@ class App extends React.Component<{}, AppState> {
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
+      teamCharacters,
       characterOptions,
       artifactSetOptions,
       teamOptions,
@@ -472,6 +490,7 @@ class App extends React.Component<{}, AppState> {
     enemyRes,
     critType,
     reaction,
+    teamCharacters,
     characterOptions,
     weaponOptions,
     artifactSetOptions,
@@ -487,6 +506,7 @@ class App extends React.Component<{}, AppState> {
     enemyRes?: Resistance;
     critType?: CritType;
     reaction?: Reaction;
+    teamCharacters?: Character[];
     characterOptions?: CharacterOption[];
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
@@ -501,6 +521,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions,
       artifactSets,
       artifactSetOptions,
+      teamCharacters,
       teamOptions,
     });
 
@@ -533,6 +554,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions: this.state.weaponOptions,
       artifactSets: this.state.artifactSets,
       artifactSetOptions: this.state.artifactSetOptions,
+      teamCharacters: this.state.teamCharacters,
       teamOptions: this.state.teamOptions,
     });
     this.getModifierMixins({
@@ -542,6 +564,7 @@ class App extends React.Component<{}, AppState> {
       weaponOptions: this.state.weaponOptions,
       artifactSets: this.state.artifactSets,
       artifactSetOptions: this.state.artifactSetOptions,
+      teamCharacters: this.state.teamCharacters,
       teamOptions: this.state.teamOptions,
     });
 
