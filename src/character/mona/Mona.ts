@@ -5,8 +5,13 @@ import monaOptions from './MonaOption';
 import monaTalents from './MonaTalent';
 
 export default class Mona extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('mona', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('mona', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

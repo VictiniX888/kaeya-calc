@@ -5,8 +5,13 @@ import beidouPassives from './BeidouPassive';
 import beidouTalents from './BeidouTalent';
 
 export default class Beidou extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('beidou', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('beidou', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

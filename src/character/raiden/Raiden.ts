@@ -7,8 +7,13 @@ import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { CharacterPassive } from '../../passive/types';
 
 export default class Raiden extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('raiden', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('raiden', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

@@ -5,8 +5,13 @@ import bennettTalents from './BennettTalent';
 import bennettTeamOptions from './BennettTeamOption';
 
 export default class Bennett extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('bennett', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('bennett', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

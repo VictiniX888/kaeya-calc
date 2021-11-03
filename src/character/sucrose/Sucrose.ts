@@ -5,8 +5,13 @@ import sucroseOptions from './SucroseOption';
 import sucroseTalents from './SucroseTalent';
 
 export default class Sucrose extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('sucrose', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('sucrose', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

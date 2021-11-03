@@ -5,8 +5,13 @@ import sayuTalents from './SayuTalent';
 import sayuOptions from './SayuOption';
 
 export default class Sayu extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('sayu', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('sayu', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

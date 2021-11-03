@@ -5,8 +5,13 @@ import dilucTalents from './DilucTalent';
 import dilucOptions from './DilucOption';
 
 export default class Diluc extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('diluc', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('diluc', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

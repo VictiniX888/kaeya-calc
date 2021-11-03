@@ -7,8 +7,13 @@ import CharacterOption from '../../option/characterOptions/CharacterOption';
 import { CharacterPassive } from '../../passive/types';
 
 export default class Kokomi extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('kokomi', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('kokomi', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

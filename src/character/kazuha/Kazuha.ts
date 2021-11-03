@@ -5,8 +5,13 @@ import kazuhaTalents from './KazuhaTalent';
 import kazuhaOptions from './KazuhaOption';
 
 export default class Kazuha extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('kazuha', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('kazuha', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

@@ -5,8 +5,13 @@ import zhongliTalents from './ZhongliTalent';
 import zhongliTeamOptions from './ZhongliTeamOption';
 
 export default class Zhongli extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('zhongli', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('zhongli', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

@@ -5,8 +5,13 @@ import ventiTalents from './VentiTalent';
 import ventiOptions from './VentiOption';
 
 export default class Venti extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('venti', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('venti', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

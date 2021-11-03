@@ -5,8 +5,13 @@ import ayakaOptions from './AyakaOption';
 import ayakaTalents from './AyakaTalent';
 
 export default class Ayaka extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('ayaka', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('ayaka', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

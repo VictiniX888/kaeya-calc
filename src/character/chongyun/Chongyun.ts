@@ -5,8 +5,13 @@ import chongyunOptions from './ChongyunOption';
 import chongyunTalents from './ChongyunTalent';
 
 export default class Chongyun extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('chongyun', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('chongyun', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

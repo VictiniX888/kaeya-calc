@@ -7,8 +7,13 @@ import Constellation from '../../constellation/Constellation';
 import thomaConstellations from './ThomaConstellation';
 
 export default class Thoma extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('thoma', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('thoma', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

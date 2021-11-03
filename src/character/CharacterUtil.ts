@@ -92,9 +92,10 @@ function getCharacterConstructor(id: string): typeof Character {
 export function initCharacter(
   id: string = '',
   level?: number,
-  hasAscended?: boolean
+  hasAscended?: boolean,
+  constellationLevel?: number
 ): Character {
   const CharacterConstructor = getCharacterConstructor(id);
 
-  return new CharacterConstructor(id, level, hasAscended);
+  return new CharacterConstructor(id, level, hasAscended, constellationLevel);
 }

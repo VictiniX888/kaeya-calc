@@ -7,8 +7,13 @@ import hutaoOptions from './HutaoOption';
 import { CharacterPassive } from '../../passive/types';
 
 export default class Hutao extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('hutao', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('hutao', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {

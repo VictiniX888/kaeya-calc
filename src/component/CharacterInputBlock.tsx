@@ -27,8 +27,9 @@ type CharacterInputBlockProps = {
 
 class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
   setCharacterId = (id: string) => {
-    const { level, hasAscended } = this.props.appState.character;
-    const character = initCharacter(id, level, hasAscended);
+    const { level, hasAscended, constellationLevel } =
+      this.props.appState.character;
+    const character = initCharacter(id, level, hasAscended, constellationLevel);
     const characterOptions = character.getOptions();
     this.props.updateTotalStats({ character, characterOptions });
     this.props.setAppState({ character, characterOptions });

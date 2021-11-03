@@ -7,8 +7,13 @@ import yoimiyaPassives from './YoimiyaPassive';
 import yoimiyaTalents from './YoimiyaTalent';
 
 export default class Yoimiya extends Character {
-  constructor(_id: string, level?: number, hasAscended?: boolean) {
-    super('yoimiya', level, hasAscended);
+  constructor(
+    _id: string,
+    level?: number,
+    hasAscended?: boolean,
+    constellationLevel?: number
+  ) {
+    super('yoimiya', level, hasAscended, constellationLevel);
   }
 
   getTalentFns(): Talents {
