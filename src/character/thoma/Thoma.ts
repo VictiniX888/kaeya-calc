@@ -3,6 +3,8 @@ import { Talents } from '../../talent/types';
 import Character from '../Character';
 import thomaTalents from './ThomaTalent';
 import thomaPassives from './ThomaPassive';
+import Constellation from '../../constellation/Constellation';
+import thomaConstellations from './ThomaConstellation';
 
 export default class Thoma extends Character {
   constructor(_id: string, level?: number, hasAscended?: boolean) {
@@ -15,5 +17,9 @@ export default class Thoma extends Character {
 
   getAllPassives(): CharacterPassive[] {
     return thomaPassives;
+  }
+
+  getAllConstellations(): Constellation[] {
+    return thomaConstellations;
   }
 }

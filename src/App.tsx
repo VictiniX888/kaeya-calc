@@ -97,6 +97,10 @@ class App extends React.Component<{}, AppState> {
   modifierMixins: ModifierMixin[] = [];
   statMixins: StatMixin[] = [];
 
+  talentAttackLevelExtra: number = 0;
+  talentSkillLevelExtra: number = 0;
+  talentBurstLevelExtra: number = 0;
+
   // Gets all modifier mixins and updates cache (modifierMixins)
   getModifierMixins = ({
     character,
@@ -353,6 +357,17 @@ class App extends React.Component<{}, AppState> {
       mixin.apply(modifier, this.totalStats)
     );
 
+    // Update extra talent levels (from constellations etc) for display
+    this.talentAttackLevelExtra =
+      modifier.talentAttackLevel -
+      (talentAttackLevel ?? this.state.talentAttackLevel);
+    this.talentSkillLevelExtra =
+      modifier.talentSkillLevel -
+      (talentSkillLevel ?? this.state.talentSkillLevel);
+    this.talentBurstLevelExtra =
+      modifier.talentBurstLevel -
+      (talentBurstLevel ?? this.state.talentBurstLevel);
+
     return modifier;
   };
 
@@ -562,6 +577,9 @@ class App extends React.Component<{}, AppState> {
             updateTotalStats={this.updateTotalStats}
             updateTalentValues={this.updateTalentValues}
             refreshApp={this.refreshApp}
+            talentAttackLevelExtra={this.talentAttackLevelExtra}
+            talentSkillLevelExtra={this.talentSkillLevelExtra}
+            talentBurstLevelExtra={this.talentBurstLevelExtra}
           />
           <ArtifactColumn
             appState={this.state}

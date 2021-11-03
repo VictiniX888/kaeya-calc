@@ -74,6 +74,9 @@ type InputColumnProps = {
     artifactSetOptions?: ArtifactSetOption[];
   }) => void;
   refreshApp: () => void;
+  talentAttackLevelExtra: number;
+  talentSkillLevelExtra: number;
+  talentBurstLevelExtra: number;
 };
 
 class InputColumn extends React.Component<InputColumnProps> {
@@ -122,6 +125,9 @@ class InputColumn extends React.Component<InputColumnProps> {
           appState={appState}
           setAppState={setAppState}
           updateTotalStats={updateTotalStats}
+          talentAttackLevelExtra={this.props.talentAttackLevelExtra}
+          talentSkillLevelExtra={this.props.talentSkillLevelExtra}
+          talentBurstLevelExtra={this.props.talentBurstLevelExtra}
         />
 
         <ModifierInputBlock

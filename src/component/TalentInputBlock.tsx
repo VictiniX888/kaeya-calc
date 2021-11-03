@@ -19,6 +19,9 @@ type TalentInputBlockProps = {
     talentSkillLevel?: number;
     talentBurstLevel?: number;
   }) => void;
+  talentAttackLevelExtra: number;
+  talentSkillLevelExtra: number;
+  talentBurstLevelExtra: number;
 };
 
 class TalentInputBlock extends React.Component<TalentInputBlockProps> {
@@ -50,6 +53,8 @@ class TalentInputBlock extends React.Component<TalentInputBlockProps> {
             onInput={this.setTalentAttackLevel}
             className='level-input'
           />
+          {this.props.talentAttackLevelExtra > 0 &&
+            `+${this.props.talentAttackLevelExtra}`}
         </InputRow>
         <InputRow>
           <IntInput
@@ -60,6 +65,8 @@ class TalentInputBlock extends React.Component<TalentInputBlockProps> {
             onInput={this.setTalentSkillLevel}
             className='level-input'
           />
+          {this.props.talentSkillLevelExtra > 0 &&
+            `+${this.props.talentSkillLevelExtra}`}
         </InputRow>
         <InputRow>
           <IntInput
@@ -70,6 +77,8 @@ class TalentInputBlock extends React.Component<TalentInputBlockProps> {
             onInput={this.setTalentBurstLevel}
             className='level-input'
           />
+          {this.props.talentBurstLevelExtra > 0 &&
+            `+${this.props.talentBurstLevelExtra}`}
         </InputRow>
       </InputBlock>
     );
