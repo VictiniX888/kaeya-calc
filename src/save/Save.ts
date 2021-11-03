@@ -19,6 +19,7 @@ export default interface Save {
   characterId?: string;
   characterLevel?: number;
   characterHasAscended?: boolean;
+  characterConstellationLevel?: number;
 
   weaponId?: string;
   weaponLevel?: number;
@@ -95,6 +96,7 @@ export function createSave(label: string, appState: AppState): Save {
     characterId: appState.character.id,
     characterLevel: appState.character.level,
     characterHasAscended: appState.character.hasAscended,
+    characterConstellationLevel: appState.character.constellationLevel,
 
     weaponId: appState.weapon.id,
     weaponLevel: appState.weapon.weaponLevel,
@@ -179,7 +181,8 @@ export function loadSave(
   const character = initCharacter(
     save.characterId,
     save.characterLevel,
-    save.characterHasAscended
+    save.characterHasAscended,
+    save.characterConstellationLevel
   );
   const weapon = initWeapon(
     save.weaponId,
