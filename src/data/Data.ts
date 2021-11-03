@@ -134,6 +134,8 @@ function processTalentData(rawData: Data.CharacterTalentDataRaw[]) {
       }, {} as Data.TalentData),
 
       passives: talentDataSetRaw.passives,
+
+      constellations: talentDataSetRaw.constellations,
     };
 
     acc[talentDataRaw.characterId] = talentData;

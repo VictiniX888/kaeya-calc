@@ -133,6 +133,10 @@ class App extends React.Component<{}, AppState> {
       character ?? this.state.character
     ).getPassiveModifierMixins();
 
+    const characterConstellationMixins = (
+      character ?? this.state.character
+    ).getConstellationModifierMixins();
+
     const weaponPassiveMixins = (
       weapon ?? this.state.weapon
     ).getPassiveModifierMixins();
@@ -169,13 +173,16 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.modifierMixin);
 
-    const unarrangedMixins = characterPassiveMixins
-      .concat(weaponPassiveMixins)
-      .concat(artifactSetMixins)
-      .concat(characterOptionMixins)
-      .concat(weaponOptionMixins)
-      .concat(artifactSetOptionMixins)
-      .concat(teamOptionMixins);
+    const unarrangedMixins = [
+      ...characterPassiveMixins,
+      ...characterConstellationMixins,
+      ...weaponPassiveMixins,
+      ...artifactSetMixins,
+      ...characterOptionMixins,
+      ...weaponOptionMixins,
+      ...artifactSetOptionMixins,
+      ...teamOptionMixins,
+    ];
     const groupedMixins = new Map<Priority, ModifierMixin[]>();
     unarrangedMixins.forEach((mixin) => {
       const priority = mixin.priority ?? Priority.Normal;
@@ -234,6 +241,10 @@ class App extends React.Component<{}, AppState> {
       character ?? this.state.character
     ).getPassiveStatMixins();
 
+    const characterConstellationMixins = (
+      character ?? this.state.character
+    ).getConstellationStatMixins();
+
     const weaponPassiveMixins = (
       weapon ?? this.state.weapon
     ).getPassiveStatMixins();
@@ -270,13 +281,16 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.statMixin);
 
-    const unarrangedMixins = characterPassiveMixins
-      .concat(weaponPassiveMixins)
-      .concat(artifactSetMixins)
-      .concat(characterOptionMixins)
-      .concat(weaponOptionMixins)
-      .concat(artifactSetOptionMixins)
-      .concat(teamOptionMixins);
+    const unarrangedMixins = [
+      ...characterPassiveMixins,
+      ...characterConstellationMixins,
+      ...weaponPassiveMixins,
+      ...artifactSetMixins,
+      ...characterOptionMixins,
+      ...weaponOptionMixins,
+      ...artifactSetOptionMixins,
+      ...teamOptionMixins,
+    ];
     const groupedMixins = new Map<Priority, StatMixin[]>();
     unarrangedMixins.forEach((mixin) => {
       const priority = mixin.priority ?? Priority.Normal;

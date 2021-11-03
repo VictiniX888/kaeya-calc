@@ -50,6 +50,14 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
     this.props.setAppState({ character, characterOptions });
   };
 
+  setCharacterConstellationLevel = (constellationLevel: number) => {
+    const character = this.props.appState.character;
+    character.constellationLevel = constellationLevel;
+    const characterOptions = character.getOptions();
+    this.props.updateTotalStats({ character, characterOptions });
+    this.props.setAppState({ character, characterOptions });
+  };
+
   updateOptions = () => {
     const { characterOptions } = this.props.appState;
     this.props.updateTotalStats({ characterOptions });
@@ -86,6 +94,17 @@ class CharacterInputBlock extends React.Component<CharacterInputBlockProps> {
             defaultValue={false}
             value={appState.character.hasAscended}
             onChange={this.setIsCharacterAscended}
+          />
+        </InputRow>
+
+        <InputRow>
+          <IntInput
+            id='character-constellation-level-input'
+            label='Constellation:'
+            defaultValue={0}
+            value={appState.character.constellationLevel}
+            onInput={this.setCharacterConstellationLevel}
+            className='level-input'
           />
         </InputRow>
 

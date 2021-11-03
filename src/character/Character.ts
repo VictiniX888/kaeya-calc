@@ -16,11 +16,18 @@ import type { Talents } from '../talent/types';
 import CharacterOption from '../option/characterOptions/CharacterOption';
 import { CharacterPassive } from '../passive/types';
 import { ModifierMixin, StatMixin } from '../option/Mixin';
+import Constellation from '../constellation/Constellation';
 
 export default class Character {
-  constructor(id: string, level: number = 1, hasAscended: boolean = false) {
+  constructor(
+    id: string,
+    level: number = 1,
+    hasAscended: boolean = false,
+    constellationLevel = 0
+  ) {
     this._level = level;
     this._hasAscended = hasAscended;
+    this._constellationLevel = constellationLevel;
 
     this.id = id;
   }
@@ -48,6 +55,10 @@ export default class Character {
     const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
     this.passives = this.getPassives(ascensionLevel);
     this.passiveOptions = this.getPassiveOptions(ascensionLevel);
+    this.constellations = this.getConstellations(this.constellationLevel);
+    this.constellationOptions = this.getConstellationsOptions(
+      this.constellationLevel
+    );
     this.teamOptions = this.getTeamOptions();
   }
 
@@ -92,10 +103,28 @@ export default class Character {
     );
   }
 
+  private _constellationLevel: number = 0;
+  get constellationLevel(): number {
+    return this._constellationLevel;
+  }
+  set constellationLevel(value: number) {
+    const prevConstellationLevel = this.constellationLevel;
+    this._constellationLevel = value;
+
+    this.constellations = this.getConstellations(value);
+    this.constellationOptions = this.getConstellationsOptions(
+      value,
+      prevConstellationLevel
+    );
+  }
+
   innateStats: Stats = {};
   passives: CharacterPassive[] = [];
+  constellations: Constellation[] = [];
+
   characterOptions: CharacterOption[] = [];
   passiveOptions: CharacterOption[] = [];
+  constellationOptions: CharacterOption[] = [];
   teamOptions: CharacterOption[] = [];
 
   isDefined() {
@@ -189,7 +218,10 @@ export default class Character {
   }
 
   // getPassives should be called before this if passives are updated
-  getPassiveOptions(ascensionLevel: number, prevAscensionLevel?: number) {
+  getPassiveOptions(
+    ascensionLevel: number,
+    prevAscensionLevel?: number
+  ): CharacterOption[] {
     if (prevAscensionLevel === undefined || isNaN(prevAscensionLevel)) {
       return this.passives
         .flatMap(({ options }) => options)
@@ -221,13 +253,6 @@ export default class Character {
     return this.passiveOptions;
   }
 
-  getOptions() {
-    const characterOptions = this.characterOptions;
-    const passiveOptions = this.passiveOptions;
-
-    return characterOptions.concat(passiveOptions);
-  }
-
   getPassiveStatMixins(): StatMixin[] {
     return this.passives
       .map(({ statMixin }) => statMixin)
@@ -238,6 +263,75 @@ export default class Character {
     return this.passives
       .map(({ modifierMixin }) => modifierMixin)
       .filter((mixin): mixin is ModifierMixin => mixin !== undefined);
+  }
+
+  // Override in derived classes
+  getAllConstellations(): Constellation[] {
+    return [];
+  }
+
+  getConstellations(constellationLevel: number): Constellation[] {
+    return this.getAllConstellations().filter(
+      (constellation) => constellationLevel >= constellation.constellationLevel
+    );
+  }
+
+  // getConstellations should be called before this if passives are updated
+  getConstellationsOptions(
+    constellationLevel: number,
+    prevConstellationLevel?: number
+  ): CharacterOption[] {
+    if (prevConstellationLevel === undefined || isNaN(prevConstellationLevel)) {
+      return this.constellations
+        .flatMap(({ options }) => options ?? [])
+        .map((Option) => new Option());
+    }
+
+    if (constellationLevel > prevConstellationLevel) {
+      const newOptions = this.constellations
+        .filter(
+          ({ constellationLevel }) =>
+            constellationLevel > prevConstellationLevel
+        )
+        .flatMap(({ options }) => options ?? [])
+        .map((Option) => new Option());
+
+      return this.constellationOptions.concat(newOptions);
+    }
+
+    if (constellationLevel < prevConstellationLevel) {
+      const keptOptionIds = this.constellations
+        .flatMap(({ options }) => options ?? [])
+        .map((Option) => new Option())
+        .map((option) => option.id);
+
+      return this.constellationOptions.filter((option) =>
+        keptOptionIds.includes(option.id)
+      );
+    }
+
+    // if (constellationLevel === prevConstellationLevel)
+    return this.constellationOptions;
+  }
+
+  getConstellationStatMixins(): StatMixin[] {
+    return this.constellations
+      .map(({ statMixin }) => statMixin)
+      .filter((mixin): mixin is StatMixin => mixin !== undefined);
+  }
+
+  getConstellationModifierMixins(): ModifierMixin[] {
+    return this.constellations
+      .map(({ modifierMixin }) => modifierMixin)
+      .filter((mixin): mixin is ModifierMixin => mixin !== undefined);
+  }
+
+  getOptions() {
+    const characterOptions = this.characterOptions;
+    const passiveOptions = this.passiveOptions;
+    const constellationOptions = this.constellationOptions;
+
+    return [...characterOptions, ...passiveOptions, ...constellationOptions];
   }
 
   // Override in derived classes to implement team buffs

@@ -1212,6 +1212,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.5,
+                        0.30000001192092896,
+                        0.10000000149011612,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.20000000298023224,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.30000001192092896,
+                        6.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        10.0,
+                        2.9800000190734863,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -2428,6 +2496,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.4000000059604645,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.15000000596046448,
+                        0.15000000596046448,
+                        15.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.4000000059604645,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.3499999940395355,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -3636,6 +3772,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -4860,6 +5064,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -6068,6 +6340,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -7292,6 +7632,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.10000000149011612,
+                        0.05000000074505806,
+                        10.0,
+                        3.0,
+                        1.5,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.4000000059604645,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        6.0,
+                        0.30000001192092896,
+                        0.30000001192092896,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -8500,6 +8908,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -9724,6 +10200,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.20000000298023224,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.15000000596046448,
+                        0.15000000596046448,
+                        10.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -10932,6 +11476,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -12156,6 +12768,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.15000000596046448,
+                        6.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        2.0,
+                        2.0,
+                        0.75,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.4000000059604645,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -13372,6 +14052,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.1599999964237213,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.20000000298023224,
+                        10.0,
+                        0.10000000149011612,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -14580,6 +15328,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -15804,6 +16620,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.25,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.5,
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -17012,6 +17896,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -18236,6 +19188,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -19446,6 +20466,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.20000000298023224,
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.4000000059604645,
+                        0.07999999821186066,
                         0.0,
                         0.0,
                         0.0,
@@ -20668,6 +21756,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.2199999988079071,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        2.2200000286102295,
+                        0.20000000298023224,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.30000001192092896,
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -21884,6 +23040,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.20000000298023224,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.699999988079071,
+                        0.30000001192092896,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        1.350000023841858,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -23092,6 +24316,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        4.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        4.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -24316,6 +25608,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        -0.20000000298023224,
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        4.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.5,
+                        10.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -25524,6 +26884,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -26748,6 +28176,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.5,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        1.0,
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -27956,6 +29452,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        -0.15000000596046448,
+                        6.0,
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,
@@ -29180,6 +30744,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        1.2000000476837158,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.30000001192092896,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -30390,6 +32022,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        15.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.15000000596046448,
+                        0.15000000596046448,
+                        0.5,
+                        5.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.30000001192092896,
+                        200.0,
                         0.0,
                         0.0,
                         0.0,
@@ -31612,6 +33312,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.15000000596046448,
+                        0.15000000596046448,
+                        0.15000000596046448,
+                        0.15000000596046448,
+                        5.0,
+                        8.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.20000000298023224,
+                        1.0,
+                        5.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        -0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        1.0,
+                        0.6000000238418579,
+                        1.7999999523162842,
+                        8.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -32828,6 +34596,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.5,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.5,
+                        5.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        10.0,
+                        0.25,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.05999999865889549,
+                        8.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -34037,6 +35873,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.20000000298023224,
                         0.0,
                         0.0,
                         0.0,
@@ -35260,6 +37164,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.11999999731779099,
+                        5.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        -0.15000000596046448,
+                        12.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        -0.30000001192092896,
+                        0.5,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -36471,6 +38443,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.10000000149011612,
+                        0.10000000149011612,
+                        4.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        4.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        5.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.20000000298023224,
+                        10.0,
+                        1.0,
                         0.0,
                         0.0,
                         0.0
@@ -37692,6 +39732,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.10000000149011612,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.11999999731779099,
+                        15.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.25,
+                        10.0,
+                        2.0,
+                        1.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -38908,6 +41016,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        200.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        3.0,
+                        4.0,
+                        2.0,
+                        0.75,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.0020000000949949026,
+                        5.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -40117,6 +42293,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        -0.10000000149011612,
+                        -0.10000000149011612,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.5,
+                        0.20000000298023224,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.44999998807907104,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        1.0,
                         0.0,
                         0.0,
                         0.0,
@@ -41340,6 +43584,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        4.0,
+                        0.20000000298023224,
+                        20.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.25,
+                        6.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        1.2000000476837158,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.5,
+                        0.6000000238418579,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -42556,6 +44868,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        3.0,
+                        3.0,
+                        20.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        3.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        15.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.15000000596046448,
+                        6.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -43766,6 +46146,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.30000001192092896,
+                        6.0,
+                        18.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.25,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        5.0,
+                        0.5,
                         0.0,
                         0.0,
                         0.0,
@@ -45014,6 +47462,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.800000011920929,
+                        0.20000000298023224,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.6000000238418579,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.30000001192092896,
+                        10.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        1.0,
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -46226,6 +48742,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.032999999821186066,
+                        20.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        1.2000000476837158,
+                        2.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.0020000000949949026,
+                        4.0,
+                        3.0,
+                        6000.0,
                         0.0,
                         0.0
                     ]
@@ -47472,6 +50056,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.30000001192092896,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.5,
+                        0.04500000178813934,
+                        0.006000000052154064,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.10000000149011612,
+                        0.800000011920929,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.800000011920929,
+                        0.4000000059604645,
+                        4.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -48688,6 +51340,74 @@
                         0.0
                     ]
                 }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        1.0,
+                        3.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.30000001192092896,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
+                        0.6000000238418579,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
             ]
         }
     },
@@ -49896,6 +52616,74 @@
                         0.0,
                         0.0,
                         0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            ],
+            "constellations": [
+                {
+                    "constellationLevel": 1,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 2,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 3,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 4,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 5,
+                    "params": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                {
+                    "constellationLevel": 6,
+                    "params": [
                         0.0,
                         0.0,
                         0.0,

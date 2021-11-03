@@ -63,11 +63,17 @@ interface CharacterPassiveData {
   params: TalentParams;
 }
 
+interface ConstellationData {
+  constellationLevel: number;
+  params: TalentParams;
+}
+
 interface TalentDataSetRaw {
   attack: TalentDataRaw[];
   skill: TalentDataRaw[];
   burst: TalentDataRaw[];
   passives: CharacterPassiveData[];
+  constellations: ConstellationData[];
 }
 
 export interface CharacterTalentDataRaw {
@@ -80,6 +86,7 @@ export interface TalentDataSet {
   skill: TalentData;
   burst: TalentData;
   passives: CharacterPassiveData[];
+  constellations: ConstellationData[];
 }
 
 export interface ArtifactSetData {
