@@ -1,10 +1,11 @@
-import { CharacterPassive } from '../../passive/types';
+import { CharacterPassive, TeamPassive } from '../../passive/types';
 import { Talents } from '../../talent/types';
 import Character from '../Character';
 import thomaTalents from './ThomaTalent';
 import thomaPassives from './ThomaPassive';
 import Constellation from '../../constellation/Constellation';
 import thomaConstellations from './ThomaConstellation';
+import thomaTeamPassive from './ThomaTeamPassive';
 
 export default class Thoma extends Character {
   constructor(
@@ -26,5 +27,9 @@ export default class Thoma extends Character {
 
   getAllConstellations(): Constellation[] {
     return thomaConstellations;
+  }
+
+  getTeamPassive(): TeamPassive {
+    return thomaTeamPassive;
   }
 }
