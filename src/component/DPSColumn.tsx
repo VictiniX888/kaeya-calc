@@ -16,6 +16,7 @@ import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
 import CharacterOption from '../option/characterOptions/CharacterOption';
 import WeaponOption from '../option/weaponOptions/WeaponOption';
 import Option from '../option/Option';
+import InputBlock from './InputBlock';
 
 export type Attack = {
   talentType: string;
@@ -145,45 +146,47 @@ class DPSColumn extends React.Component<DPSColumnProps> {
         md='auto'
         xs={12}
       >
-        <h2>DPS Calculator</h2>
+        <InputBlock>
+          <h2>DPS Calculator</h2>
 
-        <InputRow>
-          <FloatInput
-            id='rotation-time-input'
-            label='Rotation Time:'
-            defaultValue={0}
-            value={this.props.appState.rotationTime}
-            onInput={this.setRotationTime}
-            className='level-input'
-          />
-        </InputRow>
+          <InputRow>
+            <FloatInput
+              id='rotation-time-input'
+              label='Rotation Time:'
+              defaultValue={0}
+              value={this.props.appState.rotationTime}
+              onInput={this.setRotationTime}
+              className='level-input'
+            />
+          </InputRow>
 
-        <InputRow>
-          <p>DPR: {this.dpr.toFixed(0)}</p>
-        </InputRow>
+          <InputRow>
+            <p>DPR: {this.dpr.toFixed(0)}</p>
+          </InputRow>
 
-        <InputRow>
-          <p>DPS: {isFinite(this.dps) ? this.dps.toFixed(0) : '-'}</p>
-        </InputRow>
+          <InputRow>
+            <p>DPS: {isFinite(this.dps) ? this.dps.toFixed(0) : '-'}</p>
+          </InputRow>
 
-        {this.props.appState.rotation.map((attack, i) => (
+          {this.props.appState.rotation.map((attack, i) => (
+            <DPSAttackInput
+              key={i}
+              setAttack={this.setAttack(i)}
+              attack={attack}
+              index={i}
+              talentValues={this.props.talentValues}
+              options={allOptions}
+            />
+          ))}
+
           <DPSAttackInput
-            key={i}
-            setAttack={this.setAttack(i)}
-            attack={attack}
-            index={i}
+            setAttack={this.setAttack(this.props.appState.rotation.length)}
+            attack={{ ...defaultAttack }}
+            index={this.props.appState.rotation.length}
             talentValues={this.props.talentValues}
             options={allOptions}
           />
-        ))}
-
-        <DPSAttackInput
-          setAttack={this.setAttack(this.props.appState.rotation.length)}
-          attack={{ ...defaultAttack }}
-          index={this.props.appState.rotation.length}
-          talentValues={this.props.talentValues}
-          options={allOptions}
-        />
+        </InputBlock>
       </Col>
     );
   }

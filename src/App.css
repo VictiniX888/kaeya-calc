@@ -38,7 +38,10 @@ h3 {
 }
 
 .input-column {
-  padding: 0.8em;
+  padding-top: 0.8em;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
 
   background-color: #ccc;
 }
@@ -61,11 +64,9 @@ h3 {
 .input-block {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1em;
-}
-
-.input-block:last-child {
-  margin-bottom: 0;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+  padding-bottom: 0.8em;
 }
 
 .input-row {
@@ -108,10 +109,7 @@ h3 {
 }
 
 .optimizer-card .card-body {
-  padding-top: 0;
-  padding-bottom: 0.8em;
-  padding-left: 0.8em;
-  padding-right: 0.8em;
+  padding: 0;
 }
 
 label {

@@ -19,6 +19,7 @@ import FloatInput from './FloatInput';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
 import Picker from './Picker';
+import InputBlock from './InputBlock';
 
 type OptimizerBlockProps = {
   appState: AppState;
@@ -128,9 +129,10 @@ class OptimizerBlock extends React.Component<
             <h3>Substat Optimizer</h3>
             <p>Click to expand/collapse</p>
           </Accordion.Toggle>
+
           <Accordion.Collapse eventKey='0'>
             <Card.Body>
-              <div className='input-block'>
+              <InputBlock>
                 <p>Fixed Substats: 20</p>
 
                 <InputRow>
@@ -143,9 +145,9 @@ class OptimizerBlock extends React.Component<
                     onInput={this.setMaxRolls}
                   />
                 </InputRow>
-              </div>
+              </InputBlock>
 
-              <div className='input-block'>
+              <InputBlock>
                 <p>Select substats to optimize:</p>
                 {Object.keys(substats).map((stat) => (
                   <InputRow key={stat}>
@@ -158,9 +160,9 @@ class OptimizerBlock extends React.Component<
                     />
                   </InputRow>
                 ))}
-              </div>
+              </InputBlock>
 
-              <div className='input-block'>
+              <InputBlock>
                 <InputRow>
                   <FloatInput
                     className='stat-input'
@@ -171,9 +173,9 @@ class OptimizerBlock extends React.Component<
                     onInput={this.setErThreshold}
                   />
                 </InputRow>
-              </div>
+              </InputBlock>
 
-              <div className='input-block'>
+              <InputBlock>
                 <InputRow>
                   <Picker
                     id={`optimizer-target-talent-type`}
@@ -213,9 +215,9 @@ class OptimizerBlock extends React.Component<
                     ))}
                   </Picker>
                 </InputRow>
-              </div>
+              </InputBlock>
 
-              <div className='input-block'>
+              <InputBlock>
                 <InputRow>
                   <Button
                     variant='secondary'
@@ -225,19 +227,18 @@ class OptimizerBlock extends React.Component<
                     Optimize
                   </Button>
                 </InputRow>
-              </div>
+              </InputBlock>
 
-              <div className='input-block'>
-                {this.state.substatRolls.length > 0 && (
+              {this.state.substatRolls.length > 0 && (
+                <InputBlock>
                   <p>Liquid roll distribution:</p>
-                )}
-
-                {this.state.substatRolls.map(({ stat, rolls }) => (
-                  <p key={stat}>
-                    {propMapping[stat].name}: {rolls}
-                  </p>
-                ))}
-              </div>
+                  {this.state.substatRolls.map(({ stat, rolls }) => (
+                    <p key={stat}>
+                      {propMapping[stat].name}: {rolls}
+                    </p>
+                  ))}
+                </InputBlock>
+              )}
             </Card.Body>
           </Accordion.Collapse>
         </Card>
