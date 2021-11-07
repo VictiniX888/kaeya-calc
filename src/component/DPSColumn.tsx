@@ -129,14 +129,20 @@ class DPSColumn extends React.Component<DPSColumnProps> {
   render() {
     this.updateTalentValues();
 
-    const { characterOptions, weaponOptions, artifactSetOptions, teamOptions } =
-      initializeAllOptions(this.props.appState);
+    const {
+      characterOptions,
+      weaponOptions,
+      artifactSetOptions,
+      teamOptions,
+      artifactBuffOptions,
+    } = initializeAllOptions(this.props.appState);
 
     const allOptions = [
       ...characterOptions,
       ...weaponOptions,
       ...artifactSetOptions,
       ...teamOptions,
+      ...artifactBuffOptions,
     ];
 
     return (

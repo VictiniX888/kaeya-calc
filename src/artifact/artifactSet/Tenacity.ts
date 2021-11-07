@@ -13,7 +13,7 @@ export default class Tenacity extends ArtifactSet {
 
 const params4Pc = getArtifactSetBonusParams('tenacityofthemillelith', 4);
 
-class Tenacity4PcOption
+export class Tenacity4PcOption
   extends ArtifactSetOption
   implements IOptionBoolean, IStatsApplicable
 {

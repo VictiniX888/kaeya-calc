@@ -4,11 +4,14 @@ import Card from 'react-bootstrap/esm/Card';
 import { AppState } from '../App';
 import Character from '../character/Character';
 import { initCharacter } from '../character/CharacterUtil';
+import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
 import CharacterOption from '../option/characterOptions/CharacterOption';
+import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
 import CharacterPicker from './CharacterPicker';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import OptionInput from './OptionInput';
+import TeamBuffOptionInput from './TeamBuffOptionInput';
 
 type TeamInputBlockProps = {
   appState: AppState;
@@ -19,9 +22,11 @@ type TeamInputBlockProps = {
   updateTotalStats: ({
     teamCharacters,
     teamOptions,
+    artifactBuffOptions,
   }: {
     teamCharacters?: Character[];
     teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
   }) => void;
 };
 
@@ -39,14 +44,27 @@ class TeamInputBlock extends React.Component<TeamInputBlockProps> {
     });
   };
 
-  updateOptions = () => {
+  updateTeamOptions = () => {
     const { teamOptions } = this.props.appState;
     this.props.updateTotalStats({ teamOptions });
     this.props.setAppState({ teamOptions: [...teamOptions] });
   };
 
+  setArtifactBuffOption = (i: number) => (option?: ArtifactSetOption) => {
+    const options = [...this.props.appState.artifactBuffOptions];
+
+    if (option === undefined) {
+      options.splice(i, 1);
+    } else {
+      options[i] = option;
+    }
+
+    this.props.updateTotalStats({ artifactBuffOptions: options });
+    this.props.setAppState({ artifactBuffOptions: options });
+  };
+
   render() {
-    const { teamCharacters } = this.props.appState;
+    const { teamCharacters, artifactBuffOptions } = this.props.appState;
 
     return (
       <Accordion>
@@ -78,12 +96,34 @@ class TeamInputBlock extends React.Component<TeamInputBlockProps> {
                       <InputRow key={option.id}>
                         <OptionInput
                           option={option}
-                          updateOptions={this.updateOptions}
+                          updateOptions={this.updateTeamOptions}
                         />
                       </InputRow>
                     ))}
                   </Fragment>
                 ))}
+              </InputBlock>
+
+              <InputBlock>
+                <InputRow>Artifact Buffs</InputRow>
+
+                {artifactBuffOptions.map((option, i) => (
+                  <TeamBuffOptionInput
+                    key={i}
+                    setOption={this.setArtifactBuffOption(i)}
+                    options={artifactTeamBuffs}
+                    option={option}
+                    index={i}
+                  />
+                ))}
+
+                <TeamBuffOptionInput
+                  setOption={this.setArtifactBuffOption(
+                    artifactBuffOptions.length
+                  )}
+                  options={artifactTeamBuffs}
+                  index={artifactBuffOptions.length}
+                />
               </InputBlock>
             </Card.Body>
           </Accordion.Collapse>

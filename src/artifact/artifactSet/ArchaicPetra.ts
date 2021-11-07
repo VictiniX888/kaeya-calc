@@ -13,7 +13,7 @@ export default class ArchaicPetra extends ArtifactSet {
 
 const params4Pc = getArtifactSetBonusParams('archaicpetra', 4);
 
-class ArchaicPetra4PcOption
+export class ArchaicPetra4PcOption
   extends ArtifactSetOption
   implements IOptionPicker, IStatsApplicable
 {

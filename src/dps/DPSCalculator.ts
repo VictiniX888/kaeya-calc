@@ -11,6 +11,7 @@ import { getTotalStatsAt } from '../stat/Stat';
 import { TalentValue } from '../talent/types';
 import Option from '../option/Option';
 import ReactionOption from '../option/characterOptions/ReactionOption';
+import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
 
 export function calculateTalentValue(
   talentType: string,
@@ -34,6 +35,7 @@ export function calculateTalentValue(
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
     teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
     updateCache?: boolean;
   }) => StatMixin[],
   getModifierMixins: ({
@@ -47,18 +49,25 @@ export function calculateTalentValue(
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
     teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
     updateCache?: boolean;
   }) => ModifierMixin[]
 ): TalentValue {
   // Initialize a set of all options
-  const { characterOptions, weaponOptions, artifactSetOptions, teamOptions } =
-    initializeAllOptions(appState);
+  const {
+    characterOptions,
+    weaponOptions,
+    artifactSetOptions,
+    teamOptions,
+    artifactBuffOptions,
+  } = initializeAllOptions(appState);
 
   const allOptions = [
     ...characterOptions,
     ...weaponOptions,
     ...artifactSetOptions,
     ...teamOptions,
+    ...artifactBuffOptions,
   ];
 
   // Override option values
@@ -77,6 +86,7 @@ export function calculateTalentValue(
     weaponOptions,
     artifactSetOptions,
     teamOptions,
+    artifactBuffOptions,
     updateCache: false,
   });
 
@@ -96,6 +106,7 @@ export function calculateTalentValue(
     weaponOptions,
     artifactSetOptions,
     teamOptions,
+    artifactBuffOptions,
     updateCache: false,
   });
 
@@ -165,10 +176,22 @@ export function initializeAllOptions(appState: AppState) {
     }
   });
 
+  const artifactBuffOptions = appState.artifactBuffOptions.flatMap((option) => {
+    const OptionConstructor = artifactTeamBuffs[option.id];
+    if (OptionConstructor !== undefined) {
+      let artifactOption = new OptionConstructor();
+      setOptionValue(artifactOption, getOptionValue(option));
+      return [artifactOption];
+    }
+
+    return [];
+  });
+
   return {
     characterOptions,
     weaponOptions,
     artifactSetOptions,
     teamOptions,
+    artifactBuffOptions,
   };
 }

@@ -14,7 +14,7 @@ export default class ViridescentVenerer extends ArtifactSet {
 
 const params4Pc = getArtifactSetBonusParams('viridescentvenerer', 4);
 
-class ViridescentVenerer4PcOption
+export class ViridescentVenerer4PcOption
   extends ArtifactSetOption
   implements IOptionPicker, IModifierApplicable
 {

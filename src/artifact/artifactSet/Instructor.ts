@@ -13,7 +13,7 @@ export default class Instructor extends ArtifactSet {
 
 const params4Pc = getArtifactSetBonusParams('instructor', 4);
 
-class Instructor4PcOption
+export class Instructor4PcOption
   extends ArtifactSetOption
   implements IOptionBoolean, IStatsApplicable
 {

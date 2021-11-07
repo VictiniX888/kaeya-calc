@@ -12,6 +12,7 @@ import { initWeapon } from '../weapon/WeaponUtil';
 import { Attack } from '../component/DPSColumn';
 import Option from '../option/Option';
 import ReactionOption from '../option/characterOptions/ReactionOption';
+import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
 
 export default interface Save {
   label: string;
@@ -53,6 +54,7 @@ export default interface Save {
   weaponOptions?: { id?: string; value?: unknown }[];
   artifactSetOptions?: { id?: string; value?: unknown }[];
   teamOptions?: { id?: string; value?: unknown }[];
+  artifactBuffOptions?: { id?: string; value?: unknown }[];
 
   rotationTime?: number;
   rotation?: AttackSave[];
@@ -151,6 +153,9 @@ export function createSave(label: string, appState: AppState): Save {
       return { id: option.id, value: getOptionValue(option) };
     }),
     teamOptions: appState.teamOptions.map((option) => {
+      return { id: option.id, value: getOptionValue(option) };
+    }),
+    artifactBuffOptions: appState.artifactBuffOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
     }),
 
@@ -277,11 +282,24 @@ export function loadSave(
     }
   });
 
+  const artifactBuffOptions =
+    save.artifactBuffOptions?.flatMap((option) => {
+      const OptionConstructor = artifactTeamBuffs[option.id ?? ''];
+      if (OptionConstructor !== undefined) {
+        let artifactOption = new OptionConstructor();
+        setOptionValue(artifactOption, option.value);
+        return [artifactOption];
+      }
+
+      return [];
+    }) ?? [];
+
   const allOptions = [
     ...characterOptions,
     ...weaponOptions,
     ...artifactSetOptions,
     ...teamOptions,
+    ...artifactBuffOptions,
   ];
 
   const rotationTime = save.rotationTime ?? 0;
@@ -330,6 +348,7 @@ export function loadSave(
       weaponOptions,
       artifactSetOptions,
       teamOptions,
+      artifactBuffOptions,
       rotationTime,
       rotation,
     },

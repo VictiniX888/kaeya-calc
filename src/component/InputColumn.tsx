@@ -62,6 +62,8 @@ type InputColumnProps = {
     critType,
     characterOptions,
     artifactSetOptions,
+    teamOptions,
+    artifactBuffOptions,
   }: {
     character?: Character;
     talentAttackLevel?: number;
@@ -72,6 +74,8 @@ type InputColumnProps = {
     critType?: CritType;
     characterOptions?: CharacterOption[];
     artifactSetOptions?: ArtifactSetOption[];
+    teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
   }) => void;
   refreshApp: () => void;
   talentAttackLevelExtra: number;

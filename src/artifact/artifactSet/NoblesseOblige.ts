@@ -26,7 +26,7 @@ const noblesseOblige2Pc: ArtifactSetBonus = {
 
 const params4Pc = getArtifactSetBonusParams('noblesseoblige', 4);
 
-class NoblesseOblige4PcOption
+export class NoblesseOblige4PcOption
   extends ArtifactSetOption
   implements IOptionBoolean, IStatsApplicable
 {

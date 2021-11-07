@@ -4,21 +4,24 @@ import Nav from 'react-bootstrap/esm/Nav';
 import Navbar from 'react-bootstrap/esm/Navbar';
 import Row from 'react-bootstrap/esm/Row';
 import './App.css';
-import ArtifactColumn from './component/ArtifactColumn';
-import InputColumn from './component/InputColumn';
-import StatColumn from './component/StatColumn';
-import TalentColumn from './component/TalentColumn';
-import DPSColumn, { Attack } from './component/DPSColumn';
-import { Stats } from './data/types';
 import Artifact from './artifact/Artifact';
 import ArtifactSet from './artifact/ArtifactSet';
+import { initArtifactSet } from './artifact/ArtifactSetUtil';
 import { ArtifactType } from './artifact/types';
 import Character from './character/Character';
 import { initCharacter } from './character/CharacterUtil';
+import ArtifactColumn from './component/ArtifactColumn';
+import DPSColumn, { Attack } from './component/DPSColumn';
+import InputColumn from './component/InputColumn';
+import StatColumn from './component/StatColumn';
+import TalentColumn from './component/TalentColumn';
+import { Stats } from './data/types';
 import CritType from './modifier/CritType';
 import DamageModifier from './modifier/DamageModifer';
 import Reaction from './modifier/Reaction';
 import { isModifierApplicable, isStatsApplicable } from './option';
+import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
+import CharacterOption from './option/characterOptions/CharacterOption';
 import { ModifierMixin, Priority, StatMixin } from './option/Mixin';
 import { IModifierApplicable, IStatsApplicable } from './option/Option';
 import WeaponOption from './option/weaponOptions/WeaponOption';
@@ -26,9 +29,6 @@ import Resistance from './stat/Resistance';
 import { getTotalStatsAt } from './stat/Stat';
 import { TalentValue, TalentValueSet } from './talent/types';
 import Weapon from './weapon/Weapon';
-import CharacterOption from './option/characterOptions/CharacterOption';
-import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
-import { initArtifactSet } from './artifact/ArtifactSetUtil';
 import { initWeapon } from './weapon/WeaponUtil';
 
 export type AppState = {
@@ -54,6 +54,7 @@ export type AppState = {
   weaponOptions: WeaponOption[];
   artifactSetOptions: ArtifactSetOption[];
   teamOptions: CharacterOption[];
+  artifactBuffOptions: ArtifactSetOption[];
 
   rotationTime: number;
   rotation: Attack[];
@@ -85,6 +86,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions: [],
     artifactSetOptions: [],
     teamOptions: [],
+    artifactBuffOptions: [],
 
     rotationTime: 0,
     rotation: [],
@@ -111,6 +113,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions,
     teamCharacters,
     teamOptions,
+    artifactBuffOptions,
     updateCache = true,
   }: {
     character?: Character;
@@ -121,6 +124,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions?: ArtifactSetOption[];
     teamCharacters?: Character[];
     teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
     updateCache?: boolean;
   }) => {
     if (
@@ -130,7 +134,8 @@ class App extends React.Component<{}, AppState> {
       weaponOptions === undefined &&
       artifactSets === undefined &&
       artifactSetOptions === undefined &&
-      teamOptions === undefined
+      teamOptions === undefined &&
+      artifactBuffOptions === undefined
     ) {
       return this.modifierMixins;
     }
@@ -183,6 +188,14 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.modifierMixin);
 
+    const artifactBuffOptionMixins = (
+      artifactBuffOptions ?? this.state.artifactBuffOptions
+    )
+      .filter((option): option is ArtifactSetOption & IModifierApplicable =>
+        isModifierApplicable(option)
+      )
+      .map((option) => option.modifierMixin);
+
     const unarrangedMixins = [
       ...characterPassiveMixins,
       ...characterConstellationMixins,
@@ -193,6 +206,7 @@ class App extends React.Component<{}, AppState> {
       ...weaponOptionMixins,
       ...artifactSetOptionMixins,
       ...teamOptionMixins,
+      ...artifactBuffOptionMixins,
     ];
     const groupedMixins = new Map<Priority, ModifierMixin[]>();
     unarrangedMixins.forEach((mixin) => {
@@ -226,6 +240,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions,
     teamCharacters,
     teamOptions,
+    artifactBuffOptions,
     updateCache = true,
   }: {
     character?: Character;
@@ -236,6 +251,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions?: ArtifactSetOption[];
     teamCharacters?: Character[];
     teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
     updateCache?: boolean;
   }) => {
     if (
@@ -245,7 +261,8 @@ class App extends React.Component<{}, AppState> {
       weaponOptions === undefined &&
       artifactSets === undefined &&
       artifactSetOptions === undefined &&
-      teamOptions === undefined
+      teamOptions === undefined &&
+      artifactBuffOptions === undefined
     ) {
       return this.statMixins;
     }
@@ -298,6 +315,14 @@ class App extends React.Component<{}, AppState> {
       )
       .map((option) => option.statMixin);
 
+    const artifactBuffOptionMixins = (
+      artifactBuffOptions ?? this.state.artifactBuffOptions
+    )
+      .filter((option): option is ArtifactSetOption & IStatsApplicable =>
+        isStatsApplicable(option)
+      )
+      .map((option) => option.statMixin);
+
     const unarrangedMixins = [
       ...characterPassiveMixins,
       ...characterConstellationMixins,
@@ -308,6 +333,7 @@ class App extends React.Component<{}, AppState> {
       ...weaponOptionMixins,
       ...artifactSetOptionMixins,
       ...teamOptionMixins,
+      ...artifactBuffOptionMixins,
     ];
     const groupedMixins = new Map<Priority, StatMixin[]>();
     unarrangedMixins.forEach((mixin) => {
@@ -430,6 +456,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions,
     artifactSetOptions,
     teamOptions,
+    artifactBuffOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
@@ -444,6 +471,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
     teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
   }) => {
     const statMixins = this.getStatMixins({
       character,
@@ -454,6 +482,7 @@ class App extends React.Component<{}, AppState> {
       artifactSetOptions,
       teamCharacters,
       teamOptions,
+      artifactBuffOptions,
     });
 
     this.totalStats = getTotalStatsAt(
@@ -476,6 +505,7 @@ class App extends React.Component<{}, AppState> {
       characterOptions,
       artifactSetOptions,
       teamOptions,
+      artifactBuffOptions,
     });
   };
 
@@ -495,6 +525,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions,
     artifactSetOptions,
     teamOptions,
+    artifactBuffOptions,
   }: {
     character?: Character;
     weapon?: Weapon;
@@ -511,6 +542,7 @@ class App extends React.Component<{}, AppState> {
     weaponOptions?: WeaponOption[];
     artifactSetOptions?: ArtifactSetOption[];
     teamOptions?: CharacterOption[];
+    artifactBuffOptions?: ArtifactSetOption[];
   }) => {
     const character = newChar ?? this.state.character;
 
@@ -523,6 +555,7 @@ class App extends React.Component<{}, AppState> {
       artifactSetOptions,
       teamCharacters,
       teamOptions,
+      artifactBuffOptions,
     });
 
     const damageModifier = this.getDamageModifier({
@@ -556,6 +589,7 @@ class App extends React.Component<{}, AppState> {
       artifactSetOptions: this.state.artifactSetOptions,
       teamCharacters: this.state.teamCharacters,
       teamOptions: this.state.teamOptions,
+      artifactBuffOptions: this.state.artifactBuffOptions,
     });
     this.getModifierMixins({
       character: this.state.character,
@@ -566,6 +600,7 @@ class App extends React.Component<{}, AppState> {
       artifactSetOptions: this.state.artifactSetOptions,
       teamCharacters: this.state.teamCharacters,
       teamOptions: this.state.teamOptions,
+      artifactBuffOptions: this.state.artifactBuffOptions,
     });
 
     this.updateArtifactSetBonuses({});
