@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Col from 'react-bootstrap/esm/Col';
 import Form from 'react-bootstrap/esm/Form';
 import Modal from 'react-bootstrap/esm/Modal';
+import Row from 'react-bootstrap/esm/Row';
 import { AppState } from '../App';
 import {
   createSave,
@@ -30,6 +31,11 @@ type SaveBlockState = {
   saveInputName: string;
   selectedSave: string;
   showDeleteWarning: boolean;
+  showImportModal: boolean;
+  showExportModal: boolean;
+  saveJson: string;
+  hasCopied: boolean;
+  invalidJson: boolean;
 };
 
 class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
@@ -51,6 +57,11 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
       saveInputName: '',
       selectedSave: '',
       showDeleteWarning: false,
+      showImportModal: false,
+      showExportModal: false,
+      saveJson: '',
+      hasCopied: false,
+      invalidJson: false,
     };
   }
 
@@ -86,7 +97,7 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
     }
   };
 
-  onModalConfirm = () => {
+  onDeleteModalConfirm = () => {
     const saves = this.state.saves;
     deleteSave(this.state.selectedSave, saves);
     this.setState({ saves });
@@ -94,8 +105,44 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
     this.setState({ showDeleteWarning: false });
   };
 
-  onModalHide = () => {
+  onDeleteModalHide = () => {
     this.setState({ showDeleteWarning: false });
+  };
+
+  onImportClick = () => {
+    this.setState({ showImportModal: true });
+  };
+
+  onImportModalHide = () => {
+    this.setState({ showImportModal: false, saveJson: '', invalidJson: false });
+  };
+
+  onImportTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({ saveJson: e.target.value });
+  };
+
+  onImportSubmitClick = () => {
+    try {
+      const save = JSON.parse(this.state.saveJson);
+      loadSave(save, this.props.setAppState, this.props.refreshApp);
+      this.onImportModalHide();
+    } catch {
+      this.setState({ invalidJson: true });
+    }
+  };
+
+  onExportClick = () => {
+    const saveJson = JSON.stringify(createSave('', this.props.appState));
+    this.setState({ showExportModal: true, saveJson, invalidJson: false });
+  };
+
+  onExportModalHide = () => {
+    this.setState({ showExportModal: false, saveJson: '', hasCopied: false });
+  };
+
+  onCopyClick = () => {
+    navigator.clipboard.writeText(this.state.saveJson);
+    this.setState({ hasCopied: true });
   };
 
   render() {
@@ -146,20 +193,105 @@ class SaveBlock extends React.Component<SaveBlockProps, SaveBlockState> {
 
             <Modal
               show={this.state.showDeleteWarning}
-              onHide={this.onModalHide}
+              onHide={this.onDeleteModalHide}
             >
               <Modal.Body>
                 Are you sure you want to delete the save configuration? This
                 action is irreversible!
               </Modal.Body>
               <Modal.Footer>
-                <Button variant='secondary' onClick={this.onModalHide}>
+                <Button variant='secondary' onClick={this.onDeleteModalHide}>
                   Cancel
                 </Button>
-                <Button variant='danger' onClick={this.onModalConfirm}>
+                <Button variant='danger' onClick={this.onDeleteModalConfirm}>
                   Delete
                 </Button>
               </Modal.Footer>
+            </Modal>
+          </>
+        </InputRow>
+
+        <InputRow>
+          <>
+            <Button variant='secondary' size='sm' onClick={this.onImportClick}>
+              Import
+            </Button>
+
+            <Modal
+              size='lg'
+              show={this.state.showImportModal}
+              onHide={this.onImportModalHide}
+            >
+              <Modal.Header closeButton>
+                Import Configuration from JSON
+              </Modal.Header>
+              <Modal.Body>
+                <Col>
+                  <Row>
+                    <Form.Control
+                      as='textarea'
+                      rows={10}
+                      value={this.state.saveJson}
+                      onChange={this.onImportTextChange}
+                    />
+                  </Row>
+
+                  <Row className='mt-2'>
+                    <Button
+                      variant='secondary'
+                      size='sm'
+                      onClick={this.onImportSubmitClick}
+                      className='mr-2'
+                    >
+                      Import
+                    </Button>
+                    {this.state.invalidJson && 'Invalid JSON!'}
+                  </Row>
+                </Col>
+              </Modal.Body>
+            </Modal>
+          </>
+
+          <>
+            <Button variant='secondary' size='sm' onClick={this.onExportClick}>
+              Export
+            </Button>
+
+            <Modal
+              size='lg'
+              show={this.state.showExportModal}
+              onHide={this.onExportModalHide}
+            >
+              <Modal.Header closeButton>
+                Export Configuration as JSON
+              </Modal.Header>
+              <Modal.Body>
+                <Col>
+                  <Row>
+                    <Form.Control
+                      as='textarea'
+                      rows={10}
+                      value={this.state.saveJson}
+                      readOnly
+                    />
+                  </Row>
+
+                  <Row className='mt-2'>
+                    <Button
+                      variant={
+                        !this.state.hasCopied ? 'secondary' : 'outline-success'
+                      }
+                      size='sm'
+                      onClick={this.onCopyClick}
+                      disabled={this.state.hasCopied}
+                    >
+                      {!this.state.hasCopied
+                        ? 'Copy to Clipboard'
+                        : 'Copied to Clipboard!'}
+                    </Button>
+                  </Row>
+                </Col>
+              </Modal.Body>
             </Modal>
           </>
         </InputRow>
