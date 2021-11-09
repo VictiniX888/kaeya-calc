@@ -4,17 +4,17 @@ import InputRow from './InputRow';
 import FloatInput from './FloatInput';
 import { TalentValue, TalentValueSet } from '../talent/types';
 import DPSAttackInput from './DPSAttackInput';
-import { AppState } from '../App';
-import DamageModifier from '../modifier/DamageModifer';
-import { ModifierMixin, StatMixin } from '../option/Mixin';
+import {
+  AppState,
+  GetDamageModifierFn,
+  GetModifierMixinsFn,
+  GetStatMixinsFn,
+} from '../App';
 import { Stats } from '../data/types';
 import {
   calculateTalentValue,
   initializeAllOptions,
 } from '../dps/DPSCalculator';
-import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
-import CharacterOption from '../option/characterOptions/CharacterOption';
-import WeaponOption from '../option/weaponOptions/WeaponOption';
 import Option from '../option/Option';
 import InputBlock from './InputBlock';
 
@@ -41,37 +41,9 @@ type DPSColumnProps = {
     callback?: () => void
   ) => void;
   artifactSetBonuses: Stats;
-  getDamageModifier: ({
-    modifierMixins,
-  }: {
-    modifierMixins: ModifierMixin[];
-  }) => DamageModifier;
-  getStatMixins: ({
-    characterOptions,
-    weaponOptions,
-    artifactSetOptions,
-    teamOptions,
-    updateCache,
-  }: {
-    characterOptions?: CharacterOption[];
-    weaponOptions?: WeaponOption[];
-    artifactSetOptions?: ArtifactSetOption[];
-    teamOptions?: CharacterOption[];
-    updateCache?: boolean;
-  }) => StatMixin[];
-  getModifierMixins: ({
-    characterOptions,
-    weaponOptions,
-    artifactSetOptions,
-    teamOptions,
-    updateCache,
-  }: {
-    characterOptions?: CharacterOption[];
-    weaponOptions?: WeaponOption[];
-    artifactSetOptions?: ArtifactSetOption[];
-    teamOptions?: CharacterOption[];
-    updateCache?: boolean;
-  }) => ModifierMixin[];
+  getDamageModifier: GetDamageModifierFn;
+  getStatMixins: GetStatMixinsFn;
+  getModifierMixins: GetModifierMixinsFn;
   talentValues: TalentValueSet;
 };
 

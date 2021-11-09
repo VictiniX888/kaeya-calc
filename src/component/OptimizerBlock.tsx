@@ -2,24 +2,25 @@ import React from 'react';
 import Accordion from 'react-bootstrap/esm/Accordion';
 import Button from 'react-bootstrap/esm/Button';
 import Card from 'react-bootstrap/esm/Card';
-import { AppState } from '../App';
-import { Stats } from '../data/types';
+import {
+  AppState,
+  GetDamageModifierFn,
+  GetModifierMixinsFn,
+  GetStatMixinsFn,
+} from '../App';
 import Artifact from '../artifact/Artifact';
-import { propMapping, talentDescMapping } from '../data/Data';
-import DamageModifier from '../modifier/DamageModifer';
+import { propMapping } from '../data/Data';
+import { Stats } from '../data/types';
 import {
   optimizeSubstats,
   RollDistribution,
   substats,
 } from '../optimization/Optimization';
-import { StatMixin } from '../option/Mixin';
-import { TalentValueSet } from '../talent/types';
 import Checkbox from './Checkbox';
 import FloatInput from './FloatInput';
+import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
-import Picker from './Picker';
-import InputBlock from './InputBlock';
 
 type OptimizerBlockProps = {
   appState: AppState;
@@ -29,17 +30,15 @@ type OptimizerBlockProps = {
   ) => void;
   updateTotalStats: ({ artifacts }: { artifacts?: Artifact[] }) => void;
   artifactSetBonuses: Stats;
-  damageModifier: DamageModifier;
-  statMixins: StatMixin[];
-  talentValues: TalentValueSet;
+  getDamageModifier: GetDamageModifierFn;
+  getStatMixins: GetStatMixinsFn;
+  getModifierMixins: GetModifierMixinsFn;
 };
 
 type OptimizerBlockState = {
   maxRolls: number;
   selectedSubstats: string[];
   erThreshold: number;
-  targetTalentType: string;
-  targetTalentId: string;
   substatRolls: RollDistribution[];
 };
 
@@ -48,12 +47,10 @@ class OptimizerBlock extends React.Component<
   OptimizerBlockState
 > {
   state: OptimizerBlockState = {
-    substatRolls: [],
+    maxRolls: 20,
     selectedSubstats: [],
     erThreshold: 100,
-    targetTalentType: '',
-    targetTalentId: '',
-    maxRolls: 20,
+    substatRolls: [],
   };
 
   setMaxRolls = (maxRolls: number) => {
@@ -86,35 +83,21 @@ class OptimizerBlock extends React.Component<
     }
   };
 
-  setTargetTalentType = (value: string) => {
-    this.setState({ targetTalentType: value });
-  };
-
-  setTargetTalentId = (value: string) => {
-    this.setState({ targetTalentId: value });
-  };
-
   onOptimizeClick = () => {
-    if (
-      this.state.targetTalentType !== undefined &&
-      this.state.targetTalentId !== ''
-    ) {
-      const result = optimizeSubstats(
-        this.state.selectedSubstats,
-        this.state.maxRolls,
-        this.state.erThreshold / 100,
-        this.state.targetTalentType,
-        this.state.targetTalentId,
-        this.props.appState,
-        this.props.artifactSetBonuses,
-        this.props.damageModifier,
-        this.props.statMixins
-      );
+    const result = optimizeSubstats(
+      this.state.selectedSubstats,
+      this.state.maxRolls,
+      this.state.erThreshold / 100,
+      this.props.appState,
+      this.props.artifactSetBonuses,
+      this.props.getDamageModifier,
+      this.props.getStatMixins,
+      this.props.getModifierMixins
+    );
 
-      this.props.updateTotalStats({ artifacts: result.artifacts });
-      this.props.setAppState({ artifacts: result.artifacts });
-      this.setState({ substatRolls: result.subStatRolls });
-    }
+    this.props.updateTotalStats({ artifacts: result.artifacts });
+    this.props.setAppState({ artifacts: result.artifacts });
+    this.setState({ substatRolls: result.subStatRolls });
   };
 
   render() {
@@ -172,48 +155,6 @@ class OptimizerBlock extends React.Component<
                     value={this.state.erThreshold}
                     onInput={this.setErThreshold}
                   />
-                </InputRow>
-              </InputBlock>
-
-              <InputBlock>
-                <InputRow>
-                  <Picker
-                    id={`optimizer-target-talent-type`}
-                    label='Target Talent Type:'
-                    defaultValue=''
-                    value={this.state.targetTalentType}
-                    onChange={this.setTargetTalentType}
-                  >
-                    <Picker.Item value='' label='' />
-                    {Object.keys(this.props.talentValues).map((type) => (
-                      <Picker.Item
-                        key={type}
-                        value={type}
-                        label={talentDescMapping[type]}
-                      />
-                    ))}
-                  </Picker>
-                </InputRow>
-
-                <InputRow>
-                  <Picker
-                    id={`optimizer-target-talent-id`}
-                    label='Target Talent Name:'
-                    defaultValue=''
-                    value={this.state.targetTalentId}
-                    onChange={this.setTargetTalentId}
-                  >
-                    <Picker.Item value='' label='' />
-                    {Object.keys(
-                      this.props.talentValues[this.state.targetTalentType] ?? {}
-                    ).map((id) => (
-                      <Picker.Item
-                        key={id}
-                        value={id}
-                        label={talentDescMapping[id]}
-                      />
-                    ))}
-                  </Picker>
                 </InputRow>
               </InputBlock>
 

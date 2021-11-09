@@ -1,8 +1,12 @@
-import { AppState } from '../App';
-import { Stats } from '../data/types';
+import {
+  AppState,
+  GetDamageModifierFn,
+  GetModifierMixinsFn,
+  GetStatMixinsFn,
+} from '../App';
 import Artifact from '../artifact/Artifact';
-import DamageModifier from '../modifier/DamageModifer';
-import { StatMixin } from '../option/Mixin';
+import { Stats } from '../data/types';
+import { calculateTalentValue } from '../dps/DPSCalculator';
 import { getTotalStatsAt } from '../stat/Stat';
 
 export type RollDistribution = {
@@ -37,12 +41,11 @@ export function optimizeSubstats(
   possibleStats: string[],
   maxRolls: number,
   erThreshold: number,
-  optimizeTalentType: string,
-  optimizeTalentId: string,
   appState: AppState,
   artifactSetBonuses: Stats,
-  damageModifier: DamageModifier,
-  statMixins: StatMixin[]
+  getDamageModifier: GetDamageModifierFn,
+  getStatMixins: GetStatMixinsFn,
+  getModifierMixins: GetModifierMixinsFn
 ): SubstatOptimzerResult {
   let maxDmg = 0;
   let optimalSubstatRolls: RollDistribution[] = [];
@@ -58,7 +61,7 @@ export function optimizeSubstats(
     appState.talentAttackLevel,
     appState.talentSkillLevel,
     appState.talentBurstLevel,
-    statMixins
+    getStatMixins()
   );
   const baseEr = baseTotalStats.energyRecharge ?? 0;
 
@@ -99,29 +102,31 @@ export function optimizeSubstats(
 
     addRollsToArtifacts(combination, artifacts);
 
-    const totalStats = getTotalStatsAt(
-      appState.character,
-      appState.weapon,
-      artifactSetBonuses,
-      artifacts,
-      appState.talentAttackLevel,
-      appState.talentSkillLevel,
-      appState.talentBurstLevel,
-      statMixins
-    );
-
-    // Calculate talent damage
-    const talentDmg =
-      appState.character.talentFns?.[optimizeTalentType]?.[optimizeTalentId]?.({
-        stats: totalStats,
-        modifier: damageModifier,
-      })?.damage?.[0] ?? 0;
+    const damage = appState.rotation.reduce((acc, attack) => {
+      const talentValue = calculateTalentValue(
+        attack.talentType,
+        attack.talentId,
+        attack.options,
+        appState,
+        artifactSetBonuses,
+        getDamageModifier,
+        getStatMixins,
+        getModifierMixins,
+        artifacts
+      );
+      const totalDmg = talentValue.damage.reduce(
+        (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0),
+        0
+      );
+      const multiplier = !isNaN(attack.multiplier) ? attack.multiplier : 0;
+      return acc + totalDmg * multiplier;
+    }, 0);
 
     // Update optimal rolls
-    if (talentDmg > maxDmg) {
+    if (damage > maxDmg) {
       optimalSubstatRolls = combination;
       optimalArtifacts = artifacts;
-      maxDmg = talentDmg;
+      maxDmg = damage;
     }
   });
 

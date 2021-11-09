@@ -1,16 +1,17 @@
-import { AppState } from '../App';
+import {
+  AppState,
+  GetDamageModifierFn,
+  GetModifierMixinsFn,
+  GetStatMixinsFn,
+} from '../App';
+import Artifact from '../artifact/Artifact';
 import { getAscensionLevel } from '../character/Character';
 import { Stats } from '../data/types';
-import DamageModifier from '../modifier/DamageModifer';
 import { getOptionValue, setOptionValue } from '../option';
-import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
-import CharacterOption from '../option/characterOptions/CharacterOption';
-import { ModifierMixin, StatMixin } from '../option/Mixin';
-import WeaponOption from '../option/weaponOptions/WeaponOption';
+import ReactionOption from '../option/characterOptions/ReactionOption';
+import Option from '../option/Option';
 import { getTotalStatsAt } from '../stat/Stat';
 import { TalentValue } from '../talent/types';
-import Option from '../option/Option';
-import ReactionOption from '../option/characterOptions/ReactionOption';
 import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
 
 export function calculateTalentValue(
@@ -19,39 +20,10 @@ export function calculateTalentValue(
   options: Option[],
   appState: AppState,
   artifactSetBonuses: Stats,
-  getDamageModifier: ({
-    modifierMixins,
-  }: {
-    modifierMixins: ModifierMixin[];
-  }) => DamageModifier,
-  getStatMixins: ({
-    characterOptions,
-    weaponOptions,
-    artifactSetOptions,
-    teamOptions,
-    updateCache,
-  }: {
-    characterOptions?: CharacterOption[];
-    weaponOptions?: WeaponOption[];
-    artifactSetOptions?: ArtifactSetOption[];
-    teamOptions?: CharacterOption[];
-    artifactBuffOptions?: ArtifactSetOption[];
-    updateCache?: boolean;
-  }) => StatMixin[],
-  getModifierMixins: ({
-    characterOptions,
-    weaponOptions,
-    artifactSetOptions,
-    teamOptions,
-    updateCache,
-  }: {
-    characterOptions?: CharacterOption[];
-    weaponOptions?: WeaponOption[];
-    artifactSetOptions?: ArtifactSetOption[];
-    teamOptions?: CharacterOption[];
-    artifactBuffOptions?: ArtifactSetOption[];
-    updateCache?: boolean;
-  }) => ModifierMixin[]
+  getDamageModifier: GetDamageModifierFn,
+  getStatMixins: GetStatMixinsFn,
+  getModifierMixins: GetModifierMixinsFn,
+  overrideArtifacts?: Artifact[]
 ): TalentValue {
   // Initialize a set of all options
   const {
@@ -94,7 +66,7 @@ export function calculateTalentValue(
     appState.character,
     appState.weapon,
     artifactSetBonuses,
-    appState.artifacts,
+    overrideArtifacts ?? appState.artifacts,
     appState.talentAttackLevel,
     appState.talentSkillLevel,
     appState.talentBurstLevel,

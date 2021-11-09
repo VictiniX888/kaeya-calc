@@ -104,7 +104,7 @@ class App extends React.Component<{}, AppState> {
   talentBurstLevelExtra: number = 0;
 
   // Gets all modifier mixins and updates cache (modifierMixins)
-  getModifierMixins = ({
+  getModifierMixins: GetModifierMixinsFn = ({
     character,
     characterOptions,
     weapon,
@@ -126,7 +126,7 @@ class App extends React.Component<{}, AppState> {
     teamOptions?: CharacterOption[];
     artifactBuffOptions?: ArtifactSetOption[];
     updateCache?: boolean;
-  }) => {
+  } = {}) => {
     if (
       character === undefined &&
       characterOptions === undefined &&
@@ -231,7 +231,7 @@ class App extends React.Component<{}, AppState> {
   };
 
   // Gets all stat mixins and updates cache (statMixins)
-  getStatMixins = ({
+  getStatMixins: GetStatMixinsFn = ({
     character,
     characterOptions,
     weapon,
@@ -253,7 +253,7 @@ class App extends React.Component<{}, AppState> {
     teamOptions?: CharacterOption[];
     artifactBuffOptions?: ArtifactSetOption[];
     updateCache?: boolean;
-  }) => {
+  } = {}) => {
     if (
       character === undefined &&
       characterOptions === undefined &&
@@ -357,7 +357,7 @@ class App extends React.Component<{}, AppState> {
     return statMixins;
   };
 
-  getDamageModifier = ({
+  getDamageModifier: GetDamageModifierFn = ({
     characterLevel,
     enemyLevel,
     enemyRes,
@@ -644,9 +644,9 @@ class App extends React.Component<{}, AppState> {
             setAppState={this.setAppState}
             updateTotalStats={this.updateTotalStats}
             artifactSetBonuses={this.artifactSetBonuses}
-            damageModifier={this.getDamageModifier()}
-            statMixins={this.statMixins}
-            talentValues={this.talentValues}
+            getDamageModifier={this.getDamageModifier}
+            getStatMixins={this.getStatMixins}
+            getModifierMixins={this.getModifierMixins}
           />
           <StatColumn
             appState={this.state}
@@ -670,3 +670,42 @@ class App extends React.Component<{}, AppState> {
 }
 
 export default App;
+
+// Function type definitions (for convenience)
+export type GetModifierMixinsFn = (params?: {
+  character?: Character;
+  characterOptions?: CharacterOption[];
+  weapon?: Weapon;
+  weaponOptions?: WeaponOption[];
+  artifactSets?: ArtifactSet[];
+  artifactSetOptions?: ArtifactSetOption[];
+  teamCharacters?: Character[];
+  teamOptions?: CharacterOption[];
+  artifactBuffOptions?: ArtifactSetOption[];
+  updateCache?: boolean;
+}) => ModifierMixin[];
+
+export type GetStatMixinsFn = (params?: {
+  character?: Character;
+  characterOptions?: CharacterOption[];
+  weapon?: Weapon;
+  weaponOptions?: WeaponOption[];
+  artifactSets?: ArtifactSet[];
+  artifactSetOptions?: ArtifactSetOption[];
+  teamCharacters?: Character[];
+  teamOptions?: CharacterOption[];
+  artifactBuffOptions?: ArtifactSetOption[];
+  updateCache?: boolean;
+}) => StatMixin[];
+
+export type GetDamageModifierFn = (params?: {
+  characterLevel?: number;
+  enemyLevel?: number;
+  enemyRes?: Resistance;
+  critType?: CritType;
+  reaction?: Reaction;
+  talentAttackLevel?: number;
+  talentSkillLevel?: number;
+  talentBurstLevel?: number;
+  modifierMixins?: ModifierMixin[];
+}) => DamageModifier;

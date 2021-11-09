@@ -1,11 +1,13 @@
 import React from 'react';
 import Col from 'react-bootstrap/esm/Col';
-import { AppState } from '../App';
-import { Stats } from '../data/types';
+import {
+  AppState,
+  GetDamageModifierFn,
+  GetModifierMixinsFn,
+  GetStatMixinsFn,
+} from '../App';
 import Artifact from '../artifact/Artifact';
-import DamageModifier from '../modifier/DamageModifer';
-import { StatMixin } from '../option/Mixin';
-import { TalentValueSet } from '../talent/types';
+import { Stats } from '../data/types';
 import ArtifactBlock from './ArtifactBlock';
 import OptimizerBlock from './OptimizerBlock';
 
@@ -17,9 +19,9 @@ type ArtifactColumnProps = {
   ) => void;
   updateTotalStats: ({ artifacts }: { artifacts?: Artifact[] }) => void;
   artifactSetBonuses: Stats;
-  damageModifier: DamageModifier;
-  statMixins: StatMixin[];
-  talentValues: TalentValueSet;
+  getDamageModifier: GetDamageModifierFn;
+  getStatMixins: GetStatMixinsFn;
+  getModifierMixins: GetModifierMixinsFn;
 };
 
 class ArtifactColumn extends React.Component<ArtifactColumnProps> {
