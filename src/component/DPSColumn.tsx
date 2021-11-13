@@ -7,7 +7,7 @@ import {
   initializeAllOptions,
 } from '../dps/DPSCalculator';
 import Option from '../option/Option';
-import { TalentValue, TalentValueSet } from '../talent/types';
+import { Talents, TalentValue } from '../talent/types';
 import DPSAttackInput from './DPSAttackInput';
 import FloatInput from './FloatInput';
 import InputBlock from './InputBlock';
@@ -36,7 +36,7 @@ type DPSColumnProps = {
     callback?: () => void
   ) => void;
   artifactSetBonuses: Stats;
-  talentValues: TalentValueSet;
+  talents: Talents;
 };
 
 class DPSColumn extends React.Component<DPSColumnProps> {
@@ -48,6 +48,7 @@ class DPSColumn extends React.Component<DPSColumnProps> {
       ...attack,
       ...this.props.appState,
       artifactSetBonuses: this.props.artifactSetBonuses,
+      talents: this.props.talents,
     });
   };
 
@@ -139,7 +140,7 @@ class DPSColumn extends React.Component<DPSColumnProps> {
               setAttack={this.setAttack(i)}
               attack={attack}
               index={i}
-              talentValues={this.props.talentValues}
+              talents={this.props.talents}
               options={allOptions}
             />
           ))}
@@ -148,7 +149,7 @@ class DPSColumn extends React.Component<DPSColumnProps> {
             setAttack={this.setAttack(this.props.appState.rotation.length)}
             attack={{ ...defaultAttack }}
             index={this.props.appState.rotation.length}
-            talentValues={this.props.talentValues}
+            talents={this.props.talents}
             options={allOptions}
           />
         </InputBlock>

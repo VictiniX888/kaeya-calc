@@ -2,12 +2,7 @@ import React from 'react';
 import Accordion from 'react-bootstrap/esm/Accordion';
 import Button from 'react-bootstrap/esm/Button';
 import Card from 'react-bootstrap/esm/Card';
-import {
-  AppState,
-  GetDamageModifierFn,
-  GetModifierMixinsFn,
-  GetStatMixinsFn,
-} from '../App';
+import { AppState } from '../App';
 import Artifact from '../artifact/Artifact';
 import { propMapping } from '../data/Data';
 import { Stats } from '../data/types';
@@ -29,9 +24,6 @@ type OptimizerBlockProps = {
   ) => void;
   updateTotalStats: ({ artifacts }: { artifacts?: Artifact[] }) => void;
   artifactSetBonuses: Stats;
-  getDamageModifier: GetDamageModifierFn;
-  getStatMixins: GetStatMixinsFn;
-  getModifierMixins: GetModifierMixinsFn;
 };
 
 type OptimizerBlockState = {

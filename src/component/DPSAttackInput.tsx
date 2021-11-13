@@ -5,7 +5,7 @@ import Picker from './Picker';
 import { talentDescMapping } from '../data/Data';
 import { getDamageDisplayValue } from '../stat/Stat';
 import IntInput from './IntInput';
-import { TalentValueSet } from '../talent/types';
+import { Talents } from '../talent/types';
 import DPSOptionInput from './DPSOptionInput';
 import Option from '../option';
 
@@ -13,7 +13,7 @@ type DPSAttackInputProps = {
   setAttack: (attack: Attack) => void;
   attack: Attack;
   index: number;
-  talentValues: TalentValueSet;
+  talents: Talents;
   options: Option[];
 };
 
@@ -58,7 +58,7 @@ class DPSAttackInput extends React.Component<DPSAttackInputProps> {
             isLabelShown={false}
           >
             <Picker.Item value='' label='' />
-            {Object.keys(this.props.talentValues).map((type) => (
+            {Object.keys(this.props.talents).map((type) => (
               <Picker.Item
                 key={type}
                 value={type}
@@ -77,7 +77,7 @@ class DPSAttackInput extends React.Component<DPSAttackInputProps> {
           >
             <Picker.Item value='' label='' />
             {Object.keys(
-              this.props.talentValues[this.props.attack.talentType] ?? {}
+              this.props.talents[this.props.attack.talentType] ?? {}
             ).map((id) => (
               <Picker.Item key={id} value={id} label={talentDescMapping[id]} />
             ))}

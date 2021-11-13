@@ -14,7 +14,7 @@ import Option from '../option/Option';
 import WeaponOption from '../option/weaponOptions/WeaponOption';
 import Resistance from '../stat/Resistance';
 import { getTotalStatsAt } from '../stat/Stat';
-import { TalentValue } from '../talent/types';
+import { Talents, TalentValue } from '../talent/types';
 import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
 import Weapon from '../weapon/Weapon';
 
@@ -40,6 +40,7 @@ export type CalculateTalentValueParams = {
   artifactSetOptions: ArtifactSetOption[];
   teamOptions: CharacterOption[];
   artifactBuffOptions: ArtifactSetOption[];
+  talents: Talents;
 };
 
 export function calculateTalentValue({
@@ -64,6 +65,7 @@ export function calculateTalentValue({
   artifactSetOptions,
   teamOptions,
   artifactBuffOptions,
+  talents,
 }: CalculateTalentValueParams): TalentValue {
   // Initialize a set of all options
   const {
@@ -152,7 +154,7 @@ export function calculateTalentValue({
   });
 
   // Calculate talent value
-  const talentFn = character.talentFns[talentType]?.[talentId];
+  const talentFn = talents[talentType]?.[talentId];
 
   const talentValue = talentFn?.({ stats, modifier }) ?? { damage: [NaN] };
 

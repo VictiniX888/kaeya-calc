@@ -33,7 +33,8 @@ import {
 import WeaponOption from './option/weaponOptions/WeaponOption';
 import Resistance from './stat/Resistance';
 import { getTotalStatsAt } from './stat/Stat';
-import { TalentValue, TalentValueSet } from './talent/types';
+import { getAllTalentFns } from './talent/Talent';
+import { Talents, TalentValue, TalentValueSet } from './talent/types';
 import Weapon from './weapon/Weapon';
 import { initWeapon } from './weapon/WeaponUtil';
 
@@ -96,6 +97,7 @@ class App extends React.Component<{}, AppState> {
 
   artifactSetBonuses: Stats = {};
   totalStats: Stats = {};
+  talents: Talents = {};
   talentValues: TalentValueSet = {};
 
   modifierMixins: ModifierMixin[] = [];
@@ -118,17 +120,6 @@ class App extends React.Component<{}, AppState> {
     teamOptions,
     artifactBuffOptions,
     updateCache = true,
-  }: {
-    character?: Character;
-    characterOptions?: CharacterOption[];
-    weapon?: Weapon;
-    weaponOptions?: WeaponOption[];
-    artifactSets?: ArtifactSet[];
-    artifactSetOptions?: ArtifactSetOption[];
-    teamCharacters?: Character[];
-    teamOptions?: CharacterOption[];
-    artifactBuffOptions?: ArtifactSetOption[];
-    updateCache?: boolean;
   } = {}): ModifierMixin[] => {
     if (
       character === undefined &&
@@ -343,7 +334,7 @@ class App extends React.Component<{}, AppState> {
   };
 
   updateTalentValues = ({
-    character: newChar,
+    character,
     weapon,
     artifactSets,
     talentAttackLevel,
@@ -377,8 +368,6 @@ class App extends React.Component<{}, AppState> {
     teamOptions?: CharacterOption[];
     artifactBuffOptions?: ArtifactSetOption[];
   }) => {
-    const character = newChar ?? this.state.character;
-
     const modifierMixins = this.getModifierMixins({
       character,
       characterOptions,
@@ -392,7 +381,7 @@ class App extends React.Component<{}, AppState> {
     });
 
     const damageModifier = this.getDamageModifier({
-      characterLevel: newChar?.level,
+      characterLevel: character?.level,
       enemyLevel,
       enemyRes,
       critType,
@@ -403,8 +392,13 @@ class App extends React.Component<{}, AppState> {
       modifierMixins,
     });
 
+    this.talents = getAllTalentFns(
+      character ?? this.state.character,
+      weapon ?? this.state.weapon
+    );
+
     this.talentValues = {};
-    Object.entries(character.talentFns).forEach(([type, fns]) => {
+    Object.entries(this.talents).forEach(([type, fns]) => {
       this.talentValues[type] = Object.entries(fns).reduce((acc, [id, fn]) => {
         acc[id] = fn({ stats: this.totalStats, modifier: damageModifier });
         return acc;
@@ -477,9 +471,6 @@ class App extends React.Component<{}, AppState> {
             setAppState={this.setAppState}
             updateTotalStats={this.updateTotalStats}
             artifactSetBonuses={this.artifactSetBonuses}
-            getDamageModifier={this.getDamageModifier}
-            getStatMixins={this.getStatMixins}
-            getModifierMixins={this.getModifierMixins}
           />
           <StatColumn
             appState={this.state}
@@ -491,7 +482,7 @@ class App extends React.Component<{}, AppState> {
             appState={this.state}
             setAppState={this.setAppState}
             artifactSetBonuses={this.artifactSetBonuses}
-            talentValues={this.talentValues}
+            talents={this.talents}
           />
         </Row>
       </Container>

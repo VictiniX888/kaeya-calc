@@ -18,6 +18,7 @@ import { ModifierMixin, StatMixin } from '../option/Mixin';
 import WeaponOption from '../option/weaponOptions/WeaponOption';
 import { WeaponPassive } from '../passive/types';
 import type { WeaponType } from './types';
+import { Talents } from '../talent/types';
 
 export default class Weapon {
   constructor(
@@ -60,6 +61,8 @@ export default class Weapon {
     this.passiveOptions = this.getPassiveOptions();
 
     this.stats = this.getStatsAt(this.weaponLevel, this.hasAscended);
+
+    this.talentFns = this.getTalentFns(this.refinement);
   }
 
   name?: string;
@@ -69,6 +72,7 @@ export default class Weapon {
   statCurveMapping?: StatCurveMapping;
   ascensionBonuses?: AscensionBonus[];
   passiveDataSet?: WeaponPassiveSetData;
+  talentFns: Talents = {};
 
   private _weaponLevel: number = 1;
   get weaponLevel(): number {
@@ -250,5 +254,10 @@ export default class Weapon {
     }
 
     return [this.passive.modifierMixin];
+  }
+
+  // Override in derived classes if weapon does special damage instance
+  getTalentFns(_refinement: number): Talents {
+    return {};
   }
 }

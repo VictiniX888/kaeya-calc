@@ -8,6 +8,7 @@ import Save, {
   unpackSave,
 } from '../save/Save';
 import { optimizeSubstats, RollDistribution } from './Optimization';
+import { getAllTalentFns } from '../talent/Talent';
 
 type OptimizerWorkerData = {
   possibleStats: string[];
@@ -26,7 +27,9 @@ export const optimize = (
 ): SubstatOptimizerResultSave => {
   const appState = unpackSave(data.save);
   const artifactSetBonuses = getAllArtifactSetBonuses(appState.artifactSets);
-  const calcParams = { ...appState, artifactSetBonuses };
+  const talents = getAllTalentFns(appState.character, appState.weapon);
+  const calcParams = { ...appState, artifactSetBonuses, talents };
+
   const result = optimizeSubstats(
     data.possibleStats,
     data.maxRolls,
@@ -34,6 +37,7 @@ export const optimize = (
     appState.rotation,
     calcParams
   );
+
   return {
     subStatRolls: result.subStatRolls,
     artifacts: result.artifacts.map(createArtifactSave),
