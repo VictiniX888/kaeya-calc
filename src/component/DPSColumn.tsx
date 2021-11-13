@@ -1,22 +1,17 @@
 import React from 'react';
 import Col from 'react-bootstrap/esm/Col';
-import InputRow from './InputRow';
-import FloatInput from './FloatInput';
-import { TalentValue, TalentValueSet } from '../talent/types';
-import DPSAttackInput from './DPSAttackInput';
-import {
-  AppState,
-  GetDamageModifierFn,
-  GetModifierMixinsFn,
-  GetStatMixinsFn,
-} from '../App';
+import { AppState } from '../App';
 import { Stats } from '../data/types';
 import {
   calculateTalentValue,
   initializeAllOptions,
 } from '../dps/DPSCalculator';
 import Option from '../option/Option';
+import { TalentValue, TalentValueSet } from '../talent/types';
+import DPSAttackInput from './DPSAttackInput';
+import FloatInput from './FloatInput';
 import InputBlock from './InputBlock';
+import InputRow from './InputRow';
 
 export type Attack = {
   talentType: string;
@@ -41,9 +36,6 @@ type DPSColumnProps = {
     callback?: () => void
   ) => void;
   artifactSetBonuses: Stats;
-  getDamageModifier: GetDamageModifierFn;
-  getStatMixins: GetStatMixinsFn;
-  getModifierMixins: GetModifierMixinsFn;
   talentValues: TalentValueSet;
 };
 
@@ -52,16 +44,11 @@ class DPSColumn extends React.Component<DPSColumnProps> {
   dps: number = NaN;
 
   updateTalentValue = (attack: Attack) => {
-    attack.talentValue = calculateTalentValue(
-      attack.talentType,
-      attack.talentId,
-      attack.options,
-      this.props.appState,
-      this.props.artifactSetBonuses,
-      this.props.getDamageModifier,
-      this.props.getStatMixins,
-      this.props.getModifierMixins
-    );
+    attack.talentValue = calculateTalentValue({
+      ...attack,
+      ...this.props.appState,
+      artifactSetBonuses: this.props.artifactSetBonuses,
+    });
   };
 
   updateTalentValues = () => {

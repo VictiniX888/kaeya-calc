@@ -1,12 +1,10 @@
-import {
-  AppState,
-  GetDamageModifierFn,
-  GetModifierMixinsFn,
-  GetStatMixinsFn,
-} from '../App';
 import Artifact from '../artifact/Artifact';
-import { Stats } from '../data/types';
-import { calculateTalentValue } from '../dps/DPSCalculator';
+import { Attack } from '../component/DPSColumn';
+import {
+  calculateTalentValue,
+  CalculateTalentValueParams,
+} from '../dps/DPSCalculator';
+import { getStatMixins } from '../option/Mixin';
 import { getTotalStatsAt } from '../stat/Stat';
 
 export type RollDistribution = {
@@ -14,7 +12,7 @@ export type RollDistribution = {
   rolls: number;
 };
 
-type SubstatOptimzerResult = {
+type SubstatOptimizerResult = {
   subStatRolls: RollDistribution[];
   artifacts: Artifact[];
 };
@@ -41,27 +39,28 @@ export function optimizeSubstats(
   possibleStats: string[],
   maxRolls: number,
   erThreshold: number,
-  appState: AppState,
-  artifactSetBonuses: Stats,
-  getDamageModifier: GetDamageModifierFn,
-  getStatMixins: GetStatMixinsFn,
-  getModifierMixins: GetModifierMixinsFn
-): SubstatOptimzerResult {
+  rotation: Attack[],
+  calcParams: Omit<
+    CalculateTalentValueParams,
+    'talentType' | 'talentId' | 'options'
+  >
+): SubstatOptimizerResult {
   let maxDmg = 0;
   let optimalSubstatRolls: RollDistribution[] = [];
-  let optimalArtifacts: Artifact[] = appState.artifacts;
+  let optimalArtifacts: Artifact[] = calcParams.artifacts;
 
   // Roll ER to reach threshold
-  const baseArtifacts = generateBaseArtifacts(appState.artifacts);
+  const baseArtifacts = generateBaseArtifacts(calcParams.artifacts);
+  const baseStatMixins = getStatMixins({ ...calcParams });
   const baseTotalStats = getTotalStatsAt(
-    appState.character,
-    appState.weapon,
-    artifactSetBonuses,
+    calcParams.character,
+    calcParams.weapon,
+    calcParams.artifactSetBonuses,
     baseArtifacts,
-    appState.talentAttackLevel,
-    appState.talentSkillLevel,
-    appState.talentBurstLevel,
-    getStatMixins()
+    calcParams.talentAttackLevel,
+    calcParams.talentSkillLevel,
+    calcParams.talentBurstLevel,
+    baseStatMixins
   );
   const baseEr = baseTotalStats.energyRecharge ?? 0;
 
@@ -81,7 +80,7 @@ export function optimizeSubstats(
   const combinations = generateRollCombinationsKqm(
     possibleStats,
     maxRolls - baseErRolls,
-    appState.artifacts.map((artifact) => artifact.mainStat.stat),
+    calcParams.artifacts.map((artifact) => artifact.mainStat.stat),
     baseErRolls
   );
 
@@ -98,22 +97,16 @@ export function optimizeSubstats(
       }
     }
 
-    const artifacts = generateBaseArtifacts(appState.artifacts);
+    const artifacts = generateBaseArtifacts(calcParams.artifacts);
 
     addRollsToArtifacts(combination, artifacts);
 
-    const damage = appState.rotation.reduce((acc, attack) => {
-      const talentValue = calculateTalentValue(
-        attack.talentType,
-        attack.talentId,
-        attack.options,
-        appState,
-        artifactSetBonuses,
-        getDamageModifier,
-        getStatMixins,
-        getModifierMixins,
-        artifacts
-      );
+    const damage = rotation.reduce((acc, attack) => {
+      const talentValue = calculateTalentValue({
+        ...attack,
+        ...calcParams,
+        artifacts,
+      });
       const totalDmg = talentValue.damage.reduce(
         (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0),
         0

@@ -6,7 +6,10 @@ import Row from 'react-bootstrap/esm/Row';
 import './App.css';
 import Artifact from './artifact/Artifact';
 import ArtifactSet from './artifact/ArtifactSet';
-import { initArtifactSet } from './artifact/ArtifactSetUtil';
+import {
+  getAllArtifactSetBonuses,
+  initArtifactSet,
+} from './artifact/ArtifactSetUtil';
 import { ArtifactType } from './artifact/types';
 import Character from './character/Character';
 import { initCharacter } from './character/CharacterUtil';
@@ -17,13 +20,16 @@ import StatColumn from './component/StatColumn';
 import TalentColumn from './component/TalentColumn';
 import { Stats } from './data/types';
 import CritType from './modifier/CritType';
-import DamageModifier from './modifier/DamageModifer';
+import DamageModifier, { getDamageModifier } from './modifier/DamageModifer';
 import Reaction from './modifier/Reaction';
-import { isModifierApplicable, isStatsApplicable } from './option';
 import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
 import CharacterOption from './option/characterOptions/CharacterOption';
-import { ModifierMixin, Priority, StatMixin } from './option/Mixin';
-import { IModifierApplicable, IStatsApplicable } from './option/Option';
+import {
+  getModifierMixins,
+  getStatMixins,
+  ModifierMixin,
+  StatMixin,
+} from './option/Mixin';
 import WeaponOption from './option/weaponOptions/WeaponOption';
 import Resistance from './stat/Resistance';
 import { getTotalStatsAt } from './stat/Stat';
@@ -39,10 +45,8 @@ export type AppState = {
   artifactSets: ArtifactSet[];
 
   enemyLevel: number;
-  enemyDefReduction: number;
   enemyRes: Resistance;
   critType: CritType;
-  flatDmg: number;
   reaction: Reaction;
   talentAttackLevel: number;
   talentSkillLevel: number;
@@ -71,10 +75,8 @@ class App extends React.Component<{}, AppState> {
     artifactSets: [initArtifactSet(), initArtifactSet(), initArtifactSet()],
 
     enemyLevel: 1,
-    enemyDefReduction: 0,
     enemyRes: new Resistance(),
     critType: CritType.None,
-    flatDmg: 0,
     reaction: Reaction.None,
     talentAttackLevel: 1,
     talentSkillLevel: 1,
@@ -103,6 +105,7 @@ class App extends React.Component<{}, AppState> {
   talentSkillLevelExtra: number = 0;
   talentBurstLevelExtra: number = 0;
 
+  // "Overrides" getModifierMixins for extra functionality and defaults based on state
   // Gets all modifier mixins and updates cache (modifierMixins)
   getModifierMixins: GetModifierMixinsFn = ({
     character,
@@ -126,7 +129,7 @@ class App extends React.Component<{}, AppState> {
     teamOptions?: CharacterOption[];
     artifactBuffOptions?: ArtifactSetOption[];
     updateCache?: boolean;
-  } = {}) => {
+  } = {}): ModifierMixin[] => {
     if (
       character === undefined &&
       characterOptions === undefined &&
@@ -134,94 +137,25 @@ class App extends React.Component<{}, AppState> {
       weaponOptions === undefined &&
       artifactSets === undefined &&
       artifactSetOptions === undefined &&
+      teamCharacters === undefined &&
       teamOptions === undefined &&
       artifactBuffOptions === undefined
     ) {
       return this.modifierMixins;
     }
 
-    const characterPassiveMixins = (
-      character ?? this.state.character
-    ).getPassiveModifierMixins();
-
-    const characterConstellationMixins = (
-      character ?? this.state.character
-    ).getConstellationModifierMixins();
-
-    const weaponPassiveMixins = (
-      weapon ?? this.state.weapon
-    ).getPassiveModifierMixins();
-
-    const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
-      (artifactSet) => artifactSet.getModifierMixins()
-    );
-
-    const teamPassiveMixins = (teamCharacters ?? this.state.teamCharacters)
-      .map((character) => character.getTeamModifierMixin())
-      .filter((mixin): mixin is ModifierMixin => mixin !== undefined);
-
-    const characterOptionMixins = (
-      characterOptions ?? this.state.characterOptions
-    )
-      .filter((option): option is CharacterOption & IModifierApplicable =>
-        isModifierApplicable(option)
-      )
-      .map((option) => option.modifierMixin);
-
-    const weaponOptionMixins = (weaponOptions ?? this.state.weaponOptions)
-      .filter((option): option is WeaponOption & IModifierApplicable =>
-        isModifierApplicable(option)
-      )
-      .map((option) => option.modifierMixin);
-
-    const artifactSetOptionMixins = (
-      artifactSetOptions ?? this.state.artifactSetOptions
-    )
-      .filter((option): option is ArtifactSetOption & IModifierApplicable =>
-        isModifierApplicable(option)
-      )
-      .map((option) => option.modifierMixin);
-
-    const teamOptionMixins = (teamOptions ?? this.state.teamOptions)
-      .filter((option): option is CharacterOption & IModifierApplicable =>
-        isModifierApplicable(option)
-      )
-      .map((option) => option.modifierMixin);
-
-    const artifactBuffOptionMixins = (
-      artifactBuffOptions ?? this.state.artifactBuffOptions
-    )
-      .filter((option): option is ArtifactSetOption & IModifierApplicable =>
-        isModifierApplicable(option)
-      )
-      .map((option) => option.modifierMixin);
-
-    const unarrangedMixins = [
-      ...characterPassiveMixins,
-      ...characterConstellationMixins,
-      ...weaponPassiveMixins,
-      ...artifactSetMixins,
-      ...teamPassiveMixins,
-      ...characterOptionMixins,
-      ...weaponOptionMixins,
-      ...artifactSetOptionMixins,
-      ...teamOptionMixins,
-      ...artifactBuffOptionMixins,
-    ];
-    const groupedMixins = new Map<Priority, ModifierMixin[]>();
-    unarrangedMixins.forEach((mixin) => {
-      const priority = mixin.priority ?? Priority.Normal;
-      const array = groupedMixins.get(priority);
-      if (!array) {
-        groupedMixins.set(priority, [mixin]);
-      } else {
-        array.push(mixin);
-      }
+    const modifierMixins = getModifierMixins({
+      character: character ?? this.state.character,
+      characterOptions: characterOptions ?? this.state.characterOptions,
+      weapon: weapon ?? this.state.weapon,
+      weaponOptions: weaponOptions ?? this.state.weaponOptions,
+      artifactSets: artifactSets ?? this.state.artifactSets,
+      artifactSetOptions: artifactSetOptions ?? this.state.artifactSetOptions,
+      teamCharacters: teamCharacters ?? this.state.teamCharacters,
+      teamOptions: teamOptions ?? this.state.teamOptions,
+      artifactBuffOptions:
+        artifactBuffOptions ?? this.state.artifactBuffOptions,
     });
-
-    const modifierMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
-      groupedMixins.get(Priority.Last) ?? []
-    );
 
     if (updateCache) {
       this.modifierMixins = modifierMixins;
@@ -230,6 +164,7 @@ class App extends React.Component<{}, AppState> {
     return modifierMixins;
   };
 
+  // "Overrides" getStatMixins for extra functionality and defaults based on state
   // Gets all stat mixins and updates cache (statMixins)
   getStatMixins: GetStatMixinsFn = ({
     character,
@@ -242,18 +177,7 @@ class App extends React.Component<{}, AppState> {
     teamOptions,
     artifactBuffOptions,
     updateCache = true,
-  }: {
-    character?: Character;
-    characterOptions?: CharacterOption[];
-    weapon?: Weapon;
-    weaponOptions?: WeaponOption[];
-    artifactSets?: ArtifactSet[];
-    artifactSetOptions?: ArtifactSetOption[];
-    teamCharacters?: Character[];
-    teamOptions?: CharacterOption[];
-    artifactBuffOptions?: ArtifactSetOption[];
-    updateCache?: boolean;
-  } = {}) => {
+  } = {}): StatMixin[] => {
     if (
       character === undefined &&
       characterOptions === undefined &&
@@ -261,94 +185,25 @@ class App extends React.Component<{}, AppState> {
       weaponOptions === undefined &&
       artifactSets === undefined &&
       artifactSetOptions === undefined &&
+      teamCharacters === undefined &&
       teamOptions === undefined &&
       artifactBuffOptions === undefined
     ) {
       return this.statMixins;
     }
 
-    const characterPassiveMixins = (
-      character ?? this.state.character
-    ).getPassiveStatMixins();
-
-    const characterConstellationMixins = (
-      character ?? this.state.character
-    ).getConstellationStatMixins();
-
-    const weaponPassiveMixins = (
-      weapon ?? this.state.weapon
-    ).getPassiveStatMixins();
-
-    const artifactSetMixins = (artifactSets ?? this.state.artifactSets).flatMap(
-      (artifactSet) => artifactSet.getStatMixins()
-    );
-
-    const teamPassiveMixins = (teamCharacters ?? this.state.teamCharacters)
-      .map((character) => character.getTeamStatMixin())
-      .filter((mixin): mixin is StatMixin => mixin !== undefined);
-
-    const characterOptionMixins = (
-      characterOptions ?? this.state.characterOptions
-    )
-      .filter((option): option is CharacterOption & IStatsApplicable =>
-        isStatsApplicable(option)
-      )
-      .map((option) => option.statMixin);
-
-    const weaponOptionMixins = (weaponOptions ?? this.state.weaponOptions)
-      .filter((option): option is WeaponOption & IStatsApplicable =>
-        isStatsApplicable(option)
-      )
-      .map((option) => option.statMixin);
-
-    const artifactSetOptionMixins = (
-      artifactSetOptions ?? this.state.artifactSetOptions
-    )
-      .filter((option): option is ArtifactSetOption & IStatsApplicable =>
-        isStatsApplicable(option)
-      )
-      .map((option) => option.statMixin);
-
-    const teamOptionMixins = (teamOptions ?? this.state.teamOptions)
-      .filter((option): option is CharacterOption & IStatsApplicable =>
-        isStatsApplicable(option)
-      )
-      .map((option) => option.statMixin);
-
-    const artifactBuffOptionMixins = (
-      artifactBuffOptions ?? this.state.artifactBuffOptions
-    )
-      .filter((option): option is ArtifactSetOption & IStatsApplicable =>
-        isStatsApplicable(option)
-      )
-      .map((option) => option.statMixin);
-
-    const unarrangedMixins = [
-      ...characterPassiveMixins,
-      ...characterConstellationMixins,
-      ...weaponPassiveMixins,
-      ...artifactSetMixins,
-      ...teamPassiveMixins,
-      ...characterOptionMixins,
-      ...weaponOptionMixins,
-      ...artifactSetOptionMixins,
-      ...teamOptionMixins,
-      ...artifactBuffOptionMixins,
-    ];
-    const groupedMixins = new Map<Priority, StatMixin[]>();
-    unarrangedMixins.forEach((mixin) => {
-      const priority = mixin.priority ?? Priority.Normal;
-      const array = groupedMixins.get(priority);
-      if (!array) {
-        groupedMixins.set(priority, [mixin]);
-      } else {
-        array.push(mixin);
-      }
+    const statMixins = getStatMixins({
+      character: character ?? this.state.character,
+      characterOptions: characterOptions ?? this.state.characterOptions,
+      weapon: weapon ?? this.state.weapon,
+      weaponOptions: weaponOptions ?? this.state.weaponOptions,
+      artifactSets: artifactSets ?? this.state.artifactSets,
+      artifactSetOptions: artifactSetOptions ?? this.state.artifactSetOptions,
+      teamCharacters: teamCharacters ?? this.state.teamCharacters,
+      teamOptions: teamOptions ?? this.state.teamOptions,
+      artifactBuffOptions:
+        artifactBuffOptions ?? this.state.artifactBuffOptions,
     });
-
-    const statMixins = (groupedMixins.get(Priority.Normal) ?? []).concat(
-      groupedMixins.get(Priority.Last) ?? []
-    );
 
     if (updateCache) {
       this.statMixins = statMixins;
@@ -357,45 +212,30 @@ class App extends React.Component<{}, AppState> {
     return statMixins;
   };
 
+  // "Overrides" getDamageModifier for extra functionality and defaults based on state
   getDamageModifier: GetDamageModifierFn = ({
-    characterLevel,
-    enemyLevel,
-    enemyRes,
-    critType,
-    reaction,
-    talentAttackLevel,
-    talentSkillLevel,
-    talentBurstLevel,
-    modifierMixins,
-  }: {
-    characterLevel?: number;
-    enemyLevel?: number;
-    enemyRes?: Resistance;
-    critType?: CritType;
-    reaction?: Reaction;
-    talentAttackLevel?: number;
-    talentSkillLevel?: number;
-    talentBurstLevel?: number;
-    modifierMixins?: ModifierMixin[];
+    characterLevel = this.state.character.level,
+    enemyLevel = this.state.enemyLevel,
+    enemyRes = this.state.enemyRes,
+    critType = this.state.critType,
+    reaction = this.state.reaction,
+    talentAttackLevel = this.state.talentAttackLevel,
+    talentSkillLevel = this.state.talentSkillLevel,
+    talentBurstLevel = this.state.talentBurstLevel,
+    modifierMixins = this.modifierMixins,
   } = {}): DamageModifier => {
-    const modifier: DamageModifier = {
-      characterLevel: characterLevel ?? this.state.character.level,
-      enemyLevel: enemyLevel ?? this.state.enemyLevel,
-      enemyDefReduction: this.state.enemyDefReduction,
-      enemyRes: enemyRes ?? this.state.enemyRes,
-      enemyResReduction: new Resistance(),
-      critType: critType ?? this.state.critType,
-      flatDmg: this.state.flatDmg,
-      reaction: reaction ?? this.state.reaction,
-      talentAttackLevel: talentAttackLevel ?? this.state.talentAttackLevel,
-      talentSkillLevel: talentSkillLevel ?? this.state.talentSkillLevel,
-      talentBurstLevel: talentBurstLevel ?? this.state.talentBurstLevel,
-    };
-
-    // Apply modifier mixins
-    (modifierMixins ?? this.modifierMixins).forEach((mixin) =>
-      mixin.apply(modifier, this.totalStats)
-    );
+    const modifier = getDamageModifier({
+      characterLevel,
+      enemyLevel,
+      enemyRes,
+      critType,
+      reaction,
+      talentAttackLevel,
+      talentSkillLevel,
+      talentBurstLevel,
+      modifierMixins,
+      stats: this.totalStats,
+    });
 
     // Update extra talent levels (from constellations etc) for display
     this.talentAttackLevelExtra =
@@ -426,14 +266,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions?: ArtifactSetOption[];
   }) => {
     const newArtifactSets = artifactSets ?? this.state.artifactSets;
-    this.artifactSetBonuses = newArtifactSets
-      .map((artifactSet) => artifactSet.stats)
-      .reduce((acc, stats) => {
-        Object.entries(stats).forEach(([stat, value]) => {
-          acc[stat] = value + (acc[stat] ?? 0);
-        });
-        return acc;
-      }, {} as Stats);
+    this.artifactSetBonuses = getAllArtifactSetBonuses(newArtifactSets);
 
     this.updateTotalStats({
       artifactSets,
@@ -658,9 +491,6 @@ class App extends React.Component<{}, AppState> {
             appState={this.state}
             setAppState={this.setAppState}
             artifactSetBonuses={this.artifactSetBonuses}
-            getDamageModifier={this.getDamageModifier}
-            getStatMixins={this.getStatMixins}
-            getModifierMixins={this.getModifierMixins}
             talentValues={this.talentValues}
           />
         </Row>

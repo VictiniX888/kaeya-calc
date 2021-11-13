@@ -11,11 +11,10 @@ import {
 import Artifact from '../artifact/Artifact';
 import { propMapping } from '../data/Data';
 import { Stats } from '../data/types';
-import {
-  optimizeSubstats,
-  RollDistribution,
-  substats,
-} from '../optimization/Optimization';
+import { RollDistribution, substats } from '../optimization/Optimization';
+import { SubstatOptimizerResultSave } from '../optimization/OptimizerWorker';
+import OptimizerWorker from '../optimization/OptimizerWorkerShim';
+import { createSave, unpackArtifactSave } from '../save/Save';
 import Checkbox from './Checkbox';
 import FloatInput from './FloatInput';
 import InputBlock from './InputBlock';
@@ -40,6 +39,7 @@ type OptimizerBlockState = {
   selectedSubstats: string[];
   erThreshold: number;
   substatRolls: RollDistribution[];
+  isOptimizing: boolean;
 };
 
 class OptimizerBlock extends React.Component<
@@ -51,6 +51,7 @@ class OptimizerBlock extends React.Component<
     selectedSubstats: [],
     erThreshold: 100,
     substatRolls: [],
+    isOptimizing: false,
   };
 
   setMaxRolls = (maxRolls: number) => {
@@ -83,21 +84,26 @@ class OptimizerBlock extends React.Component<
     }
   };
 
-  onOptimizeClick = () => {
-    const result = optimizeSubstats(
-      this.state.selectedSubstats,
-      this.state.maxRolls,
-      this.state.erThreshold / 100,
-      this.props.appState,
-      this.props.artifactSetBonuses,
-      this.props.getDamageModifier,
-      this.props.getStatMixins,
-      this.props.getModifierMixins
-    );
+  onOptimizeClick = async () => {
+    this.setState({ substatRolls: [], isOptimizing: true });
 
-    this.props.updateTotalStats({ artifacts: result.artifacts });
-    this.props.setAppState({ artifacts: result.artifacts });
-    this.setState({ substatRolls: result.subStatRolls });
+    const save = createSave('', this.props.appState);
+
+    // Spawns a web worker to optimize substats
+    const worker = OptimizerWorker();
+
+    const result: SubstatOptimizerResultSave = await worker.optimize({
+      possibleStats: this.state.selectedSubstats,
+      maxRolls: this.state.maxRolls,
+      erThreshold: this.state.erThreshold / 100,
+      save,
+    });
+
+    const artifacts = result.artifacts.map(unpackArtifactSave);
+
+    this.props.updateTotalStats({ artifacts });
+    this.props.setAppState({ artifacts });
+    this.setState({ substatRolls: result.subStatRolls, isOptimizing: false });
   };
 
   render() {
@@ -161,11 +167,16 @@ class OptimizerBlock extends React.Component<
               <InputBlock>
                 <InputRow>
                   <Button
-                    variant='secondary'
+                    variant={
+                      !this.state.isOptimizing
+                        ? 'secondary'
+                        : 'outline-secondary'
+                    }
                     size='sm'
                     onClick={this.onOptimizeClick}
+                    disabled={this.state.isOptimizing}
                   >
-                    Optimize
+                    {!this.state.isOptimizing ? 'Optimize' : 'Optimizing...'}
                   </Button>
                 </InputRow>
               </InputBlock>

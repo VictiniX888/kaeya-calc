@@ -1,111 +1,187 @@
-import {
-  AppState,
-  GetDamageModifierFn,
-  GetModifierMixinsFn,
-  GetStatMixinsFn,
-} from '../App';
 import Artifact from '../artifact/Artifact';
-import { getAscensionLevel } from '../character/Character';
+import ArtifactSet from '../artifact/ArtifactSet';
+import Character, { getAscensionLevel } from '../character/Character';
 import { Stats } from '../data/types';
+import CritType from '../modifier/CritType';
+import { getDamageModifier } from '../modifier/DamageModifer';
+import Reaction from '../modifier/Reaction';
 import { getOptionValue, setOptionValue } from '../option';
+import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
+import CharacterOption from '../option/characterOptions/CharacterOption';
 import ReactionOption from '../option/characterOptions/ReactionOption';
+import { getModifierMixins, getStatMixins } from '../option/Mixin';
 import Option from '../option/Option';
+import WeaponOption from '../option/weaponOptions/WeaponOption';
+import Resistance from '../stat/Resistance';
 import { getTotalStatsAt } from '../stat/Stat';
 import { TalentValue } from '../talent/types';
 import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
+import Weapon from '../weapon/Weapon';
 
-export function calculateTalentValue(
-  talentType: string,
-  talentId: string,
-  options: Option[],
-  appState: AppState,
-  artifactSetBonuses: Stats,
-  getDamageModifier: GetDamageModifierFn,
-  getStatMixins: GetStatMixinsFn,
-  getModifierMixins: GetModifierMixinsFn,
-  overrideArtifacts?: Artifact[]
-): TalentValue {
+export type CalculateTalentValueParams = {
+  talentType: string;
+  talentId: string;
+  options: Option[];
+  character: Character;
+  weapon: Weapon;
+  artifacts: Artifact[];
+  artifactSets: ArtifactSet[];
+  artifactSetBonuses: Stats;
+  talentAttackLevel: number;
+  talentSkillLevel: number;
+  talentBurstLevel: number;
+  enemyLevel: number;
+  enemyRes: Resistance;
+  reaction: Reaction;
+  critType: CritType;
+  teamCharacters: Character[];
+  characterOptions: CharacterOption[];
+  weaponOptions: WeaponOption[];
+  artifactSetOptions: ArtifactSetOption[];
+  teamOptions: CharacterOption[];
+  artifactBuffOptions: ArtifactSetOption[];
+};
+
+export function calculateTalentValue({
+  talentType,
+  talentId,
+  options,
+  character,
+  weapon,
+  artifacts,
+  artifactSets,
+  artifactSetBonuses,
+  talentAttackLevel,
+  talentSkillLevel,
+  talentBurstLevel,
+  enemyLevel,
+  enemyRes,
+  reaction,
+  critType,
+  teamCharacters,
+  characterOptions,
+  weaponOptions,
+  artifactSetOptions,
+  teamOptions,
+  artifactBuffOptions,
+}: CalculateTalentValueParams): TalentValue {
   // Initialize a set of all options
   const {
+    characterOptions: characterOptionsNew,
+    weaponOptions: weaponOptionsNew,
+    artifactSetOptions: artifactSetOptionsNew,
+    teamOptions: teamOptionsNew,
+    artifactBuffOptions: artifactBuffOptionsNew,
+  } = initializeAllOptions({
+    character,
     characterOptions,
+    weapon,
     weaponOptions,
+    artifactSets,
     artifactSetOptions,
+    teamCharacters,
     teamOptions,
     artifactBuffOptions,
-  } = initializeAllOptions(appState);
+  });
 
   const allOptions = [
-    ...characterOptions,
-    ...weaponOptions,
-    ...artifactSetOptions,
-    ...teamOptions,
-    ...artifactBuffOptions,
+    ...characterOptionsNew,
+    ...weaponOptionsNew,
+    ...artifactSetOptionsNew,
+    ...teamOptionsNew,
+    ...artifactBuffOptionsNew,
   ];
 
   // Override option values
   options.forEach((option) => {
-    let oldOption = allOptions.find((oldOption) => oldOption.id === option.id);
-    if (oldOption !== undefined) {
-      setOptionValue(oldOption, getOptionValue(option));
+    let newOption = allOptions.find((newOption) => newOption.id === option.id);
+    if (newOption !== undefined) {
+      setOptionValue(newOption, getOptionValue(option));
     } else if (option.id === 'reaction') {
-      characterOptions.push(option as ReactionOption);
+      characterOptionsNew.push(option as ReactionOption);
     }
   });
 
   // Calculate stats and modifier
   const statMixins = getStatMixins({
-    characterOptions,
-    weaponOptions,
-    artifactSetOptions,
-    teamOptions,
-    artifactBuffOptions,
-    updateCache: false,
+    character,
+    characterOptions: characterOptionsNew,
+    weapon,
+    weaponOptions: weaponOptionsNew,
+    artifactSets,
+    artifactSetOptions: artifactSetOptionsNew,
+    teamCharacters,
+    teamOptions: teamOptionsNew,
+    artifactBuffOptions: artifactBuffOptionsNew,
   });
 
   const stats = getTotalStatsAt(
-    appState.character,
-    appState.weapon,
+    character,
+    weapon,
     artifactSetBonuses,
-    overrideArtifacts ?? appState.artifacts,
-    appState.talentAttackLevel,
-    appState.talentSkillLevel,
-    appState.talentBurstLevel,
+    artifacts,
+    talentAttackLevel,
+    talentSkillLevel,
+    talentBurstLevel,
     statMixins
   );
 
   const modifierMixins = getModifierMixins({
-    characterOptions,
-    weaponOptions,
-    artifactSetOptions,
-    teamOptions,
-    artifactBuffOptions,
-    updateCache: false,
+    character,
+    characterOptions: characterOptionsNew,
+    weapon,
+    weaponOptions: weaponOptionsNew,
+    artifactSets,
+    artifactSetOptions: artifactSetOptionsNew,
+    teamCharacters,
+    teamOptions: teamOptionsNew,
+    artifactBuffOptions: artifactBuffOptionsNew,
   });
 
-  const modifier = getDamageModifier({ modifierMixins });
+  const modifier = getDamageModifier({
+    characterLevel: character.level,
+    enemyLevel,
+    enemyRes,
+    critType,
+    reaction,
+    talentAttackLevel,
+    talentSkillLevel,
+    talentBurstLevel,
+    modifierMixins,
+    stats,
+  });
 
   // Calculate talent value
-  const talentFn = appState.character.talentFns[talentType]?.[talentId];
+  const talentFn = character.talentFns[talentType]?.[talentId];
 
   const talentValue = talentFn?.({ stats, modifier }) ?? { damage: [NaN] };
 
   return talentValue;
 }
 
-export function initializeAllOptions(appState: AppState) {
+type InitializeAllOptionsParams = {
+  character: Character;
+  characterOptions: CharacterOption[];
+  weapon: Weapon;
+  weaponOptions: WeaponOption[];
+  artifactSets: ArtifactSet[];
+  artifactSetOptions: ArtifactSetOption[];
+  teamCharacters: Character[];
+  teamOptions: CharacterOption[];
+  artifactBuffOptions: ArtifactSetOption[];
+};
+
+export function initializeAllOptions(params: InitializeAllOptionsParams) {
   const characterOptions = [
-    ...appState.character.getCharacterOptions(),
-    ...appState.character.getPassiveOptions(
-      getAscensionLevel(
-        appState.character.level,
-        appState.character.hasAscended
-      )
+    ...params.character.getCharacterOptions(),
+    ...params.character.getPassiveOptions(
+      getAscensionLevel(params.character.level, params.character.hasAscended)
     ),
-    ...appState.character.getConstellationsOptions(
-      appState.character.constellationLevel
+    ...params.character.getConstellationsOptions(
+      params.character.constellationLevel
     ),
   ];
-  appState.characterOptions.forEach((option) => {
+  params.characterOptions.forEach((option) => {
     let characterOption = characterOptions.find(
       (characterOption) => characterOption.id === option.id
     );
@@ -114,8 +190,8 @@ export function initializeAllOptions(appState: AppState) {
     }
   });
 
-  const weaponOptions = appState.weapon.getPassiveOptions();
-  appState.weaponOptions.forEach((option) => {
+  const weaponOptions = params.weapon.getPassiveOptions();
+  params.weaponOptions.forEach((option) => {
     let weaponOption = weaponOptions.find(
       (weaponOption) => weaponOption.id === option.id
     );
@@ -124,10 +200,10 @@ export function initializeAllOptions(appState: AppState) {
     }
   });
 
-  const artifactSetOptions = appState.artifactSets.flatMap((artifactSet) =>
+  const artifactSetOptions = params.artifactSets.flatMap((artifactSet) =>
     artifactSet.getOptions(artifactSet.pieces)
   );
-  appState.artifactSetOptions.forEach((option) => {
+  params.artifactSetOptions.forEach((option) => {
     let artifactSetOption = artifactSetOptions.find(
       (artifactSetOption) => artifactSetOption.id === option.id
     );
@@ -136,10 +212,10 @@ export function initializeAllOptions(appState: AppState) {
     }
   });
 
-  const teamOptions = appState.teamCharacters.flatMap((character) =>
+  const teamOptions = params.teamCharacters.flatMap((character) =>
     character.getTeamOptions()
   );
-  appState.teamOptions.forEach((option) => {
+  params.teamOptions.forEach((option) => {
     let teamOption = teamOptions.find(
       (teamOption) => teamOption.id === option.id
     );
@@ -148,7 +224,7 @@ export function initializeAllOptions(appState: AppState) {
     }
   });
 
-  const artifactBuffOptions = appState.artifactBuffOptions.flatMap((option) => {
+  const artifactBuffOptions = params.artifactBuffOptions.flatMap((option) => {
     const OptionConstructor = artifactTeamBuffs[option.id];
     if (OptionConstructor !== undefined) {
       let artifactOption = new OptionConstructor();

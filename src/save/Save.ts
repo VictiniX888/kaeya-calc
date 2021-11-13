@@ -62,7 +62,7 @@ export default interface Save {
 
 export type Saves = Record<string, Save>;
 
-interface ArtifactSave {
+export interface ArtifactSave {
   type?: ArtifactType;
   rarity?: number;
   level?: number;
@@ -91,6 +91,16 @@ function createInputStatSave({
   return { stat, value, rawValue };
 }
 
+export function createArtifactSave(artifact: Artifact): ArtifactSave {
+  return {
+    type: artifact.type,
+    rarity: artifact.rarity,
+    level: artifact.level,
+    mainStat: artifact.mainStat.stat,
+    subStats: artifact.subStats.map((subStat) => createInputStatSave(subStat)),
+  };
+}
+
 export function createSave(label: string, appState: AppState): Save {
   const save: Save = {
     label,
@@ -105,17 +115,9 @@ export function createSave(label: string, appState: AppState): Save {
     weaponHasAscended: appState.weapon.hasAscended,
     weaponRefinement: appState.weapon.refinement,
 
-    artifacts: appState.artifacts.map((artifact) => {
-      return {
-        type: artifact.type,
-        rarity: artifact.rarity,
-        level: artifact.level,
-        mainStat: artifact.mainStat.stat,
-        subStats: artifact.subStats.map((subStat) =>
-          createInputStatSave(subStat)
-        ),
-      };
-    }),
+    artifacts: appState.artifacts.map((artifact) =>
+      createArtifactSave(artifact)
+    ),
 
     artifactSets: appState.artifactSets.map((artifactSet) => {
       return {
@@ -175,14 +177,28 @@ export function createSave(label: string, appState: AppState): Save {
   return save;
 }
 
-export function loadSave(
-  save: Save,
-  setAppState: <K extends keyof AppState>(
-    state: Pick<AppState, K>,
-    callback?: () => void
-  ) => void,
-  refreshApp: () => void
-) {
+export function unpackArtifactSave(save: ArtifactSave, i: number): Artifact {
+  const artifactType = save.type ?? Object.values(ArtifactType)[i];
+  let artifact = new Artifact(
+    artifactType,
+    save.rarity ?? 1,
+    save.level ?? 0,
+    save.mainStat ?? ''
+  );
+  artifact.subStats =
+    save.subStats?.map(
+      (subStat) =>
+        new InputStat(
+          subStat.stat ?? '',
+          subStat.value ?? NaN,
+          subStat.rawValue ?? NaN
+        )
+    ) ?? artifact.subStats;
+
+  return artifact;
+}
+
+export function unpackSave(save: Save): AppState {
   const character = initCharacter(
     save.characterId,
     save.characterLevel,
@@ -197,26 +213,9 @@ export function loadSave(
   );
 
   const artifacts =
-    save.artifacts?.map((savedArtifact, i) => {
-      const artifactType = savedArtifact.type ?? Object.values(ArtifactType)[i];
-      let artifact = new Artifact(
-        artifactType,
-        savedArtifact.rarity ?? 1,
-        savedArtifact.level ?? 0,
-        savedArtifact.mainStat ?? ''
-      );
-      artifact.subStats =
-        savedArtifact.subStats?.map(
-          (subStat) =>
-            new InputStat(
-              subStat.stat ?? '',
-              subStat.value ?? NaN,
-              subStat.rawValue ?? NaN
-            )
-        ) ?? artifact.subStats;
-
-      return artifact;
-    }) ??
+    save.artifacts?.map((artifactSave, i) =>
+      unpackArtifactSave(artifactSave, i)
+    ) ??
     Object.values(ArtifactType).map((type) => new Artifact(type, 1, 0, ''));
 
   const artifactSets = save.artifactSets?.map((artifactSet) =>
@@ -330,28 +329,41 @@ export function loadSave(
       };
     }) ?? [];
 
+  return {
+    character,
+    weapon,
+    artifacts,
+    artifactSets,
+    talentAttackLevel,
+    talentSkillLevel,
+    talentBurstLevel,
+    critType,
+    enemyLevel,
+    enemyRes,
+    reaction,
+    teamCharacters,
+    characterOptions,
+    weaponOptions,
+    artifactSetOptions,
+    teamOptions,
+    artifactBuffOptions,
+    rotationTime,
+    rotation,
+  };
+}
+
+export function loadSave(
+  save: Save,
+  setAppState: <K extends keyof AppState>(
+    state: Pick<AppState, K>,
+    callback?: () => void
+  ) => void,
+  refreshApp: () => void
+) {
+  const appState = unpackSave(save);
+
   setAppState(
-    {
-      character,
-      weapon,
-      artifacts,
-      artifactSets,
-      talentAttackLevel,
-      talentSkillLevel,
-      talentBurstLevel,
-      critType,
-      enemyLevel,
-      enemyRes,
-      reaction,
-      teamCharacters,
-      characterOptions,
-      weaponOptions,
-      artifactSetOptions,
-      teamOptions,
-      artifactBuffOptions,
-      rotationTime,
-      rotation,
-    },
+    appState,
 
     // Update stats and talents
     refreshApp
