@@ -91,6 +91,8 @@ class OptimizerBlock extends React.Component<
       save,
     });
 
+    worker.terminate();
+
     const artifacts = result.artifacts.map(unpackArtifactSave);
 
     this.props.updateTotalStats({ artifacts });
