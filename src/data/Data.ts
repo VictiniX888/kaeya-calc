@@ -12,6 +12,7 @@ import talentDataRaw from './talentdata.json';
 import artifactSetDataRaw from './artifactsetdata.json';
 import artifactSetBonusDataRaw from './artifactsetbonusdata.json';
 import artifactMainStatDataRaw from './artifactmainstatdata.json';
+import reactionCurveDataRaw from './reactioncurvedata.json';
 
 import propMappingRaw from './propmapping.json';
 import talentDescMappingRaw from './talentdescmapping.json';
@@ -56,6 +57,7 @@ const weaponPassiveData = weaponPassiveDataRaw as Record<
   string,
   Data.WeaponPassiveSetData
 >;
+const reactionCurveData = processReactionCurveData(reactionCurveDataRaw);
 
 // Pre-processed data, lists
 let sortedCharacterList: string[]; // lazy loading implemented with getSortedCharacterList()
@@ -158,6 +160,13 @@ function processArtifactSetBonusData(rawData: Data.ArtifactSetBonusDataRaw[]) {
     }, {} as Record<number, Data.ArtifactSetBonusSet>);
     return acc;
   }, {} as Record<string, Data.ArtifactSetBonusData>);
+}
+
+function processReactionCurveData(rawData: Data.ReactionCurveData[]) {
+  return rawData.reduce((acc, curveData) => {
+    acc[curveData.level] = curveData;
+    return acc;
+  }, {} as Record<number, Data.ReactionCurveData>);
 }
 
 // Helper functions for accessing data properties
@@ -264,6 +273,12 @@ export function getWeaponPassiveAt(
   passives: Data.WeaponPassiveSetData
 ): Data.WeaponPassiveData | undefined {
   return passives.passive[refinement];
+}
+
+export function getReactionCurveAt(
+  level: number
+): Data.ReactionCurveData | undefined {
+  return reactionCurveData[level];
 }
 
 // "Public" functions for getting data collections

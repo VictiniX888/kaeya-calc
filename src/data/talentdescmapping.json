@@ -2,6 +2,7 @@
     "attack": "Attack",
     "skill": "Skill",
     "burst": "Burst",
+    "reaction": "Reaction",
 
 
     "dmg": "DMG",
@@ -51,6 +52,12 @@
     "hpRegenContinuousTime": "HP Regeneration Over Time",
     "hpRegenOnHit": "HP Regeneration Per Hit",
     "healing": "Healing",
+
+    "superconduct": "Superconduct",
+    "swirl": "Swirl",
+    "electrocharged": "Electro-Charged",
+    "shatter": "Shatter",
+    "overload": "Overload",
 
     "cuttingDmg": "Cutting DMG",
     "bloomDmg": "Bloom DMG",

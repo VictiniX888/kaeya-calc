@@ -121,6 +121,11 @@ export interface WeaponPassiveSetData {
   passive: Record<number, WeaponPassiveData>;
 }
 
+export interface ReactionCurveData {
+  level: number;
+  multiplier: number;
+}
+
 // Mapping files
 interface PropInfo {
   name: string;

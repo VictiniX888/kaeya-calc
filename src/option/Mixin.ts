@@ -6,6 +6,7 @@ import DamageModifier from '../modifier/DamageModifer';
 import Weapon from '../weapon/Weapon';
 import ArtifactSetOption from './artifactSetOptions/ArtifactSetOption';
 import CharacterOption from './characterOptions/CharacterOption';
+import SwirlOption from './characterOptions/SwirlOption';
 import { IModifierApplicable, IStatsApplicable } from './Option';
 import WeaponOption from './weaponOptions/WeaponOption';
 
@@ -141,6 +142,7 @@ export type GetModifierMixinsParams = {
   teamCharacters: Character[];
   teamOptions: CharacterOption[];
   artifactBuffOptions: ArtifactSetOption[];
+  swirlOption: SwirlOption;
 };
 
 export function getModifierMixins({
@@ -153,6 +155,7 @@ export function getModifierMixins({
   teamCharacters,
   teamOptions,
   artifactBuffOptions,
+  swirlOption,
 }: GetModifierMixinsParams): ModifierMixin[] {
   const characterPassiveMixins = character.getPassiveModifierMixins();
 
@@ -199,6 +202,9 @@ export function getModifierMixins({
     )
     .map((option) => option.modifierMixin);
 
+  // Set swirled element. Only modifier mixin
+  const swirlOptionMixin = swirlOption.modifierMixin;
+
   const unarrangedMixins = [
     ...characterPassiveMixins,
     ...characterConstellationMixins,
@@ -210,6 +216,7 @@ export function getModifierMixins({
     ...artifactSetOptionMixins,
     ...teamOptionMixins,
     ...artifactBuffOptionMixins,
+    swirlOptionMixin,
   ];
   const groupedMixins = new Map<Priority, ModifierMixin[]>();
   unarrangedMixins.forEach((mixin) => {

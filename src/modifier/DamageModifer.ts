@@ -24,6 +24,8 @@ interface DamageModifierBase {
 }
 
 interface DamageModiferOptional {
+  swirlElement?: Element;
+
   normalAttackFlatDmg?: number;
   chargedAttackFlatDmg?: number;
   skillFlatDmg?: number;

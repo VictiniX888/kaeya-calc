@@ -9,6 +9,7 @@ import { getOptionValue, setOptionValue } from '../option';
 import ArtifactSetOption from '../option/artifactSetOptions/ArtifactSetOption';
 import CharacterOption from '../option/characterOptions/CharacterOption';
 import ReactionOption from '../option/characterOptions/ReactionOption';
+import SwirlOption from '../option/characterOptions/SwirlOption';
 import { getModifierMixins, getStatMixins } from '../option/Mixin';
 import Option from '../option/Option';
 import WeaponOption from '../option/weaponOptions/WeaponOption';
@@ -40,6 +41,7 @@ export type CalculateTalentValueParams = {
   artifactSetOptions: ArtifactSetOption[];
   teamOptions: CharacterOption[];
   artifactBuffOptions: ArtifactSetOption[];
+  swirlOption: SwirlOption;
   talents: Talents;
 };
 
@@ -65,6 +67,7 @@ export function calculateTalentValue({
   artifactSetOptions,
   teamOptions,
   artifactBuffOptions,
+  swirlOption,
   talents,
 }: CalculateTalentValueParams): TalentValue {
   // Initialize a set of all options
@@ -74,6 +77,7 @@ export function calculateTalentValue({
     artifactSetOptions: artifactSetOptionsNew,
     teamOptions: teamOptionsNew,
     artifactBuffOptions: artifactBuffOptionsNew,
+    swirlOption: swirlOptionNew,
   } = initializeAllOptions({
     character,
     characterOptions,
@@ -84,6 +88,7 @@ export function calculateTalentValue({
     teamCharacters,
     teamOptions,
     artifactBuffOptions,
+    swirlOption,
   });
 
   const allOptions = [
@@ -92,6 +97,7 @@ export function calculateTalentValue({
     ...artifactSetOptionsNew,
     ...teamOptionsNew,
     ...artifactBuffOptionsNew,
+    swirlOptionNew,
   ];
 
   // Override option values
@@ -138,6 +144,7 @@ export function calculateTalentValue({
     teamCharacters,
     teamOptions: teamOptionsNew,
     artifactBuffOptions: artifactBuffOptionsNew,
+    swirlOption: swirlOptionNew,
   });
 
   const modifier = getDamageModifier({
@@ -171,6 +178,7 @@ type InitializeAllOptionsParams = {
   teamCharacters: Character[];
   teamOptions: CharacterOption[];
   artifactBuffOptions: ArtifactSetOption[];
+  swirlOption: SwirlOption;
 };
 
 export function initializeAllOptions(params: InitializeAllOptionsParams) {
@@ -237,11 +245,15 @@ export function initializeAllOptions(params: InitializeAllOptionsParams) {
     return [];
   });
 
+  const swirlOption = new SwirlOption();
+  setOptionValue(swirlOption, getOptionValue(params.swirlOption));
+
   return {
     characterOptions,
     weaponOptions,
     artifactSetOptions,
     teamOptions,
     artifactBuffOptions,
+    swirlOption,
   };
 }

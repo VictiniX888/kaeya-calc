@@ -8,6 +8,7 @@ enum Reaction {
   Superconduct = 'Superconduct',
   Electrocharged = 'Electrocharged',
   Frozen = 'Frozen',
+  Shatter = 'Shatter',
 }
 
 export default Reaction;

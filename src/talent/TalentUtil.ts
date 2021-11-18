@@ -46,7 +46,7 @@ function calculateBaseDamage({
   }
 }
 
-function calculateResMultiplier({
+export function calculateResMultiplier({
   element,
   res = new Resistance(),
   resReduction = new Resistance(),
@@ -100,7 +100,7 @@ function calculateAmplifyingReactionMultiplier({
   );
 
   if (amplifyingStrength > 1) {
-    // Caulculate reactionbonus
+    // Calculate reactionbonus
     let reactionBonus = 0;
     switch (reaction) {
       case Reaction.Vaporize:

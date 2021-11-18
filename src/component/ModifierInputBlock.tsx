@@ -3,6 +3,7 @@ import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { AppState } from '../App';
 import CritType from '../modifier/CritType';
 import Reaction from '../modifier/Reaction';
+import SwirlOption from '../option/characterOptions/SwirlOption';
 import Resistance from '../stat/Resistance';
 import { capitalize } from '../stat/Stat';
 import { Element } from '../talent/types';
@@ -10,6 +11,7 @@ import FloatInput from './FloatInput';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';
 import IntInput from './IntInput';
+import OptionInput from './OptionInput';
 import Picker from './Picker';
 
 type ModifierInputBlockProps = {
@@ -23,11 +25,13 @@ type ModifierInputBlockProps = {
     enemyRes,
     critType,
     reaction,
+    swirlOption,
   }: {
     enemyLevel?: number;
     enemyRes?: Resistance;
     critType?: CritType;
     reaction?: Reaction;
+    swirlOption?: SwirlOption;
   }) => void;
 };
 
@@ -56,6 +60,12 @@ class ModifierInputBlock extends React.Component<ModifierInputBlockProps> {
     this.props.setAppState({
       reaction: Reaction[reaction as keyof typeof Reaction],
     });
+  };
+
+  updateSwirlOption = () => {
+    const swirlOption = this.props.appState.swirlOption;
+    this.props.updateTalentValues({ swirlOption });
+    this.props.setAppState({ swirlOption });
   };
 
   render() {
@@ -124,6 +134,13 @@ class ModifierInputBlock extends React.Component<ModifierInputBlockProps> {
               />
             ))}
           </Picker>
+        </InputRow>
+
+        <InputRow>
+          <OptionInput
+            option={this.props.appState.swirlOption}
+            updateOptions={this.updateSwirlOption}
+          />
         </InputRow>
       </InputBlock>
     );

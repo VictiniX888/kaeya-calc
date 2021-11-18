@@ -13,6 +13,7 @@ import { Attack } from '../component/DPSColumn';
 import Option from '../option/Option';
 import ReactionOption from '../option/characterOptions/ReactionOption';
 import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
+import SwirlOption from '../option/characterOptions/SwirlOption';
 
 export default interface Save {
   label: string;
@@ -55,6 +56,8 @@ export default interface Save {
   artifactSetOptions?: { id?: string; value?: unknown }[];
   teamOptions?: { id?: string; value?: unknown }[];
   artifactBuffOptions?: { id?: string; value?: unknown }[];
+
+  swirlElement?: string;
 
   rotationTime?: number;
   rotation?: AttackSave[];
@@ -160,6 +163,8 @@ export function createSave(label: string, appState: AppState): Save {
     artifactBuffOptions: appState.artifactBuffOptions.map((option) => {
       return { id: option.id, value: getOptionValue(option) };
     }),
+
+    swirlElement: appState.swirlOption.value,
 
     rotationTime: appState.rotationTime,
     rotation: appState.rotation.map((attack) => {
@@ -293,12 +298,16 @@ export function unpackSave(save: Save): AppState {
       return [];
     }) ?? [];
 
+  const swirlOption = new SwirlOption();
+  setOptionValue(swirlOption, save.swirlElement ?? '');
+
   const allOptions = [
     ...characterOptions,
     ...weaponOptions,
     ...artifactSetOptions,
     ...teamOptions,
     ...artifactBuffOptions,
+    swirlOption,
   ];
 
   const rotationTime = save.rotationTime ?? 0;
@@ -347,6 +356,7 @@ export function unpackSave(save: Save): AppState {
     artifactSetOptions,
     teamOptions,
     artifactBuffOptions,
+    swirlOption,
     rotationTime,
     rotation,
   };

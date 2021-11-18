@@ -24,6 +24,7 @@ import DamageModifier, { getDamageModifier } from './modifier/DamageModifer';
 import Reaction from './modifier/Reaction';
 import ArtifactSetOption from './option/artifactSetOptions/ArtifactSetOption';
 import CharacterOption from './option/characterOptions/CharacterOption';
+import SwirlOption from './option/characterOptions/SwirlOption';
 import {
   getModifierMixins,
   getStatMixins,
@@ -60,6 +61,7 @@ export type AppState = {
   artifactSetOptions: ArtifactSetOption[];
   teamOptions: CharacterOption[];
   artifactBuffOptions: ArtifactSetOption[];
+  swirlOption: SwirlOption;
 
   rotationTime: number;
   rotation: Attack[];
@@ -90,6 +92,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions: [],
     teamOptions: [],
     artifactBuffOptions: [],
+    swirlOption: new SwirlOption(),
 
     rotationTime: 0,
     rotation: [],
@@ -119,6 +122,7 @@ class App extends React.Component<{}, AppState> {
     teamCharacters,
     teamOptions,
     artifactBuffOptions,
+    swirlOption,
     updateCache = true,
   } = {}): ModifierMixin[] => {
     if (
@@ -130,7 +134,8 @@ class App extends React.Component<{}, AppState> {
       artifactSetOptions === undefined &&
       teamCharacters === undefined &&
       teamOptions === undefined &&
-      artifactBuffOptions === undefined
+      artifactBuffOptions === undefined &&
+      swirlOption === undefined
     ) {
       return this.modifierMixins;
     }
@@ -146,6 +151,7 @@ class App extends React.Component<{}, AppState> {
       teamOptions: teamOptions ?? this.state.teamOptions,
       artifactBuffOptions:
         artifactBuffOptions ?? this.state.artifactBuffOptions,
+      swirlOption: swirlOption ?? this.state.swirlOption,
     });
 
     if (updateCache) {
@@ -350,6 +356,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions,
     teamOptions,
     artifactBuffOptions,
+    swirlOption,
   }: {
     character?: Character;
     weapon?: Weapon;
@@ -367,6 +374,7 @@ class App extends React.Component<{}, AppState> {
     artifactSetOptions?: ArtifactSetOption[];
     teamOptions?: CharacterOption[];
     artifactBuffOptions?: ArtifactSetOption[];
+    swirlOption?: SwirlOption;
   }) => {
     const modifierMixins = this.getModifierMixins({
       character,
@@ -378,6 +386,7 @@ class App extends React.Component<{}, AppState> {
       teamCharacters,
       teamOptions,
       artifactBuffOptions,
+      swirlOption,
     });
 
     const damageModifier = this.getDamageModifier({
@@ -428,6 +437,7 @@ class App extends React.Component<{}, AppState> {
       teamCharacters: this.state.teamCharacters,
       teamOptions: this.state.teamOptions,
       artifactBuffOptions: this.state.artifactBuffOptions,
+      swirlOption: this.state.swirlOption,
     });
 
     this.updateArtifactSetBonuses({});
@@ -503,6 +513,7 @@ export type GetModifierMixinsFn = (params?: {
   teamCharacters?: Character[];
   teamOptions?: CharacterOption[];
   artifactBuffOptions?: ArtifactSetOption[];
+  swirlOption?: SwirlOption;
   updateCache?: boolean;
 }) => ModifierMixin[];
 
@@ -528,5 +539,6 @@ export type GetDamageModifierFn = (params?: {
   talentAttackLevel?: number;
   talentSkillLevel?: number;
   talentBurstLevel?: number;
+  swirlElement?: string;
   modifierMixins?: ModifierMixin[];
 }) => DamageModifier;
