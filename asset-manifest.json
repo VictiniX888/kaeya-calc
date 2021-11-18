@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/kaeya-calc/static/css/main.a7f692fc.chunk.css",
-    "main.js": "/kaeya-calc/static/js/main.793f7577.chunk.js",
-    "main.js.map": "/kaeya-calc/static/js/main.793f7577.chunk.js.map",
-    "runtime-main.js": "/kaeya-calc/static/js/runtime-main.59d3313f.js",
-    "runtime-main.js.map": "/kaeya-calc/static/js/runtime-main.59d3313f.js.map",
-    "static/js/2.5ef1ee37.chunk.js": "/kaeya-calc/static/js/2.5ef1ee37.chunk.js",
-    "static/js/2.5ef1ee37.chunk.js.map": "/kaeya-calc/static/js/2.5ef1ee37.chunk.js.map",
-    "static/js/3.1783a797.chunk.js": "/kaeya-calc/static/js/3.1783a797.chunk.js",
-    "static/js/3.1783a797.chunk.js.map": "/kaeya-calc/static/js/3.1783a797.chunk.js.map",
-    "894d93a0701d4c252f5e.worker.js": "/kaeya-calc/894d93a0701d4c252f5e.worker.js",
-    "894d93a0701d4c252f5e.worker.js.map": "/kaeya-calc/894d93a0701d4c252f5e.worker.js.map",
+    "main.js": "/kaeya-calc/static/js/main.787f52d8.chunk.js",
+    "main.js.map": "/kaeya-calc/static/js/main.787f52d8.chunk.js.map",
+    "runtime-main.js": "/kaeya-calc/static/js/runtime-main.dbaf38ad.js",
+    "runtime-main.js.map": "/kaeya-calc/static/js/runtime-main.dbaf38ad.js.map",
+    "static/js/2.0c6829d8.chunk.js": "/kaeya-calc/static/js/2.0c6829d8.chunk.js",
+    "static/js/2.0c6829d8.chunk.js.map": "/kaeya-calc/static/js/2.0c6829d8.chunk.js.map",
+    "static/js/3.6fd3ab58.chunk.js": "/kaeya-calc/static/js/3.6fd3ab58.chunk.js",
+    "static/js/3.6fd3ab58.chunk.js.map": "/kaeya-calc/static/js/3.6fd3ab58.chunk.js.map",
+    "7d81d9beed8740341424.worker.js": "/kaeya-calc/7d81d9beed8740341424.worker.js",
+    "7d81d9beed8740341424.worker.js.map": "/kaeya-calc/7d81d9beed8740341424.worker.js.map",
     "index.html": "/kaeya-calc/index.html",
     "static/css/main.a7f692fc.chunk.css.map": "/kaeya-calc/static/css/main.a7f692fc.chunk.css.map",
-    "static/js/2.5ef1ee37.chunk.js.LICENSE.txt": "/kaeya-calc/static/js/2.5ef1ee37.chunk.js.LICENSE.txt"
+    "static/js/2.0c6829d8.chunk.js.LICENSE.txt": "/kaeya-calc/static/js/2.0c6829d8.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.59d3313f.js",
-    "static/js/2.5ef1ee37.chunk.js",
+    "static/js/runtime-main.dbaf38ad.js",
+    "static/js/2.0c6829d8.chunk.js",
     "static/css/main.a7f692fc.chunk.css",
-    "static/js/main.793f7577.chunk.js"
+    "static/js/main.787f52d8.chunk.js"
   ]
 }
