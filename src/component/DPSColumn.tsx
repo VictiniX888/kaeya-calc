@@ -95,6 +95,7 @@ class DPSColumn extends React.Component<DPSColumnProps> {
       artifactSetOptions,
       teamOptions,
       artifactBuffOptions,
+      swirlOption,
     } = initializeAllOptions(this.props.appState);
 
     const allOptions = [
@@ -103,6 +104,7 @@ class DPSColumn extends React.Component<DPSColumnProps> {
       ...artifactSetOptions,
       ...teamOptions,
       ...artifactBuffOptions,
+      swirlOption,
     ];
 
     return (
