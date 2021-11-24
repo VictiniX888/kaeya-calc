@@ -1,6 +1,5 @@
 import React from 'react';
 import InputRow from './InputRow';
-import { Attack } from './DPSColumn';
 import Picker from './Picker';
 import { talentDescMapping } from '../data/Data';
 import { getDamageDisplayValue } from '../stat/Stat';
@@ -8,6 +7,7 @@ import IntInput from './IntInput';
 import { Talents } from '../talent/types';
 import DPSOptionInput from './DPSOptionInput';
 import Option from '../option';
+import Attack from '../dps/Attack';
 
 type DPSAttackInputProps = {
   setAttack: (attack: Attack) => void;

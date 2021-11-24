@@ -10,6 +10,7 @@ import EmblemOfSeveredFate from './artifactSet/EmblemOfSeveredFate';
 import Gambler from './artifactSet/Gambler';
 import GladiatorsFinale from './artifactSet/GladiatorsFinale';
 import HeartOfDepth from './artifactSet/HeartOfDepth';
+import HuskOfOpulentDreams from './artifactSet/HuskOfOpulentDreams';
 import Instructor from './artifactSet/Instructor';
 import Lavawalker from './artifactSet/Lavawalker';
 import MaidenBeloved from './artifactSet/MaidenBeloved';
@@ -50,6 +51,7 @@ const artifactSets: Record<string, typeof ArtifactSet> = {
   tenacityofthemillelith: Tenacity,
   paleflame: PaleFlame,
   shimenawasreminiscence: Shimenawa,
+  huskofopulentdreams: HuskOfOpulentDreams,
 };
 
 function getArtifactSetConstructor(id: string): typeof ArtifactSet {

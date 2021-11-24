@@ -14,11 +14,13 @@ import { ArtifactType } from './artifact/types';
 import Character from './character/Character';
 import { initCharacter } from './character/CharacterUtil';
 import ArtifactColumn from './component/ArtifactColumn';
-import DPSColumn, { Attack } from './component/DPSColumn';
+import DPSColumn from './component/DPSColumn';
 import InputColumn from './component/InputColumn';
 import StatColumn from './component/StatColumn';
 import TalentColumn from './component/TalentColumn';
 import { Stats } from './data/types';
+import Attack from './dps/Attack';
+import OHCAttack from './dps/OHCAttack';
 import CritType from './modifier/CritType';
 import DamageModifier, { getDamageModifier } from './modifier/DamageModifer';
 import Reaction from './modifier/Reaction';
@@ -65,6 +67,7 @@ export type AppState = {
 
   rotationTime: number;
   rotation: Attack[];
+  ohcRotation: OHCAttack[];
 };
 
 class App extends React.Component<{}, AppState> {
@@ -96,6 +99,7 @@ class App extends React.Component<{}, AppState> {
 
     rotationTime: 0,
     rotation: [],
+    ohcRotation: [],
   };
 
   artifactSetBonuses: Stats = {};

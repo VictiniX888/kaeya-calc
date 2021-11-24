@@ -9,11 +9,14 @@ import { getOptionValue, setOptionValue } from '../option';
 import Resistance from '../stat/Resistance';
 import { Element } from '../talent/types';
 import { initWeapon } from '../weapon/WeaponUtil';
-import { Attack } from '../component/DPSColumn';
 import Option from '../option/Option';
 import ReactionOption from '../option/characterOptions/ReactionOption';
 import artifactTeamBuffs from '../teambuff/artifact/ArtifactTeamBuff';
 import SwirlOption from '../option/characterOptions/SwirlOption';
+import Attack from '../dps/Attack';
+import OHCAttack from '../dps/OHCAttack';
+
+// Type definitions
 
 export default interface Save {
   label: string;
@@ -51,16 +54,17 @@ export default interface Save {
 
   teamCharacterIds?: string[];
 
-  characterOptions?: { id?: string; value?: unknown }[];
-  weaponOptions?: { id?: string; value?: unknown }[];
-  artifactSetOptions?: { id?: string; value?: unknown }[];
-  teamOptions?: { id?: string; value?: unknown }[];
-  artifactBuffOptions?: { id?: string; value?: unknown }[];
+  characterOptions?: OptionSave[];
+  weaponOptions?: OptionSave[];
+  artifactSetOptions?: OptionSave[];
+  teamOptions?: OptionSave[];
+  artifactBuffOptions?: OptionSave[];
 
   swirlElement?: string;
 
   rotationTime?: number;
   rotation?: AttackSave[];
+  ohcRotation?: OHCAttackSave[];
 }
 
 export type Saves = Record<string, Save>;
@@ -79,12 +83,25 @@ interface InputStatSave {
   rawValue?: number;
 }
 
+interface OptionSave {
+  id?: string;
+  value?: unknown;
+}
+
 interface AttackSave {
   talentType?: string;
   talentId?: string;
   multiplier?: number;
-  options?: { id?: string; value?: unknown }[];
+  options?: OptionSave[];
 }
+
+interface OHCAttackSave {
+  heals?: AttackSave[];
+  multiplier?: number;
+  options?: OptionSave[];
+}
+
+// Creating saves
 
 function createInputStatSave({
   stat,
@@ -101,6 +118,27 @@ export function createArtifactSave(artifact: Artifact): ArtifactSave {
     level: artifact.level,
     mainStat: artifact.mainStat.stat,
     subStats: artifact.subStats.map((subStat) => createInputStatSave(subStat)),
+  };
+}
+
+function createOptionSave(option: Option): OptionSave {
+  return { id: option.id, value: getOptionValue(option) };
+}
+
+function createAttackSave(attack: Attack): AttackSave {
+  return {
+    talentType: attack.talentType,
+    talentId: attack.talentId,
+    multiplier: attack.multiplier,
+    options: attack.options.map(createOptionSave),
+  };
+}
+
+function createOHCAttackSave(attack: OHCAttack): OHCAttackSave {
+  return {
+    heals: attack.heals.map(createAttackSave),
+    multiplier: attack.multiplier,
+    options: attack.options.map(createOptionSave),
   };
 }
 
@@ -148,39 +186,23 @@ export function createSave(label: string, appState: AppState): Save {
 
     teamCharacterIds: appState.teamCharacters.map((character) => character.id),
 
-    characterOptions: appState.characterOptions.map((option) => {
-      return { id: option.id, value: getOptionValue(option) };
-    }),
-    weaponOptions: appState.weaponOptions.map((option) => {
-      return { id: option.id, value: getOptionValue(option) };
-    }),
-    artifactSetOptions: appState.artifactSetOptions.map((option) => {
-      return { id: option.id, value: getOptionValue(option) };
-    }),
-    teamOptions: appState.teamOptions.map((option) => {
-      return { id: option.id, value: getOptionValue(option) };
-    }),
-    artifactBuffOptions: appState.artifactBuffOptions.map((option) => {
-      return { id: option.id, value: getOptionValue(option) };
-    }),
+    characterOptions: appState.characterOptions.map(createOptionSave),
+    weaponOptions: appState.weaponOptions.map(createOptionSave),
+    artifactSetOptions: appState.artifactSetOptions.map(createOptionSave),
+    teamOptions: appState.teamOptions.map(createOptionSave),
+    artifactBuffOptions: appState.artifactBuffOptions.map(createOptionSave),
 
     swirlElement: appState.swirlOption.value,
 
     rotationTime: appState.rotationTime,
-    rotation: appState.rotation.map((attack) => {
-      return {
-        talentType: attack.talentType,
-        talentId: attack.talentId,
-        multiplier: attack.multiplier,
-        options: attack.options.map((option) => {
-          return { id: option.id, value: getOptionValue(option) };
-        }),
-      };
-    }),
+    rotation: appState.rotation.map(createAttackSave),
+    ohcRotation: appState.ohcRotation.map(createOHCAttackSave),
   };
 
   return save;
 }
+
+// Unpacking saves
 
 export function unpackArtifactSave(save: ArtifactSave, i: number): Artifact {
   const artifactType = save.type ?? Object.values(ArtifactType)[i];
@@ -202,6 +224,58 @@ export function unpackArtifactSave(save: ArtifactSave, i: number): Artifact {
 
   return artifact;
 }
+
+const unpackOptionSave = (options: Option[]) => (save: OptionSave) => {
+  let option = options.find((option) => option.id === save.id);
+  if (option !== undefined) {
+    setOptionValue(option, save.value);
+  }
+};
+
+const unpackAttackOptionSave =
+  (allOptions: Option[]) =>
+  ({ id, value }: OptionSave): Option | undefined => {
+    const OptionConstructor = allOptions.find((option) => option.id === id)
+      ?.constructor as { new (): Option };
+    let option;
+    if (OptionConstructor !== undefined) {
+      option = new OptionConstructor();
+      setOptionValue(option, value);
+    } else if (id === 'reaction') {
+      option = new ReactionOption();
+      setOptionValue(option, value);
+    }
+    return option;
+  };
+
+const unpackAttackSave =
+  (allOptions: Option[]) =>
+  (save: AttackSave): Attack => {
+    return {
+      talentType: save.talentType ?? '',
+      talentId: save.talentId ?? '',
+      multiplier: save.multiplier ?? 1,
+      talentValue: { damage: [NaN] },
+      options:
+        save.options
+          ?.map(unpackAttackOptionSave(allOptions))
+          ?.filter((option): option is Option => option !== undefined) ?? [],
+    };
+  };
+
+const unpackOHCAttackSave =
+  (allOptions: Option[]) =>
+  (save: OHCAttackSave): OHCAttack => {
+    return {
+      heals: save.heals?.map(unpackAttackSave(allOptions)) ?? [],
+      multiplier: save.multiplier ?? 1,
+      talentValue: { damage: [NaN] },
+      options:
+        save.options
+          ?.map(unpackAttackOptionSave(allOptions))
+          ?.filter((option): option is Option => option !== undefined) ?? [],
+    };
+  };
 
 export function unpackSave(save: Save): AppState {
   const character = initCharacter(
@@ -243,48 +317,20 @@ export function unpackSave(save: Save): AppState {
   ) ?? [initCharacter(), initCharacter(), initCharacter()];
 
   const characterOptions = character.getOptions();
-  save.characterOptions?.forEach((option) => {
-    let characterOption = characterOptions.find(
-      (characterOption) => characterOption.id === option.id
-    );
-    if (characterOption !== undefined) {
-      setOptionValue(characterOption, option.value);
-    }
-  });
+  save.characterOptions?.forEach(unpackOptionSave(characterOptions));
 
   const weaponOptions = weapon.passiveOptions;
-  save.weaponOptions?.forEach((option) => {
-    let weaponOption = weaponOptions.find(
-      (weaponOption) => weaponOption.id === option.id
-    );
-    if (weaponOption !== undefined) {
-      setOptionValue(weaponOption, option.value);
-    }
-  });
+  save.weaponOptions?.forEach(unpackOptionSave(weaponOptions));
 
   const artifactSetOptions = artifactSets.flatMap(
     (artifactSet) => artifactSet.options
   );
-  save.artifactSetOptions?.forEach((option) => {
-    let artifactSetOption = artifactSetOptions.find(
-      (artifactSetOption) => artifactSetOption.id === option.id
-    );
-    if (artifactSetOption !== undefined) {
-      setOptionValue(artifactSetOption, option.value);
-    }
-  });
+  save.artifactSetOptions?.forEach(unpackOptionSave(artifactSetOptions));
 
   const teamOptions = teamCharacters.flatMap(
     (character) => character.teamOptions
   );
-  save.teamOptions?.forEach((option) => {
-    let teamOption = teamOptions.find(
-      (teamOption) => teamOption.id === option.id
-    );
-    if (teamOption !== undefined) {
-      setOptionValue(teamOption, option.value);
-    }
-  });
+  save.teamOptions?.forEach(unpackOptionSave(teamOptions));
 
   const artifactBuffOptions =
     save.artifactBuffOptions?.flatMap((option) => {
@@ -312,31 +358,9 @@ export function unpackSave(save: Save): AppState {
 
   const rotationTime = save.rotationTime ?? 0;
   const rotation: Attack[] =
-    save.rotation?.map((attackSave) => {
-      return {
-        talentType: attackSave.talentType ?? '',
-        talentId: attackSave.talentId ?? '',
-        multiplier: attackSave.multiplier ?? 1,
-        talentValue: { damage: [NaN] },
-        options:
-          attackSave.options
-            ?.map(({ id, value }) => {
-              const OptionConstructor = allOptions.find(
-                (option) => option.id === id
-              )?.constructor as { new (): Option };
-              let option;
-              if (OptionConstructor !== undefined) {
-                option = new OptionConstructor();
-                setOptionValue(option, value);
-              } else if (id === 'reaction') {
-                option = new ReactionOption();
-                setOptionValue(option, value);
-              }
-              return option;
-            })
-            ?.filter((option): option is Option => option !== undefined) ?? [],
-      };
-    }) ?? [];
+    save.rotation?.map(unpackAttackSave(allOptions)) ?? [];
+  const ohcRotation: OHCAttack[] =
+    save.ohcRotation?.map(unpackOHCAttackSave(allOptions)) ?? [];
 
   return {
     character,
@@ -359,8 +383,11 @@ export function unpackSave(save: Save): AppState {
     swirlOption,
     rotationTime,
     rotation,
+    ohcRotation,
   };
 }
+
+// Load save into appstate
 
 export function loadSave(
   save: Save,
@@ -379,6 +406,8 @@ export function loadSave(
     refreshApp
   );
 }
+
+// Add/delete saves (used in GUI)
 
 export function addSave(save: Save, saves: Saves) {
   saves[save.label] = save;

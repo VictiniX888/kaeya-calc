@@ -48,12 +48,12 @@ function calculateBaseDamage({
 
 export function calculateResMultiplier({
   element,
-  res = new Resistance(),
-  resReduction = new Resistance(),
+  res,
+  resReduction,
 }: {
   element: Element;
-  res?: Resistance;
-  resReduction?: Resistance;
+  res: Resistance;
+  resReduction: Resistance;
 }) {
   let totalRes = res.get(element) - resReduction.get(element);
 

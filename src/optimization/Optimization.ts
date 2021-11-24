@@ -1,5 +1,5 @@
 import Artifact from '../artifact/Artifact';
-import { Attack } from '../component/DPSColumn';
+import Attack from '../dps/Attack';
 import {
   calculateTalentValue,
   CalculateTalentValueParams,

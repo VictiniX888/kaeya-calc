@@ -1,9 +1,17 @@
 import React from 'react';
 import Row from 'react-bootstrap/esm/Row';
 
-class InputRow extends React.Component {
+type InputRowProps = {
+  className?: string;
+};
+
+class InputRow extends React.Component<InputRowProps> {
   render() {
-    return <Row className='input-row no-gutters'>{this.props.children}</Row>;
+    return (
+      <Row className={`input-row no-gutters ${this.props.className}`}>
+        {this.props.children}
+      </Row>
+    );
   }
 }
 

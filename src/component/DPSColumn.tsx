@@ -6,28 +6,14 @@ import {
   calculateTalentValue,
   initializeAllOptions,
 } from '../dps/DPSCalculator';
-import Option from '../option/Option';
-import { Talents, TalentValue } from '../talent/types';
+import { Talents } from '../talent/types';
 import DPSAttackInput from './DPSAttackInput';
 import FloatInput from './FloatInput';
 import InputBlock from './InputBlock';
 import InputRow from './InputRow';
-
-export type Attack = {
-  talentType: string;
-  talentId: string;
-  multiplier: number;
-  talentValue: TalentValue;
-  options: Option[];
-};
-
-const defaultAttack: Attack = {
-  talentType: '',
-  talentId: '',
-  multiplier: 1,
-  talentValue: { damage: [NaN] },
-  options: [],
-};
+import OHCBlock from './OHCBlock';
+import Attack, { defaultAttack } from '../dps/Attack';
+import OHCAttack, { calculateOHCTalentValue } from '../dps/OHCAttack';
 
 type DPSColumnProps = {
   appState: AppState;
@@ -53,20 +39,33 @@ class DPSColumn extends React.Component<DPSColumnProps> {
   };
 
   updateTalentValues = () => {
-    const rotation = this.props.appState.rotation;
+    const { rotation, ohcRotation } = this.props.appState;
 
     rotation.forEach((attack) => this.updateTalentValue(attack));
+    ohcRotation.forEach((attack) => this.updateOHCTalentValues(attack));
 
-    this.dpr = rotation.reduce(
-      (acc, attack) =>
-        acc +
-        attack.talentValue.damage.reduce(
-          (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0),
-          0
-        ) *
-          (!isNaN(attack.multiplier) ? attack.multiplier : 0),
-      0
-    );
+    this.dpr =
+      rotation.reduce(
+        (acc, attack) =>
+          acc +
+          attack.talentValue.damage.reduce(
+            (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0),
+            0
+          ) *
+            (!isNaN(attack.multiplier) ? attack.multiplier : 0),
+        0
+      ) +
+      ohcRotation.reduce(
+        (acc, attack) =>
+          acc +
+          attack.talentValue.damage.reduce(
+            (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0),
+            0
+          ) *
+            (!isNaN(attack.multiplier) ? attack.multiplier : 0),
+        0
+      );
+
     this.dps = this.dpr / this.props.appState.rotationTime;
   };
 
@@ -86,7 +85,49 @@ class DPSColumn extends React.Component<DPSColumnProps> {
     this.props.setAppState({ rotation });
   };
 
+  // Ocean-Hued Clam
+  updateOHCTalentValues = (attack: OHCAttack) => {
+    const rotation = attack.heals;
+
+    rotation.forEach((attack) => this.updateTalentValue(attack));
+
+    const totalHeal = rotation.reduce(
+      (acc, attack) =>
+        acc +
+        attack.talentValue.damage.reduce(
+          (acc, dmg) => acc + (!isNaN(dmg) ? dmg : 0),
+          0
+        ) *
+          (!isNaN(attack.multiplier) ? attack.multiplier : 0),
+      0
+    );
+
+    attack.talentValue = calculateOHCTalentValue({
+      totalHeal,
+      ...this.props.appState,
+      artifactSetBonuses: this.props.artifactSetBonuses,
+      options: attack.options,
+    });
+  };
+
+  hasOHC4Pc = (): boolean => {
+    return this.props.appState.artifactSets.some(
+      (artifactSet) =>
+        artifactSet.id === 'oceanhuedclam' && artifactSet.pieces >= 4
+    );
+  };
+
+  removeOHC() {
+    const rotation = this.props.appState.ohcRotation;
+    rotation.splice(0, rotation.length);
+  }
+
   render() {
+    const shouldRenderOHC = this.hasOHC4Pc();
+    if (!shouldRenderOHC && this.props.appState.ohcRotation.length > 0) {
+      this.removeOHC();
+    }
+
     this.updateTalentValues();
 
     const {
@@ -155,6 +196,8 @@ class DPSColumn extends React.Component<DPSColumnProps> {
             options={allOptions}
           />
         </InputBlock>
+
+        {shouldRenderOHC && <OHCBlock {...this.props} />}
       </Col>
     );
   }

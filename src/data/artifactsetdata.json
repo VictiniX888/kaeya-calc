@@ -274,5 +274,21 @@
             2,
             4
         ]
+    },
+    {
+        "id": "huskofopulentdreams",
+        "name": "Husk of Opulent Dreams",
+        "bonusThresholds": [
+            2,
+            4
+        ]
+    },
+    {
+        "id": "oceanhuedclam",
+        "name": "Ocean-Hued Clam",
+        "bonusThresholds": [
+            2,
+            4
+        ]
     }
 ]

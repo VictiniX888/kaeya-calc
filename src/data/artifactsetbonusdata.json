@@ -1469,5 +1469,95 @@
                 }
             }
         ]
+    },
+    {
+        "setId": "huskofopulentdreams",
+        "setBonusSet": [
+            {
+                "bonusThreshold": 2,
+                "bonuses": [
+                    {
+                        "stat": "defBonus",
+                        "value": 0.30000001192092896
+                    }
+                ],
+                "bonusExtra": {
+                    "type": "",
+                    "params": [
+                        0.30000001192092896,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            {
+                "bonusThreshold": 4,
+                "bonuses": [
+                ],
+                "bonusExtra": {
+                    "type": "Relic_RaiseDefenceAndRock",
+                    "params": [
+                        0.30000001192092896,
+                        3.0,
+                        0.05999999865889549,
+                        0.05999999865889549,
+                        6.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "setId": "oceanhuedclam",
+        "setBonusSet": [
+            {
+                "bonusThreshold": 2,
+                "bonuses": [
+                    {
+                        "stat": "healingBonus",
+                        "value": 0.15000000596046448
+                    }
+                ],
+                "bonusExtra": {
+                    "type": "",
+                    "params": [
+                        0.15000000596046448,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            },
+            {
+                "bonusThreshold": 4,
+                "bonuses": [
+                ],
+                "bonusExtra": {
+                    "type": "Relic_HealAndHolyNova",
+                    "params": [
+                        3.0,
+                        0.8999999761581421,
+                        0.0,
+                        3.5,
+                        30000.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                }
+            }
+        ]
     }
 ]

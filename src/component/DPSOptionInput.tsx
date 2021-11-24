@@ -34,7 +34,7 @@ class DPSOptionInput extends React.Component<DPSOptionInputProps> {
 
   render() {
     return (
-      <InputRow>
+      <InputRow className='ml-5'>
         <Picker
           id={`dps-attack-option-${this.props.index}`}
           label=''
@@ -42,7 +42,6 @@ class DPSOptionInput extends React.Component<DPSOptionInputProps> {
           value={this.props.option?.id ?? ''}
           onChange={this.setOptionId}
           isLabelShown={false}
-          className='ml-5'
         >
           <Picker.Item value='' label='' />
           <Picker.Item value='reaction' label='Reaction' />
