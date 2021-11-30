@@ -1,18 +1,22 @@
-import Weapon from './Weapon';
-import Akuoumaru from './watatsumi/Akuoumaru';
+import CinnabarSpindle from './cinnabarspindle/CinnarbarSpindle';
 import DragonsBane from './dragonsbane/DragonsBane';
 import EngulfingLightning from './engulfinglightning/EngulfingLightning';
 import EverlastingMoonglow from './everlastingmoonglow/EverlastingMoonglow';
 import LuxuriousSeaLord from './luxurioussealord/LuxuriousSeaLord';
-import MouunsMoon from './watatsumi/MouunsMoon';
 import PolarStar from './polarstar/PolarStar';
 import SolarPearl from './solarpearl/SolarPearl';
 import StaffOfHoma from './staffofhoma/StaffOfHoma';
 import TheCatch from './thecatch/TheCatch';
-import Whiteblind from './whiteblind/Whiteblind';
+import Akuoumaru from './watatsumi/Akuoumaru';
+import MouunsMoon from './watatsumi/MouunsMoon';
 import WavebreakersFin from './watatsumi/WavebreakersFin';
+import Weapon from './Weapon';
+import Whiteblind from './whiteblind/Whiteblind';
 
 const weapons: Record<string, typeof Weapon> = {
+  // Sword
+  cinnabarspindle: CinnabarSpindle,
+
   // Polearm
   dragonsbane: DragonsBane,
   engulfinglightning: EngulfingLightning,

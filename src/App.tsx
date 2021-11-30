@@ -332,11 +332,14 @@ class App extends React.Component<{}, AppState> {
 
     this.updateTalentValues({
       character,
+      weapon,
+      artifactSets,
       talentAttackLevel,
       talentSkillLevel,
       talentBurstLevel,
       teamCharacters,
       characterOptions,
+      weaponOptions,
       artifactSetOptions,
       teamOptions,
       artifactBuffOptions,

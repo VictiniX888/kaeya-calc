@@ -942,6 +942,52 @@
         ]
     },
     {
+        "weaponId": "cinnabarspindle",
+        "ascensionBonusSet": [
+            {
+                "ascensionLevel": 0,
+                "ascensionBonuses": {
+                }
+            },
+            {
+                "ascensionLevel": 1,
+                "ascensionBonuses": {
+                    "baseAtk": 25.899999618530273
+                }
+            },
+            {
+                "ascensionLevel": 2,
+                "ascensionBonuses": {
+                    "baseAtk": 51.900001525878906
+                }
+            },
+            {
+                "ascensionLevel": 3,
+                "ascensionBonuses": {
+                    "baseAtk": 77.80000305175781
+                }
+            },
+            {
+                "ascensionLevel": 4,
+                "ascensionBonuses": {
+                    "baseAtk": 103.69999694824219
+                }
+            },
+            {
+                "ascensionLevel": 5,
+                "ascensionBonuses": {
+                    "baseAtk": 129.6999969482422
+                }
+            },
+            {
+                "ascensionLevel": 6,
+                "ascensionBonuses": {
+                    "baseAtk": 155.60000610351562
+                }
+            }
+        ]
+    },
+    {
         "weaponId": "aquilafavonia",
         "ascensionBonusSet": [
             {

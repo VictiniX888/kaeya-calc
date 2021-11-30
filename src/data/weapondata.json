@@ -290,6 +290,20 @@
         }
     },
     {
+        "id": "cinnabarspindle",
+        "name": "Cinnabar Spindle",
+        "type": "sword",
+        "rank": 4,
+        "baseStats": {
+            "baseAtk": 41.067100524902344,
+            "defBonus": 0.15013299882411957
+        },
+        "statCurves": {
+            "baseAtk": "growthCurveAtk204",
+            "defBonus": "growthCurveSub201"
+        }
+    },
+    {
         "id": "aquilafavonia",
         "name": "Aquila Favonia",
         "type": "sword",

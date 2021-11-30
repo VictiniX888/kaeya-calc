@@ -1550,6 +1550,91 @@
             }
         }
     },
+    "cinnabarspindle": {
+        "id": "cinnabarspindle",
+        "passive": {
+            "1": {
+                "refinement": 1,
+                "statBonuses": [
+                ],
+                "passiveId": "Weapon_Sword_Opus",
+                "passiveParams": [
+                    0.4000000059604645,
+                    4000.0,
+                    1.5,
+                    0.10000000149011612,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "2": {
+                "refinement": 2,
+                "statBonuses": [
+                ],
+                "passiveId": "Weapon_Sword_Opus",
+                "passiveParams": [
+                    0.5,
+                    5000.0,
+                    1.5,
+                    0.10000000149011612,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "3": {
+                "refinement": 3,
+                "statBonuses": [
+                ],
+                "passiveId": "Weapon_Sword_Opus",
+                "passiveParams": [
+                    0.6000000238418579,
+                    6000.0,
+                    1.5,
+                    0.10000000149011612,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "4": {
+                "refinement": 4,
+                "statBonuses": [
+                ],
+                "passiveId": "Weapon_Sword_Opus",
+                "passiveParams": [
+                    0.699999988079071,
+                    7000.0,
+                    1.5,
+                    0.10000000149011612,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "5": {
+                "refinement": 5,
+                "statBonuses": [
+                ],
+                "passiveId": "Weapon_Sword_Opus",
+                "passiveParams": [
+                    0.800000011920929,
+                    8000.0,
+                    1.5,
+                    0.10000000149011612,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    },
     "aquilafavonia": {
         "id": "aquilafavonia",
         "passive": {
