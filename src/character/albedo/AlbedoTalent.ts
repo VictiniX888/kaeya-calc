@@ -1,4 +1,6 @@
 import { getTalentData, getTalentParams } from '../../data/Data';
+import { Stats } from '../../data/types';
+import DamageModifier from '../../modifier/DamageModifer';
 import {
   normalAttackSingle,
   chargedAttackMulti,
@@ -141,7 +143,7 @@ const albedoSkill: Record<string, TalentFn> = {
         talentData
       )[1],
       scalingType: ScalingType.Defense,
-      stats,
+      stats: getAlbedoTransientBlossomStats(stats, modifier),
       modifier,
     }),
 };
@@ -179,3 +181,19 @@ const albedoTalents: Talents = {
 };
 
 export default albedoTalents;
+
+// Helper functions
+
+function getAlbedoTransientBlossomStats(
+  stats: Stats,
+  modifier: DamageModifier
+): Stats {
+  if (!modifier.albedoBlossomDmgBonus) {
+    return stats;
+  }
+
+  return {
+    ...stats,
+    dmgBonus: modifier.albedoBlossomDmgBonus + (stats.dmgBonus ?? 0),
+  };
+}

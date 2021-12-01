@@ -29,6 +29,7 @@ interface DamageModiferOptional {
   normalAttackFlatDmg?: number;
   chargedAttackFlatDmg?: number;
   skillFlatDmg?: number;
+  burstFlatDmg?: number;
 
   infusion?: Element;
   infusionNormal?: Element;
@@ -37,6 +38,8 @@ interface DamageModiferOptional {
   elementalAbsorption?: Element;
 
   dionaHoldSkill?: boolean;
+
+  albedoBlossomDmgBonus?: number;
 
   yoimiyaSkill?: boolean;
 

@@ -145,6 +145,8 @@ export function calculateTotalDamage({
     flatDmg += modifier.chargedAttackFlatDmg ?? 0;
   } else if (attackType === AttackType.Skill) {
     flatDmg += modifier.skillFlatDmg ?? 0;
+  } else if (attackType === AttackType.Burst) {
+    flatDmg += modifier.burstFlatDmg ?? 0;
   }
 
   let baseDmg = calculateBaseDamage({

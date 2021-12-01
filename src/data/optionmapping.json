@@ -24,14 +24,21 @@
     "bennettBurst": "Within Burst",
     "zhongliShield": "Shield Active",
     "thomaConstellation6Team": "C6 Obtain/Refresh Blazing Barrier (6s)",
+    "albedoAscension4": "A4 Use Albedo Burst",
+    "albedoConstellation4Team": "C4 Within Albedo Skill",
+    "albedoConstellation6Team": "C6 Within Albedo Skill & Crystallize Shield",
 
     "beidouAscension4": "Full Parry (10s)",
     "hutaoAscension4": "HP<50%",
     "yoimiyaAscension1": "Tricks of the Trouble-Maker Stacks",
     "aloyAscension1": "Received Coil (10s)",
     "aloyAscension4": "Rushing Ice Time (seconds)",
+    "albedoAscension1": "Enemy HP<50%",
 
     "thomaConstellation6": "Obtain/Refresh Blazing Barrier (6s)",
+    "albedoConstellation2": "Fatal Reckoning Stacks",
+    "albedoConstellation4": "Within Skill AoE",
+    "albedoConstellation6": "Within Skill AoE & Crystallize Shield",
 
     "solarPearlNormalAttack": "Normal Attack Hit (6s)",
     "solarPearlSkillBurst": "Skill/Burst Hit (6s)",
