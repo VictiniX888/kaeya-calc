@@ -47,9 +47,6 @@ export default class Character {
     this.statCurveMapping = data?.statCurves;
     this.ascensionBonuses = getAscensionBonusData(value);
 
-    this.talents = getTalentData(value);
-    this.talentFns = this.getTalentFns();
-
     this.innateStats = this.getInnateStatsAt(this.level, this.hasAscended);
     this.characterOptions = this.getCharacterOptions();
     const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
@@ -60,6 +57,9 @@ export default class Character {
       this.constellationLevel
     );
     this.teamOptions = this.getTeamOptions();
+
+    this.talents = getTalentData(value);
+    this.talentFns = this.getAllTalentFns();
   }
 
   name?: string;
@@ -78,6 +78,8 @@ export default class Character {
     this._level = value;
     const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
 
+    this.talentFns = this.getAllTalentFns();
+
     this.innateStats = this.getInnateStatsAt(value, this.hasAscended);
     this.passives = this.getPassives(ascensionLevel);
     this.passiveOptions = this.getPassiveOptions(
@@ -94,6 +96,8 @@ export default class Character {
     const prevAscensionLevel = getAscensionLevel(this.level, this.hasAscended);
     this._hasAscended = value;
     const ascensionLevel = getAscensionLevel(this.level, this.hasAscended);
+
+    this.talentFns = this.getAllTalentFns();
 
     this.innateStats = this.getInnateStatsAt(this.level, value);
     this.passives = this.getPassives(ascensionLevel);
@@ -196,6 +200,13 @@ export default class Character {
     return {};
   }
 
+  getAllTalentFns(): Talents {
+    return {
+      ...this.getTalentFns(),
+      ...this.getPassiveTalentFns(),
+    };
+  }
+
   // Override in derived classes if character has base options
   getCharacterOptionConstuctors(): typeof CharacterOption[] {
     return [];
@@ -263,6 +274,12 @@ export default class Character {
     return this.passives
       .map(({ modifierMixin }) => modifierMixin)
       .filter((mixin): mixin is ModifierMixin => mixin !== undefined);
+  }
+
+  getPassiveTalentFns(): Talents {
+    return this.passives.reduce((acc, { talents }) => {
+      return { ...acc, ...(talents ?? {}) };
+    }, {} as Talents);
   }
 
   // Override in derived classes

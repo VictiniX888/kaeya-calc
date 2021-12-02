@@ -19,6 +19,9 @@
     "kokomiBurst": "Burst Active",
     "coil": "Coil Stacks",
     "omen": "Omen",
+    "eulaGrimheartStacks": "Grimheart Stacks",
+    "eulaGrimheartResDown": "Consume Grimheart Stacks - Enemy RES Down (7s)",
+    "eulaBurstStacks": "Burst Stacks",
 
     "bennettAtkBuff": "Bennett ATK Bonus",
     "bennettBurst": "Within Bennett Burst",
@@ -27,6 +30,8 @@
     "albedoAscension4": "A4 Use Albedo Burst",
     "albedoConstellation4Team": "C4 Within Albedo Skill",
     "albedoConstellation6Team": "C6 Within Albedo Skill & Crystallize Shield",
+    "eulaSkillLevel": "Eula Skill Talent Level",
+    "eulaGrimheartTeam": "Consume Grimheart Stacks (7s)",
 
     "beidouAscension4": "Full Parry (10s)",
     "hutaoAscension4": "HP<50%",
@@ -39,6 +44,8 @@
     "albedoConstellation2": "Fatal Reckoning Stacks",
     "albedoConstellation4": "Within Skill AoE",
     "albedoConstellation6": "Within Skill AoE & Crystallize Shield",
+    "eulaConstellation1": "Consume Grimheart Stacks - Physical DMG% (12/18s)",
+    "eulaConstellation4": "Enemy HP<50%",
 
     "solarPearlNormalAttack": "Normal Attack Hit (6s)",
     "solarPearlSkillBurst": "Skill/Burst Hit (6s)",

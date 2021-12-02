@@ -49,6 +49,9 @@ interface DamageModiferOptional {
 
   kokomiBurst?: boolean;
   kokomiHealingBonusDmg?: number;
+
+  eulaStacks?: number;
+  lightfallSwordDmgBonus?: number;
 }
 
 export type GetDamageModifierParams = {

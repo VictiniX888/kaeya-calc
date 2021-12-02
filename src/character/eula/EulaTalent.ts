@@ -1,4 +1,6 @@
 import { getTalentData, getTalentParams } from '../../data/Data';
+import { Stats } from '../../data/types';
+import DamageModifier from '../../modifier/DamageModifer';
 import {
   normalAttackSingle,
   chargedAttackSingle,
@@ -186,27 +188,11 @@ const eulaBurst: Record<string, TalentFn> = {
       modifier,
     }),
 
-  lightfallSwordBaseDmg: ({ stats, modifier }: TalentProps) =>
+  lightfallSwordDmg: ({ stats, modifier }: TalentProps) =>
     burstSingle({
-      element: Element.Cryo,
-      multiplier: getTalentParams(
-        TalentType.Burst,
-        modifier.talentBurstLevel,
-        talentData
-      )[1],
-      stats,
-      modifier,
-    }),
-
-  lightfallSwordStackDmg: ({ stats, modifier }: TalentProps) =>
-    burstSingle({
-      element: Element.Cryo,
-      multiplier: getTalentParams(
-        TalentType.Burst,
-        modifier.talentBurstLevel,
-        talentData
-      )[2],
-      stats,
+      element: Element.Physical,
+      multiplier: getEulaLightfallSwordMultiplier(modifier),
+      stats: getEulaLightfallSwordStats(stats, modifier),
       modifier,
     }),
 };
@@ -218,3 +204,39 @@ const eulaTalents: Talents = {
 };
 
 export default eulaTalents;
+
+// Helper functions
+
+function getEulaLightfallSwordMultiplier(modifier: DamageModifier): number {
+  let multiplier = getTalentParams(
+    TalentType.Burst,
+    modifier.talentBurstLevel,
+    talentData
+  )[1];
+
+  if (modifier.eulaStacks) {
+    multiplier +=
+      modifier.eulaStacks *
+      getTalentParams(
+        TalentType.Burst,
+        modifier.talentBurstLevel,
+        talentData
+      )[2];
+  }
+
+  return multiplier;
+}
+
+export function getEulaLightfallSwordStats(
+  stats: Stats,
+  modifier: DamageModifier
+): Stats {
+  if (!modifier.lightfallSwordDmgBonus) {
+    return stats;
+  }
+
+  return {
+    ...stats,
+    dmgBonus: modifier.lightfallSwordDmgBonus + (stats.dmgBonus ?? 0),
+  };
+}

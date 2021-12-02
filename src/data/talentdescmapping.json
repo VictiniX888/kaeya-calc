@@ -3,6 +3,7 @@
     "skill": "Skill",
     "burst": "Burst",
     "reaction": "Reaction",
+    "ascension1": "Ascension 1",
 
 
     "dmg": "DMG",
@@ -165,8 +166,8 @@
     "fieryCollapseDmg": "Fiery Collapse DMG",
 
     "icewhirlBrandDmg": "Icewhirl Brand DMG",
-    "lightfallSwordBaseDmg": "Lightfall Sword Base DMG",
-    "lightfallSwordStackDmg": "Lightfall Sword DMG Per Stack",
+    "lightfallSwordDmg": "Lightfall Sword DMG",
+    "lightfallSwordRemnantDmg": "Lightfall Sword Remnant DMG",
 
     "coordinatedAtkDmg": "Coordinated ATK DMG",
     "musouNoHitotachiDmg": "Musou no Hitotachi DMG",
